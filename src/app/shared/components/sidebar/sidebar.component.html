@@ -361,6 +361,7 @@
           <span class="nav-link-title"> Home </span>
         </a>
       </li>
+
       <li
         class="nav-item"
         routerLinkActive="active"
@@ -373,6 +374,19 @@
           <span class="nav-link-title">Usuarios</span>
         </a>
       </li>
+
+      <li
+      class="nav-item"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a class="nav-link" [routerLink]="['candidatos']">
+        <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <i class="ti ti-podium"></i>
+        </span>
+        <span class="nav-link-title">Candidatos</span>
+      </a>
+    </li>
     </ul>
   </div>
 </div>
