@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PanelComponent } from './panel.component';
+import { UsuariosModule } from './usuarios/usuarios.module';
+import { CandidatosModule } from './candidatos/candidatos.module';
 
 const routes: Routes = [
   {
@@ -19,6 +21,11 @@ const routes: Routes = [
         path: 'usuarios',
         loadChildren: () => import('./usuarios/usuarios.module')
           .then(u => u.UsuariosModule)
+      },
+      {
+        path: 'candidatos',
+        loadChildren:() => import("./candidatos/candidatos.module")
+        .then(c => c.CandidatosModule)
       },
     ]
   }
