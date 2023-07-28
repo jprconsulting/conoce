@@ -1,1 +1,137 @@
-<p>usuarios works!</p>
+<div class="container ">
+  <div class="row">
+    <div class="d-flex align-items-end justify-content-end">
+      <div class="breadcrumb">
+        <a href="/">Inicio</a> &gt;<span>Administración de Usuarios</span>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+  <!-- tabla de candidatos -->
+  <div class="container mb-2 mt-2">
+    <div class="row">
+      <div class="col-md-12" style="padding: 0px;">
+        <div class="card SquareGrey">
+          <div class="container p-4">
+            <div class="row">
+              <div class="col-12 row d-flex align-items-end justify-content-end ">
+
+
+
+                 <!-- div de botones agregar usuario -->
+                <div class=" col-md-6 col-sm-12 align-items-start justify-content-center ">
+                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                      Agregar usuario <i class="ti ti-plus"></i>
+                    </button>
+                </div>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="false">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        ...
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 align-items-end justify-space-around">
+
+                  <div class="input-group col-12 justify-content-center  " >
+                    <div class="col-10 d-flex">
+                      <input
+                        id="nombreCandidato"
+                        type="text"
+                        class="form-control form-control-sm "
+                        placeholder=" Aquí puedes buscar por NOMBRE, PARTIDO POLITICO, CARGO    "
+                        aria-label=" Aquí puedes buscar por NOMBRE, PARTIDO POLITICO, CARGO    "
+                        aria-describedby="buscar-btn"
+
+                        >
+                      <button class="btn btn-link " type="button" id="buscar-btn">
+                        <i class="ti ti-search"></i> <!-- Icono de la lupa de Bootstrap -->
+                      </button>
+                    </div>
+
+                    <div class="col-1 align-items-end " style="margin-left: 35px;"  >
+                      <span class="mx-2 align-items-center justify-content-center">
+                        <a href="" title="Descargar base de datos completa">
+                          <i class="bi bi-cloud-download " style="font-size: 30px; color: #dd2490;"></i>
+                      </a>
+                      </span>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <div class="card-body custom-rounded px-0">
+            <table class="table table-hover table-striped table-responsive ">
+              <thead>
+                <tr>
+                  <th scope="col">Número</th>
+                  <th scope="col">Propietario</th>
+                  <th scope="col">Cargo</th>
+                  <th scope="col">Actor Político</th>
+                  <th scope="col">Estatus</th>
+                </tr>
+              </thead>
+              <tbody class="col-md-12 ">
+                <tr  [routerLink]="" >
+                  <td>1</td>
+                  <td>Alan</td>
+                  <td>Presidente</td>
+                  <td>Morena</td>
+                  <td>activo</td>
+                </tr>
+
+              </tbody>
+            </table> <br>
+                          <!-- div de items a mostrar -->
+                          <div class=" col-md-6 col-sm-12 align-items-start justify-content-center ">
+                            <label for="pageSizeInput" title="Cambiar los elementos mostrados por pagina">Elementos por página: </label>
+                            <select id="itempage" class="text-center" style="border: none;" id="pageSizeSelect" title="Cambiar los elementos mostrados por pagina">
+                              <option value="5">5</option>
+                              <option value="10">10</option>
+                              <option value="20">20</option>
+                              <option value="50">50</option>
+                            </select>
+                          </div>
+
+          <ng-template #noResults class=" col-md-12">
+            <div  class=" align-items-center justify-content-center text-center">
+              <div class="">
+
+                <div class="col">
+                  <div class="col img-fluid ">
+                    <img class="" width="100px" src="/assets/img/emptygrid.png" alt="icono de carpeta">
+                  </div>
+                  <p>
+                    No se encontraron resultados.
+                  </p>
+                </div>
+
+              </div>
+
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
