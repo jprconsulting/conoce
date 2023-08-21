@@ -49,7 +49,6 @@ export class UsuariosComponent implements OnInit {
 
   }
 
-
   ngOnInit(): void {
     this.usuarioService.refreshLisUsers.subscribe(() => this.getListadoUsuarios());
     this.getListadoUsuarios();
