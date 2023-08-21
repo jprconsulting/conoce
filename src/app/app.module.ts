@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PanelModule } from './pages/panel/panel.module';
-import { PortalModule } from './pages/portal/portal.module';
-
+import { HttpClientModule } from '@angular/common/http';
+import { LoginModule } from './pages/login/login.module';
 
 @NgModule({
   declarations: [
@@ -14,9 +14,11 @@ import { PortalModule } from './pages/portal/portal.module';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
-    PortalModule,
-    PanelModule
+    PanelModule,
+    LoginModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

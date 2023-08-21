@@ -20,7 +20,9 @@
     "@angular/router": "^16.1.0",
     "@tabler/core": "^1.0.0-beta19",
     "@tabler/icons-webfont": "^2.22.0",
+    "ngx-spinner": "^16.0.2",
     "rxjs": "~7.8.0",
+    "sweetalert2": "^11.7.26",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },

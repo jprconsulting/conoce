@@ -5,9 +5,7 @@ import { LoginComponent } from './pages/login/login.component';
 
 const routes: Routes = [
   {
-    path: '',
-    loadChildren: () => import('./pages/portal/portal.module')
-      .then(p => p.PortalModule)
+    path: '', redirectTo: 'login', pathMatch: 'full'
   },
   {
     path: 'login', component: LoginComponent
