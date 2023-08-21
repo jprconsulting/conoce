@@ -1,13 +1,14 @@
 /* Espaciado entre el input y el ícono */
+
 .input-group {
-  position: relative;
-  border-radius: 10px;
+    position: relative;
+    border-radius: 10px;
 }
 
 .input-group .ti-search {
-  color: #000;
-  position: absolute;
-  right: 10px;
-  top: 10%;
-  transform: translateX(-150%);
+    color: #000;
+    position: absolute;
+    right: 10px;
+    top: 10%;
+    transform: translateX(-150%);
 }

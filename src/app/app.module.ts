@@ -7,6 +7,7 @@ import { PanelModule } from './pages/panel/panel.module';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './pages/login/login.module';
 
+
 @NgModule({
   declarations: [
     AppComponent,
