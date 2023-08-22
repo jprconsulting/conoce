@@ -1,1 +1,217 @@
-<p>formulario works!</p>
+<div class="row row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Configuración formulario</h3>
+            </div>
+            <div class="card-body border-bottom py-3">
+                <div class="d-flex">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report"><i class="ti ti-plus me-1"></i>Configuración</button>
+                    <div class="ms-auto text-muted">
+                        <div class="input-icon">
+                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <span class="input-icon-addon">
+                            <i class="ti ti-search"></i>
+                          </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--MODAL AGREGAR CONFIGURACIÓN-->
+            <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Agregar configuración de formulario.</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- Inicio del formulario -->
+                            <form [formGroup]="formularioForm" (ngSubmit)="guardarUsuario()">
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nombre del formulario</label>
+                                            <input type="text" class="form-control" formControlName="formName">
+                                            <div *ngIf="formularioForm.get('formName')?.hasError('required')">El nombre es requerido.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">ID de Google Form</label>
+                                            <input type="text" class="form-control" formControlName="googleFormID">
+                                            <div *ngIf="formularioForm.get('googleFormID')?.hasError('required')">El ID es requerido.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">ID de Google Edit Form</label>
+                                            <input type="text" class="form-control" formControlName="googleEditFormID">
+                                            <div *ngIf="formularioForm.get('googleEditFormID')?.hasError('required')">El ID es requerido.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Nombre de la Hoja de Cálculo</label>
+                                            <input type="text" class="form-control" formControlName="sheetName">
+                                            <div *ngIf="formularioForm.get('sheetName')?.hasError('required')">El nombre es requerido.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">ID de la Hoja de Cálculo</label>
+                                            <input type="text" class="form-control" formControlName="spreadsheetID">
+                                            <div *ngIf="formularioForm.get('spreadsheetID')?.hasError('required')">El ID es requerido.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">ID del proyecto</label>
+                                            <input type="text" class="form-control" formControlName="projectID">
+                                            <div *ngIf="formularioForm.get('projectID')?.hasError('required')">El ID es requerido.</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="form-label">Credenciales JSON</label>
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form class="dropzone" id="dropzone-custom" action="./" autocomplete="off" novalidate>
+                                                    <div class="fallback">
+                                                        <input type="file" class="form-control" id="credencialesJSONInput" accept=".json" (change)="onFileChange($event)"> </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Fin del formulario -->
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">Limpiar</button>
+                            <button type="submit" class="btn btn-primary" [disabled]="!formularioForm.valid">Crear nuevo usuario</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--FIN MODAL-->
+
+            <ng-container [ngSwitch]="isLoadingUsers">
+                <div class="progress" *ngSwitchCase="2">
+                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                </div>
+
+                <div *ngSwitchCase="3">
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th class="w-1">#</th>
+                                    <th class="w-1">Id formulario</th>
+                                    <th>Nombre del formulario</th>
+                                    <th>ID Google Form</th>
+                                    <th>ID Google Edit Form</th>
+                                    <th>ID de la hoja de cálculo</th>
+                                    <th>Nombre de la hoja de cálculo</th>
+                                    <th>ID proyecto</th>
+                                    <th class="text-center" style="width: 7%">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-tbody">
+                                <tr></tr>
+                                <tr *ngFor="let usuario of FormularioFilter; let pointIndex = index">
+                                    <td>{{ pointIndex + 1 }}</td>
+                                    <td>{{ usuario.formularioId }}</td>
+                                    <td>{{ usuario.formName }}</td>
+                                    <td>{{ usuario.googleFormId }}</td>
+                                    <td>{{ usuario.googleEditFormId }}</td>
+                                    <td>{{ usuario.spreadsheetId }}</td>
+                                    <td>{{ usuario.sheetName }}</td>
+                                    <td>{{ usuario.projectId }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-warning btn-icon btn-sm">
+                      <i class="ti ti-edit"></i>
+                    </button>
+                                            <button class="btn btn-danger btn-icon btn-sm">
+                      <i class="ti ti-eraser"></i>
+                    </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-footer d-flex align-items-center">
+                        <p class="m-0 text-muted">
+                            Showing <span>1</span> to <span>8</span> of
+                            <span>16</span> entries
+                        </p>
+                        <ul class="pagination m-0 ms-auto">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                                    <!-- Download SVG icon from http://tabler-icons.io/i/chevron-left -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M15 6l-6 6l6 6" />
+                </svg> prev
+                                </a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item active">
+                                <a class="page-link" href="#">2</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item"><a class="page-link" href="#">4</a></li>
+                            <li class="page-item"><a class="page-link" href="#">5</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">
+                next
+                <!-- Download SVG icon from http://tabler-icons.io/i/chevron-right -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="icon"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  fill="none"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M9 6l6 6l-6 6" />
+                </svg>
+              </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <app-no-results *ngSwitchCase="4"></app-no-results>
+            </ng-container>
+        </div>
+    </div>
+</div>
