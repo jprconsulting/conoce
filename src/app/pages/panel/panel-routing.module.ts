@@ -32,6 +32,11 @@ const routes: Routes = [
         loadChildren:() => import("./formulario/formulario.module")
         .then(c => c.FormularioModule)
       },
+      {
+        path: 'personalizacion',
+        loadChildren:() => import("./personalizacion/personalizacion.module")
+        .then(c => c.FormularioModule)
+      },
 
     ]
   }
