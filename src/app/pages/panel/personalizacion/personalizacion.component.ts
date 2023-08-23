@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Diseño } from 'src/app/models/diseño';
+import { PersonalizacionService } from 'src/app/core/services/personalizacion.service';
 
 @Component({
   selector: 'app-personalizacion',
@@ -7,6 +9,11 @@ import { Component } from '@angular/core';
 })
 export class PersonalizacionComponent {
 
+  diseño: Diseño[] = [];
 
+  constructor(
+    private PersonalizacionService: PersonalizacionService,
+  ) {
 
+}
 }

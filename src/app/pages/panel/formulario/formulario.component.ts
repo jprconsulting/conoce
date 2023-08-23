@@ -66,7 +66,7 @@ export class FormularioComponent {
    }
 
   guardarUsuario() {
-    const formData = this.formularioForm.value; // Obtiene los valores del formulario
+    const formData = this.formularioForm.value;
 
   }
 
@@ -92,7 +92,7 @@ export class FormularioComponent {
         newInput.type = 'file';
         newInput.accept = '.json';
         newInput.className = 'form-control';
-        newInput.id = 'credencialesJSONInput'; // Asigna el mismo ID
+        newInput.id = 'credencialesJSONInput';
         newInput.addEventListener('change', (event) => this.onFileChange(event));
         parent.appendChild(newInput);
       }
