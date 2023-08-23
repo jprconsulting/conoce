@@ -35,7 +35,7 @@ const routes: Routes = [
       {
         path: 'personalizacion',
         loadChildren:() => import("./personalizacion/personalizacion.module")
-        .then(c => c.FormularioModule)
+        .then(c => c.PersonalizacionModule)
       },
 
     ]

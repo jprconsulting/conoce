@@ -12,4 +12,4 @@ import { FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule],
 })
-export class FormularioModule {}
+export class PersonalizacionModule {}
