@@ -116,7 +116,8 @@
                                 <tr>
                                     <th class="w-1">#</th>
                                     <th class="w-1">Id</th>
-                                    <th>Nombre</th>
+                                    <th>Nombre(s)</th>
+                                    <th>Apellido(s)</th>
                                     <th>Rol</th>
                                     <th>Correo</th>
                                     <th>Estatus</th>
@@ -128,8 +129,9 @@
                                 <tr *ngFor="let usuario of usuariosFilter; let pointIndex = index">
                                     <td>{{ pointIndex + 1 }}</td>
                                     <td>{{ usuario.usuarioId }}</td>
-                                    <td>Eliud Juarez Ortega</td>
-                                    <td>Administrador</td>
+                                    <td>Eliud</td>
+                                    <td>Juarez Ortega</td>
+                                    <td>{{ usuario.rolId }}</td>
                                     <td>{{ usuario.email }}</td>
                                     <td>
                                         <span *ngIf="usuario.statusUser; else elseEST" class="badge bg-success me-1"></span>Activo

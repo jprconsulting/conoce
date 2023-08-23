@@ -37,6 +37,11 @@ const routes: Routes = [
         loadChildren:() => import("./personalizacion/personalizacion.module")
         .then(c => c.PersonalizacionModule)
       },
+      {
+        path: 'faq',
+        loadChildren:() => import("./faq/faq.module")
+        .then(c => c.FaqModule)
+      },
 
     ]
   }

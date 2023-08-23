@@ -65,11 +65,6 @@ export class FormularioComponent {
      });
    }
 
-  guardarUsuario() {
-    const formData = this.formularioForm.value;
-
-  }
-
   resetForm() {
     this.formularioForm.reset({
       formularioID: '',
@@ -102,6 +97,22 @@ export class FormularioComponent {
   onFileChange(event: any) {
     const file = event.target.files[0];
     this.formularioForm.get('CredencialesJSON')?.setValue(file);
+  }
+
+  guardarUsuario() {
+    if (this.formularioForm.valid) {
+      // Envía la solicitud al servidor
+      this.FormularioService.postFormulario(this.formularioForm.value).subscribe(
+        (response) => {
+          console.log('Formulario guardado con éxito', response);
+          // Limpia el formulario después de guardar
+          this.resetForm();
+        },
+        (error) => {
+          console.error('Error al guardar el formulario', error);
+        }
+      );
+    }
   }
 
 }

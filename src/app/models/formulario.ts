@@ -6,4 +6,5 @@ googleEditFormId:string;
 spreadsheetId:string;
 sheetName:string;
 projectId:string;
+CredencialesJSON: File | null;
 }

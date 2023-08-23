@@ -27,15 +27,26 @@ export class FormularioService {
     return this.http.get<Formulario[]>(this.route).pipe(map((response: any) => response.response));
   }
 
-  postFormulario(formulario: Formulario): Observable<Formulario> {
-    return this.http.post<Formulario>(this.route, formulario)
+  postFormulario(formData: FormData): Observable<Formulario> {
+    return this.http.post<Formulario>(this.route, formData)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next;
+          const dummyFormulario: Formulario = {
+            formularioId: '',
+            formName: '',
+            googleFormId: '',
+            googleEditFormId: '',
+            spreadsheetId: '',
+            sheetName: '',
+            projectId: '',
+            CredencialesJSON: null
+          };
+          this._refreshLisUsers$.next(dummyFormulario);
         }),
         catchError(this.handleErrorService.handleError)
       );
   }
+
 
   deleteFormulario(id: string) {
     return this.http.delete(`${this.route}/${id}`)

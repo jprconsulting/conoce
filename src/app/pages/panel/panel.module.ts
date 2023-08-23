@@ -9,7 +9,7 @@ import { HttpInterceptorModule } from 'src/app/core/services/http-interceptor.mo
 
 @NgModule({
   declarations: [
-    PanelComponent
+    PanelComponent,
   ],
   imports: [
     CommonModule,
