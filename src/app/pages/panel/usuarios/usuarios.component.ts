@@ -20,6 +20,10 @@ export class UsuariosComponent implements OnInit {
   usuariosFilter: Usuario[] = [];
   userForm: FormGroup;
 
+    nombreTocado = false;
+    correoTocado = false;
+    contrasenaTocada = false;
+
   constructor(
     private usuarioService: UsuarioService,
     private fbGenerador: FormBuilder,
@@ -54,6 +58,7 @@ export class UsuariosComponent implements OnInit {
     this.getListadoUsuarios();
   }
 
+
   getListadoUsuarios() {
     this.isLoadingUsers = LoadingStates.trueLoading;
     this.usuarioService.getUsuarios().subscribe({
@@ -74,7 +79,7 @@ export class UsuariosComponent implements OnInit {
   }
 
   guardarUsuario() {
-    const formData = this.userForm.value; // Obtiene los valores del formulario
+    const formData = this.userForm.value;
 
   }
 
@@ -86,6 +91,42 @@ export class UsuariosComponent implements OnInit {
       contraseña: '',
       estadoActivo: true,
     });
+
+    this.nombreTocado = false;
+    this.correoTocado = false;
+    this.contrasenaTocada = false;
+  }
+
+   marcarNombreComoTocado() {
+    this.nombreTocado = true;
+  }
+
+  marcarCorreoComoTocado() {
+    this.correoTocado = true;
+  }
+
+  marcarContrasenaComoTocada() {
+    this.contrasenaTocada = true;
+  }
+
+  agregarUsuario() {
+    if (this.userForm.valid) {
+      const nuevoUsuario = this.userForm.value;
+
+      this.usuarioService.postUsuario(nuevoUsuario).subscribe(
+        (usuarioAgregado) => {
+          // El usuario se ha agregado correctamente, puedes realizar acciones adicionales si es necesario.
+          this.mensajeService.mensajeExito("Usuario agregado con éxito");
+          this.getListadoUsuarios();
+          this.resetForm();
+        },
+        (error) => {
+          // Manejo de errores en caso de que la adición de usuario falle.
+          this.mensajeService.mensajeError("Error al agregar usuario");
+          console.error(error);
+        }
+      );
+    }
   }
 
 }

@@ -1,40 +1,16 @@
-<button
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#modal-google-form"
->
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-google-form">
   <i class="ti ti-plus me-1"></i>Agregar Usuario
 </button>
-<div
-  class="modal modal-blur fade"
-  id="modal-google-form"
-  tabindex="-1"
-  role="dialog"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Cuestionario</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-      <div class="modal-body">
-        <iframe
-          src="https://docs.google.com/forms/d/e/{{googleFormId}}/viewform?embedded=true"
-          width="640"
-          height="1035"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          scrolling="no"
-          >Cargando…</iframe
-        >
-      </div>
+<div class="modal modal-blur fade" id="modal-google-form" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cuestionario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <iframe [src]="googleFormUrl" width="640" height="1035" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Cargando…</iframe> >
+            </div>
+        </div>
     </div>
-  </div>
 </div>

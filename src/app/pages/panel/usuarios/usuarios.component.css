@@ -12,3 +12,7 @@
     top: 10%;
     transform: translateX(-150%);
 }
+
+.error-message {
+    color: red;
+}
