@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PanelComponent } from './panel.component';
-import { UsuariosModule } from './usuarios/usuarios.module';
-import { CandidatosModule } from './candidatos/candidatos.module';
 
 const routes: Routes = [
   {
@@ -41,6 +39,11 @@ const routes: Routes = [
         path: 'faq',
         loadChildren:() => import("./faq/faq.module")
         .then(c => c.FaqModule)
+      },
+      {
+        path: 'mis-cuestionarios',
+        loadChildren: () => import('./mis-cuestionarios/mis-cuestionarios.module')
+          .then(m => m.MisCuestionariosModule)
       },
 
     ]
