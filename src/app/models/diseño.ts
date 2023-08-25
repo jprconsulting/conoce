@@ -1,13 +1,13 @@
 export interface Diseño {
-  logoInst:string;
-  logoApp:string;
-  imgBienven:string;
-  telefono:number;
-  direcccion:string;
-  urlFb:string;
-  urlIg:string;
-  urlTw:string;
-  urlYT:string;
-  colorPpal:string;
-  colorSec:string;
-  }
+  logoInstFile: File | null;
+  logoAppFile: File | null;
+  imgBienvenFile: File | null;
+  telefono: number;
+  direcccion: string;
+  urlFb: string;
+  urlIg: string;
+  urlTw: string;
+  urlYT: string;
+  colorPpal: string;
+  colorSec: string;
+}

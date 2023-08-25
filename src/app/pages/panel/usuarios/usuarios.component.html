@@ -7,14 +7,14 @@
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report">
-            <i class="ti ti-plus me-1"></i>Agregar Usuario
-          </button>
+                      <i class="ti ti-plus me-1"></i>Agregar Usuario
+                    </button>
                     <div class="ms-auto text-muted">
                         <div class="input-icon">
                             <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
                             <span class="input-icon-addon">
-                <i class="ti ti-search"></i>
-              </span>
+                              <i class="ti ti-search"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -86,39 +86,27 @@
                                         <div class="mb-3">
                                             <label class="form-label">Rol</label>
                                             <select class="form-select" formControlName="rol">
-                        <option value="1">Administrador</option>
-                        <option value="2">Usuario</option>
-                        <option value="3">Candidato</option>
-                      </select>
+                                              <option value="1">Administrador</option>
+                                              <option value="2">Usuario</option>
+                                              <option value="3">Candidato</option>
+                                            </select>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="estadoActivo" class="form-label">Estatus</label
-                      >
-                      <label class="form-check form-switch checkbox-verde">
-                        <input
-                          class="form-check-input"
-                          type="checkbox"
-                          formControlName="estadoActivo"
-                        />
-                        <span
-                          class="form-check-label"
-                          [ngClass]="{
-                            'text-success':
-                              userForm.get('estadoActivo')?.value === true,
-                            'text-danger':
-                              userForm.get('estadoActivo')?.value === false
-                          }"
-                        >
-                          {{
-                            userForm.get("estadoActivo")?.value === true
-                              ? "Activo"
-                              : "Inactivo"
-                          }}
-                        </span>
-                      </label>
+                                            <label for="estadoActivo" class="form-label">Estatus</label>
+                                            <label class="form-check form-switch checkbox-verde">
+                                              <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                formControlName="estadoActivo"/>
+                                              <span
+                                                class="form-check-label"
+                                                [ngClass]="{'text-success': userForm.get('estadoActivo')?.value === true,'text-danger': userForm.get('estadoActivo')?.value === false}">
+                                                {{ userForm.get("estadoActivo")?.value === true? "Activo": "Inactivo"}}
+                                              </span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -127,11 +115,11 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-link link-secondary" (click)="resetForm()">
-                Limpiar
-              </button>
+                              Limpiar
+                            </button>
                             <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="agregarUsuario()">
-                Crear nuevo usuario
-              </button>
+                              Crear nuevo usuario
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -170,9 +158,9 @@
                                     <td>{{ usuario.email }}</td>
                                     <td>
                                         <span *ngIf="usuario.statusUser; else elseEST" class="badge bg-success me-1"></span
-                    >Activo
-                    <ng-template #elseEST>
-                      <span class="badge bg-danger me-1"></span> Inactivo
+                                        >Activo
+                                        <ng-template #elseEST>
+                                          <span class="badge bg-danger me-1"></span> Inactivo
                                         </ng-template>
                                     </td>
                                     <td>

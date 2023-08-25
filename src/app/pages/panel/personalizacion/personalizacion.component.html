@@ -61,11 +61,6 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <div class="col-md-12 py-3">
-                                        <a href="#" class="btn btn-outline-success w-100">
-                                            <i class="ti ti-folder-up" style="padding-right: 10px;"></i> Guardar imágenes
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -119,8 +114,8 @@
                                                 <h4 class="card-title">URL Facebook</h4>
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text">
-                                      <i class="ti ti-brand-facebook"></i>
-                              </span>
+                                                      <i class="ti ti-brand-facebook"></i>
+                                                    </span>
                                                     <input type="text" class="form-control" placeholder="https://facebook.com" autocomplete="off">
                                                 </div>
                                             </div>
@@ -137,8 +132,8 @@
                                                 <h4 class="card-title">URL Instagram</h4>
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text">
-                                      <i class="ti ti-brand-instagram"></i>
-                                </span>
+                                                          <i class="ti ti-brand-instagram"></i>
+                                                    </span>
                                                     <input type="text" class="form-control" placeholder="https://instagram.com" autocomplete="off">
                                                 </div>
                                             </div>
@@ -151,8 +146,8 @@
                                                 <h4 class="card-title">URL Twitter</h4>
                                                 <div class="input-group mb-2">
                                                     <span class="input-group-text">
-                                      <i class="ti ti-brand-twitter"></i>
-                            </span>
+                                                      <i class="ti ti-brand-twitter"></i>
+                                                    </span>
                                                     <input type="text" class="form-control" placeholder="https://twitter.com" autocomplete="off">
                                                 </div>
                                             </div>
@@ -173,11 +168,6 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <div class="col-md-12 py-3">
-                                        <a href="#" class="btn btn-outline-success w-100">
-                                            <i class="ti ti-link" style="padding-right: 10px;"></i> Guardar enlaces
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -222,20 +212,21 @@
                                         </div>
                                     </div>
                                     <br>
-                                    <div class="col-md-12 py-3">
-                                        <a href="#" class="btn btn-outline-success w-100">
-                                            <i class="ti ti-paint" style="padding-right: 10px;"></i> Guardar color
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <br>
-                <h5><i class="ti ti-mood-confuzed" style="padding-right: 5px;"></i>¿Tienes dudas? </h5>
-                <h5><a href="/panel/faq">Visita nuestra sección de FAQ <i class="ti ti-location"></i></a></h5>
+                <div class="col-md-12 py-3">
+                    <a class="btn btn-outline-success w-100" (click)="guardarConfiguracion()">
+                        <i class="ti ti-paint" style="padding-right: 10px;"></i> Guardar configuración
+                    </a>
+                </div>
             </div>
+            <br>
+            <h5><i class="ti ti-mood-confuzed" style="padding-right: 5px;"></i>¿Tienes dudas? </h5>
+            <h5><a href="/panel/faq">Visita nuestra sección de FAQ <i class="ti ti-location"></i></a></h5>
         </div>
     </div>
 </div>
