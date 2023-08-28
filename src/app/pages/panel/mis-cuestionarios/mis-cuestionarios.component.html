@@ -1,6 +1,10 @@
 <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-google-form" (click)="handleClick()">
-  <i class="ti ti-plus me-1"></i>Agregar Usuario
+  <i class="ti ti-plus me-1"></i>Agregar Formulario
 </button>
+<button class="btn btn-primary" (click)="iniciarEdicion()" style="margin-left: 10px;">
+  <i class="ti ti-pencil"></i>Guardar Enlace de Edición
+</button>
+
 <div class="modal modal-blur fade" id="modal-google-form" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -15,3 +19,25 @@
     </div>
   </div>
 </div>
+
+<!-- Mostrar el enlace de edición si está disponible -->
+<!-- Mostrar el enlace a la página de edición de Google Forms -->
+<p *ngIf="enlaceEdicion">
+  Puedes editar tu formulario en la <a [href]="enlaceEdicion" target="_blank">página de edición de Google Forms</a>.
+</p>
+
+<!-- Tabla para mostrar los ID de formulario y URLs de edición -->
+<table>
+  <thead>
+    <tr>
+      <th>ID del Formulario</th>
+      <th>URL de Edición</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let formulario of formularios">
+      <td>{{ formulario.id }}</td>
+      <td>{{ formulario.urlEdicion }}</td>
+    </tr>
+  </tbody>
+</table>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Renderer2 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
@@ -6,11 +6,12 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   templateUrl: './mis-cuestionarios.component.html',
   styleUrls: ['./mis-cuestionarios.component.css']
 })
-export class MisCuestionariosComponent implements OnInit, AfterViewInit {
+export class MisCuestionariosComponent {
   googleFormId: string = "1FAIpQLScKWIweNXsT0P6IHSOMuQkpr8x-Rrrfzl5hCKViq270WpB7qQ";
-  googleFormUrl: SafeResourceUrl = '';
-
-  @ViewChild('googleFormFrame', { static: false }) googleFormFrame: ElementRef | undefined;
+  googleFormUrl: SafeResourceUrl | undefined;
+  formularios: { id: string, urlEdicion: string }[] = [];
+  enlaceEdicion: string | null = null;
+  enlaceEdicionUsuario: string = '';
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -28,7 +29,7 @@ export class MisCuestionariosComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     // Espera un breve tiempo para asegurarte de que el DOM se ha renderizado completamente.
     setTimeout(() => {
-      const iframeElement = this.googleFormFrame?.nativeElement;
+      const iframeElement = this.el.nativeElement.querySelector('#googleForm');
       if (iframeElement) {
         // El iframe se ha cargado, ahora puedes buscar el elemento de envío
         const submitButton = iframeElement.contentDocument.querySelector('.Uc2NEf');
@@ -45,18 +46,17 @@ export class MisCuestionariosComponent implements OnInit, AfterViewInit {
     });
   }
 
-    handleClick() {
-      const spanElement = this.el.nativeElement.querySelector('.NPEfkd');
-      console.log(spanElement);
+  handleClick() {
+    const spanElement = this.el.nativeElement.querySelector('.NPEfkd');
+    console.log(spanElement);
 
-      if (spanElement) {
-        this.renderer.listen(spanElement, 'click', () => {
-          console.log('spanElement');
-        });
-      } else {
-        console.log('no existe');
-      }
-
+    if (spanElement) {
+      this.renderer.listen(spanElement, 'click', () => {
+        console.log('spanElement');
+      });
+    } else {
+      console.log('no existe');
+    }
 
     this.buscarElementoUc2NEf();
   }
@@ -71,4 +71,12 @@ export class MisCuestionariosComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
+  iniciarEdicion() {
+    // Establece el enlace a la página de edición de Google Forms
+    this.enlaceEdicion = 'https://docs.google.com/forms/u/0/edit';
+  }
+
+
 }
+
