@@ -1,0 +1,46 @@
+export interface Candidato {
+  id:number;
+  photoOwner:string;
+  nameOwner:string;
+  occupation:string;
+  politicParty:string;
+  photoPoliticParty:string;
+  photocandidate:string;
+  address_Google:string;
+  address:string;
+  telephone:string;
+  email:string;
+  facebook:string;
+  userFacebook:string;
+  instagram:string;
+  userInstagram:string;
+  twitter:string;
+  userTwitter:string;
+  tiktok: string;
+  youtube: string;
+  whatsapp:string;
+  slogan:string;
+  age:string;
+  state:string;
+  gender:string;
+  nameSup:string;
+  ageSup: number;
+  stateSup:string;
+  genderSup: string;
+  History: string;
+  career: string;
+  imageorvideo: string;
+  why: string;
+  proposal1_name: string;
+  proposal1:string;
+  proposal2_name:string;
+  proposal2:string;
+  proposal3_name:string;
+  proposal3:string;
+  trajectory:string;
+  candindig:string;
+  discapacidad:string;
+  lgbtq:string;
+  academicDegree:string;
+}
+
