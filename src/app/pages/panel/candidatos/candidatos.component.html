@@ -36,19 +36,9 @@
                                 <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
                                 <p>Información referente al candidato</p>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Apellidos</label>
                                             <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
                                                 El nombre es requerido.
@@ -190,28 +180,6 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Link de Tiktok</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Link de Youtube</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
                                             <label class="form-label">WhatsApp</label>
                                             <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
@@ -268,19 +236,9 @@
                                 <hr>
                                 <p>Información referente al suplente</p>
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre del suplente</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Apellidos del suplente</label>
                                             <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
                                                 El nombre es requerido.
@@ -320,7 +278,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                                 <hr>
                                 <p>Información con respecto a la candidatura</p>
@@ -328,14 +286,14 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Historia del candidato</label>
-                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" ></textarea>
+                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"></textarea>
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
                                                 El nombre es requerido.
                                             </div>
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -348,7 +306,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
 
                                 <div class="row">
@@ -362,21 +320,21 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la propuesta 1</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"/>
+                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
                                                 El nombre es requerido.
                                             </div>
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -389,20 +347,20 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la propuesta 2</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"/>
+                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
                                                 El nombre es requerido.
                                             </div>
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -415,21 +373,21 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la propuesta 3</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"/>
+                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
                                                 El nombre es requerido.
                                             </div>
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -442,7 +400,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
 
                                 <div class="row">
@@ -455,22 +413,20 @@
                                             </div>
                                         </div>
                                     </div>
-
-                                    
                                 </div>
 
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Grado Académico</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"/>
+                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
                                                 El nombre es requerido.
                                             </div>
                                         </div>
                                     </div>
 
-                                    
+
                                 </div>
                                 <!-- Fin del formulario -->
                             </form>
@@ -499,13 +455,10 @@
                         <table class="table card-table table-vcenter text-nowrap datatable">
                             <thead>
                                 <tr>
-                                    <th class="w-1">#</th>
                                     <th class="w-1">Id</th>
-                                    <th>Nombre(s)</th>
-                                    <th>Apellido(s)</th>
-                                    <th>Rol</th>
-                                    <th>Correo</th>
-                                    <th>Estatus</th>
+                                    <th>Nombre</th>
+                                    <th>Cargo</th>
+                                    <th>Partido Politico</th>
                                     <th class="text-center" style="width: 7%">Acciones</th>
                                 </tr>
                             </thead>
@@ -513,9 +466,9 @@
                                 <tr></tr>
                                 <tr *ngFor="let usuario of candidatoFilter; let pointIndex = index">
                                     <td>{{ pointIndex + 1 }}</td>
-                                    <td>{{ usuario.nameOwner }}</td>
-                                    <td>{{ usuario.occupation }}</td>
-                                    <td>{{ usuario.politicParty }}</td>
+                                    <td>{{ usuario.nameCandidate }}</td>
+                                    <td>{{ usuario.position }}</td>
+                                    <td>{{ usuario.actorPolitico }}</td>
                                     <td>
                                         <div class="d-flex justify-content-between">
                                             <button class="btn btn-warning btn-icon btn-sm">

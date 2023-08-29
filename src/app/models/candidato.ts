@@ -1,9 +1,9 @@
 export interface Candidato {
   id:number;
   photoOwner:string;
-  nameOwner:string;
-  occupation:string;
-  politicParty:string;
+  nameCandidate:string;
+  position:string;
+  actorPolitico:string;
   photoPoliticParty:string;
   photocandidate:string;
   address_Google:string;
@@ -40,4 +40,3 @@ export interface Candidato {
   trajectory:string;
   academicDegree:string;
 }
-

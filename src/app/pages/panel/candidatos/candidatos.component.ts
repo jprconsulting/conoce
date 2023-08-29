@@ -35,18 +35,18 @@ export class CandidatosComponent {
 
     this.userForm = this.formBuilder.group({
       nombre: ['', Validators.required],
+      ocupacion: ['', Validators.required],
+      partidoPolitico: ['', Validators.required],
+      ubicacionGoogle: ['', Validators.required],
+      direccion: ['', Validators.required],
+      telefono: ['', Validators.required],
       correo: ['', Validators.required],
-      rol: ['1'],
-      contraseña: [
-        '',
-        [
-          Validators.required,
-          Validators.minLength(8),
-          Validators.pattern(/[A-Z]/),
-          Validators.pattern(/[0-9]/),
-        ],
-      ],
-      estadoActivo: [true],
+      linkFacebook: ['', Validators.required],
+      userfacebook: ['', Validators.required],
+      linkIG: ['', Validators.required],
+      userIG: ['', Validators.required],
+      linkTwitter: ['', Validators.required],
+      userTwitter: ['', Validators.required],
     });
 
 
