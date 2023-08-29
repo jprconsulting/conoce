@@ -10,7 +10,7 @@ import { catchError, tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FormularioService {
-  route = `${environment.apiUrl}/usuarios_registro`;
+  route = `${environment.apiUrl}/agregar_formulario`;
   private _refreshLisUsers$ = new Subject<Formulario>();
 
 
