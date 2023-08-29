@@ -38,9 +38,6 @@ export interface Candidato {
   proposal3_name:string;
   proposal3:string;
   trajectory:string;
-  candindig:string;
-  discapacidad:string;
-  lgbtq:string;
   academicDegree:string;
 }
 
