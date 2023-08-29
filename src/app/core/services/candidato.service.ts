@@ -10,7 +10,7 @@ import { catchError, tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CandidatoService {
-  route = `${environment.apiUrl}/candidatos_registro`;
+  route = `${environment.apiUrl}/obetener_candidatos`;
   private _refreshLisUsers$ = new Subject<Candidato>();
 
 
