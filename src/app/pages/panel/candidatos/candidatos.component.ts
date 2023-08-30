@@ -18,10 +18,43 @@ export class CandidatosComponent {
   isLoadingUsers = LoadingStates.neutro;
   candidatoFilter: Candidato[] = [];
   userForm: FormGroup;
-
-    nombreTocado = false;
-    correoTocado = false;
     contrasenaTocada = false;
+    nombreTocado = false;
+    ocupacionTocada = false;
+    partidoPoliticoTocado = false;
+    ubicacionGoogleTocada =  false;
+    direccionTocada = false;
+    telefonoTocado = false;
+    correoTocado = false;
+    linkFacebookTocado = false;
+    userFacebookTocado = false;
+    linkIGTocado = false;
+    userIGTocado = false;
+    linkTwitterTocado = false;
+    userTwitterTocado = false;
+    whatsappTocado = false;
+    esloganTocado = false;
+    edadTocada = false;
+    estadoTocado = false;
+    generoTocado = false;
+    nombreSupTocado = false;
+    edadSupTocada = false;
+    estadoSupTocado = false;
+    generoSupTocado = false;
+    historiaTocada = false;
+    carreraTocada = false;
+    razonTocada = false;
+    nombreProp1Tocado = false;
+    prop1Tocada = false;
+    nombreProp2Tocado = false;
+    prop2Tocada = false;
+    nombreProp3Tocado = false;
+    prop3Tocada = false;
+    trayectoriaTocada = false;
+    gradoAcadTocado = false;
+
+
+
 
   constructor(
     private candidatoService: CandidatoService,
@@ -47,6 +80,27 @@ export class CandidatosComponent {
       userIG: ['', Validators.required],
       linkTwitter: ['', Validators.required],
       userTwitter: ['', Validators.required],
+      whatsapp: ['', Validators.required],
+      eslogan: ['', Validators.required],
+      edad: ['', Validators.required],
+      estado: ['', Validators.required],
+      genero: ['', Validators.required],
+      nombreSup: ['', Validators.required],
+      edadSup: ['', Validators.required],
+      estadoSup: ['', Validators.required],
+      generoSup: ['', Validators.required],
+      historia: ['', Validators.required],
+      carrera: ['', Validators.required],
+      razon: ['', Validators.required],
+      nombreProp1: ['', Validators.required],
+      prop1: ['', Validators.required],
+      nombreProp2: ['', Validators.required],
+      prop2: ['', Validators.required],
+      nombreProp3: ['', Validators.required],
+      prop3: ['', Validators.required],
+      trayectoria: ['', Validators.required],
+      gradoAcad: ['', Validators.required],
+
     });
 
 
@@ -101,11 +155,11 @@ export class CandidatosComponent {
   }
 
   marcarCorreoComoTocado() {
-    this.correoTocado = true;
+   // this.correoTocado = true;
   }
 
   marcarContrasenaComoTocada() {
-    this.contrasenaTocada = true;
+    //this.contrasenaTocada = true;
   }
 
   agregarUsuario() {
