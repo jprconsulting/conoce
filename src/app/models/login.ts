@@ -7,7 +7,7 @@ export interface AppUserAuth {
     nombre: string;
     apellidos: string;
     email: string;
-    rolId: number;
+    nombreRol: number;
     isAuthenticated: boolean;
     token: string;
 }
