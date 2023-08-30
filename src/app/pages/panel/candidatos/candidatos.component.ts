@@ -207,16 +207,137 @@ export class CandidatosComponent {
     this.gradoAcadTocado = false;
   }
 
-   marcarNombreComoTocado() {
+  marcarNombreComoTocado() {
     this.nombreTocado = true;
   }
-  marcarocupacionTocada() {
+  marcarOcupacionTocada() {
     this.ocupacionTocada = true;
   }
-  marcarpartidoPoliticoTocado() {
+  marcarPartidoPoliticoTocado() {
     this.partidoPoliticoTocado = true;
   }
 
+  marcarUbicacionGoogleTocada(){
+    this.ubicacionGoogleTocada=true;
+  }
+
+  marcarDireccionTocada(){
+    this.direccionTocada=true;
+  }
+  
+
+  marcarTelefonoTocado(){
+    this.telefonoTocado=true;
+  }
+  
+  marcarCorreoTocado(){
+    this.correoTocado=true;
+
+  }
+
+  marcarLinkFacebookTocado(){
+    this.linkFacebookTocado=true;
+  }
+  
+  marcarUserFacebookTocado(){
+    this.userFacebookTocado=true;
+  }
+
+  marcarLinkIGTocado(){
+    this.linkIGTocado=true;
+  }
+
+  marcarUserIGTocado(){
+    this.userIGTocado=true;
+  }  
+
+  marcarLinkTwitterTocado(){
+    this.linkTwitterTocado=true;
+  }
+
+  marcarUserTwitterTocado(){
+    this.userTwitterTocado=true;
+  }
+
+  marcarWhatsAppTocado(){
+    this.whatsappTocado=true;
+  }
+
+  marcarEsloganTocado(){
+    this.esloganTocado=true;
+  }
+
+  marcarEdadTocada(){
+    this.edadTocada=true;
+  }
+
+  marcarEstadoTocado(){
+    this.estadoTocado=true;
+  }
+
+  marcarGeneroTocado(){
+    this.generoTocado=true;
+  }
+
+  marcarNombreSupTocado(){
+    this.nombreSupTocado=true;
+  }
+
+  marcarEdadSupTocada(){
+    this.edadSupTocada=true;
+  }
+
+  marcarEstadoSupTocado(){
+    this.estadoSupTocado=true;
+  }
+
+  marcarGeneroSupTocado(){
+    this.generoSupTocado=true;
+  }
+
+  marcarHistoriaTocada(){
+    this.historiaTocada=true;
+  }
+
+  marcarCarreraTocada(){
+    this.carreraTocada=true;
+  }
+
+  marcarRazonTocada(){
+    this.razonTocada=true;
+  }
+
+  marcarNombreProp1Tocado(){
+    this.nombreProp1Tocado=true;
+  }
+
+  marcarProp1Tocada(){
+    this.prop1Tocada=true;
+  }
+
+  marcarNombreProp2Tocado(){
+    this.nombreProp2Tocado=true;
+  }
+
+  marcarProp2Tocada(){
+    this.prop2Tocada=true;
+  }
+
+  marcarNombreProp3Tocado(){
+    this.nombreProp3Tocado=true;
+  }
+
+  marcarProp3Tocada(){
+    this.prop3Tocada=true;
+  }
+
+  marcarTrayectoriaTocada(){
+    this.trayectoriaTocada=true;
+  }
+
+  marcarGradoAcadTocado(){
+    this.gradoAcadTocado=true;
+  }
 
   agregarUsuario() {
     if (this.userForm.valid) {
