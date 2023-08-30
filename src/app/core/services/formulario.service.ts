@@ -23,10 +23,6 @@ export class FormularioService {
     return this._refreshLisUsers$;
   }
 
-  getFormulario(): Observable<Formulario[]> {
-    return this.http.get<Formulario[]>(this.route).pipe(map((response: any) => response.response));
-  }
-
   postFormulario(formData: FormData): Observable<Formulario> {
     return this.http.post<Formulario>(this.route, formData)
       .pipe(
@@ -46,18 +42,5 @@ export class FormularioService {
         catchError(this.handleErrorService.handleError)
       );
   }
-
-
-  deleteFormulario(id: string) {
-    return this.http.delete(`${this.route}/${id}`)
-      .pipe(
-        tap(() => {
-          this._refreshLisUsers$.next;
-        }),
-        catchError(this.handleErrorService.handleError)
-      );
-  }
-
-
 
 }

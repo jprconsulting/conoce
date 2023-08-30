@@ -6,6 +6,7 @@ import { FormularioService } from 'src/app/core/services/formulario.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { Formulario } from 'src/app/models/formulario';
 
+
 @Component({
   selector: 'app-formulario',
   templateUrl: './formulario.component.html',
@@ -20,69 +21,44 @@ export class FormularioComponent {
 
   constructor(
     private FormularioService: FormularioService,
-    private fbGenerador: FormBuilder,
+    private fb: FormBuilder,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder,
   ) {
-    //this.crearFormularioGuardar();
-    //this.subscribeRolID();
-
     this.formularioForm = this.formBuilder.group({
-      formularioID: ['', Validators.required],
-      formName: ['', Validators.required],
-      googleFormID: ['', Validators.required],
-      googleEditFormID: ['', Validators.required],
-      spreadsheetID: ['', Validators.required],
-      sheetName: ['', Validators.required],
-      projectID: ['', Validators.required],
-      archvioJson: [null, Validators.required],
+      FormNameFront: ['', Validators.required],
+      GoogleFormIdFront: ['', Validators.required],
+      GoogleEditFormIdFront: ['', Validators.required],
+      SheetNameFront: ['', Validators.required],
+      SpreadsheetIdFront: ['', Validators.required],
+      ProjectIdFront: ['', Validators.required],
+      archvioJson: [null, Validators.required] // Puedes iniciar con null si es un campo opcional
     });
-
   }
 
   ngOnInit(): void {
-    this.FormularioService.refreshLisUsers.subscribe(() => this.getFormulario());
-    this.getFormulario();
   }
 
-  getFormulario() {
-     this.isLoadingUsers = LoadingStates.trueLoading;
-     this.FormularioService.getFormulario().subscribe({
-       next: (usuariosFromApi) => {
-         setTimeout(() => {
-           this.formulario = usuariosFromApi;
-           console.log(this.formulario);
-           this.FormularioFilter = this.formulario;
-           this.isLoadingUsers = LoadingStates.falseLoading;
-
-         }, 3000);
-       }, error: () => {
-         console.log('error');
-         this.isLoadingUsers = LoadingStates.errorLoading;
-         console.log(this.isLoadingUsers);
-       }
-     });
-   }
 
   resetForm() {
     this.formularioForm.reset({
-      formularioID: '',
-      formName: '',
-      googleFormID: '',
-      googleEditFormID: '',
-      spreadsheetID: '',
-      sheetName: '',
-      projectID: '',
+      FormularioIdFront: '',
+      FormNameFront: '',
+      GoogleFormIdFront: '',
+      GoogleEditFormIdFront: '',
+      SpreadsheetIdFront: '',
+      SheetNameFront: '',
+      ProjectIdFront: '',
     });
-    this.formularioForm.get('CredencialesJSON')?.setValue(null);
+    this.formularioForm.get('archvioJson')?.setValue(null);
 
     // Elimina y recrea el campo de carga de archivos
-    const credencialesJSONInput = document.getElementById('credencialesJSONInput') as HTMLInputElement;
-    if (credencialesJSONInput) {
-      const parent = credencialesJSONInput.parentElement;
+    const archvioJsonInput = document.getElementById('archvioJsonInput') as HTMLInputElement;
+    if (archvioJsonInput) {
+      const parent = archvioJsonInput.parentElement;
       if (parent) {
-        parent.removeChild(credencialesJSONInput);
+        parent.removeChild(archvioJsonInput);
         const newInput = document.createElement('input');
         newInput.type = 'file';
         newInput.accept = '.json';
@@ -96,27 +72,30 @@ export class FormularioComponent {
 
   onFileChange(event: any) {
     const file = event.target.files[0];
-    this.formularioForm.get('CredencialesJSON')?.setValue(file);
-  }
+    this.formularioForm.get('archvioJson')?.setValue(file);
+}
 
-  guardarFormulario() {
-    if (this.formularioForm.valid) {
-      this.spinnerService.show(); // Muestra un spinner de carga
-      this.FormularioService.postFormulario(this.formularioForm.value).subscribe(
-        (response) => {
-          console.log('Formulario guardado con éxito', response);
-          // Limpia el formulario después de guardar
-          this.resetForm();
-          this.spinnerService.hide(); // Oculta el spinner de carga
-        },
-        (error) => {
-          console.error('Error al guardar el formulario', error);
-          this.spinnerService.hide(); // Oculta el spinner de carga en caso de error
-        }
-      );
-    }
+guardarUsuario() {
+  console.log('El formulario es válido, enviando datos...');
+  if (this.formularioForm.valid) {
+    this.FormularioService.postFormulario(this.formularioForm.value).subscribe(
+      (response) => {
+        console.log('Formulario guardado con éxito', response);
+        // Limpia el formulario después de guardar
+        this.resetForm();
+        // Muestra un mensaje de éxito utilizando el servicio de mensajes
+        this.mensajeService.mensajeExito('Formulario guardado con éxito');
+      },
+      (error) => {
+        console.error('Error al guardar el formulario', error);
+        // Muestra un mensaje de error utilizando el servicio de mensajes
+        this.mensajeService.mensajeError('Error al guardar el formulario');
+      }
+    );
+  } else {
+    console.log('Formulario no válido. Verifica los campos.');
   }
-
+}
 
 }
 
