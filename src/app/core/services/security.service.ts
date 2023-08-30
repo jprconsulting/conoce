@@ -9,7 +9,7 @@ import { tap, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SecurityService {
-  route = `${environment.apiUrl}/api/UsuarioVerificar`;
+  route = `${environment.apiUrl}/Autenticar`;
   dataObject!: AppUserAuth;
 
 
