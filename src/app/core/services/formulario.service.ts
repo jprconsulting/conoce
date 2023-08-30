@@ -32,14 +32,14 @@ export class FormularioService {
       .pipe(
         tap(() => {
           const dummyFormulario: Formulario = {
-            formularioId: '',
-            formName: '',
-            googleFormId: '',
-            googleEditFormId: '',
-            spreadsheetId: '',
-            sheetName: '',
-            projectId: '',
-            CredencialesJSON: null
+            FormularioIdFront: '',
+            FormNameFront: '',
+            GoogleFormIdFront: '',
+            GoogleEditFormIdFront: '',
+            SpreadsheetIdFront: '',
+            SheetNameFront: '',
+            ProjectIdFront: '',
+            archvioJson: null
           };
           this._refreshLisUsers$.next(dummyFormulario);
         }),
