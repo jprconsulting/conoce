@@ -18,7 +18,6 @@ export class CandidatosComponent {
   isLoadingUsers = LoadingStates.neutro;
   candidatoFilter: Candidato[] = [];
   userForm: FormGroup;
-    contrasenaTocada = false;
     nombreTocado = false;
     ocupacionTocada = false;
     partidoPoliticoTocado = false;
@@ -139,28 +138,85 @@ export class CandidatosComponent {
   resetForm() {
     this.userForm.reset({
       nombre: '',
+      ocupacion: '',
+      partidoPolitico: '',
+      ubicacionGoogle: '',
+      direccion: '',
+      telefono: '',
       correo: '',
-      rol: '1',
-      contraseña: '',
-      estadoActivo: true,
+      linkFacebook: '',
+      userfacebook: '',
+      linkIG: '',
+      userIG: '',
+      linkTwitter: '',
+      userTwitter: '',
+      whatsapp: '',
+      eslogan: '',
+      edad: '',
+      estado: '',
+      genero: '',
+      nombreSup: '',
+      edadSup: '',
+      estadoSup: '',
+      generoSup: '',
+      historia: '',
+      carrera: '',
+      razon: '',
+      nombreProp1: '',
+      prop1:'',
+      nombreProp2:'',
+      prop2:'',
+      nombreProp3:'',
+      prop3:'',
+      trayectoria:'',
+      gradoAcad:'',
     });
 
     this.nombreTocado = false;
+    this.ocupacionTocada = false;
+    this.partidoPoliticoTocado = false;
+    this.ubicacionGoogleTocada =  false;
+    this.direccionTocada = false;
+    this.telefonoTocado = false;
     this.correoTocado = false;
-    this.contrasenaTocada = false;
+    this.linkFacebookTocado = false;
+    this.userFacebookTocado = false;
+    this.linkIGTocado = false;
+    this.userIGTocado = false;
+    this.linkTwitterTocado = false;
+    this.userTwitterTocado = false;
+    this.whatsappTocado = false;
+    this.esloganTocado = false;
+    this.edadTocada = false;
+    this.estadoTocado = false;
+    this.generoTocado = false;
+    this.nombreSupTocado = false;
+    this.edadSupTocada = false;
+    this.estadoSupTocado = false;
+    this.generoSupTocado = false;
+    this.historiaTocada = false;
+    this.carreraTocada = false;
+    this.razonTocada = false;
+    this.nombreProp1Tocado = false;
+    this.prop1Tocada = false;
+    this.nombreProp2Tocado = false;
+    this.prop2Tocada = false;
+    this.nombreProp3Tocado = false;
+    this.prop3Tocada = false;
+    this.trayectoriaTocada = false;
+    this.gradoAcadTocado = false;
   }
 
    marcarNombreComoTocado() {
     this.nombreTocado = true;
   }
-
-  marcarCorreoComoTocado() {
-   // this.correoTocado = true;
+  marcarocupacionTocada() {
+    this.ocupacionTocada = true;
+  }
+  marcarpartidoPoliticoTocado() {
+    this.partidoPoliticoTocado = true;
   }
 
-  marcarContrasenaComoTocada() {
-    //this.contrasenaTocada = true;
-  }
 
   agregarUsuario() {
     if (this.userForm.valid) {
