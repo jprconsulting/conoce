@@ -45,7 +45,11 @@ const routes: Routes = [
         loadChildren: () => import('./mis-cuestionarios/mis-cuestionarios.module')
           .then(m => m.MisCuestionariosModule)
       },
-
+      {
+        path: 'faq/usuarios',
+        loadChildren:() => import("./usuarios/usuarios.module")
+        .then(c => c.UsuariosModule)
+      },
     ]
   }
 ];
