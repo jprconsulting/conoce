@@ -99,7 +99,8 @@ export class CandidatosComponent {
       prop3: ['', Validators.required],
       trayectoria: ['', Validators.required],
       gradoAcad: ['', Validators.required],
-
+      estadoActivo: [true],
+      estadoActivo2: [true],
     });
 
 

@@ -240,9 +240,6 @@
                                             </div>
                                         </div>
                                     </div> -->
-                                </div>
-
-                                <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Género</label>
@@ -252,14 +249,43 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div class="row">
+                                   
+
+             
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="estadoActivo" class="form-label">LGBTQ+</label>
+                                            <label class="form-check form-switch checkbox-verde">
+                                              <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                formControlName="estadoActivo"/>
+                                              <span
+                                                class="form-check-label"
+                                                [ngClass]="{'text-success': userForm.get('estadoActivo')?.value === true,'text-danger': userForm.get('estadoActivo')?.value === false}">
+                                                {{ userForm.get("estadoActivo")?.value === true? "Si": "No"}}
+                                              </span>
+                                            </label>
+                                        </div>
+                                    </div>
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label">LGBTQ+</label>
-                                            <input type="text" class="form-control" formControlName="genero" (focus)="marcarGeneroTocado()" />
-                                            <div *ngIf="generoTocado && userForm.get('genero')?.hasError('required')" class="error-message">
-                                                El LGBTQ+ es requerido.
-                                            </div>
+                                            <label for="estadoActivo2" class="form-label">¿Es indígena?</label>
+                                            <label class="form-check form-switch checkbox-verde">
+                                              <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                formControlName="estadoActivo2"/>
+                                              <span
+                                                class="form-check-label"
+                                                [ngClass]="{'text-success': userForm.get('estadoActivo2')?.value === true,'text-danger': userForm.get('estadoActivo2')?.value === false}">
+                                                {{ userForm.get("estadoActivo2")?.value === true? "Si": "No"}}
+                                              </span>
+                                            </label>
                                         </div>
                                     </div>
                                 </div>
@@ -468,18 +494,7 @@
                                     </div>
 
                                 </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Indigena</label>
-                                            <input type="text" class="form-control" formControlName="gradoAcad" (focus)="marcarGradoAcadTocado()" />
-                                            <div *ngIf="gradoAcadTocado && userForm.get('gradoAcad')?.hasError('required')" class="error-message">
-                                               La respuesta es requerido.
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
+                                
                                 <!-- Fin del formulario -->
                             </form>
                         </div>
