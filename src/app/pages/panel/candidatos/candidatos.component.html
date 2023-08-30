@@ -49,7 +49,7 @@
                                 <!--HASTA AQUI-->
 
                                 <div class="row">
-                                    <div class="col-lg-6">
+                                    <!-- <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ocupación</label>
                                             <input type="text" class="form-control" formControlName="ocupacion" (focus)="marcarOcupacionTocada()" />
@@ -57,9 +57,18 @@
                                                 La ocupación es requerida.
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Puesto</label>
+                                            <input type="text" class="form-control" formControlName="ocupacion" (focus)="marcarOcupacionTocada()" />
+                                            <div *ngIf="ocupacionTocada && userForm.get('ocupacion')?.hasError('required')" class="error-message">
+                                                La puesto es requerida.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Partido Político</label>
                                             <input type="text" class="form-control" formControlName="partidoPolitico" (focus)="marcarPartidoPoliticoTocado()" />
@@ -67,10 +76,19 @@
                                                 El nombre del Partido Político es requerido.
                                             </div>
                                         </div>
+                                    </div> -->
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Actor Político</label>
+                                            <input type="text" class="form-control" formControlName="partidoPolitico" (focus)="marcarPartidoPoliticoTocado()" />
+                                            <div *ngIf="partidoPoliticoTocado && userForm.get('partidoPolitico')?.hasError('required')" class="error-message">
+                                                El nombre del Actor Político es requerido.
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ubicación en Google Maps</label>
@@ -90,9 +108,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Teléfono</label>
@@ -112,9 +130,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Link de Facebook</label>
@@ -200,7 +218,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="row">
                                     <div class="col-lg-6">
@@ -213,7 +231,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-6">
+                                    <!-- <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Estado</label>
                                             <input type="text" class="form-control" formControlName="estado" (focus)="marcarEstadoTocado()" />
@@ -221,10 +239,7 @@
                                                 El estado es requerido.
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
+                                    </div> -->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Género</label>
@@ -236,7 +251,46 @@
                                     </div>
                                 </div>
 
-                                <hr>
+                                <div class="row">
+                                   
+
+             
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="estadoActivo" class="form-label">LGBTQ+</label>
+                                            <label class="form-check form-switch checkbox-verde">
+                                              <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                formControlName="estadoActivo"/>
+                                              <span
+                                                class="form-check-label"
+                                                [ngClass]="{'text-success': userForm.get('estadoActivo')?.value === true,'text-danger': userForm.get('estadoActivo')?.value === false}">
+                                                {{ userForm.get("estadoActivo")?.value === true? "Si": "No"}}
+                                              </span>
+                                            </label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label for="estadoActivo2" class="form-label">¿Es indígena?</label>
+                                            <label class="form-check form-switch checkbox-verde">
+                                              <input
+                                                class="form-check-input"
+                                                type="checkbox"
+                                                formControlName="estadoActivo2"/>
+                                              <span
+                                                class="form-check-label"
+                                                [ngClass]="{'text-success': userForm.get('estadoActivo2')?.value === true,'text-danger': userForm.get('estadoActivo2')?.value === false}">
+                                                {{ userForm.get("estadoActivo2")?.value === true? "Si": "No"}}
+                                              </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- <hr>
                                 <p>Información referente al suplente</p>
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -283,8 +337,8 @@
 
 
                                 </div>
-                                <hr>
-                                <p>Información con respecto a la candidatura</p>
+                                <hr> -->
+                                <!-- <p>Información con respecto a la candidatura</p>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
@@ -416,7 +470,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <div class="row">
                                     <div class="col-lg-12">
@@ -429,8 +483,18 @@
                                         </div>
                                     </div>
 
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">Tipo de discapacidad</label>
+                                            <input type="text" class="form-control" formControlName="gradoAcad" (focus)="marcarGradoAcadTocado()" />
+                                            <div *ngIf="gradoAcadTocado && userForm.get('gradoAcad')?.hasError('required')" class="error-message">
+                                               Tipo de discapacidad es requerido.
+                                            </div>
+                                        </div>
+                                    </div>
 
                                 </div>
+                                
                                 <!-- Fin del formulario -->
                             </form>
                         </div>
