@@ -28,14 +28,14 @@
                         </div>
                         <div class="modal-body">
                             <!-- Inicio del formulario -->
-                            <form [formGroup]="formularioForm" (ngSubmit)="guardarUsuario()">
+                            <form [formGroup]="formularioForm" (ngSubmit)="guardarFormulario()">
 
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre del formulario</label>
-                                            <input type="text" class="form-control" formControlName="formName">
-                                            <div *ngIf="formularioForm.get('formName')?.hasError('required')">El nombre es requerido.</div>
+                                            <input type="text" class="form-control" formControlName="FormNameFront">
+                                            <div *ngIf="formularioForm.get('FormNameFront')?.hasError('required')">El nombre es requerido.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -44,8 +44,8 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">ID de Google Form</label>
-                                            <input type="text" class="form-control" formControlName="googleFormID">
-                                            <div *ngIf="formularioForm.get('googleFormID')?.hasError('required')">El ID es requerido.</div>
+                                            <input type="text" class="form-control" formControlName="GoogleFormIdFront">
+                                            <div *ngIf="formularioForm.get('GoogleFormIdFront')?.hasError('required')">El ID es requerido.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -54,8 +54,8 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">ID de Google Edit Form</label>
-                                            <input type="text" class="form-control" formControlName="googleEditFormID">
-                                            <div *ngIf="formularioForm.get('googleEditFormID')?.hasError('required')">El ID es requerido.</div>
+                                            <input type="text" class="form-control" formControlName="GoogleEditFormIdFront">
+                                            <div *ngIf="formularioForm.get('GoogleEditFormIdFront')?.hasError('required')">El ID es requerido.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -64,8 +64,8 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la Hoja de Cálculo</label>
-                                            <input type="text" class="form-control" formControlName="sheetName">
-                                            <div *ngIf="formularioForm.get('sheetName')?.hasError('required')">El nombre es requerido.</div>
+                                            <input type="text" class="form-control" formControlName="SheetNameFront">
+                                            <div *ngIf="formularioForm.get('SheetNameFront')?.hasError('required')">El nombre es requerido.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -74,8 +74,8 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">ID de la Hoja de Cálculo</label>
-                                            <input type="text" class="form-control" formControlName="spreadsheetID">
-                                            <div *ngIf="formularioForm.get('spreadsheetID')?.hasError('required')">El ID es requerido.</div>
+                                            <input type="text" class="form-control" formControlName="SpreadsheetIdFront">
+                                            <div *ngIf="formularioForm.get('SpreadsheetIdFront')?.hasError('required')">El ID es requerido.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -84,8 +84,8 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">ID del proyecto</label>
-                                            <input type="text" class="form-control" formControlName="projectID">
-                                            <div *ngIf="formularioForm.get('projectID')?.hasError('required')">El ID es requerido.</div>
+                                            <input type="text" class="form-control" formControlName="ProjectIdFront">
+                                            <div *ngIf="formularioForm.get('ProjectIdFront')?.hasError('required')">El ID es requerido.</div>
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">Limpiar</button>
-                            <button type="submit" class="btn btn-primary" [disabled]="!formularioForm.valid">Crear nuevo usuario</button>
+                            <button type="submit" class="btn btn-primary" (click)="guardarFormulario()">Crear nuevo usuario</button>
                         </div>
                     </div>
                 </div>
@@ -145,13 +145,13 @@
                                 <tr></tr>
                                 <tr *ngFor="let usuario of FormularioFilter; let pointIndex = index">
                                     <td>{{ pointIndex + 1 }}</td>
-                                    <td>{{ usuario.formularioId }}</td>
-                                    <td>{{ usuario.formName }}</td>
-                                    <td>{{ usuario.googleFormId }}</td>
-                                    <td>{{ usuario.googleEditFormId }}</td>
-                                    <td>{{ usuario.spreadsheetId }}</td>
-                                    <td>{{ usuario.sheetName }}</td>
-                                    <td>{{ usuario.projectId }}</td>
+                                    <td>{{ usuario.FormularioIdFront }}</td>
+                                    <td>{{ usuario.FormNameFront }}</td>
+                                    <td>{{ usuario.GoogleFormIdFront }}</td>
+                                    <td>{{ usuario.GoogleEditFormIdFront }}</td>
+                                    <td>{{ usuario.SpreadsheetIdFront }}</td>
+                                    <td>{{ usuario.SheetNameFront }}</td>
+                                    <td>{{ usuario.ProjectIdFront }}</td>
                                     <td>Activo</td>
                                     <td>
                                         <div class="d-flex justify-content-between">

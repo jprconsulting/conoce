@@ -1,10 +1,10 @@
 export interface Formulario {
-formularioId:string;
-formName:string;
-googleFormId:string;
-googleEditFormId:string;
-spreadsheetId:string;
-sheetName:string;
-projectId:string;
-CredencialesJSON: File | null;
+FormularioIdFront:string;
+FormNameFront:string;
+GoogleFormIdFront:string;
+GoogleEditFormIdFront:string;
+SpreadsheetIdFront:string;
+SheetNameFront:string;
+ProjectIdFront:string;
+archvioJson: File | null;
 }

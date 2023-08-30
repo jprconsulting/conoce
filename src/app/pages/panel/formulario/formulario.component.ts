@@ -36,7 +36,7 @@ export class FormularioComponent {
       spreadsheetID: ['', Validators.required],
       sheetName: ['', Validators.required],
       projectID: ['', Validators.required],
-      CredencialesJSON: [null, Validators.required],
+      archvioJson: [null, Validators.required],
     });
 
   }
@@ -99,21 +99,24 @@ export class FormularioComponent {
     this.formularioForm.get('CredencialesJSON')?.setValue(file);
   }
 
-  guardarUsuario() {
+  guardarFormulario() {
     if (this.formularioForm.valid) {
-      // Envía la solicitud al servidor
+      this.spinnerService.show(); // Muestra un spinner de carga
       this.FormularioService.postFormulario(this.formularioForm.value).subscribe(
         (response) => {
           console.log('Formulario guardado con éxito', response);
           // Limpia el formulario después de guardar
           this.resetForm();
+          this.spinnerService.hide(); // Oculta el spinner de carga
         },
         (error) => {
           console.error('Error al guardar el formulario', error);
+          this.spinnerService.hide(); // Oculta el spinner de carga en caso de error
         }
       );
     }
   }
+
 
 }
 
