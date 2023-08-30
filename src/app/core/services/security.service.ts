@@ -22,7 +22,7 @@ export class SecurityService {
   login(entity: AppUser) {
     localStorage.removeItem('dataObject');
     localStorage.removeItem('token');
-    return this.http.post(`${this.route}/Autenticar`, entity)
+    return this.http.post(`${this.route}`, entity)
       .pipe(
         tap((resp: any) => {
           this.dataObject = resp;
