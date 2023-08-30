@@ -52,8 +52,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ocupación</label>
-                                            <input type="text" class="form-control" formControlName="ocupacion" (focus)=" marcarocupacionTocada()" />
-                                            <div *ngIf="ocupacionTocada && userForm.get('position')?.hasError('required')" class="error-message">
+                                            <input type="text" class="form-control" formControlName="ocupacion" (focus)="marcarOcupacionTocada()" />
+                                            <div *ngIf="ocupacionTocada && userForm.get('ocupacion')?.hasError('required')" class="error-message">
                                                 La ocupación es requerida.
                                             </div>
                                         </div>
@@ -62,8 +62,8 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Partido Político</label>
-                                            <input type="text" class="form-control" formControlName="partido" (focus)="marcarpartidoPoliticoTocado()" />
-                                            <div *ngIf="partidoPoliticoTocado && userForm.get('actorPolitico')?.hasError('required')" class="error-message">
+                                            <input type="text" class="form-control" formControlName="partidoPolitico" (focus)="marcarPartidoPoliticoTocado()" />
+                                            <div *ngIf="partidoPoliticoTocado && userForm.get('partidoPolitico')?.hasError('required')" class="error-message">
                                                 El nombre del Partido Político es requerido.
                                             </div>
                                         </div>
@@ -74,9 +74,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ubicación en Google Maps</label>
-                                            <input type="text" class="form-control" formControlName="ubicacion" (focus)="marcarpartidoPoliticoTocado()" />
-                                            <div *ngIf="partidoPoliticoTocado && userForm.get('actorPolitico')?.hasError('required')" class="error-message">
-                                                El nombre del Partido Político es requerido.
+                                            <input type="text" class="form-control" formControlName="ubicacionGoogle" (focus)="marcarUbicacionGoogleTocada()"/>
+                                            <div *ngIf="ubicacionGoogleTocada && userForm.get('ubicacionGoogle')?.hasError('required')" class="error-message">
+                                                La ubicación en Google es requerida
                                             </div>
                                         </div>
                                     </div>
@@ -84,9 +84,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Dirección</label>
-                                            <input type="text" class="form-control" formControlName="contraseña" (focus)="marcarpartidoPoliticoTocado()" />
-                                            <div *ngIf="partidoPoliticoTocado && userForm.get('contraseña')?.hasError('required')" class="error-message">
-                                                La contraseña es requerida.
+                                            <input type="text" class="form-control" formControlName="direccion" (focus)="marcarDireccionTocada()" />
+                                            <div *ngIf="direccionTocada && userForm.get('direccion')?.hasError('required')" class="error-message">
+                                                La dirección es requerida
                                             </div>
                                         </div>
                                     </div>
@@ -96,9 +96,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Teléfono</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="telefono" (focus)="marcarTelefonoTocado()" />
+                                            <div *ngIf="telefonoTocado && userForm.get('telefono')?.hasError('required')" class="error-message">
+                                                El número de teléfono es requerido
                                             </div>
                                         </div>
                                     </div>
@@ -106,9 +106,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Correo electrónico</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="correo" (focus)="marcarCorreoTocado()" />
+                                            <div *ngIf="correoTocado && userForm.get('correo')?.hasError('required')" class="error-message">
+                                                La dirección de correo electrónico es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -118,9 +118,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Link de Facebook</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="linkFacebook" (focus)="marcarLinkFacebookTocado()" />
+                                            <div *ngIf="linkFacebookTocado && userForm.get('linkFacebook')?.hasError('required')" class="error-message">
+                                                El link de Facebook es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -128,9 +128,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Usuario de Facebook</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="userfacebook" (focus)="marcarUserFacebookTocado()" />
+                                            <div *ngIf="userFacebookTocado && userForm.get('userfacebook')?.hasError('required')" class="error-message">
+                                                El Usuario de Facebook es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -140,9 +140,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Link de Instagram</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="linkIG" (focus)="marcarLinkIGTocado()" />
+                                            <div *ngIf="linkIGTocado && userForm.get('linkIG')?.hasError('required')" class="error-message">
+                                                El link de Instagram es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -150,9 +150,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Usuario de Instagram</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="userIG" (focus)="marcarUserIGTocado()" />
+                                            <div *ngIf="userIGTocado && userForm.get('userIG')?.hasError('required')" class="error-message">
+                                                El usuario de Instagram es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -162,9 +162,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Link de Twitter</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="linkTwitter" (focus)="marcarLinkTwitterTocado()" />
+                                            <div *ngIf="linkTwitterTocado && userForm.get('linkTwitter')?.hasError('required')" class="error-message">
+                                                El link de Twitter es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -172,9 +172,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Usuario de Twitter</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="userTwitter" (focus)="marcarUserTwitterTocado()" />
+                                            <div *ngIf="userTwitterTocado && userForm.get('userTwitter')?.hasError('required')" class="error-message">
+                                                El usuario de Twitter es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -184,9 +184,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">WhatsApp</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="whatsapp" (focus)="marcarWhatsAppTocado()" />
+                                            <div *ngIf="whatsappTocado && userForm.get('whatsapp')?.hasError('required')" class="error-message">
+                                                El número de WhatsApp es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -194,9 +194,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Eslogan</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="eslogan" (focus)="marcarEsloganTocado()" />
+                                            <div *ngIf="esloganTocado && userForm.get('eslogan')?.hasError('required')" class="error-message">
+                                                El eslogan es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -206,9 +206,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Edad</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="edad" (focus)="marcarEdadTocada()" />
+                                            <div *ngIf="edadTocada && userForm.get('edad')?.hasError('required')" class="error-message">
+                                                La edad es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -216,9 +216,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Estado</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="estado" (focus)="marcarEstadoTocado()" />
+                                            <div *ngIf="estadoTocado && userForm.get('estado')?.hasError('required')" class="error-message">
+                                                El estado es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -228,9 +228,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Género</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="genero" (focus)="marcarGeneroTocado()" />
+                                            <div *ngIf="generoTocado && userForm.get('genero')?.hasError('required')" class="error-message">
+                                                El género es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -242,9 +242,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre del suplente</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="nombreSup" (focus)="marcarNombreSupTocado()" />
+                                            <div *ngIf="nombreSupTocado && userForm.get('nombreSup')?.hasError('required')" class="error-message">
+                                                El nombre del suplente es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -253,9 +253,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Edad del suplente</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="edadSup" (focus)="marcarEdadSupTocada()" />
+                                            <div *ngIf="edadSupTocada && userForm.get('edadSup')?.hasError('required')" class="error-message">
+                                                La edad del suplente es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -263,9 +263,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Estado del suplente</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="estadoSup" (focus)="marcarEstadoSupTocado()" />
+                                            <div *ngIf="estadoSupTocado && userForm.get('estadoSup')?.hasError('required')" class="error-message">
+                                                El estado del suplente es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -274,9 +274,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Género del suplente</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="generoSup" (focus)="marcarGeneroSupTocado()" />
+                                            <div *ngIf="generoSupTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
+                                                El genero del suplente es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -289,9 +289,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Historia del candidato</label>
-                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"></textarea>
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <textarea cols="50" rows="4" class="form-control" formControlName="historia" (focus)="marcarHistoriaTocada()"></textarea>
+                                            <div *ngIf="historiaTocada && userForm.get('historia')?.hasError('required')" class="error-message">
+                                                La historia es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -302,9 +302,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Carrera del candidato</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="carrera" (focus)="marcarCarreraTocada()" />
+                                            <div *ngIf="carreraTocada && userForm.get('carrera')?.hasError('required')" class="error-message">
+                                                La carrera es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -316,9 +316,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Razón para postularse</label>
-                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"></textarea>
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <textarea cols="50" rows="4" class="form-control" formControlName="razon" (focus)="marcarRazonTocada()"></textarea>
+                                            <div *ngIf="razonTocada && userForm.get('razon')?.hasError('required')" class="error-message">
+                                                La razón para postularse es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -330,9 +330,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la propuesta 1</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="nombreProp1" (focus)="marcarNombreProp1Tocado()" />
+                                            <div *ngIf="nombreProp1Tocado && userForm.get('nombreProp1')?.hasError('required')" class="error-message">
+                                                El nombre de la propuesta 1 es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -343,9 +343,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Propuesta 1</label>
-                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"></textarea>
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <textarea cols="50" rows="4" class="form-control" formControlName="prop1" (focus)="marcarProp1Tocada()"></textarea>
+                                            <div *ngIf="prop1Tocada && userForm.get('prop1')?.hasError('required')" class="error-message">
+                                                La propuesta 1 es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -356,9 +356,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la propuesta 2</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="nombreProp2" (focus)="marcarNombreProp2Tocado()" />
+                                            <div *ngIf="nombreProp2Tocado && userForm.get('nombreProp2')?.hasError('required')" class="error-message">
+                                                El nombre de la propuesta 2 es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -369,9 +369,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Propuesta 2</label>
-                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"></textarea>
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <textarea cols="50" rows="4" class="form-control" formControlName="prop2" (focus)="marcarProp2Tocada()"></textarea>
+                                            <div *ngIf="prop2Tocada && userForm.get('prop2')?.hasError('required')" class="error-message">
+                                                La propuesta 2 es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -383,9 +383,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Nombre de la propuesta 3</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="nombreProp3" (focus)="marcarNombreProp3Tocado()" />
+                                            <div *ngIf="nombreProp3Tocado && userForm.get('nombreProp3')?.hasError('required')" class="error-message">
+                                                El nombre de la propuesta 3 es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -396,9 +396,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Propuesta 3</label>
-                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"></textarea>
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <textarea cols="50" rows="4" class="form-control" formControlName="prop3" (focus)="marcarProp3Tocada()"></textarea>
+                                            <div *ngIf="prop3Tocada && userForm.get('prop3')?.hasError('required')" class="error-message">
+                                                La propuesta 3 es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -410,9 +410,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Trayectoria</label>
-                                            <textarea cols="50" rows="4" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()"></textarea>
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <textarea cols="50" rows="4" class="form-control" formControlName="trayectoria" (focus)="marcarTrayectoriaTocada()"></textarea>
+                                            <div *ngIf="trayectoriaTocada && userForm.get('trayectoria')?.hasError('required')" class="error-message">
+                                                La trayectoria es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -422,9 +422,9 @@
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label class="form-label">Grado Académico</label>
-                                            <input type="text" class="form-control" formControlName="nombre" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nombre')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
+                                            <input type="text" class="form-control" formControlName="gradoAcad" (focus)="marcarGradoAcadTocado()" />
+                                            <div *ngIf="gradoAcadTocado && userForm.get('gradoAcad')?.hasError('required')" class="error-message">
+                                                El grado académico es requerido.
                                             </div>
                                         </div>
                                     </div>
