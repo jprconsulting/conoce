@@ -52,9 +52,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ocupación</label>
-                                            <input type="text" class="form-control" formControlName="correo" (focus)="marcarCorreoComoTocado()" />
-                                            <div *ngIf="correoTocado && userForm.get('correo')?.hasError('required')" class="error-message">
-                                                El correo es requerido.
+                                            <input type="text" class="form-control" formControlName="ocupacion" (focus)=" marcarocupacionTocada()" />
+                                            <div *ngIf="ocupacionTocada && userForm.get('position')?.hasError('required')" class="error-message">
+                                                La ocupación es requerida.
                                             </div>
                                         </div>
                                     </div>
@@ -62,9 +62,9 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Partido Político</label>
-                                            <input type="text" class="form-control" formControlName="contraseña" (focus)="marcarContrasenaComoTocada()" />
-                                            <div *ngIf="contrasenaTocada && userForm.get('contraseña')?.hasError('required')" class="error-message">
-                                                La contraseña es requerida.
+                                            <input type="text" class="form-control" formControlName="partido" (focus)="marcarpartidoPoliticoTocado()" />
+                                            <div *ngIf="partidoPoliticoTocado && userForm.get('actorPolitico')?.hasError('required')" class="error-message">
+                                                El nombre del Partido Político es requerido.
                                             </div>
                                         </div>
                                     </div>
@@ -74,15 +74,18 @@
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Ubicación en Google Maps</label>
-                                            <input type="text" class="form-control" formControlName="contraseña">
+                                            <input type="text" class="form-control" formControlName="ubicacion" (focus)="marcarpartidoPoliticoTocado()" />
+                                            <div *ngIf="partidoPoliticoTocado && userForm.get('actorPolitico')?.hasError('required')" class="error-message">
+                                                El nombre del Partido Político es requerido.
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Dirección</label>
-                                            <input type="text" class="form-control" formControlName="contraseña" (focus)="marcarContrasenaComoTocada()" />
-                                            <div *ngIf="contrasenaTocada && userForm.get('contraseña')?.hasError('required')" class="error-message">
+                                            <input type="text" class="form-control" formControlName="contraseña" (focus)="marcarpartidoPoliticoTocado()" />
+                                            <div *ngIf="partidoPoliticoTocado && userForm.get('contraseña')?.hasError('required')" class="error-message">
                                                 La contraseña es requerida.
                                             </div>
                                         </div>
