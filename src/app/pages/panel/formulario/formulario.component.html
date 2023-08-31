@@ -114,3 +114,22 @@
             </div>
         </div>
     </div>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre del Formulario</th>
+                <th>ID de Google Form</th>
+                <th>ID de Spreadsheet</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let form of formulario">
+                <td>{{ form.FormularioIdFront }}</td>
+                <td>{{ form.FormNameFront }}</td>
+                <td>{{ form.GoogleFormIdFront }}</td>
+                <td>{{ form.SpreadsheetIdFront }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

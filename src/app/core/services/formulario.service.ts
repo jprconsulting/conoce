@@ -10,9 +10,9 @@ import { catchError, tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FormularioService {
-  route = `${environment.apiUrl}/agregar_formulario`;
+  private agregarFormularioRoute = `${environment.apiUrl}/agregar_formulario`;
+  private obtenerTablasFormularioRoute = `${environment.apiUrl}/obtener_tablas_formulario`;
   private _refreshLisUsers$ = new Subject<Formulario>();
-
 
   constructor(
     private http: HttpClient,
@@ -24,7 +24,7 @@ export class FormularioService {
   }
 
   postFormulario(formData: FormData): Observable<Formulario> {
-    return this.http.post<Formulario>(this.route, formData)
+    return this.http.post<Formulario>(this.agregarFormularioRoute, formData)
       .pipe(
         tap(() => {
           const dummyFormulario: Formulario = {
@@ -43,4 +43,10 @@ export class FormularioService {
       );
   }
 
+  getFormularios(): Observable<Formulario[]> {
+    return this.http.get<Formulario[]>(this.obtenerTablasFormularioRoute)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 }

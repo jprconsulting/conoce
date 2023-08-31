@@ -38,8 +38,20 @@ export class FormularioComponent {
   }
 
   ngOnInit(): void {
+    this.obtenerFormularios();
   }
 
+  obtenerFormularios() {
+    this.FormularioService.getFormularios().subscribe(
+      (formularios) => {
+        this.formulario = formularios;
+      },
+      (error) => {
+        console.error('Error al obtener los formularios', error);
+        // Manejar el error si es necesario
+      }
+    );
+  }
 
   resetForm() {
     this.formularioForm.reset({
