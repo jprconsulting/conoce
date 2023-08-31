@@ -39,14 +39,14 @@ export interface Candidato {
   // proposal3:string;
   // trajectory:string;
   // academicDegree:string;
-
+  id:number;
   position: string;
     academicDegree: string;
-    indigenousCandidacy: string;
+    indigenousCandidacy: boolean;
     lgbtq: string;
     typeDisability: string;
     actorPolitico: string;
-    age: string;
+    age: number;
     nameCandidate: string;
     gender: string;
 }
