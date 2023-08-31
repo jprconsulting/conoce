@@ -68,9 +68,8 @@
 
       this.userForm = this.formBuilder.group({
         nameCandidate: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-      
         position: ['', Validators.required],
-        actorPolitico: ['', Validators.required],
+        actorPolitico: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         // ubicacionGoogle: ['', Validators.required],
         // direccion: ['', Validators.required],
         // telefono: ['', Validators.required],
@@ -83,9 +82,9 @@
         // userTwitter: ['', Validators.required],
         // whatsapp: ['', Validators.required],
         // eslogan: ['', Validators.required],
-        age: ['', Validators.required],
+        age: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(2),Validators.minLength(2)]],
       //  estado: ['', Validators.required],
-        gender: ['', Validators.required],
+        gender: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         // nombreSup: ['', Validators.required],
         // edadSup: ['', Validators.required],
         // estadoSup: ['', Validators.required],
@@ -100,9 +99,9 @@
         // nombreProp3: ['', Validators.required],
         // prop3: ['', Validators.required],
         // trayectoria: ['', Validators.required],
-        typeDisability:['', Validators.required],
-        academicDegree: ['', Validators.required],
-        lgbtq:['', Validators.required],
+        typeDisability:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        academicDegree: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        lgbtq:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         indigenousCandidacy: [true],
       });
 
@@ -232,12 +231,12 @@
     marcarDireccionTocada(){
       this.direccionTocada=true;
     }
-    
+
 
     marcarTelefonoTocado(){
       this.telefonoTocado=true;
     }
-    
+
     marcarCorreoTocado(){
       this.correoTocado=true;
 
@@ -246,7 +245,7 @@
     marcarLinkFacebookTocado(){
       this.linkFacebookTocado=true;
     }
-    
+
     marcarUserFacebookTocado(){
       this.userFacebookTocado=true;
     }
@@ -257,7 +256,7 @@
 
     marcarUserIGTocado(){
       this.userIGTocado=true;
-    }  
+    }
 
     marcarLinkTwitterTocado(){
       this.linkTwitterTocado=true;
