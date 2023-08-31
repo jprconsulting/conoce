@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 import { AsignacionRoutingModule } from './asignacion-routing.module'
 import { AsignacionComponent } from './asignacion.component';
@@ -17,6 +18,7 @@ import { FormsModule } from '@angular/forms';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    NgSelectModule,
   ]
 })
 export class AsignacionModule { }

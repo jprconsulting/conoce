@@ -1,18 +1,30 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormControl } from '@angular/forms';
 import { CandidatoService } from 'src/app/core/services/candidato.service';
+import { Observable } from 'rxjs';
+
 @Component({
   selector: 'app-asignacion',
   templateUrl: './asignacion.component.html',
   styleUrls: ['./asignacion.component.css']
 })
 export class AsignacionComponent implements OnInit {
-  candidatos: any[] = []; // Aquí almacenaremos los datos de los candidatos
+  variableDeControl: number = 1;
+  people$: Observable<any[]> = new Observable<any[]>();
+  selectedPeople: any[] = [];
+
+  // Declarar un FormGroup para tu formulario
+  myForm: FormGroup;
+
   constructor(private candidatoService: CandidatoService) {
-  }
-  ngOnInit() {
-    // Llamar al servicio para obtener los datos de los candidatos
-    this.candidatoService.getCandidatos().subscribe((data: any) => {
-      this.candidatos = data;
+    // Inicializa el FormGroup en el constructor
+    this.myForm = new FormGroup({
+      usuarios: new FormControl([]), // Define tus campos de formulario aquí, usando un FormControl para la selección múltiple
+      // Otros campos del formulario si los tienes
     });
+  }
+
+  ngOnInit() {
+    this.people$ = this.candidatoService.getCandidatos();
   }
 }
