@@ -55,6 +55,11 @@ const routes: Routes = [
         loadChildren:() => import("./candidatos/candidatos.module")
         .then(c => c.CandidatosModule)
       },
+      {
+        path: 'asignacion',
+        loadChildren:() => import("./asignacion/asignacion.module")
+        .then(c => c.AsignacionModule)
+      },
     ]
   }
 ];
