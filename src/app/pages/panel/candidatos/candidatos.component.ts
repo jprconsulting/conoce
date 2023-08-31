@@ -67,7 +67,8 @@
       //this.subscribeRolID();
 
       this.userForm = this.formBuilder.group({
-        nameCandidate: ['', Validators.required],
+        nameCandidate: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      
         position: ['', Validators.required],
         actorPolitico: ['', Validators.required],
         // ubicacionGoogle: ['', Validators.required],

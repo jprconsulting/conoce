@@ -37,15 +37,18 @@
                                 <p>Información referente al candidato</p>
                                 <div class="row">
                                     <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Nombre</label>
-                                            <input type="text" class="form-control" formControlName="nameCandidate" (focus)="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('required')" class="error-message">
-                                                El nombre es requerido.
-                                            </div>
+                                      <div class="mb-3">
+                                        <label class="form-label">Nombre</label>
+                                        <input type="text" class="form-control" formControlName="nameCandidate" (focus)="marcarNombreComoTocado()" />
+                                        <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('required')" class="error-message">
+                                          El nombre es requerido.
                                         </div>
+                                        <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('pattern')" class="error-message">
+                                          El nombre solo debe contener letras.
+                                        </div>
+                                      </div>
                                     </div>
-                                </div>
+                                  </div>
                                 <!--HASTA AQUI-->
 
                                 <div class="row">
