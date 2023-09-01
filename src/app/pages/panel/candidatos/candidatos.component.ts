@@ -84,7 +84,7 @@
         // eslogan: ['', Validators.required],
         age: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(2),Validators.minLength(2)]],
       //  estado: ['', Validators.required],
-        gender: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        gender: ['Masculino'],
         // nombreSup: ['', Validators.required],
         // edadSup: ['', Validators.required],
         // estadoSup: ['', Validators.required],
@@ -100,9 +100,10 @@
         // prop3: ['', Validators.required],
         // trayectoria: ['', Validators.required],
         typeDisability:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        academicDegree: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        lgbtq:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        indigenousCandidacy: [true],
+        academicDegree: ['Licenciatura'],
+        lgbtq:[false],
+        indigenousCandidacy: [false],
+
       });
 
 
@@ -173,10 +174,10 @@
         prop3:'',
         trayectoria:'',
         gradoAcad:'',
-
-
-        academicDegree:'',
-        lgbtq:'',
+        gender:'Masculino',
+        indigenousCandidacy:false,
+        academicDegree:'Licenciatura',
+        lgbtq:false,
       });
 
       this.nombreTocado = false;
@@ -368,5 +369,8 @@
         );
       }
     }
+
+   
+    
   }
 

@@ -258,14 +258,16 @@
                                     </div> -->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Género</label>
-                                            <input type="text" class="form-control" formControlName="gender" (focus)="marcarGeneroTocado()" />
-                                            <div *ngIf="generoTocado && userForm.get('gender')?.hasError('required')" class="error-message">
-                                                El género es requerido.
+                                           
+                                            <div class="mb-3">
+                                                <label class="form-label">Género</label>
+                                                <select class="form-select" formControlName="gender">
+                                                  <option value="Masculino">Masculino</option>
+                                                  <option value="Femenino">Femenino</option>
+                                                  
+                                                </select>
                                             </div>
-                                            <div *ngIf="generoTocado && userForm.get('gender')?.hasError('pattern')" class="error-message">
-                                              El género solo puede contener letras.
-                                          </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -276,16 +278,25 @@
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label">LGBTQ+</label>
-                                            <input type="text" class="form-control" formControlName="lgbtq" (focus)="marcarHistoriaTocada()" />
-                                            <div *ngIf="historiaTocada && userForm.get('lgbtq')?.hasError('required')" class="error-message">
-                                                LGBTQ+ es requerido.
-                                            </div>
-                                            <div *ngIf="historiaTocada && userForm.get('lgbtq')?.hasError('pattern')" class="error-message">
-                                              LGBTQ+ no es válido.
-                                          </div>
+                                            <label for="lgbtq" class="form-label">¿LGBTQ+?</label>
+                                            <label class="form-check form-switch checkbox-verde">
+                                                <input
+                                                    class="form-check-input"
+                                                    type="checkbox"
+                                                    formControlName="lgbtq"/>
+                                                <span class="form-check-label"
+                                                      [ngClass]="{'text-success': userForm.get('lgbtq')?.value === true, 'text-danger': userForm.get('lgbtq')?.value === false}">
+                                                    {{ userForm.get('lgbtq')?.value ? 'Si' : 'No' }}
+                                                </span>
+                                            </label>
                                         </div>
-                                    </div>
+                                                                        
+                                    
+                                    
+                                    
+</div>
+
+                                    
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -488,20 +499,23 @@
                                 </div> -->
 
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Grado Académico</label>
-                                            <input type="text" class="form-control" formControlName="academicDegree" (focus)="marcarTrayectoriaTocada()" />
-                                            <div *ngIf="trayectoriaTocada && userForm.get('academicDegree')?.hasError('required')" class="error-message">
-                                                El grado académico es requerido.
+                                           
+                                            <div class="mb-3">
+                                                <label class="form-label">Grado Académico</label>
+                                                <select class="form-select" formControlName="academicDegree">
+                                                  <option value="Secundaria">Secundaria</option>
+                                                  <option value="Preparatorio">Preparatoria</option>
+                                                  <option value="Licenciatura">Licenciatura</option>
+                                                  <option value="Maestría">Maestría</option>
+                                                  <option value="Doctorado">Doctorado</option>
+                                                </select>
                                             </div>
-                                            <div *ngIf="trayectoriaTocada && userForm.get('academicDegree')?.hasError('pattern')" class="error-message">
-                                              El grado académico solo puede contener letras.
-                                          </div>
+                                            
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Tipo de discapacidad</label>
                                             <input type="text" class="form-control" formControlName="typeDisability" (focus)="marcarGradoAcadTocado()" />
@@ -514,6 +528,7 @@
                                         </div>
                                     </div>
 
+                                    
                                 </div>
 
                                 <!-- Fin del formulario -->
