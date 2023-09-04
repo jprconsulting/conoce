@@ -73,8 +73,8 @@
 
       this.userForm = this.formBuilder.group({
         nameCandidate: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        position: ['', Validators.required],
-        actorPolitico: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+       // position: ['', Validators.required],
+      //  actorPolitico: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         // ubicacionGoogle: ['', Validators.required],
         // direccion: ['', Validators.required],
         // telefono: ['', Validators.required],
@@ -104,13 +104,17 @@
         // nombreProp3: ['', Validators.required],
         // prop3: ['', Validators.required],
         // trayectoria: ['', Validators.required],
-        typeDisability:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+       // typeDisability:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         apPaterno:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         apMaterno:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         sobrenombre:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        academicDegree: ['Licenciatura'],
-        lgbtq:[false],
-        indigenousCandidacy: [false],
+        //academicDegree: ['Licenciatura'],
+        //lgbtq:[false],
+        //indigenousCandidacy: [false],
+        eleccion: ['Gobernatura'], // Valor predeterminado
+        estados: [''],
+        distrito: [''],
+        ayuntamiento: [''],
 
       });
 
