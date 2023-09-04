@@ -36,7 +36,7 @@
                                 <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
                                 <p>Información referente al candidato</p>
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                       <div class="mb-3">
                                         <label class="form-label">Nombre</label>
                                         <input type="text" class="form-control" formControlName="nameCandidate" (focus)="marcarNombreComoTocado()" />
@@ -48,8 +48,46 @@
                                         </div>
                                       </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                          <label class="form-label">Apellido paterno</label>
+                                          <input type="text" class="form-control" formControlName="apPaterno" (focus)="marcarApPaternoTocado()" />
+                                          <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('required')" class="error-message">
+                                            El apellido paterno es requerido.
+                                          </div>
+                                          <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('pattern')" class="error-message">
+                                            El apellido paterno solo debe contener letras.
+                                          </div>
+                                        </div>
+                                      </div>
                                   </div>
                                 <!--HASTA AQUI-->
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                      <div class="mb-3">
+                                        <label class="form-label">Apellido materno</label>
+                                        <input type="text" class="form-control" formControlName="apMaterno" (focus)="marcarApMaternoTocado()" />
+                                        <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('required')" class="error-message">
+                                          El apellido materno es requerido.
+                                        </div>
+                                        <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('pattern')" class="error-message">
+                                          El apellido materno solo debe contener letras.
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                          <label class="form-label">Sobrenombre</label>
+                                          <input type="text" class="form-control" formControlName="sobrenombre" (focus)="marcarSobrenombreTocado()" />
+                                          <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('required')" class="error-message">
+                                            El sobrenombre es requerido.
+                                          </div>
+                                          <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('pattern')" class="error-message">
+                                            El sobrenombre solo debe contener letras.
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
 
                                 <div class="row">
                                     <!-- <div class="col-lg-6">
@@ -64,14 +102,36 @@
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Puesto</label>
-                                            <input type="text" class="form-control" formControlName="position" (focus)="marcarOcupacionTocada()" />
-                                            <div *ngIf="ocupacionTocada && userForm.get('position')?.hasError('required')" class="error-message">
-                                                El puesto es requerido.
+                                           
+                                            <div class="mb-3">
+                                                <label class="form-label">Tipo de elección</label>
+                                                <select class="form-select" formControlName="eleccion">
+                                                  <option value="Gobernatura">Gobernatura</option>
+                                                  <option value="Diputaciones Locales">Diputaciones Locales</option>
+                                                  <option value="Ayuntamiento">Ayuntamiento</option>
+                                                  <option value="Presidencias de comunidad">Presidencias de comunidad</option>
+                                                  
+                                                </select>
                                             </div>
-
+                                            
                                         </div>
                                     </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                           
+                                            <div class="mb-3">
+                                                <label class="form-label">Estado</label>
+                                                <select class="form-select" formControlName="estado">
+                                                  <option value="estado">Estado</option>
+                                                  
+                                                </select>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+
+                                    
                                     <!-- <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Partido Político</label>
@@ -272,7 +332,7 @@
                                     </div>
                                 </div>
 
-                                <div class="row">
+                                <!-- <div class="row">
 
 
 
@@ -314,7 +374,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <!-- <hr>
                                 <p>Información referente al suplente</p>
@@ -498,7 +558,7 @@
                                     </div>
                                 </div> -->
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                            
@@ -529,7 +589,7 @@
                                     </div>
 
                                     
-                                </div>
+                                </div> -->
 
                                 <!-- Fin del formulario -->
                             </form>
