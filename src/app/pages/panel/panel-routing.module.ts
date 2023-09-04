@@ -60,6 +60,11 @@ const routes: Routes = [
         loadChildren:() => import("./asignacion/asignacion.module")
         .then(c => c.AsignacionModule)
       },
+      {
+        path: 'demarcaciones',
+        loadChildren:() => import("./demarcaciones/demarcaciones.module")
+        .then(c => c.DemarcacionesModule)
+      },
     ]
   }
 ];
