@@ -1,65 +1,146 @@
 import { Component, ViewChild } from '@angular/core';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { NgForm } from '@angular/forms';
+
 @Component({
   selector: 'app-demarcaciones',
   templateUrl: './demarcaciones.component.html',
   styleUrls: ['./demarcaciones.component.css']
 })
 export class DemarcacionesComponent {
-  selectedPeople: any[] = [];
-  selectedEstado: string = '';
-  selectedDistrito: string = '';
-  selectedAyuntamiento: string = '';
-  selectedComunidad: string = '';
-  distritosPorEstado: { [key: string]: string[] } = {
-    Hidalgo: ['Distrito 1 | Pachuca de Soto', 'Distrito 2 | Tulancingo de Bravo', 'Distrito 3 | Tula de Allende', 'Distrito 4 | Ixmiquilpan'],
-    Puebla: ['Distrito 5', 'Distrito 6', 'Distrito 7', 'Distrito 8'],
-    Tlaxcala: ['Distrito 9', 'Distrito 10', 'Distrito 11', 'Distrito 12'],
-    Veracruz: ['Distrito 13', 'Distrito 14', 'Distrito 15', 'Distrito 16']
-  };
-  ayuntamientosPorDistrito: { [key: string]: string[] } = {
-    'Distrito 1 | Pachuca de Soto': ['Ayuntamiento de Pachuca de Soto', 'Ayuntamiento de Tulancingo de Bravo', 'Ayuntamiento de Tula de Allende', 'Ayuntamiento de Ixmiquilpan'],
-    'Distrito 2 | Tulancingo de Bravo': ['Ayuntamiento E', 'Ayuntamiento F', 'Ayuntamiento G', 'Ayuntamiento H'],
-    'Distrito 3 | Tula de Allende': ['Ayuntamiento I', 'Ayuntamiento J', 'Ayuntamiento K', 'Ayuntamiento L'],
-    'Distrito 4 | Ixmiquilpan': ['Ayuntamiento M', 'Ayuntamiento N', 'Ayuntamiento O', 'Ayuntamiento P'],
-    'Distrito 5': ['Ayuntamiento Q', 'Ayuntamiento R', 'Ayuntamiento S', 'Ayuntamiento T'],
-    'Distrito 6': ['Ayuntamiento U', 'Ayuntamiento V', 'Ayuntamiento W', 'Ayuntamiento X'],
-    'Distrito 7': ['Ayuntamiento Y', 'Ayuntamiento Z', 'Ayuntamiento AA', 'Ayuntamiento BB'],
-    'Distrito 8': ['Ayuntamiento CC', 'Ayuntamiento DD', 'Ayuntamiento EE', 'Ayuntamiento FF'],
-    'Distrito 9': ['Ayuntamiento GG', 'Ayuntamiento HH', 'Ayuntamiento II', 'Ayuntamiento JJ'],
-    'Distrito 10': ['Ayuntamiento KK', 'Ayuntamiento LL', 'Ayuntamiento MM', 'Ayuntamiento NN'],
-    'Distrito 11': ['Ayuntamiento OO', 'Ayuntamiento PP', 'Ayuntamiento QQ', 'Ayuntamiento RR'],
-    'Distrito 12': ['Ayuntamiento SS', 'Ayuntamiento TT', 'Ayuntamiento UU', 'Ayuntamiento VV'],
-    'Distrito 13': ['Ayuntamiento WW', 'Ayuntamiento XX', 'Ayuntamiento YY', 'Ayuntamiento ZZ'],
-    'Distrito 14': ['Ayuntamiento AAA', 'Ayuntamiento BBB', 'Ayuntamiento CCC', 'Ayuntamiento DDD'],
-    'Distrito 15': ['Ayuntamiento EEE', 'Ayuntamiento FFF', 'Ayuntamiento GGG', 'Ayuntamiento HHH'],
-    'Distrito 16': ['Ayuntamiento III', 'Ayuntamiento JJJ', 'Ayuntamiento KKK', 'Ayuntamiento LLL']
-  };
-  comunidadesPorAyuntamiento: { [key: string]: string[] } = {
-    'Ayuntamiento de Pachuca de Soto': ['Comunidad 1', 'Comunidad 2', 'Comunidad 3', 'Comunidad 4'],
-    'Ayuntamiento de Tulancingo de Bravo': ['Comunidad 5', 'Comunidad 6', 'Comunidad 7', 'Comunidad 8'],
-    'Ayuntamiento de Tula de Allende': ['Comunidad 9', 'Comunidad 10', 'Comunidad 11', 'Comunidad 12'],
-    'Ayuntamiento de Ixmiquilpan': ['Comunidad 13', 'Comunidad 14', 'Comunidad 15', 'Comunidad 16'],
-    'Ayuntamiento E': ['Comunidad 17', 'Comunidad 18', 'Comunidad 19', 'Comunidad 20'],
-    'Ayuntamiento F': ['Comunidad 21', 'Comunidad 22', 'Comunidad 23', 'Comunidad 24'],
-    'Ayuntamiento G': ['Comunidad 25', 'Comunidad 26', 'Comunidad 27', 'Comunidad 28'],
-    'Ayuntamiento H': ['Comunidad 29', 'Comunidad 30', 'Comunidad 31', 'Comunidad 32'],
-  };
-  @ViewChild('userForm') userForm!: NgForm; // Referencia al formulario
 
-  submitForm() {
-    // Aquí puedes manejar la lógica de envío del formulario
-    console.log('Estado:', this.selectedEstado);
-    console.log('Distrito:', this.selectedDistrito);
-    console.log('Ayuntamiento:', this.selectedAyuntamiento);
-    console.log('Comunidad:', this.selectedComunidad); 
+  @ViewChild('miFormulario') miFormulario!: NgForm;
+
+  variableDeControl: number = 1;
+  selectedPeople: any[] = [];
+  distritoLocal: any = {}; // Objeto para almacenar los datos del Distrito local
+  ayuntamiento: any = {};
+  comunidad: any = {};
+
+  distritosLocales: any[] = [
+    { nombre: 'Distrito 1 | Pachuca de Soto', acronimo: 'D-PS' },
+    { nombre: 'Distrito 2 | Tulancingo de Bravo', acronimo: 'D-TB' }
+  ];
+  nuevodistritosLocales: any = {};
+  editdistritosLocales: number = -1;
+  ayuntamientos: any[] = [
+    { nombre: 'Ayuntamiento de Pachuca de Soto', acronimo: 'AY1', activo: true, distritoLocal: 'Distrito 1 | Pachuca de Soto' },
+    { nombre: 'Ayuntamiento de Tulancingo de Bravo', acronimo: 'AY2', activo: false, distritoLocal: 'Distrito 2 | Tulancingo de Bravo' }
+  ];
+  nuevoAyuntamiento: any = {};
+  editAyuntamiento: number = -1;
+  comunidades: any[] = [
+    { nombre: 'Barrio la Camelia', acronimo: 'BC' },
+    { nombre: 'Santa María Asunción', acronimo: 'SMA' }
+  ];
+  nuevaComunidad: any = {}; // Esta variable almacena la nueva Comunidad a agregar
+
+  // Define un FormGroup para el formulario de Distrito Local
+  distritoLocalForm = new FormGroup({
+    nombre: new FormControl('', Validators.required),
+    acronimo: new FormControl('', Validators.required),
+    activo: new FormControl(false),
+    extPet: new FormControl(''),
+    estado: new FormControl('', Validators.required)
+  });
+
+  // Define una función para guardar el Distrito Local
+  guardarDistritoLocal() {
+    if (this.distritoLocalForm.valid) {
+      // Aquí debes implementar la lógica para guardar el Distrito local en la base de datos
+      console.log('Distrito local guardado:', this.distritoLocalForm.value);
+      // Reiniciar el formulario o redirigir según sea necesario
+      this.distritoLocalForm.reset();
+    } else {
+      // Formulario inválido, muestra un mensaje de error o toma alguna acción apropiada.
+    }
   }
 
-  resetForm() {
-    this.selectedEstado = '';
-    this.selectedDistrito = '';
-    this.selectedAyuntamiento = '';
-    this.selectedComunidad = '';
-    this.userForm.resetForm(); 
+  // Función para editar un Distrito Local existente en la lista
+  editarDistritoLocal(index: number) {
+    // Implementa la lógica para editar un Distrito Local aquí
+  }
+
+  // Función para eliminar un Distrito Local de la lista
+  eliminarDistritoLocal(index: number) {
+    this.distritosLocales.splice(index, 1);
+  }
+
+  // Define un FormGroup para el formulario de Ayuntamiento
+  ayuntamientoForm = new FormGroup({
+    nombre: new FormControl('', Validators.required),
+    acronimo: new FormControl('', Validators.required),
+    activo: new FormControl(false),
+    distritoLocal: new FormControl('', Validators.required)
+  });
+
+  // Define una función para guardar el Ayuntamiento
+  guardarAyuntamiento() {
+    if (this.ayuntamientoForm.valid) {
+      // Aquí debes implementar la lógica para guardar el Ayuntamiento en la base de datos
+      console.log('Ayuntamiento guardado:', this.ayuntamientoForm.value);
+      // Reiniciar el formulario o redirigir según sea necesario
+      this.ayuntamientoForm.reset();
+    } else {
+      // Formulario inválido, muestra un mensaje de error o toma alguna acción apropiada.
+    }
+  }
+
+  // Función para editar un Ayuntamiento
+  editarAyuntamiento(index: number) {
+    // Guardar el índice del Ayuntamiento en edición
+    this.editAyuntamiento = index;
+    // Copiar los datos del Ayuntamiento al formulario de edición
+    this.nuevoAyuntamiento = { ...this.ayuntamientos[index] };
+  }
+
+  // Función para guardar los cambios de edición
+  guardarEdicion() {
+    if (this.editAyuntamiento !== -1) {
+      // Actualizar los datos del Ayuntamiento editado en la lista
+      this.ayuntamientos[this.editAyuntamiento] = { ...this.nuevoAyuntamiento };
+      // Limpiar el formulario y salir del modo de edición
+      this.nuevoAyuntamiento = {};
+      this.editAyuntamiento = -1;
+    }
+  }
+
+  // Función para cancelar la edición
+  cancelarEdicion() {
+    // Limpiar el formulario y salir del modo de edición
+    this.nuevoAyuntamiento = {};
+    this.editAyuntamiento = -1;
+  }
+
+  // Función para eliminar un Ayuntamiento
+  eliminarAyuntamiento(index: number) {
+    // Eliminar el Ayuntamiento de la lista
+    this.ayuntamientos.splice(index, 1);
+  }
+
+  // Define un FormGroup para el formulario de Comunidad
+  comunidadForm = new FormGroup({
+    nombre: new FormControl('', Validators.required),
+    acronimo: new FormControl('', Validators.required)
+  });
+
+  // Función para agregar una Comunidad
+  agregarComunidad() {
+    if (this.comunidadForm.valid) {
+      this.comunidades.push({ ...this.comunidadForm.value });
+      this.comunidadForm.reset();
+    } else {
+      // Formulario inválido, muestra un mensaje de error o toma alguna acción apropiada.
+    }
+  }
+
+  // Función para editar una Comunidad existente en la lista
+  editarComunidad(index: number) {
+    // Implementa la lógica para editar una Comunidad aquí
+  }
+
+  // Función para eliminar una Comunidad de la lista
+  eliminarComunidad(index: number) {
+    this.comunidades.splice(index, 1);
   }
 }
