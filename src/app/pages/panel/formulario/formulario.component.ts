@@ -45,13 +45,13 @@ export class FormularioComponent {
     this.FormularioService.getFormularios().subscribe(
       (formularios) => {
         this.formulario = formularios;
-        console.log('Respuesta de la API:', formularios); // Agregar este console.log
+        console.log('Respuesta de la API:', formularios);
       },
       (error) => {
         console.error('Error al obtener los formularios', error);
-        // Manejar el error si es necesario
       }
     );
+
   }
 
 
