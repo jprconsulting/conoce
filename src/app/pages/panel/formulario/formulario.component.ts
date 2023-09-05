@@ -27,13 +27,14 @@ export class FormularioComponent {
     private formBuilder: FormBuilder,
   ) {
     this.formularioForm = this.formBuilder.group({
+      FormularioIdFront:['', Validators.required],
       FormNameFront: ['', Validators.required],
       GoogleFormIdFront: ['', Validators.required],
       GoogleEditFormIdFront: ['', Validators.required],
       SheetNameFront: ['', Validators.required],
       SpreadsheetIdFront: ['', Validators.required],
       ProjectIdFront: ['', Validators.required],
-      archvioJson: [null, Validators.required] // Puedes iniciar con null si es un campo opcional
+      archvioJson: ['', Validators.required]
     });
   }
 

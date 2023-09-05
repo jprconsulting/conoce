@@ -32,6 +32,16 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
+                                            <label class="form-label">ID del formulario</label>
+                                            <input type="text" class="form-control" formControlName="FormularioIdFront">
+                                            <div *ngIf="formularioForm.get('FormularioIdFront')?.hasError('required')">El iID es requerido.</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
                                             <label class="form-label">Nombre del formulario</label>
                                             <input type="text" class="form-control" formControlName="FormNameFront">
                                             <div *ngIf="formularioForm.get('FormNameFront')?.hasError('required')">El nombre es requerido.</div>
