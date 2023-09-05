@@ -65,6 +65,11 @@ const routes: Routes = [
         loadChildren:() => import("./demarcaciones/demarcaciones.module")
         .then(c => c.DemarcacionesModule)
       },
+      {
+        path: 'partidos',
+        loadChildren:() => import("./partidos/partidos.module")
+        .then(c => c.PartidosModule)
+      },
     ]
   }
 ];
