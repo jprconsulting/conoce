@@ -1,1 +1,87 @@
-<p>demarcaciones works!</p>
+<div class="container-xl">
+    <div class="card">
+      <div class="card-body">
+        <div class="accordion" id="accordion-example">
+          <div class="card-header">
+            <h3 class="card-title">Demarcaciones</h3>
+          </div>
+          <div class="card-body border-bottom py-3">
+            <div class="d-flex align-items-center justify-content-between">
+              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report">
+                <i class="ti ti-plus me-1"></i>Agregar Demarcaciones
+              </button>
+              <div class="ms-auto">
+                <div class="input-group">
+                  <input type="text" class="form-control" placeholder="Buscar" />
+                  <button class="btn btn-outline-secondary" type="button">
+                    <i class="ti ti-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- MODAL AGREGAR DEMARCACIÓN -->
+          <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Nueva Demarcación:</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <!-- Inicio del formulario -->
+<form #userForm="ngForm">
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="estado" class="form-label">Estado:</label>
+          <select id="estado" name="estado" class="form-select" [(ngModel)]="selectedEstado" required>
+            <option value="Hidalgo">Hidalgo</option>
+            <option value="Puebla">Puebla</option>
+            <option value="Tlaxcala">Tlaxcala</option>
+            <option value="Veracruz">Veracruz</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="ayuntamiento" class="form-label">Ayuntamiento:</label>
+          <select id="ayuntamiento" name="ayuntamiento" class="form-select" [(ngModel)]="selectedAyuntamiento" required>
+            <option *ngFor="let ayuntamiento of ayuntamientosPorDistrito[selectedDistrito]" [value]="ayuntamiento">{{ ayuntamiento }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-3">
+          <label for="distrito" class="form-label">Distrito Local:</label>
+          <select id="distrito" name="distrito" class="form-select" [(ngModel)]="selectedDistrito" required>
+            <option *ngFor="let distrito of distritosPorEstado[selectedEstado]" [value]="distrito">{{ distrito }}</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="comunidad" class="form-label">Comunidad:</label>
+          <select id="comunidad" name="comunidad" class="form-select" [(ngModel)]="selectedComunidad" required>
+            <option *ngFor="let comunidad of comunidadesPorAyuntamiento[selectedAyuntamiento]" [value]="comunidad">{{ comunidad }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- Fin del formulario -->
+                  <br>
+                </div>
+                <div class="modal-footer">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">
+                Limpiar
+              </button>
+                  <button type="submit" class="btn btn-primary">
+                    Crear nueva demarcación
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

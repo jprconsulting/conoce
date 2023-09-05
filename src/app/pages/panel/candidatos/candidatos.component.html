@@ -36,7 +36,7 @@
                                 <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
                                 <p>Información referente al candidato</p>
                                 <div class="row">
-                                    <div class="col-lg-12">
+                                    <div class="col-lg-6">
                                       <div class="mb-3">
                                         <label class="form-label">Nombre</label>
                                         <input type="text" class="form-control" formControlName="nameCandidate" (focus)="marcarNombreComoTocado()" />
@@ -48,9 +48,108 @@
                                         </div>
                                       </div>
                                     </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                          <label class="form-label">Apellido paterno</label>
+                                          <input type="text" class="form-control" formControlName="apPaterno" (focus)="marcarApPaternoTocado()" />
+                                          <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('required')" class="error-message">
+                                            El apellido paterno es requerido.
+                                          </div>
+                                          <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('pattern')" class="error-message">
+                                            El apellido paterno solo debe contener letras.
+                                          </div>
+                                        </div>
+                                      </div>
                                   </div>
                                 <!--HASTA AQUI-->
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                      <div class="mb-3">
+                                        <label class="form-label">Apellido materno</label>
+                                        <input type="text" class="form-control" formControlName="apMaterno" (focus)="marcarApMaternoTocado()" />
+                                        <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('required')" class="error-message">
+                                          El apellido materno es requerido.
+                                        </div>
+                                        <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('pattern')" class="error-message">
+                                          El apellido materno solo debe contener letras.
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                          <label class="form-label">Sobrenombre</label>
+                                          <input type="text" class="form-control" formControlName="sobrenombre" (focus)="marcarSobrenombreTocado()" />
+                                          <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('required')" class="error-message">
+                                            El sobrenombre es requerido.
+                                          </div>
+                                          <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('pattern')" class="error-message">
+                                            El sobrenombre solo debe contener letras.
+                                          </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                                  
+                                  <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Edad</label>
+                                            <input type="text" class="form-control" formControlName="age" (focus)="marcarEdadTocada()" />
+                                            <div *ngIf="edadTocada && userForm.get('age')?.hasError('required')" class="error-message">
+                                                La edad es requerida.
+                                            </div>
+                                            <div *ngIf="edadTocada && userForm.get('age')?.hasError('pattern')" class="error-message">
+                                              La edad solo puede contener números
+                                          </div>
+                                          <div *ngIf="edadTocada && userForm.get('age')?.hasError('maxlength')" class="error-message">
+                                            La edad no es válida
+                                        </div>
+                                        <div *ngIf="edadTocada && userForm.get('age')?.hasError('minlength')" class="error-message">
+                                          La edad no es válida
+                                      </div>
+                                        </div>
+                                    </div>
 
+                                    <!-- <div class="col-lg-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Estado</label>
+                                            <input type="text" class="form-control" formControlName="estado" (focus)="marcarEstadoTocado()" />
+                                            <div *ngIf="estadoTocado && userForm.get('estado')?.hasError('required')" class="error-message">
+                                                El estado es requerido.
+                                            </div>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-lg-6">
+                                        <div class="mb-3">
+                                           
+                                            <div class="mb-3">
+                                                <label class="form-label">Género</label>
+                                                <select class="form-select" formControlName="gender">
+                                                  <option value="Masculino">Masculino</option>
+                                                  <option value="Femenino">Femenino</option>
+                                                  
+                                                </select>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="mb-3">
+                                          <div class="mb-3">
+                                            <label class="form-label">Partido Politíco</label>
+                                            <select class="form-select" formControlName="partido">
+                                                <option value="PRI">Partido Revolucionario Institucional (PRI)</option>
+                                                <option value="PAN">Partido Acción Nacional (PAN)</option>
+                                                <option value="MORENA">Movimiento Regeneración Nacional (MORENA)</option>
+                                                <option value="PRD">Partido de la Revolución Democrática (PRD)</option>
+                                                <option value="PT">Partido del Trabajo (PT)</option>
+                                            </select>
+                                          </div>
+                                        </div>
+                                      </div>
+                                </div>
                                 <div class="row">
                                     <!-- <div class="col-lg-6">
                                         <div class="mb-3">
@@ -64,14 +163,63 @@
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Puesto</label>
-                                            <input type="text" class="form-control" formControlName="position" (focus)="marcarOcupacionTocada()" />
-                                            <div *ngIf="ocupacionTocada && userForm.get('position')?.hasError('required')" class="error-message">
-                                                El puesto es requerido.
-                                            </div>
-
+                                          <div class="mb-3">
+                                            <label class="form-label">Tipo de candidatura</label>
+                                            <select class="form-select" formControlName="eleccion">
+                                              <option value="Gobernatura">Gobernatura</option>
+                                              <option value="Diputaciones Locales">Diputaciones Locales</option>
+                                              <option value="Ayuntamiento">Ayuntamiento</option>
+                                              <option value="Presidencias de comunidad">Presidencias de comunidad</option>
+                                            </select>
+                                          </div>
                                         </div>
-                                    </div>
+                                      </div>
+
+                                      <div class="col-lg-6" >
+                                        <div class="mb-3">
+                                          <div class="mb-3">
+                                            <label class="form-label">Estado</label>
+                                            <select class="form-select" formControlName="estados">
+                                                <option value="Aguascalientes">Aguascalientes</option>
+                                                <option value="Baja California">Baja California</option>
+                                                <option value="Baja California Sur">Baja California Sur</option>
+                                                <option value="Campeche">Campeche</option>
+                                                <option value="Chiapas">Chiapas</option>
+                                                <option value="Chihuahua">Chihuahua</option>
+                                                <option value="Ciudad de México">Ciudad de México</option>
+                                                <option value="Coahuila">Coahuila</option>
+                                                <option value="Colima">Colima</option>
+                                                <option value="Durango">Durango</option>
+                                                <option value="Estado de México">Estado de México</option>
+                                                <option value="Guanajuato">Guanajuato</option>
+                                                <option value="Guerrero">Guerrero</option>
+                                                <option value="Hidalgo">Hidalgo</option>
+                                                <option value="Jalisco">Jalisco</option>
+                                                <option value="Michoacán">Michoacán</option>
+                                                <option value="Morelos">Morelos</option>
+                                                <option value="Nayarit">Nayarit</option>
+                                                <option value="Nuevo León">Nuevo León</option>
+                                                <option value="Oaxaca">Oaxaca</option>
+                                                <option value="Puebla">Puebla</option>
+                                                <option value="Querétaro">Querétaro</option>
+                                                <option value="Quintana Roo">Quintana Roo</option>
+                                                <option value="San Luis Potosí">San Luis Potosí</option>
+                                                <option value="Sinaloa">Sinaloa</option>
+                                                <option value="Sonora">Sonora</option>
+                                                <option value="Tabasco">Tabasco</option>
+                                                <option value="Tamaulipas">Tamaulipas</option>
+                                                <option value="Tlaxcala">Tlaxcala</option>
+                                                <option value="Veracruz">Veracruz</option>
+                                                <option value="Yucatán">Yucatán</option>
+                                                <option value="Zacatecas">Zacatecas</option>
+                                              
+                                            </select>
+                                          </div>
+                                        </div>
+                                      </div>
+
+
+                                    
                                     <!-- <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Partido Político</label>
@@ -81,18 +229,98 @@
                                             </div>
                                         </div>
                                     </div> -->
-                                    <div class="col-lg-6">
+                                    
+                                   
+                                </div>
+                                <div class="row" >
+                                    <div class="col-lg-6" *ngIf="userForm.get('eleccion')?.value === 'Diputaciones Locales' || userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
                                         <div class="mb-3">
-                                            <label class="form-label">Actor Político</label>
-                                            <input type="text" class="form-control" formControlName="actorPolitico" (focus)="marcarPartidoPoliticoTocado()" />
-                                            <div *ngIf="partidoPoliticoTocado && userForm.get('actorPolitico')?.hasError('required')" class="error-message">
-                                                El nombre del Actor Político es requerido.
-                                            </div>
-                                            <div *ngIf="partidoPoliticoTocado && userForm.get('actorPolitico')?.hasError('pattern')" class="error-message">
-                                              El nombre del Actor Político solo puede contener letras.
-                                          </div>
+                                            
+                                      <div >
+                                        <div class="mb-3" >
+                                          <label class="form-label">Distrito Local</label>
+                                          <select class="form-select" formControlName="distrito" *ngIf="userForm.get('estados')?.value === 'Hidalgo' ">
+                                            <option value="Distrito 1 | Pachuca de Soto">Distrito 1 | Pachuca de Soto</option>
+                                            <option value="Distrito 2 | Tulancingo de Bravo">Distrito 2 | Tulancingo de Bravo</option>
+                                            <option value="Distrito 3 | Tula de Allende">Distrito 3 | Tula de Allende</option>
+                                            <option value="Distrito 4 | Ixmiquilpan">Distrito 4 | Ixmiquilpan</option>
+                                            <option value="Distrito 5 | Huejutla de Reyes">Distrito 5 | Huejutla de Reyes</option>
+                                            <option value="Distrito 6 | Actopan">Distrito 6 | Actopan</option>
+                                            <option value="Distrito 7 | Tepeji del Río de Ocampo">Distrito 7 | Tepeji del Río de Ocampo</option>
+                                            <option value="Distrito 8 | Zimapán">Distrito 8 | Zimapán</option>
+                                            <option value="Distrito 9 | Apan">Distrito 9 | Apan</option>
+                                            <option value="Distrito 10 | Tizayuca">Distrito 10 | Tizayuca</option>
+                                            <option value="Distrito 11 | Tepeapulco">Distrito 11 | Tepeapulco</option>
+                                            <option value="Distrito 12 | Tlaxcoapan">Distrito 12 | Tlaxcoapan</option>
+                                            <option value="Distrito 13 | Mineral de la Reforma">Distrito 13 | Mineral de la Reforma</option>
+                                            <option value="Distrito 14 | Mixquiahuala de Juárez">Distrito 14 | Mixquiahuala de Juárez</option>
+                                            <option value="Distrito 15 | Atotonilco el Grande">Distrito 15 | Atotonilco el Grande</option>
+                                            <option value="Distrito 16 | Santiago Tulantepec de Lugo Guerrero">Distrito 16 | Santiago Tulantepec de Lugo Guerrero</option>
+                                            <option value="Distrito 17 | Singuilucan">Distrito 17 | Singuilucan</option>
+                                            <option value="Distrito 18 | Ajacuba">Distrito 18 | Ajacuba</option>
+                                            <option value="Distrito 19 | Tlahuelilpan">Distrito 19 | Tlahuelilpan</option>
+                                            <option value="Distrito 20 | Metepec">Distrito 20 | Metepec</option>
+                                            <option value="Distrito 21 | Cuautepec de Hinojosa">Distrito 21 | Cuautepec de Hinojosa</option>
+                                            <option value="Distrito 22 | San Agustín Tlaxiaca">Distrito 22 | San Agustín Tlaxiaca</option>
+                                            <option value="Distrito 23 | Tezontepec de Aldama">Distrito 23 | Tezontepec de Aldama</option>
+                                            <option value="Distrito 24 | Chapantongo">Distrito 24 | Chapantongo</option>
+                                            <option value="Distrito 25 | Tepetitlán">Distrito 25 | Tepetitlán</option>
+                                            <option value="Distrito 26 | Acaxochitlán">Distrito 26 | Acaxochitlán</option>
+                                            <option value="Distrito 27 | Tecozautla">Distrito 27 | Tecozautla</option>
+                                            <option value="Distrito 28 | San Salvador">Distrito 28 | San Salvador</option>
+                                            <option value="Distrito 29 | Huichapan">Distrito 29 | Huichapan</option>
+                                            <option value="Distrito 30 | Pacula">Distrito 30 | Pacula</option>
+                                            <option value="Distrito 31 | Atitalaquia">Distrito 31 | Atitalaquia</option>
+                                            <option value="Distrito 32 | Cardonal">Distrito 32 | Cardonal</option>
+                                          </select>
+                                        </div>
+                                      </div>
                                         </div>
                                     </div>
+                                    <div class="col-lg-6" *ngIf="userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'  ">
+                                        <div class="mb-3">
+                                            
+                                      <div >
+                                        <div class="mb-3" >
+                                          <label class="form-label">Ayuntamiento</label>
+                                          <select class="form-select" formControlName="ayuntamiento" *ngIf="userForm.get('distrito')?.value === 'Distrito 1 | Pachuca de Soto' ">
+                                            <option value="Pachuca">Pachuca de Soto</option>
+                                            <option value="Mineral Del Chico">Mineral del Chico</option>
+                                            <option value="Mineral Del Monte">Mineral del Monte</option>
+                                            <option value="Epazoyucan">Epazoyucan</option>
+                                            <option value="Zapotlan De Juarez">Zapotlán de Juárez</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <div class="row" >
+                                    <div class="col-lg-6" *ngIf="userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
+                                        <div class="mb-3">
+                                            
+                                      <div >
+                                        <div class="mb-3" >
+                                          <label class="form-label">Comunidad</label>
+                                          <select class="form-select" formControlName="comunidad" *ngIf="userForm.get('ayuntamiento')?.value === 'Pachuca' ">
+                                            <option value="Centro">Centro</option>
+                                            <option value="RealDelMonte">Real del Monte</option>
+                                            <option value="VillasDePachuca">Villas de Pachuca</option>
+                                            <option value="CerroDeLaCruz">Cerro de la Cruz</option>
+                                            <option value="LaPaz">La Paz</option>
+                                            <option value="SanCayetano">San Cayetano</option>
+                                            <option value="Doctores">Doctores</option>
+                                            <option value="NuevaImagen">Nueva Imagen</option>
+                                            <option value="LosTuzos">Los Tuzos</option>
+                                            <option value="ExHaciendaDeCoscotitlan">Ex-Hacienda de Coscotitlán</option>
+                                          </select>
+                                        </div>
+                                      </div>
+                                        </div>
+                                    </div>
+                                    
+                                    
                                 </div>
 
                                 <!-- <div class="row">
@@ -227,52 +455,9 @@
                                     </div>
                                 </div> -->
 
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Edad</label>
-                                            <input type="text" class="form-control" formControlName="age" (focus)="marcarEdadTocada()" />
-                                            <div *ngIf="edadTocada && userForm.get('age')?.hasError('required')" class="error-message">
-                                                La edad es requerida.
-                                            </div>
-                                            <div *ngIf="edadTocada && userForm.get('age')?.hasError('pattern')" class="error-message">
-                                              La edad solo puede contener números
-                                          </div>
-                                          <div *ngIf="edadTocada && userForm.get('age')?.hasError('maxlength')" class="error-message">
-                                            La edad no es válida
-                                        </div>
-                                        <div *ngIf="edadTocada && userForm.get('age')?.hasError('minlength')" class="error-message">
-                                          La edad no es válida
-                                      </div>
-                                        </div>
-                                    </div>
+                                
 
-                                    <!-- <div class="col-lg-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">Estado</label>
-                                            <input type="text" class="form-control" formControlName="estado" (focus)="marcarEstadoTocado()" />
-                                            <div *ngIf="estadoTocado && userForm.get('estado')?.hasError('required')" class="error-message">
-                                                El estado es requerido.
-                                            </div>
-                                        </div>
-                                    </div> -->
-                                    <div class="col-lg-6">
-                                        <div class="mb-3">
-                                           
-                                            <div class="mb-3">
-                                                <label class="form-label">Género</label>
-                                                <select class="form-select" formControlName="gender">
-                                                  <option value="Masculino">Masculino</option>
-                                                  <option value="Femenino">Femenino</option>
-                                                  
-                                                </select>
-                                            </div>
-                                            
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
+                                <!-- <div class="row">
 
 
 
@@ -314,7 +499,7 @@
                                             </label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
 
                                 <!-- <hr>
                                 <p>Información referente al suplente</p>
@@ -498,7 +683,7 @@
                                     </div>
                                 </div> -->
 
-                                <div class="row">
+                                <!-- <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                            
@@ -529,7 +714,7 @@
                                     </div>
 
                                     
-                                </div>
+                                </div> -->
 
                                 <!-- Fin del formulario -->
                             </form>

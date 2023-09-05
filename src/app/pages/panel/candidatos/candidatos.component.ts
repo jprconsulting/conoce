@@ -13,7 +13,10 @@
     styleUrls: ['./candidatos.component.css']
   })
   export class CandidatosComponent {
-
+    opcionSeleccionada: string = 'opcion1'; // Valor predeterminado del primer dropdown
+    opcionSeleccionada2: string = ''; // Valor predeterminado del segundo dropdown
+    mostrarSegundoDropdown: boolean = false; // Variable para mostrar/ocultar el segundo dropdown
+  
     // Usuarios
     candidato: Candidato[] = [];
     isLoadingUsers = LoadingStates.neutro;
@@ -52,7 +55,9 @@
       prop3Tocada = false;
       trayectoriaTocada = false;
       gradoAcadTocado = false;
-
+      apPaternoTocado = false;
+      apMaternoTocado = false;
+      sobrenombreTocado = false;
 
 
 
@@ -68,8 +73,8 @@
 
       this.userForm = this.formBuilder.group({
         nameCandidate: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        position: ['', Validators.required],
-        actorPolitico: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+       // position: ['', Validators.required],
+      //  actorPolitico: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         // ubicacionGoogle: ['', Validators.required],
         // direccion: ['', Validators.required],
         // telefono: ['', Validators.required],
@@ -99,10 +104,17 @@
         // nombreProp3: ['', Validators.required],
         // prop3: ['', Validators.required],
         // trayectoria: ['', Validators.required],
-        typeDisability:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        academicDegree: ['Licenciatura'],
-        lgbtq:[false],
-        indigenousCandidacy: [false],
+       // typeDisability:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        apPaterno:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        apMaterno:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        sobrenombre:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        //academicDegree: ['Licenciatura'],
+        //lgbtq:[false],
+        //indigenousCandidacy: [false],
+        eleccion: ['Gobernatura'], // Valor predeterminado
+        estados: [''],
+        distrito: [''],
+        ayuntamiento: [''],
 
       });
 
@@ -174,6 +186,9 @@
         prop3:'',
         trayectoria:'',
         gradoAcad:'',
+        apPaterno:'',
+        apMaterno:'',
+        sobrenombre:'',
         gender:'Masculino',
         indigenousCandidacy:false,
         academicDegree:'Licenciatura',
@@ -213,6 +228,9 @@
       this.prop3Tocada = false;
       this.trayectoriaTocada = false;
       this.gradoAcadTocado = false;
+      this.apMaternoTocado = false;
+      this.apPaternoTocado = false;
+      this.sobrenombreTocado = false;
     }
 
     marcarNombreComoTocado() {
@@ -345,6 +363,28 @@
 
     marcarGradoAcadTocado(){
       this.gradoAcadTocado=true;
+    }
+
+    marcarApPaternoTocado(){
+      this.apPaternoTocado=true;
+    }
+
+    marcarApMaternoTocado(){
+      this.apMaternoTocado=true;
+    }
+
+    marcarSobrenombreTocado(){
+      this.sobrenombreTocado=true;
+    }
+
+    onDropdownChange() {
+      // Lógica para mostrar u ocultar el segundo dropdown según la selección en el primero
+      if (this.opcionSeleccionada === 'opcion2') {
+        this.mostrarSegundoDropdown = true; // Muestra el segundo dropdown
+      } else {
+        this.mostrarSegundoDropdown = false; // Oculta el segundo dropdown
+        this.opcionSeleccionada2 = ''; // Restablece la selección en el segundo dropdown
+      }
     }
 
     agregarUsuario() {
