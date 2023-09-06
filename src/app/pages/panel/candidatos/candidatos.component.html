@@ -88,7 +88,7 @@
                                         </div>
                                       </div>
                                   </div>
-                                  
+
                                   <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -120,16 +120,20 @@
                                     </div> -->
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                           
+
                                             <div class="mb-3">
                                                 <label class="form-label">Género</label>
                                                 <select class="form-select" formControlName="gender">
+                                                  <option value="null">Selecciona una opción...</option>
                                                   <option value="Masculino">Masculino</option>
                                                   <option value="Femenino">Femenino</option>
-                                                  
+
                                                 </select>
+                                                <div *ngIf="userForm.get('gender')?.value==='null'" class="error-message">
+                                                  Es necesario escoger un género
+                                              </div>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                 </div>
@@ -140,12 +144,16 @@
                                           <div class="mb-3">
                                             <label class="form-label">Partido Politíco</label>
                                             <select class="form-select" formControlName="partido">
+                                              <option value="">Selecciona una opción...</option>
                                                 <option value="PRI">Partido Revolucionario Institucional (PRI)</option>
                                                 <option value="PAN">Partido Acción Nacional (PAN)</option>
                                                 <option value="MORENA">Movimiento Regeneración Nacional (MORENA)</option>
                                                 <option value="PRD">Partido de la Revolución Democrática (PRD)</option>
                                                 <option value="PT">Partido del Trabajo (PT)</option>
                                             </select>
+                                            <div *ngIf="userForm.get('partido')?.value===''" class="error-message">
+                                              Es necesario escoger un partido politíco
+                                          </div>
                                           </div>
                                         </div>
                                       </div>
@@ -166,11 +174,15 @@
                                           <div class="mb-3">
                                             <label class="form-label">Tipo de candidatura</label>
                                             <select class="form-select" formControlName="eleccion">
+                                              <option value="">Selecciona una opción...</option>
                                               <option value="Gobernatura">Gobernatura</option>
                                               <option value="Diputaciones Locales">Diputaciones Locales</option>
                                               <option value="Ayuntamiento">Ayuntamiento</option>
                                               <option value="Presidencias de comunidad">Presidencias de comunidad</option>
                                             </select>
+                                            <div *ngIf="userForm.get('eleccion')?.value===''" class="error-message">
+                                              Es necesario escoger un tipo de candidatura
+                                          </div>
                                           </div>
                                         </div>
                                       </div>
@@ -180,6 +192,7 @@
                                           <div class="mb-3">
                                             <label class="form-label">Estado</label>
                                             <select class="form-select" formControlName="estados">
+                                              <option value="">Selecciona una opción...</option>
                                                 <option value="Aguascalientes">Aguascalientes</option>
                                                 <option value="Baja California">Baja California</option>
                                                 <option value="Baja California Sur">Baja California Sur</option>
@@ -212,14 +225,17 @@
                                                 <option value="Veracruz">Veracruz</option>
                                                 <option value="Yucatán">Yucatán</option>
                                                 <option value="Zacatecas">Zacatecas</option>
-                                              
+
                                             </select>
+                                            <div *ngIf="userForm.get('estados')?.value===''" class="error-message">
+                                              Es necesario escoger un estado
+                                          </div>
                                           </div>
                                         </div>
                                       </div>
 
 
-                                    
+
                                     <!-- <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label class="form-label">Partido Político</label>
@@ -229,17 +245,18 @@
                                             </div>
                                         </div>
                                     </div> -->
-                                    
-                                   
+
+
                                 </div>
                                 <div class="row" >
                                     <div class="col-lg-6" *ngIf="userForm.get('eleccion')?.value === 'Diputaciones Locales' || userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
                                         <div class="mb-3">
-                                            
+
                                       <div >
                                         <div class="mb-3" >
                                           <label class="form-label">Distrito Local</label>
-                                          <select class="form-select" formControlName="distrito" *ngIf="userForm.get('estados')?.value === 'Hidalgo' ">
+                                          <select class="form-select" formControlName="distritos" *ngIf="userForm.get('estados')?.value === 'Hidalgo' ">
+                                            <option value="">Selecciona una opción...</option>
                                             <option value="Distrito 1 | Pachuca de Soto">Distrito 1 | Pachuca de Soto</option>
                                             <option value="Distrito 2 | Tulancingo de Bravo">Distrito 2 | Tulancingo de Bravo</option>
                                             <option value="Distrito 3 | Tula de Allende">Distrito 3 | Tula de Allende</option>
@@ -273,37 +290,45 @@
                                             <option value="Distrito 31 | Atitalaquia">Distrito 31 | Atitalaquia</option>
                                             <option value="Distrito 32 | Cardonal">Distrito 32 | Cardonal</option>
                                           </select>
+                                          <div *ngIf="userForm.get('distritos')?.value===''" class="error-message">
+                                            Es necesario escoger un distrito
+                                        </div>
                                         </div>
                                       </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-6" *ngIf="userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'  ">
                                         <div class="mb-3">
-                                            
+
                                       <div >
                                         <div class="mb-3" >
                                           <label class="form-label">Ayuntamiento</label>
-                                          <select class="form-select" formControlName="ayuntamiento" *ngIf="userForm.get('distrito')?.value === 'Distrito 1 | Pachuca de Soto' ">
+                                          <select class="form-select" formControlName="ayuntamiento" *ngIf="userForm.get('distritos')?.value === 'Distrito 1 | Pachuca de Soto' ">
+                                            <option value="null">Selecciona una opción...</option>
                                             <option value="Pachuca">Pachuca de Soto</option>
                                             <option value="Mineral Del Chico">Mineral del Chico</option>
                                             <option value="Mineral Del Monte">Mineral del Monte</option>
                                             <option value="Epazoyucan">Epazoyucan</option>
                                             <option value="Zapotlan De Juarez">Zapotlán de Juárez</option>
                                           </select>
+                                          <div *ngIf="userForm.get('ayuntamiento')?.value===''" class="error-message">
+                                            Es necesario escoger un ayuntamiento
+                                        </div>
                                         </div>
                                       </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <div class="row" >
                                     <div class="col-lg-6" *ngIf="userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
                                         <div class="mb-3">
-                                            
+
                                       <div >
                                         <div class="mb-3" >
                                           <label class="form-label">Comunidad</label>
                                           <select class="form-select" formControlName="comunidad" *ngIf="userForm.get('ayuntamiento')?.value === 'Pachuca' ">
+                                            <option value="">Selecciona una opción...</option>
                                             <option value="Centro">Centro</option>
                                             <option value="RealDelMonte">Real del Monte</option>
                                             <option value="VillasDePachuca">Villas de Pachuca</option>
@@ -315,12 +340,15 @@
                                             <option value="LosTuzos">Los Tuzos</option>
                                             <option value="ExHaciendaDeCoscotitlan">Ex-Hacienda de Coscotitlán</option>
                                           </select>
+                                          <div *ngIf="userForm.get('comunidad')?.value===''" class="error-message">
+                                            Es necesario escoger una comunidad
+                                        </div>
                                         </div>
                                       </div>
                                         </div>
                                     </div>
-                                    
-                                    
+
+
                                 </div>
 
                                 <!-- <div class="row">
@@ -455,7 +483,7 @@
                                     </div>
                                 </div> -->
 
-                                
+
 
                                 <!-- <div class="row">
 
@@ -475,13 +503,13 @@
                                                 </span>
                                             </label>
                                         </div>
-                                                                        
-                                    
-                                    
-                                    
+
+
+
+
 </div>
 
-                                    
+
 
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -686,7 +714,7 @@
                                 <!-- <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
-                                           
+
                                             <div class="mb-3">
                                                 <label class="form-label">Grado Académico</label>
                                                 <select class="form-select" formControlName="academicDegree">
@@ -697,7 +725,7 @@
                                                   <option value="Doctorado">Doctorado</option>
                                                 </select>
                                             </div>
-                                            
+
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -713,7 +741,7 @@
                                         </div>
                                     </div>
 
-                                    
+
                                 </div> -->
 
                                 <!-- Fin del formulario -->

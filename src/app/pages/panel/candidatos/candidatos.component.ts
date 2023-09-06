@@ -16,7 +16,7 @@
     opcionSeleccionada: string = 'opcion1'; // Valor predeterminado del primer dropdown
     opcionSeleccionada2: string = ''; // Valor predeterminado del segundo dropdown
     mostrarSegundoDropdown: boolean = false; // Variable para mostrar/ocultar el segundo dropdown
-  
+
     // Usuarios
     candidato: Candidato[] = [];
     isLoadingUsers = LoadingStates.neutro;
@@ -89,7 +89,7 @@
         // eslogan: ['', Validators.required],
         age: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(2),Validators.minLength(2)]],
       //  estado: ['', Validators.required],
-        gender: ['Masculino'],
+        gender: ['null'],
         // nombreSup: ['', Validators.required],
         // edadSup: ['', Validators.required],
         // estadoSup: ['', Validators.required],
@@ -111,10 +111,12 @@
         //academicDegree: ['Licenciatura'],
         //lgbtq:[false],
         //indigenousCandidacy: [false],
-        eleccion: ['Gobernatura'], // Valor predeterminado
-        estados: [''],
-        distrito: [''],
+        eleccion: ['', Validators.required], // Valor predeterminado
+        estados: ['', Validators.required],
+        distritos: [''],
         ayuntamiento: [''],
+        comunidad: [''],
+        partido: [''],
 
       });
 
@@ -189,7 +191,14 @@
         apPaterno:'',
         apMaterno:'',
         sobrenombre:'',
-        gender:'Masculino',
+        gender:'null',
+        eleccion: 'null', // Valor predeterminado
+        estados: 'null',
+        distritos: 'null',
+        ayuntamiento: 'null',
+        comunidad: 'null',
+        partido: 'null',
+
         indigenousCandidacy:false,
         academicDegree:'Licenciatura',
         lgbtq:false,
@@ -410,7 +419,7 @@
       }
     }
 
-   
-    
+
+
   }
 
