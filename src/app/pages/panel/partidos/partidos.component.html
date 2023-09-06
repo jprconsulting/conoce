@@ -1,1 +1,191 @@
-<p>partidos works!</p>
+<div class="page-wrapper">
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">CONFIGURACION PARTIDOS POLITICOS</h3>
+        </div>
+        <!-- Page body -->
+        <div class="page-body">
+            <div class="container-xl">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="accordion" id="accordion-example">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-1">
+                                    <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true">
+                                    PARTIDOS POLITICOS
+                                  </button>
+                                </h2>
+                                <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
+                                    <div class="container mt-5">
+                                        <!-- Botón para abrir el modal -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-partido-politico">
+                                          Agregar Partido Político
+                                      </button>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                            <!-- Resto del código del acordeón -->
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
+                                      COALICIONES
+                                  </button>
+                                </h2>
+                                <div id="collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                                    <div class="accordion-body pt-0">
+                                        <!-- Contenido para la sección de Coaliciones -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-coalicion">
+                                          Agregar Coalición
+                                      </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading-3">
+                                    <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">
+                                  CANDIDATURAS INDEPENDIENTES
+                                </button>
+                                </h2>
+                                <div id="collapse-3" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
+                                    <div class="container mt-5">
+                                        <!-- Botón para abrir el modal -->
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidatura-independiente">
+                                        Agregar Candidatura Independiente
+                                    </button>
+                                    </div>
+                                    <br>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal-partido-politico" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Partido Político</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Campo de Nombre del partido político -->
+                <div class="form-group">
+                    <label for="nombre">Nombre del partido político:</label>
+                    <input type="text" class="form-control" id="nombre">
+                </div>
+                <br>
+                <!-- Campo de Subir Imagen -->
+                <div class="form-group">
+                    <label for="imagen">Subir Imagen del partido político:</label>
+                    <br><br>
+                    <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
+                </div>
+
+                <!-- Vista previa de la imagen -->
+                <div *ngIf="previewImage" class="mt-3">
+                    <label>Imagen seleccionada:</label>
+                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="guardarPartido()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para Agregar Coalición -->
+<div class="modal fade" id="modal-coalicion" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Coalición</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Campo de Nombre de la Coalición -->
+                <div class="form-group">
+                    <label for="nombreCoalicion">Nombre de la Coalición:</label>
+                    <input type="text" class="form-control" id="nombreCoalicion">
+                </div>
+                <br><br>
+                <!-- Campo de Partidos que Componen la Coalición -->
+                <div class="form-group">
+                    <label for="partidosCoalicion">Partidos que Componen la Coalición:</label>
+                    <input type="text" class="form-control" id="partidosCoalicion">
+                </div>
+                <br><br>
+                <!-- Campo de Subir Imagen -->
+                <div class="form-group">
+                    <label for="imagen">Subir Imagen del partido político:</label>
+                    <br><br>
+                    <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
+                </div>
+
+                <!-- Vista previa de la imagen -->
+                <div *ngIf="previewImage" class="mt-3">
+                    <label>Imagen seleccionada:</label>
+                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                </div>
+            </div>
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="guardarCoalicion()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Candidatura Independiente -->
+<div class="modal fade" id="modal-candidatura-independiente" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Agregar Candidatura Independiente</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <!-- Modal Body -->
+            <div class="modal-body">
+                <!-- Campo de Nombre del partido político -->
+                <div class="form-group">
+                    <label for="nombre">Nombre de la candidatura:</label>
+                    <input type="text" class="form-control" id="nombre">
+                </div>
+                <br>
+                <!-- Campo de Subir Imagen -->
+                <div class="form-group">
+                    <label for="imagen">Subir Imagen de la candidatura:</label>
+                    <br><br>
+                    <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
+                </div>
+
+                <!-- Vista previa de la imagen -->
+                <div *ngIf="previewImage" class="mt-3">
+                    <label>Imagen seleccionada:</label>
+                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="guardarPartido()">Guardar</button>
+            </div>
+        </div>
+    </div>
+</div>
