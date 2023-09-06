@@ -57,7 +57,10 @@
       gradoAcadTocado = false;
       apPaternoTocado = false;
       apMaternoTocado = false;
+      apPaternoSTocado = false;
+      apMaternoSTocado = false;
       sobrenombreTocado = false;
+      nombreSTocado = false;
 
 
 
@@ -87,9 +90,7 @@
         // userTwitter: ['', Validators.required],
         // whatsapp: ['', Validators.required],
         // eslogan: ['', Validators.required],
-        age: ['', [Validators.required, Validators.pattern('^[0-9]+$'), Validators.maxLength(2),Validators.minLength(2)]],
       //  estado: ['', Validators.required],
-        gender: ['null'],
         // nombreSup: ['', Validators.required],
         // edadSup: ['', Validators.required],
         // estadoSup: ['', Validators.required],
@@ -117,6 +118,10 @@
         ayuntamiento: [''],
         comunidad: [''],
         partido: [''],
+        apPaternoS:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        apMaternoS:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        nameSuplent: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+
 
       });
 
@@ -202,6 +207,11 @@
         indigenousCandidacy:false,
         academicDegree:'Licenciatura',
         lgbtq:false,
+        apPaternoS:'',
+        apMaternoS:'',
+        nameSuplent:'',
+
+        
       });
 
       this.nombreTocado = false;
@@ -240,6 +250,9 @@
       this.apMaternoTocado = false;
       this.apPaternoTocado = false;
       this.sobrenombreTocado = false;
+      this.apPaternoSTocado = false;
+      this.apMaternoSTocado = false;
+      this.nombreSTocado = false;
     }
 
     marcarNombreComoTocado() {
@@ -382,6 +395,16 @@
       this.apMaternoTocado=true;
     }
 
+    marcarApPaternoSTocado(){
+      this.apPaternoSTocado=true;
+    }
+
+    marcarApMaternoSTocado(){
+      this.apMaternoSTocado=true;
+    }
+    marcarNombreSComoTocado() {
+      this.nombreSTocado = true;
+    }
     marcarSobrenombreTocado(){
       this.sobrenombreTocado=true;
     }
