@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DemarcacionesComponent } from './demarcaciones.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DemarcacionesRoutingModule } from './demarcaciones-rouing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -14,6 +14,7 @@ import { FormsModule } from '@angular/forms';
     CommonModule, 
     SharedModule, 
     DemarcacionesRoutingModule,
+    ReactiveFormsModule,
     FormsModule,
   ],
     exports: [

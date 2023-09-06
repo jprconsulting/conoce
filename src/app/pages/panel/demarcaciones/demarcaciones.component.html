@@ -24,7 +24,7 @@
                     </div>
                     <div class="modal-body">
                       <!-- Inicio del formulario -->
-                      <form>
+                      <form [formGroup]="distritoLocalForm">
                         <!-- <div class="mb-3">
                           <label for="id" class="form-label">ID:</label>
                           <input type="number" id="id" class="form-control" [(ngModel)]="distritoLocal.id" name="id" required min="0">
@@ -32,11 +32,23 @@
                         <div class="row mb-3">
                           <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre:</label>
-                            <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" name="nombre" required>
+                            <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" formControlName="nombre" (focus)="marcarNombreTocado()">
+                            <div *ngIf="nombreTocado && distritoLocalForm.get('nombre')?.hasError('required')" class="error-message">
+                              El nombre es requerido.
+                            </div>
+                            <div *ngIf="nombreTocado && distritoLocalForm.get('nombre')?.hasError('pattern')" class="error-message">
+                              El nombre solo debe contener letras.
+                            </div>
                           </div>
                           <div class="col-md-6">
                             <label for="acronimo" class="form-label">Acrónimo:</label>
-                            <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" name="acronimo" required>
+                            <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" formControlName="acronimo" (focus)="marcarAcronimoTocado()">
+                            <div *ngIf="acronimoTocado && distritoLocalForm.get('acronimo')?.hasError('required')" class="error-message">
+                              El acrónimo es requerido.
+                            </div>
+                            <div *ngIf="acronimoTocado && distritoLocalForm.get('acronimo')?.hasError('pattern')" class="error-message">
+                              El acrónimo solo debe contener letras.
+                            </div>
                           </div>
                         </div>
                         <div class="mb-3">
@@ -50,13 +62,20 @@
                             </div>
                             <div class="col-md-6">
                               <label for="extPet" class="form-label">Ext-pet:</label>
-                              <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" name="extPet">
+                              <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" formControlName="extPet" (focus)="marcarExtPetTocado()">
+                              <div *ngIf="extPetTocado && distritoLocalForm.get('extPet')?.hasError('required')" class="error-message">
+                                El ext pet es requerido.
+                              </div>
+                              <div *ngIf="extPetTocado && distritoLocalForm.get('extPet')?.hasError('pattern')" class="error-message">
+                                El ext pet solo debe contener letras.
+                              </div>
                             </div>
                           </div>
                         </div>
                         <div class="mb-3">
                           <label for="estado" class="form-label">Estados:</label>
-                          <select id="estado" class="form-select" [(ngModel)]="distritoLocal.estado" name="estado" required>
+                          <select id="estado" class="form-select" [(ngModel)]="distritoLocal.estado" formControlName="estado">
+                            <option value="">Selecciona una opción...</option>
                             <option value="Aguascalientes">Aguascalientes</option>
                             <option value="Baja California">Baja California</option>
                             <option value="Baja California Sur">Baja California Sur</option>
@@ -90,14 +109,17 @@
                             <option value="Yucatán">Yucatán</option>
                             <option value="Zacatecas">Zacatecas</option>
                           </select>
+                          <div *ngIf="distritoLocalForm.get('estado')?.value===''" class="error-message">
+                            Se debe seleccionar un estado
+                          </div>
                         </div>
                       </form>
                       <!-- Fin del formulario -->
                       <br>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal">Limpiar</button>
-                      <button type="button" class="btn btn-primary">Crear nuevo distrito local</button>
+                      <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">Limpiar</button>
+                      <button type="button" class="btn btn-primary" [disabled]="!distritoLocalForm.valid">Crear nuevo distrito local</button>
                     </div>
                   </div>
                 </div>

@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { NgForm } from '@angular/forms';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
 
 @Component({
   selector: 'app-demarcaciones',
@@ -36,13 +37,28 @@ export class DemarcacionesComponent {
   nuevaComunidad: any = {}; // Esta variable almacena la nueva Comunidad a agregar
 
   // Define un FormGroup para el formulario de Distrito Local
-  distritoLocalForm = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    acronimo: new FormControl('', Validators.required),
-    activo: new FormControl(false),
-    extPet: new FormControl(''),
-    estado: new FormControl('', Validators.required)
-  });
+  distritoLocalForm: FormGroup;
+    nombreTocado= false;
+    acronimoTocado=false;
+    activoTocado=false;
+    extPetTocado=false;
+    estadoTocado=false;
+  
+    constructor(
+      private mensajeService: MensajeService,
+      private formBuilder: FormBuilder,
+    ) {
+      //this.crearFormularioGuardar();
+      //this.subscribeRolID();
+
+      this.distritoLocalForm = this.formBuilder.group({
+        nombre: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        acronimo: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        activo: [true],
+        extPet: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        estado: [''],
+      });
+    }
 
   // Define una función para guardar el Distrito Local
   guardarDistritoLocal() {
@@ -143,4 +159,41 @@ export class DemarcacionesComponent {
   eliminarComunidad(index: number) {
     this.comunidades.splice(index, 1);
   }
+
+  resetForm() {
+    this.distritoLocalForm.reset({
+      nombre: '',
+      acronimo:'',
+      activo:true,
+      extPet:'',
+      estado:'null',
+    });
+
+    this.nombreTocado = false;
+    this.acronimoTocado=false;
+    this.activoTocado=false;
+    this.extPetTocado=false;
+    this.estadoTocado=false;
+
+  }
+
+  marcarNombreTocado() {
+    this.nombreTocado = true;
+  }
+
+  marcarAcronimoTocado() {
+    this.acronimoTocado = true;
+  }
+
+  marcarActivoTocado() {
+    this.activoTocado = true;
+  }
+  marcarExtPetTocado() {
+    this.extPetTocado = true;
+  }
+  marcarEstadoTocado() {
+    this.estadoTocado = true;
+  }
+
 }
+
