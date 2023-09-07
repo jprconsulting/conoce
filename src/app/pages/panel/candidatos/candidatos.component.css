@@ -19,3 +19,12 @@ textarea{
 .error-message {
     color: red;
 }
+
+/* styles.css (o styles.scss) o en el archivo CSS de tu componente */
+/* styles.css (o styles.scss) o en el archivo CSS de tu componente */
+.modal-dialog {
+    max-width: 95%; /* Ajusta el ancho máximo del modal al 90% del ancho de la pantalla */
+    
+  }
+  
+  
