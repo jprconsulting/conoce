@@ -3,6 +3,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PartidoService } from 'src/app/core/services/partidos.service';
 import { Partidos } from 'src/app/models/partidos';
 import { Coaliciones } from 'src/app/models/coaliciones';
+import { FormGroup,FormBuilder } from '@angular/forms';
 
 
 @Component({
@@ -17,11 +18,17 @@ export class PartidosComponent {
   selectedPartidos: any[] = [];
   partidosSeleccionados: any[] = [];
   coaliciones: Coaliciones[] = [];
-
+  partidoForm: FormGroup;
 
   @ViewChild('imagenInput') imagenInput!: ElementRef;
 
-  constructor(private partidoService: PartidoService) { }
+  constructor(private partidoService: PartidoService,
+    private fb: FormBuilder) {
+    this.partidoForm = this.fb.group({
+      nombre: [''],
+      imagen: ['']
+    });
+  }
 
   ngOnInit() {
     this.obtenerPartidos();
@@ -85,4 +92,15 @@ obtenerCoaliciones() {
     }
   );
 }
+
+resetForm() {
+  this.partidoForm.reset();
+  this.previewImage = null;
+
+  // Reemplaza el campo de entrada de archivo con un nuevo clon
+  const inputElement = this.imagenInput.nativeElement;
+  const newInput = inputElement.cloneNode(true);
+  inputElement.parentNode.replaceChild(newInput, inputElement);
+}
+
 }
