@@ -257,6 +257,7 @@
 
     marcarNombreComoTocado() {
       this.nombreTocado = true;
+      return this.userForm.get('nameCandidate')?.invalid && this.userForm.get('nameCandidate')?.touched;
     }
     marcarOcupacionTocada() {
       this.ocupacionTocada = true;
@@ -389,24 +390,30 @@
 
     marcarApPaternoTocado(){
       this.apPaternoTocado=true;
+      return this.userForm.get('apPaterno')?.invalid && this.userForm.get('apPaterno')?.touched
     }
 
     marcarApMaternoTocado(){
       this.apMaternoTocado=true;
+      return this.userForm.get('apMaterno')?.invalid && this.userForm.get('apMaterno')?.touched
     }
 
     marcarApPaternoSTocado(){
       this.apPaternoSTocado=true;
+      return this.userForm.get('apPaternoS')?.invalid && this.userForm.get('apPaternoS')?.touched
     }
 
     marcarApMaternoSTocado(){
       this.apMaternoSTocado=true;
+      return this.userForm.get('apMaternoS')?.invalid && this.userForm.get('apMaternoS')?.touched
     }
     marcarNombreSComoTocado() {
       this.nombreSTocado = true;
+      return this.userForm.get('nameSuplent')?.invalid && this.userForm.get('nameSuplent')?.touched
     }
     marcarSobrenombreTocado(){
       this.sobrenombreTocado=true;
+      return this.userForm.get('sobrenombre')?.invalid && this.userForm.get('sobrenombre')?.touched
     }
 
     onDropdownChange() {

@@ -43,6 +43,19 @@ export class DemarcacionesComponent {
     activoTocado=false;
     extPetTocado=false;
     estadoTocado=false;
+
+    ayuntamientoForm: FormGroup;
+    nombreATocado= false;
+    acronimoATocado=false;
+    activoATocado=false;
+    extPetATocado=false;
+    estadoATocado=false;
+
+    comunidadForm: FormGroup;
+    nombreCTocado= false;
+    acronimoCTocado=false;
+    activoCTocado=false;
+    extPetCTocado=false;
   
     constructor(
       private mensajeService: MensajeService,
@@ -57,6 +70,22 @@ export class DemarcacionesComponent {
         activo: [true],
         extPet: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         estado: [''],
+      });
+
+      this.ayuntamientoForm = this.formBuilder.group({
+        nombreA: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        acronimoA: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        activoA: [true],
+        extPetA: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        estadoA: [''],
+      });
+
+      this.comunidadForm = this.formBuilder.group({
+        nombreC: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        acronimoC: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        activoC: [true],
+        extPetC: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+        estadoC: [''],
       });
     }
 
@@ -83,12 +112,7 @@ export class DemarcacionesComponent {
   }
 
   // Define un FormGroup para el formulario de Ayuntamiento
-  ayuntamientoForm = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    acronimo: new FormControl('', Validators.required),
-    activo: new FormControl(false),
-    distritoLocal: new FormControl('', Validators.required)
-  });
+ 
 
   // Define una función para guardar el Ayuntamiento
   guardarAyuntamiento() {
@@ -135,10 +159,7 @@ export class DemarcacionesComponent {
   }
 
   // Define un FormGroup para el formulario de Comunidad
-  comunidadForm = new FormGroup({
-    nombre: new FormControl('', Validators.required),
-    acronimo: new FormControl('', Validators.required)
-  });
+ 
 
   // Función para agregar una Comunidad
   agregarComunidad() {
@@ -169,20 +190,50 @@ export class DemarcacionesComponent {
       estado:'null',
     });
 
+    this.ayuntamientoForm.reset({
+      nombreA: '',
+      acronimoA:'',
+      activoA:true,
+      extPetA:'',
+      estado:'null',
+    });
+
+    this.comunidadForm.reset({
+      nombreC: '',
+      acronimoC:'',
+      activoC:true,
+      extPetC:'',
+      estadoC:'null',
+    });
+
     this.nombreTocado = false;
     this.acronimoTocado=false;
     this.activoTocado=false;
     this.extPetTocado=false;
     this.estadoTocado=false;
 
+    this.nombreATocado = false;
+    this.acronimoATocado=false;
+    this.activoATocado=false;
+    this.extPetATocado=false;
+    this.estadoATocado=false;
+
+    this.nombreCTocado = false;
+    this.acronimoCTocado=false;
+    this.activoCTocado=false;
+    this.extPetCTocado=false;
+    this.estadoTocado=false;
+
   }
 
   marcarNombreTocado() {
     this.nombreTocado = true;
+    return this.distritoLocalForm.get('nombre')?.invalid && this.distritoLocalForm.get('nombre')?.touched;
   }
 
   marcarAcronimoTocado() {
     this.acronimoTocado = true;
+    return this.distritoLocalForm.get('acronimo')?.invalid && this.distritoLocalForm.get('acronimo')?.touched;
   }
 
   marcarActivoTocado() {
@@ -190,8 +241,52 @@ export class DemarcacionesComponent {
   }
   marcarExtPetTocado() {
     this.extPetTocado = true;
+    return this.distritoLocalForm.get('extPet')?.invalid && this.distritoLocalForm.get('extPet')?.touched;
   }
   marcarEstadoTocado() {
+    this.estadoTocado = true;
+  }
+
+
+  marcarNombreATocado() {
+    this.nombreATocado = true;
+    return this.ayuntamientoForm.get('nombreA')?.invalid && this.ayuntamientoForm.get('nombreA')?.touched;
+  }
+
+  marcarAcronimoATocado() {
+    this.acronimoTocado = true;
+    return this.ayuntamientoForm.get('acronimoA')?.invalid && this.ayuntamientoForm.get('acronimoA')?.touched;
+  }
+
+  marcarActivoATocado() {
+    this.activoTocado = true;
+  }
+  marcarExtPetATocado() {
+    this.extPetTocado = true;
+    return this.ayuntamientoForm.get('extPetA')?.invalid && this.ayuntamientoForm.get('extPetA')?.touched;
+  }
+  marcarEstadoATocado() {
+    this.estadoTocado = true;
+  }
+
+  marcarNombreCTocado() {
+    this.nombreATocado = true;
+    return this.comunidadForm.get('nombreC')?.invalid && this.comunidadForm.get('nombreC')?.touched;
+  }
+
+  marcarAcronimoCTocado() {
+    this.acronimoTocado = true;
+    return this.comunidadForm.get('acronimoC')?.invalid && this.comunidadForm.get('acronimoC')?.touched;
+  }
+
+  marcarActivoCTocado() {
+    this.activoTocado = true;
+  }
+  marcarExtPetCTocado() {
+    this.extPetTocado = true;
+    return this.comunidadForm.get('extPetC')?.invalid && this.comunidadForm.get('extPetC')?.touched;
+  }
+  marcarEstadoCTocado() {
     this.estadoTocado = true;
   }
 

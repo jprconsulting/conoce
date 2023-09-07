@@ -32,22 +32,22 @@
                         <div class="row mb-3">
                           <div class="col-md-6">
                             <label for="nombre" class="form-label">Nombre:</label>
-                            <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" formControlName="nombre" (focus)="marcarNombreTocado()">
+                            <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" formControlName="nombre" [class.is-invalid]="marcarNombreTocado()">
                             <div *ngIf="nombreTocado && distritoLocalForm.get('nombre')?.hasError('required')" class="error-message">
-                              El nombre es requerido.
+                              
                             </div>
                             <div *ngIf="nombreTocado && distritoLocalForm.get('nombre')?.hasError('pattern')" class="error-message">
-                              El nombre solo debe contener letras.
+                              
                             </div>
                           </div>
                           <div class="col-md-6">
                             <label for="acronimo" class="form-label">Acrónimo:</label>
-                            <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" formControlName="acronimo" (focus)="marcarAcronimoTocado()">
+                            <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" formControlName="acronimo" [class.is-invalid]="marcarAcronimoTocado()">
                             <div *ngIf="acronimoTocado && distritoLocalForm.get('acronimo')?.hasError('required')" class="error-message">
-                              El acrónimo es requerido.
+                              
                             </div>
                             <div *ngIf="acronimoTocado && distritoLocalForm.get('acronimo')?.hasError('pattern')" class="error-message">
-                              El acrónimo solo debe contener letras.
+                              
                             </div>
                           </div>
                         </div>
@@ -62,12 +62,12 @@
                             </div>
                             <div class="col-md-6">
                               <label for="extPet" class="form-label">Ext-pet:</label>
-                              <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" formControlName="extPet" (focus)="marcarExtPetTocado()">
+                              <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" formControlName="extPet" [class.is-invalid]="marcarExtPetTocado()">
                               <div *ngIf="extPetTocado && distritoLocalForm.get('extPet')?.hasError('required')" class="error-message">
-                                El ext pet es requerido.
+                                
                               </div>
                               <div *ngIf="extPetTocado && distritoLocalForm.get('extPet')?.hasError('pattern')" class="error-message">
-                                El ext pet solo debe contener letras.
+                                
                               </div>
                             </div>
                           </div>
@@ -110,7 +110,7 @@
                             <option value="Zacatecas">Zacatecas</option>
                           </select>
                           <div *ngIf="distritoLocalForm.get('estado')?.value===''" class="error-message">
-                            Se debe seleccionar un estado
+                            
                           </div>
                         </div>
                       </form>
@@ -196,7 +196,7 @@
                     </div>
                     <div class="modal-body">
                       <!-- Inicio del formulario -->
-                      <form>
+                      <form  [formGroup]="ayuntamientoForm">
                         <!-- <div class="mb-3">
                           <label for="ayuntamientoId" class="form-label">ID:</label>
                           <input type="number" id="id" class="form-control" [(ngModel)]="distritoLocal.id" name="id" required min="0">
@@ -204,11 +204,12 @@
                         <div class="row mb-3">
                       <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" name="nombre" required>
+                        <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" formControlName="nombreA" [class.is-invalid]="marcarNombreATocado()">
+                        <div *ngIf="nombreATocado && ayuntamientoForm.get('nombreA')?.hasError('required')" class="error-message"></div>
                       </div>
                       <div class="col-md-6">
                         <label for="acronimo" class="form-label">Acrónimo:</label>
-                        <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" name="acronimo" required>
+                        <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" formControlName="acronimoA" [class.is-invalid]="marcarAcronimoATocado()">
                       </div>
                     </div>
                     <div class="mb-3">
@@ -216,13 +217,13 @@
                         <div class="col-md-6">
                           <label for="activo" class="form-label">Activo:</label>
                           <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" id="activo" [(ngModel)]="distritoLocal.activo" name="activo">
+                            <input type="checkbox" class="form-check-input" id="activo" [(ngModel)]="distritoLocal.activo" formControlName="activo">
                             <label class="form-check-label" for="activo">Activo</label>
                           </div>
                         </div>
                         <div class="col-md-6">
                           <label for="extPet" class="form-label">Ext-pet:</label>
-                          <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" name="extPet">
+                          <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" formControlName="extPetA" [class.is-invalid]="marcarExtPetATocado()">
                         </div>
                       </div>
                     </div>
@@ -320,18 +321,20 @@
             </div>
             <div class="modal-body">
               <!-- Inicio del formulario -->
-              <form>
+              <form [formGroup]="comunidadForm">
                 <!-- <div class="mb-3">
                   <label for="comunidadId" class="form-label">ID:</label>
                   <input type="number" id="comunidadId" class="form-control" [(ngModel)]="comunidad.id" name="id" required>
                 </div> -->
                 <div class="mb-3">
                   <label for="comunidadNombre" class="form-label">Nombre:</label>
-                  <input type="text" id="comunidadNombre" class="form-control" [(ngModel)]="comunidad.nombre" name="nombre" required>
+                  <input type="text" id="comunidadNombre" class="form-control" [(ngModel)]="comunidad.nombre" formControlName="nombreC" [class.is-invalid]="marcarNombreCTocado()">
+                  <div *ngIf="nombreCTocado && comunidadForm.get('nombreC')?.hasError('required')" class="error-message"></div>
                 </div>
                 <div class="mb-3">
                   <label for="comunidadAcronimo" class="form-label">Acrónimo:</label>
-                  <input type="text" id="comunidadAcronimo" class="form-control" [(ngModel)]="comunidad.acronimo" name="acronimo" required>
+                  <input type="text" id="comunidadAcronimo" class="form-control" [(ngModel)]="comunidad.acronimo" formControlName="acronimoC" [class.is-invalid]="marcarAcronimoCTocado()">
+                  <div *ngIf="acronimoCTocado && comunidadForm.get('acronimoC')?.hasError('required')" class="error-message"></div>
                 </div>
                 <div class="mb-3">
                 
@@ -345,7 +348,8 @@
                     </div>
                     <div class="col-md-6">
                       <label for="comunidadExtPet" class="form-label">Ext-pet:</label>
-                      <input type="text" id="comunidadExtPet" class="form-control" [(ngModel)]="comunidad.extPet" name="extPet">
+                      <input type="text" id="comunidadExtPet" class="form-control" [(ngModel)]="comunidad.extPet" formControlName="extPetC" [class.is-invalid]="marcarExtPetCTocado()">
+                      <div *ngIf="extPetCTocado && comunidadForm.get('extPetC')?.hasError('required')" class="error-message"></div>
                     </div>
                   </div>
                 </div>
