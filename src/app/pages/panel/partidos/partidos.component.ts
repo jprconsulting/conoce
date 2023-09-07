@@ -1,4 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
+import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { PartidoService } from 'src/app/core/services/partidos.service';
+import { Partidos } from 'src/app/models/partidos';
+import { Coaliciones } from 'src/app/models/coaliciones';
+
 
 @Component({
   selector: 'app-partidos',
@@ -8,8 +13,20 @@ import { Component, ElementRef, ViewChild } from '@angular/core';
 export class PartidosComponent {
   nombrePartido: string = '';
   previewImage: string | ArrayBuffer | null = null;
+  partidos: Partidos[] = [];
+  selectedPartidos: any[] = [];
+  partidosSeleccionados: any[] = [];
+  coaliciones: Coaliciones[] = [];
+
 
   @ViewChild('imagenInput') imagenInput!: ElementRef;
+
+  constructor(private partidoService: PartidoService) { }
+
+  ngOnInit() {
+    this.obtenerPartidos();
+    this.obtenerCoaliciones();
+  }
 
   // Método para abrir el modal
   openModal() {
@@ -40,8 +57,32 @@ export class PartidosComponent {
     this.closeModal();
   }
 
-    // Método para guardar coalicion
-    guardarCoalicion() {
-      this.closeModal();
+  guardarCoalicion() {
+    this.partidosSeleccionados = this.selectedPartidos;
+    this.closeModal();
+  }
+
+  // Método para obtener y mostrar los partidos en la consola
+  obtenerPartidos() {
+    this.partidoService.obtenerPartidos().subscribe(
+      (partidos: Partidos[]) => {
+        this.partidos = partidos; // Asigna el array de partidos a la propiedad 'partidos'
+        console.log('Partidos obtenidos:', this.partidos);
+      },
+      (error) => {
+        console.error('Error al obtener partidos:', error);
+      }
+    );
+  }
+obtenerCoaliciones() {
+  this.partidoService.obtenerCoaliciones().subscribe(
+    (coaliciones: Coaliciones[]) => {
+      this.coaliciones = coaliciones;
+      console.log('Partidos obtenidos:', this.coaliciones);
+    },
+    (error) => {
+      console.error('Error al obtener partidos:', error);
     }
+  );
+}
 }

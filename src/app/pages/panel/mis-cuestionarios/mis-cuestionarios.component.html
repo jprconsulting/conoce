@@ -1,33 +1,43 @@
-<div>
-    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-google-form" (click)="handleClick()">
-    <i class="ti ti-plus me-1"></i>Agregar Formulario
-  </button>
-</div>
-
-<div class="modal modal-blur fade" id="modal-google-form" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Cuestionario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="row row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Cuestionarios</h3>
             </div>
-            <div class="modal-body">
-                <iframe id="googleForm" [src]="googleFormUrl" width="640" height="1035" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Cargando…</iframe>
+            <div class="card-body border-bottom py-3">
+                <div class="d-flex">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-google-form" (click)="handleClick()">
+                      <i class="ti ti-plus me-1"></i>Agregar Cuestionario
+                    </button>
+                </div>
+
+                <div class="modal modal-blur fade" id="modal-google-form" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Cuestionario</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <iframe id="googleForm" [src]="googleFormUrl" width="640" height="1035" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Cargando…</iframe>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 <!-- Mostrar el enlace a la página de edición de Google Forms -->
 <!-- En tu archivo HTML -->
-<div *ngIf="enlaceEdicionUsuario">
+<!-- <div *ngIf="enlaceEdicionUsuario">
     <p>Enlace de edición:</p>
     <a [href]="enlaceEdicionUsuario" target="_blank">{{ enlaceEdicionUsuario }}</a>
-</div>
+</div> -->
 
 
 <!-- Tabla para mostrar los ID de formulario y URLs de edición -->
-<table>
+<!-- <table>
     <thead>
         <tr>
             <th>ID del Formulario</th>
@@ -40,4 +50,4 @@
             <td>{{ formulario.urlEdicion }}</td>
         </tr>
     </tbody>
-</table>
+</table> -->
