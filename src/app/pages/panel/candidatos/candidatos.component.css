@@ -1,7 +1,6 @@
-textarea{
+textarea {
     resize: none;
 }
-
 
 .input-group {
     position: relative;
@@ -20,11 +19,26 @@ textarea{
     color: red;
 }
 
+
 /* styles.css (o styles.scss) o en el archivo CSS de tu componente */
+
+
 /* styles.css (o styles.scss) o en el archivo CSS de tu componente */
+
 .modal-dialog {
-    max-width: 95%; /* Ajusta el ancho máximo del modal al 90% del ancho de la pantalla */
-    
-  }
-  
-  
+    max-width: 95%;
+    /* Ajusta el ancho máximo del modal al 90% del ancho de la pantalla */
+}
+
+h3 {
+    text-align: center;
+}
+
+h4 {
+    text-align: right;
+    color: red;
+}
+
+h2 {
+    text-align: center;
+}

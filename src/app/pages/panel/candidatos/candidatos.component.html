@@ -339,10 +339,9 @@
                                             <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px;">
                                             <i class="ti ti-eraser"></i>
                                           </button>
-                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit">
+                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="abrirModal(CandidatosMaqu)">
                                             <i class="ti ti-eye"></i>
                                           </button>
-
                                         </div>
                                     </td>
                                 </tr>
@@ -404,28 +403,108 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Información del Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title" id="exampleModalLabel">Información del Usuario</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
+                <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
-                <!-- <p>Nombre: {{ usuarioSeleccionado?.nombre }}</p>
-                <p>Apellido Paterno: {{ usuarioSeleccionado?.apellidoPaterno }}</p>
-                <p>Apellido Materno: {{ usuarioSeleccionado?.apellidoMaterno }}</p>
-                <p>Edad: {{ usuarioSeleccionado?.Sobrenombre }}</p> -->
-                <p>Nombre: Luisa </p>
-                <p>Apellido Paterno: Gutiérrez</p>
-                <p>Apellido Materno: Martínez</p>
-                <p>Sobrenombre: Luisita</p>
-                <p>Nombre del Suplente: Carlos Fernández</p>
-                <p>Apellido Paterno del Suplente: Fernández</p>
-                <p>Apellido Materno del Suplente: Díaz</p>
-                <p>Partido: Partido de la Revolución Democrática</p>
-                <p>Tipo de Candidatura: Gobernatura</p>
-                <p>Estado: Tlaxcala</p>
+                <div class="row row-cards">
+                    <h3>INFORMACION REFERENTE AL CANDIDATO</h3>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Nombre:</h2>
+                                <h3>{{ usuarioSeleccionado?.nombre }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Apellido Paterno:</h2>
+                                <h3>{{ usuarioSeleccionado?.apellidoPaterno }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Apellido Materno:</h2>
+                                <h3>{{ usuarioSeleccionado?.apellidoMaterno }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Sobrenombre:</h2>
+                                <h3>{{ usuarioSeleccionado?.Sobrenombre }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row row-cards">
+                    <h3>INFORMACION REFERENTE AL SUPLENTE</h3>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Nombre:</h2>
+                                <h3>{{ usuarioSeleccionado?.NombreSuplente }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Apellido Paterno:</h2>
+                                <h3>{{ usuarioSeleccionado?.apellidoPatSup }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Apellido Materno:</h2>
+                                <h3>{{ usuarioSeleccionado?.apellidoMatSup }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row-cards">
+                    <h3>INFORMACION REFERENTE A LA DEMARCACIÓN</h3>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">TIPO DE CANDIDATURA:</h2>
+                                <h3>{{ usuarioSeleccionado?.TipoCandidatura }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">PARTIDO POLÍTICO:</h2>
+                                <h3>{{ usuarioSeleccionado?.Partido }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">ESTADO:</h2>
+                                <h3>{{ usuarioSeleccionado?.Estado }}</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+
+
 
 
 <!--MODAL EDITAR USUARIO-->
@@ -442,8 +521,7 @@
 
 
                     <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
-                    <p>Información referente al candidato</p>
-                    <p>Los campos marcados con un (*) son obligatorios</p>
+                    <h3>INFORMACION REFERENTE AL CANDIDATO</h3>
                     <div class="row">
                         <div class="col-lg-3">
                             <div class="mb-1">
@@ -484,7 +562,7 @@
                     </div>
 
                     <hr>
-                    <p>Información referente al suplente</p>
+                    <h3>INFORMACION REFERENTE AL SUPLENTE</h3>
                     <div class="row">
                         <div class="col-lg-4">
                             <div class="mb-1">
@@ -517,7 +595,7 @@
 
 
                     <hr>
-                    <p>Información referente a la demarcación</p>
+                    <h3>INFORMACION REFERENTE A LA DEMARCACIÓN</h3>
 
                     <div class="row">
                         <div class="col-lg-3">
@@ -682,24 +760,21 @@
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
-
-
-
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-link link-secondary" (click)="resetForm()">
-                          Limpiar
-                        </button>
-                <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="guardarUsuario()">
-                          Crear nuevo candidato
-                        </button>
+                <div class="row">
+                    <div class="col-md-6 col-lg-12">
+                        <h4>* CAMPOS OBLIGATORIOS</h4>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-link link-secondary" (click)="resetForm()">Limpiar</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="guardarUsuario()">Crear nuevo candidato</button>
             </div>
         </div>
+
     </div>
 </div>
 

@@ -66,11 +66,12 @@
 
 // Método para abrir el modal y mostrar la información del usuario.
 // Método para abrir el modal y mostrar la información del usuario.
-abrirModal(usuario: CandidatosMaqu) {
-  this.usuarioSeleccionado = usuario;
-  console.log('Usuario seleccionado:', this.usuarioSeleccionado);
-  // Abre el modal aquí, por ejemplo, usando jQuery o una biblioteca de modal de Bootstrap.
+abrirModal(candidato: CandidatosMaqu) {
+  this.usuarioSeleccionado = candidato;
+  console.log('Candidato seleccionado:', this.usuarioSeleccionado);
+  // Abre el modal aquí.
 }
+
 
 
   cerrarModal() {
