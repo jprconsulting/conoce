@@ -14,7 +14,8 @@ export class AsignacionComponent implements OnInit {
   variableDeControl: number = 1;
   people$: Observable<any[]> = new Observable<any[]>();
   selectedPeople: any[] = [];
-
+  candidato: CandidatosMaqu[] = [];
+  selectedCandidatos: any[] = [];
   // Declarar un FormGroup para tu formulario
   myForm: FormGroup;
 
@@ -27,6 +28,10 @@ export class AsignacionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.people$ = this.candidatoService.getCandidatos();
+    this.candidatoService.getCandidatos().subscribe(data => {
+      console.log(data); // Verifica si los datos se imprimen correctamente en la consola
+      this.candidato = data;
+    });
   }
+
 }
