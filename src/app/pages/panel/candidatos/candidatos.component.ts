@@ -4,7 +4,7 @@
   import { MensajeService } from 'src/app/core/services/mensaje.service';
   import { CandidatoService } from 'src/app/core/services/candidato.service';
   import { LoadingStates } from 'src/app/global/globals';
-  import { Candidato } from 'src/app/models/candidato';
+  import { CandidatosMaqu } from 'src/app/models/candidatosmaq';
   import { Subscription } from 'rxjs';
 
   @Component({
@@ -18,9 +18,11 @@
     mostrarSegundoDropdown: boolean = false; // Variable para mostrar/ocultar el segundo dropdown
 
     // Usuarios
-    candidato: Candidato[] = [];
+    candidato: CandidatosMaqu[] = [];
     isLoadingUsers = LoadingStates.neutro;
-    candidatoFilter: Candidato[] = [];
+    candidatoFilter: CandidatosMaqu[] = [];
+    usuarioSeleccionado: CandidatosMaqu | null = null;
+
     userForm: FormGroup;
       nombreTocado = false;
       ocupacionTocada = false;
@@ -62,8 +64,19 @@
       sobrenombreTocado = false;
       nombreSTocado = false;
 
+// Método para abrir el modal y mostrar la información del usuario.
+// Método para abrir el modal y mostrar la información del usuario.
+abrirModal(usuario: CandidatosMaqu) {
+  this.usuarioSeleccionado = usuario;
+  console.log('Usuario seleccionado:', this.usuarioSeleccionado);
+  // Abre el modal aquí, por ejemplo, usando jQuery o una biblioteca de modal de Bootstrap.
+}
 
 
+  cerrarModal() {
+    this.usuarioSeleccionado = null;
+    // Cierra el modal aquí.
+  }
     constructor(
       private candidatoService: CandidatoService,
       private fbGenerador: FormBuilder,
@@ -129,7 +142,7 @@
     }
 
     ngOnInit(): void {
-      this.candidatoService['refreshLisUsers'].subscribe(() => this.getListadocandidato());
+      // this.candidatoService['refreshLisUsers'].subscribe(() => this.getListadocandidato());
       this.getListadocandidato();
     }
 
@@ -211,7 +224,7 @@
         apMaternoS:'',
         nameSuplent:'',
 
-        
+
       });
 
       this.nombreTocado = false;
@@ -426,28 +439,28 @@
       }
     }
 
-    agregarUsuario() {
+    // agregarUsuario() {
 
-      if (this.userForm.valid) {
-        const nuevoCandidato = this.userForm.value;
-        console.log(nuevoCandidato)
+    //   if (this.userForm.valid) {
+    //     const nuevoCandidato = this.userForm.value;
+    //     console.log(nuevoCandidato)
 
-        this.candidatoService.postCandidatos(nuevoCandidato).subscribe(
-          (candidatoAgregado) => {
-            // El usuario se ha agregado correctamente, puedes realizar acciones adicionales si es necesario.
-            this.mensajeService.mensajeExito("Usuario agregado con éxito");
-            this.getListadocandidato();
-            this.resetForm();
-          },
-          (error) => {
-            // Manejo de errores en caso de que la adición de usuario falle.
-            this.mensajeService.mensajeExito("Usuario agregado con éxito");
-            this.getListadocandidato();
-            console.error(error);
-          }
-        );
-      }
-    }
+    //     this.candidatoService.postCandidatos(nuevoCandidato).subscribe(
+    //       (candidatoAgregado) => {
+    //         // El usuario se ha agregado correctamente, puedes realizar acciones adicionales si es necesario.
+    //         this.mensajeService.mensajeExito("Usuario agregado con éxito");
+    //         this.getListadocandidato();
+    //         this.resetForm();
+    //       },
+    //       (error) => {
+    //         // Manejo de errores en caso de que la adición de usuario falle.
+    //         this.mensajeService.mensajeExito("Usuario agregado con éxito");
+    //         this.getListadocandidato();
+    //         console.error(error);
+    //       }
+    //     );
+    //   }
+    // }
 
 
 

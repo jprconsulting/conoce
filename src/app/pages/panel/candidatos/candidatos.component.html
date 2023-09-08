@@ -40,7 +40,7 @@
                                     <div class="col-lg-3">
                                         <div class="mb-1">
                                             <label class="form-label">Nombre *</label>
-                                            <input type="text" class="form-control" formControlName="nameCandidate" [class.is-invalid]= "marcarNombreComoTocado()" />
+                                            <input type="text" class="form-control" formControlName="nameCandidate" [class.is-invalid]="marcarNombreComoTocado()" />
                                             <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('required')" class="error-message"></div>
                                             <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('pattern')" class="error-message"></div>
                                         </div>
@@ -49,13 +49,13 @@
                                         <div class="mb-1">
                                             <label class="form-label">Apellido paterno *</label>
                                             <input type="text" class="form-control" formControlName="apPaterno" [class.is-invalid]="marcarApPaternoTocado()" />
-                                                <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('required')" class="error-message"></div>
-                                                <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('pattern')" class="error-message"></div>
+                                            <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('required')" class="error-message"></div>
+                                            <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('pattern')" class="error-message"></div>
                                         </div>
                                     </div>
-                                     
-                                  
-                                <!--HASTA AQUI-->
+
+
+                                    <!--HASTA AQUI-->
 
                                     <div class="col-lg-3">
                                         <div class="mb-1">
@@ -75,8 +75,8 @@
                                     </div>
                                 </div>
 
-                                 <hr>
-                                 <p>Información referente al suplente</p>
+                                <hr>
+                                <p>Información referente al suplente</p>
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-1">
@@ -88,28 +88,28 @@
                                     </div>
                                     <div class="col-lg-4">
                                         <div class="mb-1">
-                                           <label class="form-label">Apellido paterno *</label>
-                                           <input type="text" class="form-control" formControlName="apPaternoS" [class.is-invalid]="marcarApPaternoSTocado()" />
-                                           <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('required')" class="error-message"></div>
-                                           <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('pattern')" class="error-message"></div>
+                                            <label class="form-label">Apellido paterno *</label>
+                                            <input type="text" class="form-control" formControlName="apPaternoS" [class.is-invalid]="marcarApPaternoSTocado()" />
+                                            <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('required')" class="error-message"></div>
+                                            <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('pattern')" class="error-message"></div>
                                         </div>
                                     </div>
-                                   
-                                 <!--HASTA AQUI-->
-                                 
+
+                                    <!--HASTA AQUI-->
+
                                     <div class="col-lg-4">
                                         <div class="mb-1">
                                             <label class="form-label">Apellido materno *</label>
                                             <input type="text" class="form-control" formControlName="apMaternoS" [class.is-invalid]="marcarApMaternoSTocado()" />
                                             <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('required')" class="error-message"></div>
                                             <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('pattern')" class="error-message"></div>
-                                       </div>
+                                        </div>
                                     </div>
                                 </div>
-                                   
- 
-                                   <hr>
-                                   <p>Información referente a la demarcación</p>
+
+
+                                <hr>
+                                <p>Información referente a la demarcación</p>
 
                                 <div class="row">
                                     <div class="col-lg-3">
@@ -144,7 +144,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3" >
+                                    <div class="col-lg-3">
                                         <div class="mb-1">
                                             <div class="mb-1">
                                                 <label class="form-label">Estado *</label>
@@ -192,7 +192,7 @@
 
                                     <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Diputaciones Locales' || userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
                                         <div class="mb-1">
-                                            <div class="mb-1" >
+                                            <div class="mb-1">
                                                 <label class="form-label">Distrito Local *</label>
                                                 <select class="form-select" formControlName="distritos" *ngIf="userForm.get('estados')?.value === 'Hidalgo' ">
                                                     <option value="">Selecciona una opción...</option>
@@ -232,13 +232,13 @@
                                                 <div *ngIf="userForm.get('distritos')?.value===''" class="error-message"></div>
                                             </div>
                                         </div>
-                                        
+
                                     </div>
-                                    
-                              
+
+
                                     <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'  ">
                                         <div class="mb-1">
-                                            <div class="mb-1" >
+                                            <div class="mb-1">
                                                 <label class="form-label">Ayuntamiento *</label>
                                                 <select class="form-select" formControlName="ayuntamiento" *ngIf="userForm.get('distritos')?.value === 'Distrito 1 | Pachuca de Soto' ">
                                                     <option value="null">Selecciona una opción...</option>
@@ -249,13 +249,13 @@
                                                     <option value="Zapotlan De Juarez">Zapotlán de Juárez</option>
                                                 </select>
                                                 <div *ngIf="userForm.get('ayuntamiento')?.value===''" class="error-message"></div>
-                                           
+
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
                                         <div class="mb-1">
-                                            <div class="mb-1" >
+                                            <div class="mb-1">
                                                 <label class="form-label">Comunidad *</label>
                                                 <select class="form-select" formControlName="comunidad" *ngIf="userForm.get('ayuntamiento')?.value === 'Pachuca' ">
                                                     <option value="">Selecciona una opción...</option>
@@ -276,18 +276,18 @@
                                     </div>
 
 
-                                
+
                                 </div>
 
-                               
-                               
+
+
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-link link-secondary" (click)="resetForm()">
                             Limpiar
                           </button>
-                            <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="agregarUsuario()">
+                            <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="guardarUsuario()">
                             Crear nuevo candidato
                           </button>
                         </div>
@@ -309,30 +309,40 @@
                                 <tr>
                                     <th class="w-1">Id</th>
                                     <th>Nombre</th>
-                                    <th>Cargo</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
                                     <th>Partido Politico</th>
+                                    <th>Tipo de candidatura</th>
+                                    <th>Estado</th>
                                     <th class="text-center" style="width: 7%">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
                                 <tr></tr>
-                                <tr *ngFor="let usuario of candidatoFilter; let pointIndex = index">
+                                <tr *ngFor="let CandidatosMaqu of candidato; let pointIndex = index">
                                     <td>{{ pointIndex + 1 }}</td>
-                                    <td>{{ usuario.nameCandidate }}</td>
-                                    <td>{{ usuario.position }}</td>
-                                    <td>{{ usuario.actorPolitico }}</td>
+                                    <td>{{ CandidatosMaqu.nombre }}</td>
+                                    <td>{{ CandidatosMaqu.apellidoPaterno }}</td>
+                                    <td>{{ CandidatosMaqu.apellidoMaterno }}</td>
+                                    <td>{{ CandidatosMaqu.Partido }}</td>
+                                    <td>{{ CandidatosMaqu.TipoCandidatura }}</td>
+                                    <td>{{ CandidatosMaqu.Estado }}</td>
                                     <td>
                                         <div class="d-flex justify-content-between">
                                             <button class="btn btn-warning btn-icon btn-sm">
                                             <i
                                               class="ti ti-edit"
                                               data-bs-toggle="modal"
-                                              data-bs-target="#myModal"
+                                              data-bs-target="#modal-report-edit"
                                             ></i>
                                           </button>
-                                            <button class="btn btn-danger btn-icon btn-sm">
+                                            <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px;">
                                             <i class="ti ti-eraser"></i>
                                           </button>
+                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit">
+                                            <i class="ti ti-eye"></i>
+                                          </button>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -389,116 +399,308 @@
     </div>
 </div>
 
-<!--MODAL AGREGAR USUARIO-->
-<div class="modal modal-blur fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+<!-- Modal para mostrar la información del usuario -->
+<div class="modal fade" id="myModaledit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Editar Usuario</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Información del Usuario</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <!-- Inicio del formulario -->
-                <form [formGroup]="userForm" (ngSubmit)="guardarUsuario()">
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Nombre</label>
-                                <input type="text" class="form-control" formControlName="nombre" />
-                                <div *ngIf="userForm.get('nombre')?.hasError('required')">
-                                    El nombre es requerido.
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Apellidos</label>
-                                <input type="text" class="form-control" formControlName="nombre" />
-                                <div *ngIf="userForm.get('nombre')?.hasError('required')">
-                                    Los apellidos son requeridos.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Correo Electrónico</label>
-                                <input type="text" class="form-control" formControlName="correo" />
-                                <div *ngIf="userForm.get('correo')?.hasError('required')">
-                                    El correo es requerido.
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Contraseña</label>
-                                <input type="password" class="form-control" formControlName="contraseña" />
-                                <div *ngIf="userForm.get('contraseña')?.hasError('required')">
-                                    La contraseña es requerida.
-                                </div>
-                                <div *ngIf="userForm.get('contraseña')?.hasError('minlength')">
-                                    La contraseña debe tener al menos 8 caracteres.
-                                </div>
-                                <div *ngIf="userForm.get('contraseña')?.hasError('pattern')">
-                                    La contraseña debe contener al menos una letra mayúscula y un número.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label class="form-label">Rol</label>
-                                <select class="form-select" formControlName="rol">
-                <option value="1">Administrador</option>
-                <option value="2">Usuario</option>
-                <option value="3">Candidato</option>
-              </select>
-                            </div>
-                        </div>
-                        <div class="col-lg-6">
-                            <div class="mb-3">
-                                <label for="estadoActivo" class="form-label">Estatus</label>
-                                <label class="form-check form-switch checkbox-verde">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="estadoActivo"
-                />
-                <span
-                  class="form-check-label"
-                  [ngClass]="{
-                    'text-success':
-                      userForm.get('estadoActivo')?.value === true,
-                    'text-danger':
-                      userForm.get('estadoActivo')?.value === false
-                  }"
-                >
-                  {{
-                    userForm.get("estadoActivo")?.value === true
-                      ? "Activo"
-                      : "Inactivo"
-                  }}
-                </span>
-              </label>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Fin del formulario -->
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">
-        Limpiar
-      </button>
-                <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
-        Actualizar usuario
-      </button>
+                <!-- <p>Nombre: {{ usuarioSeleccionado?.nombre }}</p>
+                <p>Apellido Paterno: {{ usuarioSeleccionado?.apellidoPaterno }}</p>
+                <p>Apellido Materno: {{ usuarioSeleccionado?.apellidoMaterno }}</p>
+                <p>Edad: {{ usuarioSeleccionado?.Sobrenombre }}</p> -->
+                <p>Nombre: Luisa </p>
+                <p>Apellido Paterno: Gutiérrez</p>
+                <p>Apellido Materno: Martínez</p>
+                <p>Sobrenombre: Luisita</p>
+                <p>Nombre del Suplente: Carlos Fernández</p>
+                <p>Apellido Paterno del Suplente: Fernández</p>
+                <p>Apellido Materno del Suplente: Díaz</p>
+                <p>Partido: Partido de la Revolución Democrática</p>
+                <p>Tipo de Candidatura: Gobernatura</p>
+                <p>Estado: Tlaxcala</p>
             </div>
         </div>
     </div>
 </div>
+
+
+<!--MODAL EDITAR USUARIO-->
+<div class="modal modal-blur fade" id="modal-report-edit" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Editar Candidato</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"> </button>
+            </div>
+            <div class="modal-body">
+                <!-- Inicio del formulario -->
+                <form [formGroup]="userForm" (ngSubmit)="guardarUsuario()">
+
+
+                    <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
+                    <p>Información referente al candidato</p>
+                    <p>Los campos marcados con un (*) son obligatorios</p>
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="mb-1">
+                                <label class="form-label">Nombre *</label>
+                                <input type="text" class="form-control" formControlName="nameCandidate" [class.is-invalid]="marcarNombreComoTocado()" />
+                                <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('required')" class="error-message"></div>
+                                <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('pattern')" class="error-message"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-1">
+                                <label class="form-label">Apellido paterno *</label>
+                                <input type="text" class="form-control" formControlName="apPaterno" [class.is-invalid]="marcarApPaternoTocado()" />
+                                <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('required')" class="error-message"></div>
+                                <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('pattern')" class="error-message"></div>
+                            </div>
+                        </div>
+
+
+                        <!--HASTA AQUI-->
+
+                        <div class="col-lg-3">
+                            <div class="mb-1">
+                                <label class="form-label">Apellido materno *</label>
+                                <input type="text" class="form-control" formControlName="apMaterno" [class.is-invalid]="marcarApMaternoTocado()" />
+                                <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('required')" class="error-message"></div>
+                                <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('pattern')" class="error-message"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-1">
+                                <label class="form-label">Sobrenombre *</label>
+                                <input type="text" class="form-control" formControlName="sobrenombre" [class.is-invalid]="marcarSobrenombreTocado()" />
+                                <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('required')" class="error-message"></div>
+                                <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('pattern')" class="error-message"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+                    <p>Información referente al suplente</p>
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div class="mb-1">
+                                <label class="form-label">Nombre del suplente *</label>
+                                <input type="text" class="form-control" formControlName="nameSuplent" [class.is-invalid]="marcarNombreSComoTocado()" />
+                                <div *ngIf="nombreSTocado && userForm.get('nameSuplent')?.hasError('required')" class="error-message"></div>
+                                <div *ngIf="nombreSTocado && userForm.get('nameSuplent')?.hasError('pattern')" class="error-message"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="mb-1">
+                                <label class="form-label">Apellido paterno *</label>
+                                <input type="text" class="form-control" formControlName="apPaternoS" [class.is-invalid]="marcarApPaternoSTocado()" />
+                                <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('required')" class="error-message"></div>
+                                <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('pattern')" class="error-message"></div>
+                            </div>
+                        </div>
+
+                        <!--HASTA AQUI-->
+
+                        <div class="col-lg-4">
+                            <div class="mb-1">
+                                <label class="form-label">Apellido materno *</label>
+                                <input type="text" class="form-control" formControlName="apMaternoS" [class.is-invalid]="marcarApMaternoSTocado()" />
+                                <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('required')" class="error-message"></div>
+                                <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('pattern')" class="error-message"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <hr>
+                    <p>Información referente a la demarcación</p>
+
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="mb-1">
+                                <div class="mb-1">
+                                    <label class="form-label">Partido Politíco *</label>
+                                    <select class="form-select" formControlName="partido">
+                                                  <option value="">Selecciona una opción...</option>
+                                                  <option value="PRI">Partido Revolucionario Institucional (PRI)</option>
+                                                  <option value="PAN">Partido Acción Nacional (PAN)</option>
+                                                  <option value="MORENA">Movimiento Regeneración Nacional (MORENA)</option>
+                                                  <option value="PRD">Partido de la Revolución Democrática (PRD)</option>
+                                                  <option value="PT">Partido del Trabajo (PT)</option>
+                                              </select>
+                                    <div *ngIf="userForm.get('partido')?.value===''" class="error-message"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3">
+                            <div class="mb-1">
+                                <div class="mb-1">
+                                    <label class="form-label">Tipo de candidatura *</label>
+                                    <select class="form-select" formControlName="eleccion">
+                                              <option value="">Selecciona una opción...</option>
+                                              <option value="Gobernatura">Gobernatura</option>
+                                              <option value="Diputaciones Locales">Diputaciones Locales</option>
+                                              <option value="Ayuntamiento">Ayuntamiento</option>
+                                              <option value="Presidencias de comunidad">Presidencias de comunidad</option>
+                                              </select>
+                                    <div *ngIf="userForm.get('eleccion')?.value===''" class="error-message"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <div class="mb-1">
+                                <div class="mb-1">
+                                    <label class="form-label">Estado *</label>
+                                    <select class="form-select" formControlName="estados">
+                                                  <option value="">Selecciona una opción...</option>
+                                                  <option value="Aguascalientes">Aguascalientes</option>
+                                                  <option value="Baja California">Baja California</option>
+                                                  <option value="Baja California Sur">Baja California Sur</option>
+                                                  <option value="Campeche">Campeche</option>
+                                                  <option value="Chiapas">Chiapas</option>
+                                                  <option value="Chihuahua">Chihuahua</option>
+                                                  <option value="Ciudad de México">Ciudad de México</option>
+                                                  <option value="Coahuila">Coahuila</option>
+                                                  <option value="Colima">Colima</option>
+                                                  <option value="Durango">Durango</option>
+                                                  <option value="Estado de México">Estado de México</option>
+                                                  <option value="Guanajuato">Guanajuato</option>
+                                                  <option value="Guerrero">Guerrero</option>
+                                                  <option value="Hidalgo">Hidalgo</option>
+                                                  <option value="Jalisco">Jalisco</option>
+                                                  <option value="Michoacán">Michoacán</option>
+                                                  <option value="Morelos">Morelos</option>
+                                                  <option value="Nayarit">Nayarit</option>
+                                                  <option value="Nuevo León">Nuevo León</option>
+                                                  <option value="Oaxaca">Oaxaca</option>
+                                                  <option value="Puebla">Puebla</option>
+                                                  <option value="Querétaro">Querétaro</option>
+                                                  <option value="Quintana Roo">Quintana Roo</option>
+                                                  <option value="San Luis Potosí">San Luis Potosí</option>
+                                                  <option value="Sinaloa">Sinaloa</option>
+                                                  <option value="Sonora">Sonora</option>
+                                                  <option value="Tabasco">Tabasco</option>
+                                                  <option value="Tamaulipas">Tamaulipas</option>
+                                                  <option value="Tlaxcala">Tlaxcala</option>
+                                                  <option value="Veracruz">Veracruz</option>
+                                                  <option value="Yucatán">Yucatán</option>
+                                                  <option value="Zacatecas">Zacatecas</option>
+
+                                              </select>
+                                    <div *ngIf="userForm.get('estados')?.value===''" class="error-message"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Diputaciones Locales' || userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
+                            <div class="mb-1">
+                                <div class="mb-1">
+                                    <label class="form-label">Distrito Local *</label>
+                                    <select class="form-select" formControlName="distritos" *ngIf="userForm.get('estados')?.value === 'Hidalgo' ">
+                                                  <option value="">Selecciona una opción...</option>
+                                                  <option value="Distrito 1 | Pachuca de Soto">Distrito 1 | Pachuca de Soto</option>
+                                                  <option value="Distrito 2 | Tulancingo de Bravo">Distrito 2 | Tulancingo de Bravo</option>
+                                                  <option value="Distrito 3 | Tula de Allende">Distrito 3 | Tula de Allende</option>
+                                                  <option value="Distrito 4 | Ixmiquilpan">Distrito 4 | Ixmiquilpan</option>
+                                                  <option value="Distrito 5 | Huejutla de Reyes">Distrito 5 | Huejutla de Reyes</option>
+                                                  <option value="Distrito 6 | Actopan">Distrito 6 | Actopan</option>
+                                                  <option value="Distrito 7 | Tepeji del Río de Ocampo">Distrito 7 | Tepeji del Río de Ocampo</option>
+                                                  <option value="Distrito 8 | Zimapán">Distrito 8 | Zimapán</option>
+                                                  <option value="Distrito 9 | Apan">Distrito 9 | Apan</option>
+                                                  <option value="Distrito 10 | Tizayuca">Distrito 10 | Tizayuca</option>
+                                                  <option value="Distrito 11 | Tepeapulco">Distrito 11 | Tepeapulco</option>
+                                                  <option value="Distrito 12 | Tlaxcoapan">Distrito 12 | Tlaxcoapan</option>
+                                                  <option value="Distrito 13 | Mineral de la Reforma">Distrito 13 | Mineral de la Reforma</option>
+                                                  <option value="Distrito 14 | Mixquiahuala de Juárez">Distrito 14 | Mixquiahuala de Juárez</option>
+                                                  <option value="Distrito 15 | Atotonilco el Grande">Distrito 15 | Atotonilco el Grande</option>
+                                                  <option value="Distrito 16 | Santiago Tulantepec de Lugo Guerrero">Distrito 16 | Santiago Tulantepec de Lugo Guerrero</option>
+                                                  <option value="Distrito 17 | Singuilucan">Distrito 17 | Singuilucan</option>
+                                                  <option value="Distrito 18 | Ajacuba">Distrito 18 | Ajacuba</option>
+                                                  <option value="Distrito 19 | Tlahuelilpan">Distrito 19 | Tlahuelilpan</option>
+                                                  <option value="Distrito 20 | Metepec">Distrito 20 | Metepec</option>
+                                                  <option value="Distrito 21 | Cuautepec de Hinojosa">Distrito 21 | Cuautepec de Hinojosa</option>
+                                                  <option value="Distrito 22 | San Agustín Tlaxiaca">Distrito 22 | San Agustín Tlaxiaca</option>
+                                                  <option value="Distrito 23 | Tezontepec de Aldama">Distrito 23 | Tezontepec de Aldama</option>
+                                                  <option value="Distrito 24 | Chapantongo">Distrito 24 | Chapantongo</option>
+                                                  <option value="Distrito 25 | Tepetitlán">Distrito 25 | Tepetitlán</option>
+                                                  <option value="Distrito 26 | Acaxochitlán">Distrito 26 | Acaxochitlán</option>
+                                                  <option value="Distrito 27 | Tecozautla">Distrito 27 | Tecozautla</option>
+                                                  <option value="Distrito 28 | San Salvador">Distrito 28 | San Salvador</option>
+                                                  <option value="Distrito 29 | Huichapan">Distrito 29 | Huichapan</option>
+                                                  <option value="Distrito 30 | Pacula">Distrito 30 | Pacula</option>
+                                                  <option value="Distrito 31 | Atitalaquia">Distrito 31 | Atitalaquia</option>
+                                                  <option value="Distrito 32 | Cardonal">Distrito 32 | Cardonal</option>
+                                              </select>
+                                    <div *ngIf="userForm.get('distritos')?.value===''" class="error-message"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'  ">
+                            <div class="mb-1">
+                                <div class="mb-1">
+                                    <label class="form-label">Ayuntamiento *</label>
+                                    <select class="form-select" formControlName="ayuntamiento" *ngIf="userForm.get('distritos')?.value === 'Distrito 1 | Pachuca de Soto' ">
+                                                  <option value="null">Selecciona una opción...</option>
+                                                  <option value="Pachuca">Pachuca de Soto</option>
+                                                  <option value="Mineral Del Chico">Mineral del Chico</option>
+                                                  <option value="Mineral Del Monte">Mineral del Monte</option>
+                                                  <option value="Epazoyucan">Epazoyucan</option>
+                                                  <option value="Zapotlan De Juarez">Zapotlán de Juárez</option>
+                                              </select>
+                                    <div *ngIf="userForm.get('ayuntamiento')?.value===''" class="error-message"></div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
+                            <div class="mb-1">
+                                <div class="mb-1">
+                                    <label class="form-label">Comunidad *</label>
+                                    <select class="form-select" formControlName="comunidad" *ngIf="userForm.get('ayuntamiento')?.value === 'Pachuca' ">
+                                                  <option value="">Selecciona una opción...</option>
+                                                  <option value="Centro">Centro</option>
+                                                  <option value="RealDelMonte">Real del Monte</option>
+                                                  <option value="VillasDePachuca">Villas de Pachuca</option>
+                                                  <option value="CerroDeLaCruz">Cerro de la Cruz</option>
+                                                  <option value="LaPaz">La Paz</option>
+                                                  <option value="SanCayetano">San Cayetano</option>
+                                                  <option value="Doctores">Doctores</option>
+                                                  <option value="NuevaImagen">Nueva Imagen</option>
+                                                  <option value="LosTuzos">Los Tuzos</option>
+                                                  <option value="ExHaciendaDeCoscotitlan">Ex-Hacienda de Coscotitlán</option>
+                                              </select>
+                                    <div *ngIf="userForm.get('comunidad')?.value===''" class="error-message"></div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-link link-secondary" (click)="resetForm()">
+                          Limpiar
+                        </button>
+                <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="guardarUsuario()">
+                          Crear nuevo candidato
+                        </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--FIN MODAL-->

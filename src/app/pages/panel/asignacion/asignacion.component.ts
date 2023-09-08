@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CandidatoService } from 'src/app/core/services/candidato.service';
 import { Observable } from 'rxjs';
+import { CandidatosMaqu } from 'src/app/models/candidatosmaq';
+
 
 @Component({
   selector: 'app-asignacion',
