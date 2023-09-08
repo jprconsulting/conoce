@@ -411,16 +411,19 @@ stroke-linejoin="round"
                   <label for="comunidadId" class="form-label">ID:</label>
                   <input type="number" id="comunidadId" class="form-control" [(ngModel)]="comunidad.id" name="id" required>
                 </div> -->
-                <div class="mb-3">
+                
+                <div class="row mb-3">
+                  <div class="col-md-6">
                   <label for="comunidadNombre" class="form-label">Nombre:</label>
                   <input type="text" id="comunidadNombre" class="form-control" [(ngModel)]="comunidad.nombre" formControlName="nombreC" [class.is-invalid]="marcarNombreCTocado()">
                   <div *ngIf="nombreCTocado && comunidadForm.get('nombreC')?.hasError('required')" class="error-message"></div>
                 </div>
-                <div class="mb-3">
+                <div class="col-md-6">
                   <label for="comunidadAcronimo" class="form-label">Acrónimo:</label>
                   <input type="text" id="comunidadAcronimo" class="form-control" [(ngModel)]="comunidad.acronimo" formControlName="acronimoC" [class.is-invalid]="marcarAcronimoCTocado()">
                   <div *ngIf="acronimoCTocado && comunidadForm.get('acronimoC')?.hasError('required')" class="error-message"></div>
                 </div>
+              </div>
                 <div class="mb-3">
                 
                   <div class="row">

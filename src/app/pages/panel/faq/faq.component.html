@@ -22,10 +22,10 @@
                             <div id="faq-2" class="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
-                                        <button class="accordion-button" data-bs-toggle="collapse" 
+                                        <button class="accordion-button collapsed" data-bs-toggle="collapse" 
                                         data-bs-target="#faq-2-1"><h3><i class="ti ti-home-2"></i> Home </h3></button>
                                     </div>
-                                    <div id="faq-2-1" class="accordion-collapse collapse show" role="tabpanel" data-bs-parent="#faq-2">
+                                    <div id="faq-2-1" class="accordion-collapse collapse collapsed" role="tabpanel" data-bs-parent="#faq-2">
                                         <div class="accordion-body pt-0">
                                             <div>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias dignissimos dolorum ea est eveniet, excepturi illum in iste iure maiores nemo recusandae rerum saepe sed, sunt totam! Explicabo,
@@ -38,6 +38,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
                                         <button class="accordion-button collapsed" data-bs-toggle="collapse" 
@@ -195,7 +196,120 @@
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
                                         <button class="accordion-button collapsed" data-bs-toggle="collapse" 
-                                        data-bs-target="#faq-2-3"><h3><i class="ti ti-users-group"></i> Formularios Candidatos </h3></button>
+                                        data-bs-target="#faq-2-7"><h3><i class="ti ti-user-check"></i> Asignación de Formulario </h3></button>
+                                    </div>
+                                    <div id="faq-2-7" class="accordion-collapse collapse collapsed" role="tabpanel" data-bs-parent="#faq-2">
+                                        <div class="accordion-body pt-0">
+                                            <div>
+                                                <h3>Título: Guía para la asignación de formularios</h3>
+
+                                            <h4>Paso 1: Accede a la opción "Asignación de Formulario"</h4>
+                                            <p>En el menú principal, busca y selecciona la opción <a class="nav-link" [routerLink]="['usuarios']">"Asignación de Formulario".</a></p>
+
+                                            <h4>Paso 2: Agregar una asignación</h4>
+                                            <p>Aparecerá un botón que dice "Agregar asignación". Haz clic en él.</p>
+
+                                            <h4>Paso 3: Configura el formulario y los usuarios</h4>
+                                            <p>Una vez que hayas hecho clic en "Agregar asignación", se abrirá un formulario con dos secciones.</p>
+                                            <ul>
+                                                <li><strong>Sección "Formulario":</strong> Selecciona el formulario que deseas asignar.</li>
+                                                <li><strong>Sección "Usuarios":</strong> Elige a los usuarios a quienes deseas asignar el formulario.</li>
+                                            </ul>
+                                            <p><strong>Nota:</strong> Si seleccionaste por error a un usuario que no deseas asignar, puedes eliminarlo haciendo clic en la "x" junto a su nombre. También puedes hacer clic en el botón "Limpiar" para reiniciar el formulario desde cero.</p>
+
+                                            <h4>Paso 4: Verificación y Guardado</h4>
+                                            <p>Se recomienda verificar que todo esté correcto antes de guardar. Una vez que estés seguro de tu selección, haz clic en el botón "Guardar".</p>
+
+                                            <h4>Paso 5: Confirmación de la asignación</h4>
+                                            <p>Serás redirigido al menú de "Asignación de Formulario", donde podrás ver todas las asignaciones en forma de menú. Para confirmar o verificar que se guardó correctamente, tienes dos opciones:</p>
+                                            <ol>
+                                                <li>Búsqueda en el menú: Búscalo en el menú.</li>
+                                                <li>Utiliza el buscador: Utiliza el buscador con el nombre del formulario.</li>
+                                            </ol>
+
+                                            <p>¡Listo! Ahora puedes seguir esta guía para asignar un formulario de manera efectiva.</p>
+
+                                            <h3>Instrucciones para eliminar una asignación de formularios:</h3>
+
+                                            <h4>Paso 1: Navegar a la página de Asignación de Formularios</h4>
+                                            <p>Dentro del menú, busca y selecciona la opción "Formularios de Asignación".</p>
+
+                                            <h4>Paso 2: Encuentra la asignación de formularios que deseas eliminar</h4>
+                                            <p>Tienes dos métodos para encontrar la asignación de formularios:</p>
+                                            <p><strong>Método 1:</strong> Explora la lista de asignaciones en el menú.</p>
+                                            <p><strong>Método 2:</strong> Utiliza el buscador en la esquina superior derecha. Ingresa el nombre completo de la asignación.</p>
+
+                                            <h4>Paso 3: Accede a las acciones disponibles para la asignación de formularios</h4>
+                                            <p>Dirígete a la parte derecha de la pantalla donde se encuentran las acciones disponibles para esa asignación.</p>
+
+                                            <h4>Paso 4: Haz clic en el botón "Eliminar"</h4>
+                                            <p>Observarás un botón rojo identificado como "Eliminar". Haz clic en este botón.</p>
+
+                                            <h4>Paso 5: Confirma la eliminación</h4>
+                                            <p>Al hacer clic en el botón de eliminar, se abrirá una ventana de confirmación.</p>
+
+                                            <h4>Paso 6: Selecciona la opción "Sí"</h4>
+                                            <p>Si estás seguro de eliminar la asignación de formularios, selecciona la opción "Sí".</p>
+
+                                            <h4>Paso 7: Opción "No"</h4>
+                                            <p>Si tienes dudas o quieres cancelar la acción, elige la opción "No".</p>
+
+                                            <h4>Paso 8: Confirmación final</h4>
+                                            <p>Después de confirmar la eliminación, la asignación de formularios ya no estará disponible en el menú ni en los resultados de búsqueda.</p>
+
+                                            <h4>Paso 9: Asignación de formularios eliminada con éxito</h4>
+                                            <p>Esto confirma que la asignación de formularios ha sido eliminada con éxito del sistema.</p>
+
+                                            <h3>Instrucciones para editar una asignación de formularios:</h3>
+
+                                                <h4>Paso 1: Navegar a la página de Formularios de Asignación</h4>
+                                                <p>Dentro del menú, busca y selecciona la opción: "Formularios de Asignación".</p>
+                                               
+
+                                                <h4>Paso 2: Busca la asignación de formularios que deseas editar:</h4>
+                                                <ol>
+                                                <li><b>Primer método de búsqueda:</b></li>
+                                                <p>En el menú de asignaciones, busca la lista de todas las asignaciones de formularios.</p>
+                                                <li><b>Segundo método de búsqueda:</b></li>
+                                                <p>En la esquina superior derecha, utiliza el buscador y escribe el nombre completo de la asignación de formularios.</p>
+                                            </ol>
+                                                <h4>Paso 3: Una vez ubicada la asignación de formularios, dirígete a la parte derecha donde encontrarás las acciones.</h4>
+
+                                                <h4>Paso 4: Verás un botón amarillo, haz clic en él.</h4>
+
+                                                <h4>Paso 5: Se abrirá un formulario similar al que se utiliza para agregar una asignación de formularios nueva. Sin embargo, este formulario ya estará rellenado con los datos actuales de la asignación de formularios.</h4>
+
+                                                <h4>Paso 6: Si solo necesitas modificar un campo específico:</h4>
+                                                <ul>
+                                                <li>Localiza el campo que deseas cambiar.</li>
+                                                <li>Realiza la edición necesaria.</li>
+                                            </ul>
+                                                <h4>Paso 7: Si deseas cambiar todos los campos, puedes hacer lo siguiente:</h4>
+                                                <p>Busca y haz clic en el botón "Limpiar" en la parte inferior del formulario. Esto borrará todos los datos actuales. Rellena el formulario con los nuevos datos correctos.</p>
+
+                                                <h4>Paso 8: Una vez hayas realizado todas las ediciones necesarias, busca el botón "Actualizar Asignación de Formularios" en el formulario y haz clic en él.</h4>
+
+                                                <h4>Paso 9: El formulario se cerrará automáticamente y los cambios realizados se habrán actualizado en el perfil de la asignación de formularios.</h4>
+
+                                                <h4>Paso 10: Si deseas confirmar que los cambios se realizaron correctamente, tienes dos opciones:</h4>
+                                                <ul>
+                                                <li>Busca la asignación de formularios en el menú de asignaciones donde se encuentran todas las asignaciones de formularios.</li>
+                                                <li>Utiliza el buscador en la esquina superior derecha e ingresa el nombre completo de la asignación de formularios para localizarla.</li>
+                                            </ul>
+                                                <p>¡Listo! Has editado exitosamente los detalles de una asignación de formularios en el sistema.</p>
+
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="accordion-item">
+                                    <div class="accordion-header" role="tab">
+                                        <button class="accordion-button collapsed" data-bs-toggle="collapse" 
+                                        data-bs-target="#faq-2-3"><h3><i class="ti ti-podium" ></i> Formularios Candidatos </h3></button>
                                     </div>
                                     <div id="faq-2-3" class="accordion-collapse collapse" role="tabpanel" data-bs-parent="#faq-2">
                                         <div class="accordion-body pt-0">
@@ -219,58 +333,44 @@
                                                 <img src="/assets/documents/agregar_can.jpeg" alt="">
                                             </div>
 
-                                            <h4>Paso 4: Información del Candidato</h4>
+                                            <h4>Paso 4: Información referente al Candidato</h4>
                                             <p>Completa los campos obligatorios en la sección "Información referente al candidato":</p>
                                                 <ul>
                                                     <li>Nombre(s)</li>
-                                                    <li>Apellidos</li>
-                                                    <li>Ocupación</li>
-                                                    <li>Partido político</li>
-                                                    <li>Ubicación en Google Maps</li>
-                                                    <li>Dirección</li>
-                                                    <li>Teléfono</li>
-                                                    <li>Correo electrónico</li>
-                                                    <li>Enlaces de redes sociales: Facebook, Instagram, Twitter, YouTube, TikTok</li>
-                                                    <li>WhatsApp</li>
-                                                    <li>Eslogan</li>
-                                                    <li>Edad</li>
-                                                    <li>Estado</li>
-                                                    <li>Género</li>
+                                                    <li>Apellido paterno</li>
+                                                    <li>Apellido materno</li>
+                                                    <li>Sobrenombre</li>
+                                                    
                                                 </ul>
                                             
-                                                <div class="text-center">
+                                                <!-- <div class="text-center">
                                                     <img src="assets/documents/formu_can.jpeg" width="600px" alt="">
-                                                </div>
+                                                </div> -->
 
-                                            <h4>Paso 5: Información del Suplente</h4>
+                                            <h4>Paso 5: Información referente al Suplente</h4>
                                             <p>Completa los campos en la sección "Información referente al suplente":</p>
                                                 <ul>
                                                     <li>Nombre del suplente</li>
-                                                    <li>Apellidos del suplente</li>
-                                                    <li>Edad del suplente</li>
-                                                    <li>Estado del suplente</li>
-                                                    <li>Género del suplente</li>
+                                                    <li>Apellido paterno del suplente</li>
+                                                    <li>Apellido materno del suplente</li>
+                                                    
                                                 </ul>
                                             
-                                                <div class="text-center">
+                                                <!-- <div class="text-center">
                                                     <img src="assets/documents/formu_can_su.jpeg" width="600px" alt="">
-                                                </div>
+                                                </div> -->
 
-                                            <h4>Paso 6: Información de la Candidatura</h4>
-                                            <p>Completa los campos en la sección "Información con respecto a la candidatura":</p>
+                                            <h4>Paso 6: Información referente a la demarcación</h4>
+                                            <p>Completa los campos en la sección "Información referente a la demarcación":</p>
                                                 <ul>
-                                                    <li>Historia del candidato</li>
-                                                    <li>Carrera del candidato</li>
-                                                    <li>Razón para postularse</li>
-                                                    <li>Nombre de la propuesta 1 y su descripción</li>
-                                                    <li>Nombre de la propuesta 2 y su descripción</li>
-                                                    <li>Nombre de la propuesta 3 y su descripción</li>
-                                                    <li>Trayectoria y grado académico</li>
+                                                    <li>Partido Politíco </li>
+                                                    <li>Tipo de candidatura</li>
+                                                    <li>Estado</li>
                                                 </ul>
                                             
-                                                <div class="text-center">
+                                                <!-- <div class="text-center">
                                                     <img src="assets/documents/formu_can_pro.jpeg" width="600px" alt="">
-                                                </div>
+                                                </div> -->
 
                                             <h4>Paso 7: Verificación y Creación</h4>
                                             <p>Revisa cuidadosamente todos los campos y, si son correctos, ve al final del formulario y haz clic en "Crear nuevo candidato".</p>
@@ -379,9 +479,67 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
-                                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq-3-3"><h3><i class="ti ti-file-description"></i>Mis Formularios</h3></button>
+                                        <button class="accordion-button  collapsed" data-bs-toggle="collapse" 
+                                        data-bs-target="#faq-2-8"><h3><i class="ti ti-map-pin"></i> Demarcaciones </h3></button>
+                                    </div>
+                                    <div id="faq-2-8" class="accordion-collapse collapse " role="tabpanel" data-bs-parent="#faq-2">
+                                        <div class="accordion-body pt-0">
+                                            <div>
+                                                <h3>Instrucciones para Agregar una Demarcación</h3>
+
+                                                <h4>Paso 1: Accede a la Página de Demarcaciones</h4>
+                                                <p>Dirígete al menú principal y haz clic en la opción "Demarcaciones". Una vez allí, notarás que se divide en tres secciones.</p>
+                                                
+                                                <h4>Paso 2: Agregar un Distrito Local</h4>
+                                                <ol>
+                                                <li>En la primera sección, llamada "Distrito Local", haz clic en la opción "Agregar Distrito Local".</li>
+                                                <li>Serás redirigido a un formulario donde deberás completar los campos obligatorios, que incluyen el nombre y el acrónimo del distrito local.</li>
+                                                <li>Selecciona si el distrito local está activo o inactivo.</li>
+                                                <li>Elige el estado en el que se encuentra ubicado el distrito local.</li>
+                                                <li>Si tienes una petición externa relacionada, completa el campo "Ext-pet". De lo contrario, puedes dejarlo en blanco, ya que no es obligatorio.</li>
+                                                <li>Finalmente, haz clic en el botón "Crear nuevo distrito local".</li>
+                                                </ol>
+                                                <h4>Paso 3: Verificar el Distrito Local</h4>
+                                                <p>Una vez que hayas completado el proceso, verifica que se haya guardado. Puedes hacerlo de dos maneras: buscándolo en la sección correspondiente o utilizando el buscador ubicado en la parte superior del menú. Simplemente introduce el nombre para encontrarlo.</p>
+                                                
+                                                <h4>Paso 4: Agregar un Ayuntamiento</h4>
+                                                <ol>
+                                                <li>En la segunda sección, llamada "Ayuntamiento", haz clic en la opción "Agregar Ayuntamiento".</li>
+                                                <li>Serás redirigido a un formulario similar al anterior, donde deberás completar los campos requeridos, como el nombre y el acrónimo del ayuntamiento.</li>
+                                                <li>Selecciona el estado en el que se encuentra ubicado el ayuntamiento.</li>
+                                                <li>Asigna el ayuntamiento al distrito local correspondiente.</li>
+                                                <li>Si tienes alguna petición externa, introdúcela en el campo "Ext-pet" si es necesario, de lo contrario, déjalo en blanco.</li>
+                                                <li>Finalmente, haz clic en el botón "Crear nuevo ayuntamiento".</li>
+                                            </ol>
+                                                <h4>Paso 5: Verificar el Ayuntamiento</h4>
+                                                <p>Verifica que el ayuntamiento se haya guardado correctamente siguiendo las mismas dos opciones anteriores para buscarlo.</p>
+                                                
+                                                <h4>Paso 6: Agregar una Comunidad</h4>
+                                               <ol>
+                                                <li>En la tercera sección, denominada "Comunidad", haz clic en la opción "Agregar Comunidad".</li>
+                                                <li>Serás redirigido a un formulario similar al anterior, donde deberás completar los campos requeridos, incluyendo el nombre y el acrónimo de la comunidad.</li>
+                                                <li>Selecciona si la comunidad está activa o inactiva.</li>
+                                                <li>Asigna la comunidad al ayuntamiento correspondiente.</li>
+                                                <li>Si tienes alguna petición externa, introdúcela en el campo "Ext-pet" si es necesario, de lo contrario, déjalo en blanco.</li>
+                                                <li>Finalmente, haz clic en el botón "Crear nueva Comunidad".</li>
+                                            </ol>
+                                                <h4>Paso 7: Verificar la Comunidad</h4>
+                                                <p>Para asegurarte de que la comunidad se haya guardado correctamente, puedes utilizar las mismas dos opciones anteriores para buscarla.</p>
+                                                
+                                                <p>¡Excelente trabajo! Has completado con éxito el proceso de agregar demarcaciones. Tu contribución es fundamental para mantener nuestro sistema actualizado y funcional. ¡Sigue así!</p>
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                    <div class="accordion-header" role="tab">
+                                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq-3-3"><h3><i class="ti ti-file-plus"></i>Mis Formularios</h3></button>
                                     </div>
                                     <div id="faq-3-3" class="accordion-collapse collapse" role="tabpanel" data-bs-parent="#faq-3">
                                         <div class="accordion-body pt-0">
@@ -396,10 +554,13 @@
                                         </div>
                                     </div>
                                 </div>
+
+                               
+
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
                                         <button class="accordion-button collapsed" data-bs-toggle="collapse"
-                                         data-bs-target="#faq-2-4"><h3><i class="ti ti-message-question"></i> Mis cuestionarios </h3></button>
+                                         data-bs-target="#faq-2-4"><h3><i class="ti ti-list"></i> Mis cuestionarios </h3></button>
                                     </div>
                                     <div id="faq-2-4" class="accordion-collapse collapse" role="tabpanel" data-bs-parent="#faq-2">
                                         <div class="accordion-body pt-0">
@@ -414,17 +575,40 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="accordion-item">
+                                    <div class="accordion-header" role="tab">
+                                        <button class="accordion-button  collapsed" data-bs-toggle="collapse" 
+                                        data-bs-target="#faq-2-9"><h3><i class="ti ti-users-group"></i> Configuración Partidos </h3></button>
+                                    </div>
+                                    <div id="faq-2-9" class="accordion-collapse collapse " role="tabpanel" data-bs-parent="#faq-2">
+                                        <div class="accordion-body pt-0">
+                                            <div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias dignissimos dolorum ea est eveniet, excepturi illum in iste iure maiores nemo recusandae rerum saepe sed, sunt totam! Explicabo,
+                                                    ipsa?
+                                                </p>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias dignissimos dolorum ea est eveniet, excepturi illum in iste iure maiores nemo recusandae rerum saepe sed, sunt totam! Explicabo,
+                                                    ipsa?
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
                             </div>
+                            
     </div>
+
+
+   
 <div>
                             <h2 class="mb-3"><i class="ti ti-paint"></i> Personalización del portal </h2>
                             <div id="faq-1" class="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
-                                        <button class="accordion-button" data-bs-toggle="collapse" 
+                                        <button class="accordion-button  collapsed" data-bs-toggle="collapse" 
                                         data-bs-target="#faq-1-1"><h3><i class="ti ti-slideshow"></i> Imágenes del sistema </h3></button>
                                     </div>
-                                    <div id="faq-1-1" class="accordion-collapse collapse show" 
+                                    <div id="faq-1-1" class="accordion-collapse collapse  collapsed" 
                                     role="tabpanel" data-bs-parent="#faq-1">
                                         <div class="accordion-body pt-0 text-center">
                                             <div>
@@ -514,9 +698,9 @@
                             <div id="faq-3" class="accordion" role="tablist" aria-multiselectable="true">
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
-                                        <button class="accordion-button" data-bs-toggle="collapse" data-bs-target="#faq-3-1">Is there any free plan?</button>
+                                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq-3-1">Is there any free plan?</button>
                                     </div>
-                                    <div id="faq-3-1" class="accordion-collapse collapse show" role="tabpanel" data-bs-parent="#faq-3">
+                                    <div id="faq-3-1" class="accordion-collapse collapse collapsed" role="tabpanel" data-bs-parent="#faq-3">
                                         <div class="accordion-body pt-0">
                                             <div>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias dignissimos dolorum ea est eveniet, excepturi illum in iste iure maiores nemo recusandae rerum saepe sed, sunt totam! Explicabo,
