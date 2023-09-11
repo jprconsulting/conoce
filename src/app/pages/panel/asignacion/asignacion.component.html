@@ -111,16 +111,9 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label for="partidosCoalicion">Seleccione los usuarios:</label>
-                            <ng-select [items]="candidato" [multiple]="true" bindLabel="nombre" bindValue="id" [(ngModel)]="selectedCandidatos" name="selectedCandidatos">
-                                <!-- Personaliza las plantillas según tus necesidades -->
-                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.nombre}}
-                                </ng-template>
-                            </ng-select>
                             <label class="form-label">ID del formulario</label>
                             <select type="text" class="form-select" id="select-optgroups" value="">
-                                        <optgroup label="Tags">
+                                        <optgroup label="">
                                           <option value="DEF">Seleccione una opción</option>
                                           <option value="HD">FORM_HIDALGO_2023</option>
                                           <option value="TL">FORM_TLAXCALA_2023</option>
@@ -130,7 +123,16 @@
                                           <option value="SN">FORM_SINALOA_2023</option>
                                           <option value="VR">FORM_VERACRUZ_2023</option>
                                         </optgroup>
-                                      </select>
+                            </select>
+                            <br><br>
+                            <label for="partidosCoalicion">Seleccione los usuarios:</label>
+                            <ng-select [items]="candidato" [multiple]="true" bindLabel="nombre" bindValue="id" [(ngModel)]="selectedCandidatos" name="selectedCandidatos">
+                                <!-- Personaliza las plantillas según tus necesidades -->
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.nombre}}
+                                </ng-template>
+                            </ng-select>
+
                         </div>
                     </div>
                 </div>
