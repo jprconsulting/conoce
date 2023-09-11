@@ -56,6 +56,16 @@ const routes: Routes = [
         .then(c => c.CandidatosModule)
       },
       {
+        path: 'faq/asignacion',
+        loadChildren:() => import("./asignacion/asignacion.module")
+        .then(c => c.AsignacionModule)
+      },
+      {
+        path: 'faq/demarcaciones',
+        loadChildren:() => import("./demarcaciones/demarcaciones.module")
+        .then(c => c.DemarcacionesModule)
+      },
+      {
         path: 'asignacion',
         loadChildren:() => import("./asignacion/asignacion.module")
         .then(c => c.AsignacionModule)
