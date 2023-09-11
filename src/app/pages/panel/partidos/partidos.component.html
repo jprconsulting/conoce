@@ -8,166 +8,137 @@
             <div class="container-xl">
                 <div class="card">
                     <div class="card-body">
-                        <div class="accordion" id="accordion-example">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading-1">
-                                    <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true">
-                                    PARTIDOS POLITICOS
-                                  </button>
-                                </h2>
-                                <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
-                                    <div class="container mt-5">
-                                        <!-- Botón para abrir el modal -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-partido-politico">
-                                      Agregar Partido Político
-                                    </button>
-                                        <br><br>
-
-                                        <!-- Tabla para mostrar la lista de partidos políticos -->
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Foto</th>
-                                                    <th>Nombre</th>
-                                                    <th class="text-center" style="width: 7%">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Utiliza un *ngFor para iterar sobre la lista de partidos -->
-                                                <tr *ngFor="let partido of partidos">
-                                                    <td>
-                                                        <img [src]="partido.foto" alt="Foto del partido" width="100">
-                                                    </td>
-                                                    <td>{{ partido.nombre }}</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-between">
-                                                            <button class="btn btn-warning btn-icon btn-sm">
-                                                          <i
-                                                            class="ti ti-edit"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#modal-edicion-partido-politico"
-                                                          ></i>
-                                                        </button>
-                                                            <button class="btn btn-danger btn-icon btn-sm">
-                                                          <i class="ti ti-eraser"></i>
-                                                        </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <br>
-                                </div>
-
-
+                        <div class="row g-2 align-items-center">
+                            <div class="col-6 col-sm-4 col-md-2 col-xl py-3">
+                                <a class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#modal-partido-politico">
+                              AGREGAR PARTIDOS
+                            </a>
                             </div>
-                            <!-- Resto del código del acordeón -->
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading-2">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
-                                      COALICIONES
-                                  </button>
-                                </h2>
-                                <!--  -->
-                                <div id="collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
-                                    <div class="accordion-body pt-0">
-                                        <!-- Contenido para la sección de Coaliciones -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-coalicion">
-                                          Agregar Coalición
-                                      </button>
-                                        <br><br>
-                                        <!--  -->
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Foto</th>
-                                                    <th>Nombre Coalición</th>
-                                                    <th>Partidos Coalición</th>
-                                                    <th class="text-center" style="width: 7%">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Utiliza un *ngFor para iterar sobre la lista de partidos -->
-                                                <tr *ngFor="let coaliciones of coaliciones">
-                                                    <td>
-                                                        <img [src]="coaliciones.fotoCoalicion" alt="Foto del partido" width="100">
-                                                    </td>
-                                                    <td>{{ coaliciones.nombreCoalicion }}</td>
-                                                    <td>{{ coaliciones.partidosCoalicion }}</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-between">
-                                                            <button class="btn btn-warning btn-icon btn-sm">
-                                                      <i
-                                                        class="ti ti-edit"
-                                                        data-bs-toggle="modal"
-                                                        data-bs-target="#modal-edicion-coalicion"
-                                                      ></i>
-                                                    </button>
-                                                            <button class="btn btn-danger btn-icon btn-sm">
-                                                      <i class="ti ti-eraser"></i>
-                                                    </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                                 <!--  -->
+                            <div class="col-6 col-sm-4 col-md-2 col-xl py-3">
+                                <a class="btn btn-secondary w-100" data-bs-toggle="modal" data-bs-target="#modal-coalicion">
+                                AGREGAR COALICIONES
+                              </a>
                             </div>
-                           
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading-3">
-                                    <button class="accordion-button collapsed " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">
-                                  CANDIDATURAS INDEPENDIENTES
+                            <div class="col-6 col-sm-4 col-md-2 col-xl py-3">
+                                <a href="#" class="btn btn-success w-100" data-bs-toggle="modal" data-bs-target="#modal-candidatura-independiente">
+                                AGREGAR CANDIDATURAS INDEPENDIENTES
+                              </a>
+                            </div>
+                        </div>
+
+                        <!-- Tabla para mostrar la lista de partidos políticos -->
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">PARTIDOS POLITICOS</h3>
+                            </div>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Nombre</th>
+                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Utiliza un *ngFor para iterar sobre la lista de partidos -->
+                                    <tr *ngFor="let partido of partidos">
+                                        <td>
+                                            <img [src]="partido.foto" alt="Foto del partido" width="100">
+                                        </td>
+                                        <td>{{ partido.nombre }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <button class="btn btn-warning btn-icon btn-sm">
+                                                        <i
+                                                          class="ti ti-edit"
+                                                          data-bs-toggle="modal"
+                                                          data-bs-target="#modal-edicion-partido-politico"
+                                                        ></i>
+                                                      </button>
+                                                <button class="btn btn-danger btn-icon btn-sm">
+                                                        <i class="ti ti-eraser"></i>
+                                                      </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br><br>
+                        <!-- TABLA COALICION -->
+                        <div class="card">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Nombre Coalición</th>
+                                        <th>Partidos Coalición</th>
+                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Utiliza un *ngFor para iterar sobre la lista de partidos -->
+                                    <tr *ngFor="let coaliciones of coaliciones">
+                                        <td>
+                                            <img [src]="coaliciones.fotoCoalicion" alt="Foto del partido" width="100">
+                                        </td>
+                                        <td>{{ coaliciones.nombreCoalicion }}</td>
+                                        <td>{{ coaliciones.partidosCoalicion }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <button class="btn btn-warning btn-icon btn-sm">
+                                    <i
+                                      class="ti ti-edit"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#modal-edicion-coalicion"
+                                    ></i>
+                                  </button>
+                                                <button class="btn btn-danger btn-icon btn-sm">
+                                    <i class="ti ti-eraser"></i>
+                                  </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <br><br>
+                        <!-- Tabla para mostrar la lista de candidaturas independientes -->
+                        <div class="card">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Nombre Coalición</th>
+                                        <th>Partidos Coalición</th>
+                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Utiliza un *ngFor para iterar sobre la lista de partidos -->
+                                    <tr *ngFor="let coaliciones of coaliciones">
+                                        <td>
+                                            <img [src]="coaliciones.fotoCoalicion" alt="Foto del partido" width="100">
+                                        </td>
+                                        <td>{{ coaliciones.nombreCoalicion }}</td>
+                                        <td>{{ coaliciones.partidosCoalicion }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <button class="btn btn-warning btn-icon btn-sm">
+                                  <i
+                                    class="ti ti-edit"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modal-edicion-coalicion"
+                                  ></i>
                                 </button>
-                                </h2>
-                                <div id="collapse-3" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
-                                    <div class="container mt-5">
-                                        <!-- Botón para abrir el modal -->
-                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidatura-independiente">
-                                        Agregar Candidatura Independiente
-                                    </button>
-                                    <br><br>
-
-                                        <!-- Tabla para mostrar la lista de partidos políticos -->
-                                        <table class="table">
-                                            <thead>
-                                                <tr>
-                                                    <th>Foto</th>
-                                                    <th>Nombre</th>
-                                                    <th class="text-center" style="width: 7%">Acciones</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <!-- Utiliza un *ngFor para iterar sobre la lista de partidos -->
-                                                <tr *ngFor="let partido of partidos">
-                                                    <td>
-                                                        <img [src]="partido.foto" alt="Foto del partido" width="100">
-                                                    </td>
-                                                    <td>{{ partido.nombre }}</td>
-                                                    <td>
-                                                        <div class="d-flex justify-content-between">
-                                                            <button class="btn btn-warning btn-icon btn-sm">
-                                                          <i
-                                                            class="ti ti-edit"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#modal-edicion-partido-politico"
-                                                          ></i>
-                                                        </button>
-                                                            <button class="btn btn-danger btn-icon btn-sm">
-                                                          <i class="ti ti-eraser"></i>
-                                                        </button>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                    <br>
-                                </div>
-                            </div>
+                                                <button class="btn btn-danger btn-icon btn-sm">
+                                  <i class="ti ti-eraser"></i>
+                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -175,6 +146,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!-- Modal -->
 <div class="modal fade" id="modal-partido-politico" tabindex="-1" role="dialog" aria-hidden="true">
@@ -278,7 +251,7 @@
                 <h5 class="modal-title">Agregar Candidatura Independiente</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
+
             <!-- Modal Body -->
             <div class="modal-body">
                 <!-- Campo de Nombre del partido político -->
@@ -396,7 +369,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="guardarCoalicion()">Guardar</button>
             </div>
-            
+
         </div>
     </div>
 </div>

@@ -24,45 +24,21 @@
     usuarioSeleccionado: CandidatosMaqu | null = null;
 
     userForm: FormGroup;
-      nombreTocado = false;
-      ocupacionTocada = false;
-      partidoPoliticoTocado = false;
-      ubicacionGoogleTocada =  false;
-      direccionTocada = false;
-      telefonoTocado = false;
-      correoTocado = false;
-      linkFacebookTocado = false;
-      userFacebookTocado = false;
-      linkIGTocado = false;
-      userIGTocado = false;
-      linkTwitterTocado = false;
-      userTwitterTocado = false;
-      whatsappTocado = false;
-      esloganTocado = false;
-      edadTocada = false;
-      estadoTocado = false;
-      generoTocado = false;
-      nombreSupTocado = false;
-      edadSupTocada = false;
-      estadoSupTocado = false;
-      generoSupTocado = false;
-      historiaTocada = false;
-      carreraTocada = false;
-      razonTocada = false;
-      nombreProp1Tocado = false;
-      prop1Tocada = false;
-      nombreProp2Tocado = false;
-      prop2Tocada = false;
-      nombreProp3Tocado = false;
-      prop3Tocada = false;
-      trayectoriaTocada = false;
-      gradoAcadTocado = false;
-      apPaternoTocado = false;
-      apMaternoTocado = false;
-      apPaternoSTocado = false;
-      apMaternoSTocado = false;
-      sobrenombreTocado = false;
-      nombreSTocado = false;
+    nameCandidate= false;
+    apPaterno= false;
+    apMaterno= false;
+    sobrenombre= false;
+    eleccion= false;
+    estados= false;
+    distritos= false;
+    ayuntamiento= false;
+    comunidad= false;
+    partido= false;
+    apPaternoS= false;
+    apMaternoS= false;
+    nameSuplent= false;
+      previewImage: string | ArrayBuffer | null = null;
+
 
 // Método para abrir el modal y mostrar la información del usuario.
 // Método para abrir el modal y mostrar la información del usuario.
@@ -70,6 +46,7 @@ abrirModal(candidato: CandidatosMaqu) {
   this.usuarioSeleccionado = candidato;
   console.log('Candidato seleccionado:', this.usuarioSeleccionado);
   // Abre el modal aquí.
+  this.previewImage = null;
 }
 
 
@@ -90,43 +67,10 @@ abrirModal(candidato: CandidatosMaqu) {
 
       this.userForm = this.formBuilder.group({
         nameCandidate: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-       // position: ['', Validators.required],
-      //  actorPolitico: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        // ubicacionGoogle: ['', Validators.required],
-        // direccion: ['', Validators.required],
-        // telefono: ['', Validators.required],
-        // correo: ['', Validators.required],
-        // linkFacebook: ['', Validators.required],
-        // userfacebook: ['', Validators.required],
-        // linkIG: ['', Validators.required],
-        // userIG: ['', Validators.required],
-        // linkTwitter: ['', Validators.required],
-        // userTwitter: ['', Validators.required],
-        // whatsapp: ['', Validators.required],
-        // eslogan: ['', Validators.required],
-      //  estado: ['', Validators.required],
-        // nombreSup: ['', Validators.required],
-        // edadSup: ['', Validators.required],
-        // estadoSup: ['', Validators.required],
-        // generoSup: ['', Validators.required],
-        // historia: ['', Validators.required],
-        // carrera: ['', Validators.required],
-        // razon: ['', Validators.required],
-        // nombreProp1: ['', Validators.required],
-        // prop1: ['', Validators.required],
-        // nombreProp2: ['', Validators.required],
-        // prop2: ['', Validators.required],
-        // nombreProp3: ['', Validators.required],
-        // prop3: ['', Validators.required],
-        // trayectoria: ['', Validators.required],
-       // typeDisability:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         apPaterno:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         apMaterno:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
         sobrenombre:['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-        //academicDegree: ['Licenciatura'],
-        //lgbtq:[false],
-        //indigenousCandidacy: [false],
-        eleccion: ['', Validators.required], // Valor predeterminado
+        eleccion: ['', Validators.required],
         estados: ['', Validators.required],
         distritos: [''],
         ayuntamiento: [''],
@@ -174,261 +118,73 @@ abrirModal(candidato: CandidatosMaqu) {
 
     resetForm() {
       this.userForm.reset({
-        nombre: '',
-        ocupacion: '',
-        partidoPolitico: '',
-        ubicacionGoogle: '',
-        direccion: '',
-        telefono: '',
-        correo: '',
-        linkFacebook: '',
-        userfacebook: '',
-        linkIG: '',
-        userIG: '',
-        linkTwitter: '',
-        userTwitter: '',
-        whatsapp: '',
-        eslogan: '',
-        edad: '',
-        estado: '',
-        genero: '',
-        nombreSup: '',
-        edadSup: '',
-        estadoSup: '',
-        generoSup: '',
-        historia: '',
-        carrera: '',
-        razon: '',
-        nombreProp1: '',
-        prop1:'',
-        nombreProp2:'',
-        prop2:'',
-        nombreProp3:'',
-        prop3:'',
-        trayectoria:'',
-        gradoAcad:'',
+        nameCandidate: '',
         apPaterno:'',
         apMaterno:'',
         sobrenombre:'',
-        gender:'null',
-        eleccion: 'null', // Valor predeterminado
-        estados: 'null',
-        distritos: 'null',
-        ayuntamiento: 'null',
-        comunidad: 'null',
-        partido: 'null',
-
-        indigenousCandidacy:false,
-        academicDegree:'Licenciatura',
-        lgbtq:false,
+        eleccion: '',
+        estados: '',
+        distritos: '',
+        ayuntamiento: '',
+        comunidad: '',
+        partido: '',
         apPaternoS:'',
         apMaternoS:'',
-        nameSuplent:'',
+        nameSuplent: '',
+
 
 
       });
 
-      this.nombreTocado = false;
-      this.ocupacionTocada = false;
-      this.partidoPoliticoTocado = false;
-      this.ubicacionGoogleTocada =  false;
-      this.direccionTocada = false;
-      this.telefonoTocado = false;
-      this.correoTocado = false;
-      this.linkFacebookTocado = false;
-      this.userFacebookTocado = false;
-      this.linkIGTocado = false;
-      this.userIGTocado = false;
-      this.linkTwitterTocado = false;
-      this.userTwitterTocado = false;
-      this.whatsappTocado = false;
-      this.esloganTocado = false;
-      this.edadTocada = false;
-      this.estadoTocado = false;
-      this.generoTocado = false;
-      this.nombreSupTocado = false;
-      this.edadSupTocada = false;
-      this.estadoSupTocado = false;
-      this.generoSupTocado = false;
-      this.historiaTocada = false;
-      this.carreraTocada = false;
-      this.razonTocada = false;
-      this.nombreProp1Tocado = false;
-      this.prop1Tocada = false;
-      this.nombreProp2Tocado = false;
-      this.prop2Tocada = false;
-      this.nombreProp3Tocado = false;
-      this.prop3Tocada = false;
-      this.trayectoriaTocada = false;
-      this.gradoAcadTocado = false;
-      this.apMaternoTocado = false;
-      this.apPaternoTocado = false;
-      this.sobrenombreTocado = false;
-      this.apPaternoSTocado = false;
-      this.apMaternoSTocado = false;
-      this.nombreSTocado = false;
+      this.nameCandidate = false;
+      this.apPaterno = false;
+      this.apMaterno = false;
+      this.sobrenombre = false;
+      this.eleccion = false;
+      this.estados = false;
+      this.distritos = false;
+      this.ayuntamiento = false;
+      this.comunidad = false;
+      this.partido = false;
+      this.apPaternoS = false;
+      this.apMaternoS = false;
+      this.nameSuplent = false;
+
     }
 
     marcarNombreComoTocado() {
-      this.nombreTocado = true;
+      this.nameCandidate = true;
       return this.userForm.get('nameCandidate')?.invalid && this.userForm.get('nameCandidate')?.touched;
-    }
-    marcarOcupacionTocada() {
-      this.ocupacionTocada = true;
-    }
-    marcarPartidoPoliticoTocado() {
-      this.partidoPoliticoTocado = true;
-    }
-
-    marcarUbicacionGoogleTocada(){
-      this.ubicacionGoogleTocada=true;
-    }
-
-    marcarDireccionTocada(){
-      this.direccionTocada=true;
-    }
-
-
-    marcarTelefonoTocado(){
-      this.telefonoTocado=true;
-    }
-
-    marcarCorreoTocado(){
-      this.correoTocado=true;
-
-    }
-
-    marcarLinkFacebookTocado(){
-      this.linkFacebookTocado=true;
-    }
-
-    marcarUserFacebookTocado(){
-      this.userFacebookTocado=true;
-    }
-
-    marcarLinkIGTocado(){
-      this.linkIGTocado=true;
-    }
-
-    marcarUserIGTocado(){
-      this.userIGTocado=true;
-    }
-
-    marcarLinkTwitterTocado(){
-      this.linkTwitterTocado=true;
-    }
-
-    marcarUserTwitterTocado(){
-      this.userTwitterTocado=true;
-    }
-
-    marcarWhatsAppTocado(){
-      this.whatsappTocado=true;
-    }
-
-    marcarEsloganTocado(){
-      this.esloganTocado=true;
-    }
-
-    marcarEdadTocada(){
-      this.edadTocada=true;
-    }
-
-    marcarEstadoTocado(){
-      this.estadoTocado=true;
-    }
-
-    marcarGeneroTocado(){
-      this.generoTocado=true;
-    }
-
-    marcarNombreSupTocado(){
-      this.nombreSupTocado=true;
-    }
-
-    marcarEdadSupTocada(){
-      this.edadSupTocada=true;
-    }
-
-    marcarEstadoSupTocado(){
-      this.estadoSupTocado=true;
-    }
-
-    marcarGeneroSupTocado(){
-      this.generoSupTocado=true;
-    }
-
-    marcarHistoriaTocada(){
-      this.historiaTocada=true;
-    }
-
-    marcarCarreraTocada(){
-      this.carreraTocada=true;
-    }
-
-    marcarRazonTocada(){
-      this.razonTocada=true;
-    }
-
-    marcarNombreProp1Tocado(){
-      this.nombreProp1Tocado=true;
-    }
-
-    marcarProp1Tocada(){
-      this.prop1Tocada=true;
-    }
-
-    marcarNombreProp2Tocado(){
-      this.nombreProp2Tocado=true;
-    }
-
-    marcarProp2Tocada(){
-      this.prop2Tocada=true;
-    }
-
-    marcarNombreProp3Tocado(){
-      this.nombreProp3Tocado=true;
-    }
-
-    marcarProp3Tocada(){
-      this.prop3Tocada=true;
-    }
-
-    marcarTrayectoriaTocada(){
-      this.trayectoriaTocada=true;
-    }
-
-    marcarGradoAcadTocado(){
-      this.gradoAcadTocado=true;
     }
 
     marcarApPaternoTocado(){
-      this.apPaternoTocado=true;
+      this.apPaterno=true;
       return this.userForm.get('apPaterno')?.invalid && this.userForm.get('apPaterno')?.touched
     }
 
     marcarApMaternoTocado(){
-      this.apMaternoTocado=true;
+      this.apMaterno=true;
       return this.userForm.get('apMaterno')?.invalid && this.userForm.get('apMaterno')?.touched
     }
 
+    marcarSobrenombreTocado(){
+      this.sobrenombre = true;
+      return this.userForm.get('sobrenombre')?.invalid && this.userForm.get('sobrenombre')?.touched;
+    }
+    marcarNombreSComoTocado() {
+      this.nameSuplent = true;
+      return this.userForm.get('nameSuplent')?.invalid && this.userForm.get('nameSuplent')?.touched
+    }
     marcarApPaternoSTocado(){
-      this.apPaternoSTocado=true;
+      this.apPaternoS=true;
       return this.userForm.get('apPaternoS')?.invalid && this.userForm.get('apPaternoS')?.touched
     }
 
     marcarApMaternoSTocado(){
-      this.apMaternoSTocado=true;
+      this.apMaternoS=true;
       return this.userForm.get('apMaternoS')?.invalid && this.userForm.get('apMaternoS')?.touched
     }
-    marcarNombreSComoTocado() {
-      this.nombreSTocado = true;
-      return this.userForm.get('nameSuplent')?.invalid && this.userForm.get('nameSuplent')?.touched
-    }
-    marcarSobrenombreTocado(){
-      this.sobrenombreTocado=true;
-      return this.userForm.get('sobrenombre')?.invalid && this.userForm.get('sobrenombre')?.touched
-    }
+
 
     onDropdownChange() {
       // Lógica para mostrar u ocultar el segundo dropdown según la selección en el primero
@@ -463,7 +219,21 @@ abrirModal(candidato: CandidatosMaqu) {
     //   }
     // }
 
+    onImageChange(event: any) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          this.previewImage = reader.result;
+        };
+      }
+    }
 
+    eliminarImagen() {
+      // Lógica para eliminar la imagen seleccionada
+      this.previewImage = null;
+    }
 
   }
 
