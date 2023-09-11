@@ -1,0 +1,12 @@
+a{
+    color: white;
+
+}
+
+.card {
+    
+    border-radius: 7px; /* Ajusta el radio de borde según tus necesidades */
+    box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2); /* Aplica una sombra */
+    
+  }
+

@@ -21,12 +21,21 @@ export class FormularioComponent {
   FormularioFilter: ConfigGoogleForm[] = [];
   configGoogleFormFormGroup: FormGroup;
 
+  formularioIdFrontTocado=false;
+      formNameFrontTocado=false;
+      googleFormIdFrontTocado=false;
+      googleEditFormIdFrontTocado=false;
+      spreadsheetIdFrontTocado=false;
+      sheetNameFrontTocado=false;
+      projectIdFrontTocado =false;
+
   constructor(
     private formularioService: FormularioService,
     private fb: FormBuilder,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder,
+    
   ) {
     this.configGoogleFormFormGroup = this.formBuilder.group({
       formularioIdFront: ['', Validators.required],
@@ -59,15 +68,22 @@ export class FormularioComponent {
 
   resetForm() {
     this.configGoogleFormFormGroup.reset({
-      FormularioIdFront: '',
-      FormNameFront: '',
-      GoogleFormIdFront: '',
-      GoogleEditFormIdFront: '',
-      SpreadsheetIdFront: '',
-      SheetNameFront: '',
-      ProjectIdFront: '',
+      formularioIdFront: '',
+      formNameFront: '',
+      googleFormIdFront: '',
+      googleEditFormIdFront: '',
+      spreadsheetIdFront: '',
+      sheetNameFront: '',
+      projectIdFront: '',
     });
     this.configGoogleFormFormGroup.get('archvioJson')?.setValue(null);
+    this.formularioIdFrontTocado=false;
+    this.formNameFrontTocado=false;
+    this.googleFormIdFrontTocado=false;
+    this.googleEditFormIdFrontTocado=false;
+    this.spreadsheetIdFrontTocado=false;
+    this.sheetNameFrontTocado=false;
+    this.projectIdFrontTocado =false;
 
 
   }
@@ -127,5 +143,48 @@ export class FormularioComponent {
 
   }
 
+  // this.formularioIdFrontTocado=false;
+  //   this.formNameFrontTocado=false;
+  //   this.googleFormIdFrontTocado=false;
+  //   this.googleEditFormIdFrontTocado=false;
+  //   this.spreadsheetIdFrontTocado=false;
+  //   this.sheetNameFrontTocado=false;
+  //   this.projectIdFrontTocado =false;
+
+
+  marcarFormularioIdTocado() {
+    this.formularioIdFrontTocado = true;
+    return this.configGoogleFormFormGroup.get('formularioIdFront')?.invalid && this.configGoogleFormFormGroup.get('formularioIdFront')?.touched;
+  }
+
+  marcarFormNameFrontTocado() {
+    this.formNameFrontTocado = true;
+    return this.configGoogleFormFormGroup.get('formNameFront')?.invalid && this.configGoogleFormFormGroup.get('formNameFront')?.touched;
+  }
+
+  marcarGoogleFormIdFrontTocado() {
+    this.googleFormIdFrontTocado = true;
+    return this.configGoogleFormFormGroup.get('googleFormIdFront')?.invalid && this.configGoogleFormFormGroup.get('googleFormIdFront')?.touched;
+  }
+
+  marcarGoogleEditFormIdFrontTocado() {
+    this.googleEditFormIdFrontTocado = true;
+    return this.configGoogleFormFormGroup.get('googleEditFormIdFront')?.invalid && this.configGoogleFormFormGroup.get('googleEditFormIdFront')?.touched;
+  }
+
+  marcarSpreadsheetIdFrontTocado() {
+    this.spreadsheetIdFrontTocado = true;
+    return this.configGoogleFormFormGroup.get('spreadsheetIdFront')?.invalid && this.configGoogleFormFormGroup.get('spreadsheetIdFront')?.touched;
+  }
+
+  marcarSheetNameFrontTocado() {
+    this.sheetNameFrontTocado = true;
+    return this.configGoogleFormFormGroup.get('sheetNameFront')?.invalid && this.configGoogleFormFormGroup.get('sheetNameFront')?.touched;
+  }
+
+  marcarProjectIdFrontTocado() {
+    this.projectIdFrontTocado = true;
+    return this.configGoogleFormFormGroup.get('projectIdFront')?.invalid && this.configGoogleFormFormGroup.get('projectIdFront')?.touched;
+  }
 }
 

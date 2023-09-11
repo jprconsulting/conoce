@@ -65,16 +65,12 @@
                         type="text"
                         class="form-control"
                         formControlName="formularioIdFront"
+                        [class.is-invalid]="marcarFormularioIdTocado()"
                       />
                       <div
-                        *ngIf="
-                          configGoogleFormFormGroup
-                            .get('FormularioIdFront')
-                            ?.hasError('required')
-                        "
-                      >
-                        El iID es requerido.
-                      </div>
+                        *ngIf="formularioIdFrontTocado && configGoogleFormFormGroup.get('formularioIdFront')?.hasError('required')"
+                        class="error-message"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -87,16 +83,12 @@
                         type="text"
                         class="form-control"
                         formControlName="formNameFront"
+                        [class.is-invalid]="marcarFormNameFrontTocado()"
                       />
                       <div
-                        *ngIf="
-                          configGoogleFormFormGroup
-                            .get('FormNameFront')
-                            ?.hasError('required')
-                        "
-                      >
-                        El nombre es requerido.
-                      </div>
+                        *ngIf="formNameFrontTocado && configGoogleFormFormGroup.get('formNameFront')?.hasError('required')"
+                        class="error-message"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -109,16 +101,12 @@
                         type="text"
                         class="form-control"
                         formControlName="googleFormIdFront"
+                        [class.is-invalid]="marcarGoogleFormIdFrontTocado()"
                       />
                       <div
-                        *ngIf="
-                          configGoogleFormFormGroup
-                            .get('GoogleFormIdFront')
-                            ?.hasError('required')
-                        "
-                      >
-                        El ID es requerido.
-                      </div>
+                        *ngIf="googleFormIdFrontTocado && configGoogleFormFormGroup.get('googleFormIdFront')?.hasError('required')"
+                        class="error-message"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -131,16 +119,12 @@
                         type="text"
                         class="form-control"
                         formControlName="googleEditFormIdFront"
+                        [class.is-invalid]="marcarGoogleEditFormIdFrontTocado()"
                       />
                       <div
-                        *ngIf="
-                          configGoogleFormFormGroup
-                            .get('GoogleEditFormIdFront')
-                            ?.hasError('required')
-                        "
-                      >
-                        El ID es requerido.
-                      </div>
+                        *ngIf="googleEditFormIdFrontTocado && configGoogleFormFormGroup.get('googleEditFormIdFront')?.hasError('required')"
+                        class="error-message"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -154,17 +138,13 @@
                       <input
                         type="text"
                         class="form-control"
-                        formControlName="spreadsheetIdFront"
+                        formControlName="sheetNameFront"
+                        [class.is-invalid]=" marcarSheetNameFrontTocado()"
                       />
                       <div
-                        *ngIf="
-                          configGoogleFormFormGroup
-                            .get('SheetNameFront')
-                            ?.hasError('required')
-                        "
-                      >
-                        El nombre es requerido.
-                      </div>
+                        *ngIf="sheetNameFrontTocado && configGoogleFormFormGroup.get('sheetNameFront')?.hasError('required')"
+                        class="error-message"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -176,17 +156,13 @@
                       <input
                         type="text"
                         class="form-control"
-                        formControlName="sheetNameFront"
+                        formControlName="spreadsheetIdFront"
+                        [class.is-invalid]="marcarSpreadsheetIdFrontTocado()"
                       />
                       <div
-                        *ngIf="
-                          configGoogleFormFormGroup
-                            .get('SpreadsheetIdFront')
-                            ?.hasError('required')
-                        "
-                      >
-                        El ID es requerido.
-                      </div>
+                        *ngIf="spreadsheetIdFrontTocado && configGoogleFormFormGroup.get('spreadsheetIdFront')?.hasError('required')"
+                        class="error-message"
+                      ></div>
                     </div>
                   </div>
                 </div>
@@ -199,16 +175,12 @@
                         type="text"
                         class="form-control"
                         formControlName="projectIdFront"
+                        [class.is-invalid]="marcarProjectIdFrontTocado()"
                       />
                       <div
-                        *ngIf="
-                          configGoogleFormFormGroup
-                            .get('ProjectIdFront')
-                            ?.hasError('required')
-                        "
-                      >
-                        El ID es requerido.
-                      </div>
+                        *ngIf="projectIdFrontTocado && configGoogleFormFormGroup.get('projectIdFront')?.hasError('required')"
+                        class="error-message"
+                      ></div>
                     </div>
                   </div>
                 </div>
