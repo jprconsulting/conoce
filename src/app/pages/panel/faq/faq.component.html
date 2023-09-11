@@ -204,7 +204,7 @@
                                                 <h3>Título: Guía para la asignación de formularios</h3>
 
                                             <h4>Paso 1: Accede a la opción "Asignación de Formulario"</h4>
-                                            <p>En el menú principal, busca y selecciona la opción <a class="nav-link" [routerLink]="['usuarios']">"Asignación de Formulario".</a></p>
+                                            <p>En el menú principal, busca y selecciona la opción <a class="nav-link" [routerLink]="['asignacion']">"Asignación de Formulario".</a></p>
 
                                             <h4>Paso 2: Agregar una asignación</h4>
                                             <p>Aparecerá un botón que dice "Agregar asignación". Haz clic en él.</p>
@@ -232,7 +232,7 @@
                                             <h3>Instrucciones para eliminar una asignación de formularios:</h3>
 
                                             <h4>Paso 1: Navegar a la página de Asignación de Formularios</h4>
-                                            <p>Dentro del menú, busca y selecciona la opción "Formularios de Asignación".</p>
+                                            <p>Dentro del menú, busca y selecciona la opción <a class="nav-link" [routerLink]="['asignacion']">"Asignación de Formulario".</a></p>
 
                                             <h4>Paso 2: Encuentra la asignación de formularios que deseas eliminar</h4>
                                             <p>Tienes dos métodos para encontrar la asignación de formularios:</p>
@@ -263,7 +263,7 @@
                                             <h3>Instrucciones para editar una asignación de formularios:</h3>
 
                                                 <h4>Paso 1: Navegar a la página de Formularios de Asignación</h4>
-                                                <p>Dentro del menú, busca y selecciona la opción: "Formularios de Asignación".</p>
+                                                <p>Dentro del menú, busca y selecciona la opción:<a class="nav-link" [routerLink]="['asignacion']">"Asignación de Formulario".</a></p>
                                                
 
                                                 <h4>Paso 2: Busca la asignación de formularios que deseas editar:</h4>
@@ -381,18 +381,18 @@
                                                     <li>Busca en el menú donde aparecen todos los candidatos hasta encontrar al candidato agregado recientemente.</li>
                                                     <li>Utiliza el buscador y busca al candidato por su nombre completo.</li>
                                                 </ul>
-                                                <div class="text-center">
+                                                <!-- <div class="text-center">
                                                 <img src="/assets/documents/busqueda_can.jpeg" alt="">
-                                                </div>
+                                                </div> -->
                                             <p>Siguiendo estos pasos, habrás agregado exitosamente un nuevo candidato al sistema. Recuerda que puedes encontrar al candidato en la lista de candidatos o utilizando el buscador según tu preferencia.</p>
                                                                        
                                             <h3>Instrucciones para eliminar un candidato:</h3>
                                             
                                             <h4>Paso 1: Navegar a la página de Candidatos</h4>
                                             <p>Dentro del menú, busca y selecciona la opción: <a class="nav-link" [routerLink]="['candidatos']">"Formularios Candidatos".</a></p>
-                                            <div class="text-center">
+                                            <!-- <div class="text-center">
                                                 <img src="/assets/documents/menu_can.jpeg" width="150px">
-                                            </div>
+                                            </div> -->
                                             
                                             <h4>Paso 2: Encuentra al candidato que deseas eliminar</h4>
                                             <p>Tienes dos métodos para encontrar al candidato:</p>
@@ -400,9 +400,9 @@
                                                 <li><strong>Método 1:</strong> Explora la lista de candidatos en el menú.</li>
                                                 <li><strong>Método 2:</strong> Utiliza el buscador en la esquina superior derecha. Ingresa el nombre completo del candidato.</li>
                                             </ul>
-                                            <div class="text-center">
+                                            <!-- <div class="text-center">
                                                 <img src="/assets/documents/busqueda_can.jpeg">
-                                            </div>
+                                            </div> -->
                                             
                                             <h4>Paso 3: Accede a las acciones disponibles para el candidato</h4>
                                             <p>Dirígete a la parte derecha de la pantalla donde se encuentran las acciones disponibles para ese candidato.</p>
@@ -443,9 +443,9 @@
                                                 En la esquina superior derecha, utiliza el buscador y escribe el nombre completo del candidato.</li>
                                             </ul>
                                             
-                                            <div class="text-center">
+                                            <!-- <div class="text-center">
                                                 <img src="/assets/documents/busqueda_can.jpeg">
-                                            </div>
+                                            </div> -->
                                             
                                             <h4>Paso 3: Una vez ubicado el candidato, dirígete a la parte derecha donde encontrarás las acciones.</h4>
                                             
@@ -491,7 +491,8 @@
                                                 <h3>Instrucciones para Agregar una Demarcación</h3>
 
                                                 <h4>Paso 1: Accede a la Página de Demarcaciones</h4>
-                                                <p>Dirígete al menú principal y haz clic en la opción "Demarcaciones". Una vez allí, notarás que se divide en tres secciones.</p>
+                                                <p>Dirígete al menú principal y haz clic en la opción: <a class="nav-link" [routerLink]="['demarcaciones']">"Demarcaciones".</a> </p>
+                                                    <p> Una vez allí, notarás que se divide en tres secciones.</p>
                                                 
                                                 <h4>Paso 2: Agregar un Distrito Local</h4>
                                                 <ol>
@@ -531,6 +532,85 @@
                                                 
                                                 <p>¡Excelente trabajo! Has completado con éxito el proceso de agregar demarcaciones. Tu contribución es fundamental para mantener nuestro sistema actualizado y funcional. ¡Sigue así!</p>
                                                 
+                                                <h3>Instrucciones para eliminar una Demarcación:</h3>
+
+                                                <h4>Paso 1: Accede a la Página de Demarcaciones</h4>
+                                                <p>Dirígete al menú principal y haz clic en la opción: <a class="nav-link" [routerLink]="['demarcaciones']">"Demarcaciones".</a> </p>
+                                                    <p> Una vez allí, notarás que se divide en tres secciones.</p>
+
+                                                <h4>Paso 2: Eliminación de un Distrito Local</h4>
+                                                <ol>
+                                                    <li>Dirígete a la sección denominada "Distrito Local".</li>
+                                                    <li>Dentro de esta sección, busca el distrito local que deseas eliminar. Puedes hacerlo de dos formas: navegando por el menú o utilizando el buscador en la parte superior.</li>
+                                                    <li>Una vez seleccionado el distrito que deseas eliminar, en el menú de la derecha, encontrarás la sección "Acciones".</li>
+                                                    <li>Haz clic en el botón rojo con un ícono de un bote de basura.</li>
+                                                    <li>Se abrirá una ventana de confirmación con dos opciones: puedes hacer clic en "No" si no estás seguro de eliminarlo o en "Sí" si estás seguro.</li>
+                                                    <li>Para verificar que el distrito se ha eliminado correctamente, puedes hacerlo nuevamente utilizando cualquiera de las dos formas: el menú o el buscador. Si el nombre ya no aparece, habrás confirmado la eliminación.</li>
+                                                </ol>
+
+                                                <h4>Paso 3: Eliminación de un Ayuntamiento</h4>
+                                                <ol>
+                                                    <li>Accede a la sección llamada "Ayuntamiento".</li>
+                                                    <li>Dentro de esta sección, busca el Ayuntamiento que deseas eliminar, ya sea a través del menú o utilizando el buscador en la parte superior.</li>
+                                                    <li>Una vez seleccionado el Ayuntamiento a eliminar, en el menú de la derecha, encontrarás la sección "Acciones".</li>
+                                                    <li>Haz clic en el botón rojo con un ícono de un bote de basura.</li>
+                                                    <li>Se abrirá una ventana de confirmación con dos opciones: puedes hacer clic en "No" si no estás seguro de eliminarlo o en "Sí" si estás seguro.</li>
+                                                    <li>Para verificar que el Ayuntamiento se ha eliminado correctamente, repite el proceso utilizando el menú o el buscador. Si el nombre ya no aparece, habrás confirmado la eliminación.</li>
+                                                </ol>
+
+                                                <h4>Paso 4: Eliminación de una Comunidad</h4>
+                                                <ol>
+                                                    <li>Navega hacia la sección llamada "Comunidad".</li>
+                                                    <li>Dentro de esta sección, busca la Comunidad que deseas eliminar, utilizando el menú o el buscador en la parte superior.</li>
+                                                    <li>Una vez seleccionada la Comunidad a eliminar, en el menú de la derecha, encontrarás la sección "Acciones".</li>
+                                                    <li>Haz clic en el botón rojo con un ícono de un bote de basura.</li>
+                                                    <li>Se abrirá una ventana de confirmación con dos opciones: puedes hacer clic en "No" si no estás seguro de eliminarla o en "Sí" si estás seguro.</li>
+                                                    <li>Para verificar que la Comunidad se ha eliminado correctamente, puedes repetir el proceso utilizando el menú o el buscador. Si el nombre ya no aparece, habrás confirmado la eliminación.</li>
+                                                </ol>
+
+                                                <p>¡Felicidades! Ahora tienes las habilidades para eliminar demarcaciones de manera efectiva.</p>
+
+                                                <h3>Instrucciones para editar una Demarcación:</h3>
+
+                                                <h4>Paso 1: Accede a la Página de Demarcaciones</h4>
+                                                <p>Dirígete al menú principal y haz clic en la opción: <a class="nav-link" [routerLink]="['demarcaciones']">"Demarcaciones".</a> </p>
+                                                    <p> Una vez allí, notarás que se divide en tres secciones.</p>
+
+                                                <h4>Paso 2: Edición de un Distrito Local</h4>
+                                                <ol>
+                                                    <li>Dirígete a la sección denominada "Distrito Local".</li>
+                                                    <li>Para editar un distrito local, haz clic en la sección correspondiente. Se abrirá un menú que muestra todos los distritos locales existentes. Tienes dos opciones para encontrar el distrito local que deseas editar: puedes buscarlo en el menú o utilizar el buscador en la parte superior, ingresando su nombre.</li>
+                                                    <li>Una vez que hayas seleccionado el distrito local que deseas editar, en el menú de la derecha, encontrarás la sección "Acciones".</li>
+                                                    <li>Haz clic en el botón amarillo con un ícono de lápiz. Esto abrirá una ventana similar a la de agregar, pero con información preexistente. Edita los campos que desees modificar.</li>
+                                                    <li>Si deseas editar todos los campos, en la parte inferior encontrarás un botón de "Limpiar" que eliminará toda la información de los campos para que puedas ingresar la información correcta.</li>
+                                                    <li>Una vez que hayas realizado las ediciones necesarias, haz clic en el botón de "Guardar". La información se actualizará.</li>
+                                                    <li>Para verificar que la edición se ha realizado correctamente, puedes hacerlo nuevamente utilizando cualquiera de las dos formas: el menú o el buscador. Si el nombre ya refleja los cambios, habrás verificado la edición exitosa.</li>
+                                                </ol>
+
+                                                <h4>Paso 3: Edición de un Ayuntamiento</h4>
+                                                <ol>
+                                                    <li>Accede a la sección llamada "Ayuntamiento".</li>
+                                                    <li>Para editar un Ayuntamiento, haz clic en la sección correspondiente. Se abrirá un menú que muestra todos los Ayuntamientos existentes. Puedes buscar el Ayuntamiento que deseas editar en el menú o utilizando el buscador en la parte superior, ingresando su nombre.</li>
+                                                    <li>Una vez que hayas seleccionado el Ayuntamiento que deseas editar, en el menú de la derecha, encontrarás la sección "Acciones".</li>
+                                                    <li>Haz clic en el botón amarillo con un ícono de lápiz. Esto abrirá una ventana similar a la de agregar, pero con información preexistente. Edita los campos que desees modificar.</li>
+                                                    <li>Si deseas editar todos los campos, en la parte inferior encontrarás un botón de "Limpiar" que eliminará toda la información de los campos para que puedas ingresar la información correcta.</li>
+                                                    <li>Una vez que hayas realizado las ediciones necesarias, haz clic en el botón de "Guardar". La información se actualizará.</li>
+                                                    <li>Para verificar que la edición se ha realizado correctamente, repite el proceso utilizando el menú o el buscador. Si el nombre ya refleja los cambios, habrás verificado la edición exitosa.</li>
+                                                </ol>
+
+                                                <h4>Paso 4: Edición de una Comunidad</h4>
+                                                <ol>
+                                                    <li>Ve a la sección llamada "Comunidad".</li>
+                                                    <li>Para editar una Comunidad, haz clic en la sección correspondiente. Se abrirá un menú que muestra todas las Comunidades existentes. Puedes buscar la Comunidad que deseas editar en el menú o utilizando el buscador en la parte superior, ingresando su nombre.</li>
+                                                    <li>Una vez que hayas seleccionado la Comunidad que deseas editar, en el menú de la derecha, encontrarás la sección "Acciones".</li>
+                                                    <li>Haz clic en el botón amarillo con un ícono de lápiz. Esto abrirá una ventana similar a la de agregar, pero con información preexistente. Edita los campos que desees modificar.</li>
+                                                    <li>Si deseas editar todos los campos, en la parte inferior encontrarás un botón de "Limpiar" que eliminará toda la información de los campos para que puedas ingresar la información correcta.</li>
+                                                    <li>Una vez que hayas realizado las ediciones necesarias, haz clic en el botón de "Guardar". La información se actualizará.</li>
+                                                    <li>Para verificar que la edición se ha realizado correctamente, puedes hacerlo nuevamente utilizando cualquiera de las dos formas: el menú o el buscador. Si el nombre ya refleja los cambios, habrás verificado la edición exitosa.</li>
+                                                </ol>
+
+                                                <p>¡Felicidades! Ahora tienes las habilidades para editar demarcaciones de manera efectiva.</p>
+
                                                 
                                             </div>
                                         </div>
@@ -539,9 +619,10 @@
 
                                 <div class="accordion-item">
                                     <div class="accordion-header" role="tab">
-                                        <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#faq-3-3"><h3><i class="ti ti-file-plus"></i>Mis Formularios</h3></button>
+                                        <button class="accordion-button collapsed" data-bs-toggle="collapse" 
+                                        data-bs-target="#faq-2-10"><h3><i class="ti ti-file-plus"></i>Mis Formularios</h3></button>
                                     </div>
-                                    <div id="faq-3-3" class="accordion-collapse collapse" role="tabpanel" data-bs-parent="#faq-3">
+                                    <div id="faq-2-10" class="accordion-collapse collapse" role="tabpanel" data-bs-parent="#faq-2">
                                         <div class="accordion-body pt-0">
                                             <div>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium alias dignissimos dolorum ea est eveniet, excepturi illum in iste iure maiores nemo recusandae rerum saepe sed, sunt totam! Explicabo,
