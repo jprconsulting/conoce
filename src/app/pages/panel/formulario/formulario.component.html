@@ -1,130 +1,263 @@
 <div class="row row-cards">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Configuración formulario</h3>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Configuración formulario</h3>
+      </div>
+      <div class="card-body border-bottom py-3">
+        <div class="d-flex">
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-report"
+          >
+            <i class="ti ti-plus me-1"></i>Configuración
+          </button>
+          <div class="ms-auto text-muted">
+            <div class="input-icon">
+              <input
+                type="text"
+                value=""
+                class="form-control form-control-rounded"
+                placeholder="Buscar"
+              />
+              <span class="input-icon-addon">
+                <i class="ti ti-search"></i>
+              </span>
             </div>
-            <div class="card-body border-bottom py-3">
-                <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report"><i class="ti ti-plus me-1"></i>Configuración</button>
-                    <div class="ms-auto text-muted">
-                        <div class="input-icon">
-                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                            <i class="ti ti-search"></i>
-                          </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--MODAL AGREGAR CONFIGURACIÓN-->
-            <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Agregar configuración de formulario.</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Inicio del formulario -->
-                            <form [formGroup]="formularioForm" (ngSubmit)="guardarUsuario()">
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">ID del formulario</label>
-                                            <input type="text" class="form-control" formControlName="FormularioIdFront">
-                                            <div *ngIf="formularioForm.get('FormularioIdFront')?.hasError('required')">El iID es requerido.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Nombre del formulario</label>
-                                            <input type="text" class="form-control" formControlName="FormNameFront">
-                                            <div *ngIf="formularioForm.get('FormNameFront')?.hasError('required')">El nombre es requerido.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">ID de Google Form</label>
-                                            <input type="text" class="form-control" formControlName="GoogleFormIdFront">
-                                            <div *ngIf="formularioForm.get('GoogleFormIdFront')?.hasError('required')">El ID es requerido.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">ID de Google Edit Form</label>
-                                            <input type="text" class="form-control" formControlName="GoogleEditFormIdFront">
-                                            <div *ngIf="formularioForm.get('GoogleEditFormIdFront')?.hasError('required')">El ID es requerido.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">Nombre de la Hoja de Cálculo</label>
-                                            <input type="text" class="form-control" formControlName="SheetNameFront">
-                                            <div *ngIf="formularioForm.get('SheetNameFront')?.hasError('required')">El nombre es requerido.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">ID de la Hoja de Cálculo</label>
-                                            <input type="text" class="form-control" formControlName="SpreadsheetIdFront">
-                                            <div *ngIf="formularioForm.get('SpreadsheetIdFront')?.hasError('required')">El ID es requerido.</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="mb-3">
-                                            <label class="form-label">ID del proyecto</label>
-                                            <input type="text" class="form-control" formControlName="ProjectIdFront">
-                                            <div *ngIf="formularioForm.get('ProjectIdFront')?.hasError('required')">El ID es requerido.</div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label class="form-label">Credenciales JSON</label>
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <input type="file" class="form-control" id="credencialesJSONInput" accept=".json" (change)="onFileChange($event)">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Fin del formulario -->
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">Limpiar</button>
-                            <button type="submit" class="btn btn-primary" [disabled]="!formularioForm.valid" (click)="guardarUsuario()">Crear nuevo usuario</button>
-                        </div>
-                    </div>
-                </div>
-
-                <!--FIN MODAL-->
-            </div>
+          </div>
         </div>
+      </div>
+
+      <!--MODAL AGREGAR CONFIGURACIÓN-->
+      <div
+        class="modal modal-blur fade"
+        id="modal-report"
+        tabindex="-1"
+        role="dialog"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-lg modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Agregar configuración de formulario.</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <!-- Inicio del formulario -->
+            <form
+              [formGroup]="configGoogleFormFormGroup"
+              (ngSubmit)="guardarUsuario()"
+            >
+              <div class="modal-body">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label">ID del formulario</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="formularioIdFront"
+                      />
+                      <div
+                        *ngIf="
+                          configGoogleFormFormGroup
+                            .get('FormularioIdFront')
+                            ?.hasError('required')
+                        "
+                      >
+                        El iID es requerido.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label">Nombre del formulario</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="formNameFront"
+                      />
+                      <div
+                        *ngIf="
+                          configGoogleFormFormGroup
+                            .get('FormNameFront')
+                            ?.hasError('required')
+                        "
+                      >
+                        El nombre es requerido.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label">ID de Google Form</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="googleFormIdFront"
+                      />
+                      <div
+                        *ngIf="
+                          configGoogleFormFormGroup
+                            .get('GoogleFormIdFront')
+                            ?.hasError('required')
+                        "
+                      >
+                        El ID es requerido.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label">ID de Google Edit Form</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="googleEditFormIdFront"
+                      />
+                      <div
+                        *ngIf="
+                          configGoogleFormFormGroup
+                            .get('GoogleEditFormIdFront')
+                            ?.hasError('required')
+                        "
+                      >
+                        El ID es requerido.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label"
+                        >Nombre de la Hoja de Cálculo</label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="spreadsheetIdFront"
+                      />
+                      <div
+                        *ngIf="
+                          configGoogleFormFormGroup
+                            .get('SheetNameFront')
+                            ?.hasError('required')
+                        "
+                      >
+                        El nombre es requerido.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label">ID de la Hoja de Cálculo</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="sheetNameFront"
+                      />
+                      <div
+                        *ngIf="
+                          configGoogleFormFormGroup
+                            .get('SpreadsheetIdFront')
+                            ?.hasError('required')
+                        "
+                      >
+                        El ID es requerido.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br />
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label">ID del proyecto</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="projectIdFront"
+                      />
+                      <div
+                        *ngIf="
+                          configGoogleFormFormGroup
+                            .get('ProjectIdFront')
+                            ?.hasError('required')
+                        "
+                      >
+                        El ID es requerido.
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <label class="form-label">Credenciales JSON</label>
+                    <div class="card">
+                      <div class="card-body">
+                        <input
+                          type="file"
+                          class="form-control"
+                          id="credencialesJSONInput"
+                          accept=".json"
+                          (change)="onFileChange($event)"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-link link-secondary"
+                  data-bs-dismiss="modal"
+                  (click)="resetForm()"
+                >
+                  Limpiar
+                </button>
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  [disabled]="!configGoogleFormFormGroup.valid"
+                >
+                  Crear nuevo usuario
+                </button>
+              </div>
+              <!-- Fin del formulario -->
+            </form>
+          </div>
+        </div>
+
+        <!--FIN MODAL-->
+      </div>
     </div>
-    <!-- <table>
+  </div>
+  <!-- <table>
         <thead>
             <tr>
                 <th>ID</th>

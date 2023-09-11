@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "https://conocelosprueba.bsite.net",
+        "target": "https://localhost:44381/api",
         "secure": false
     }
 }

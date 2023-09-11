@@ -10,5 +10,13 @@ export interface AppUserAuth {
     nombreRol: number;
     isAuthenticated: boolean;
     token: string;
+    claims: Array<AppRolClaim>;
+}
+
+export interface AppRolClaim {
+    claimRolID: string;
+    rolId: number;
+    claimType: string;
+    claimValue: boolean;
 }
 
