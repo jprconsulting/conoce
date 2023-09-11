@@ -1,781 +1,1413 @@
 <div class="row row-cards">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Candidatos</h3>
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Candidatos</h3>
+      </div>
+      <div class="card-body border-bottom py-3">
+        <div class="d-flex">
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-report"
+          >
+            <i class="ti ti-plus me-1"></i>Agregar Candidato
+          </button>
+          <div class="ms-auto text-muted">
+            <div class="input-icon">
+              <input
+                type="text"
+                value=""
+                class="form-control form-control-rounded"
+                placeholder="Buscar"
+              />
+              <span class="input-icon-addon">
+                <i class="ti ti-search"></i>
+              </span>
             </div>
-            <div class="card-body border-bottom py-3">
-                <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report">
-                    <i class="ti ti-plus me-1"></i>Agregar Candidato
-                  </button>
-                    <div class="ms-auto text-muted">
-                        <div class="input-icon">
-                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                            <i class="ti ti-search"></i>
-                          </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--MODAL AGREGAR USUARIO-->
-            <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Nuevo Candidato</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"> </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Inicio del formulario -->
-                            <form [formGroup]="userForm" (ngSubmit)="guardarUsuario()">
-
-
-                                <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
-                                <p>Información referente al candidato</p>
-                                <p>Los campos marcados con un (*) son obligatorios</p>
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="mb-1">
-                                            <label class="form-label">Nombre *</label>
-                                            <input type="text" class="form-control" formControlName="nameCandidate" [class.is-invalid]="marcarNombreComoTocado()" />
-                                            <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('pattern')" class="error-message"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-1">
-                                            <label class="form-label">Apellido paterno *</label>
-                                            <input type="text" class="form-control" formControlName="apPaterno" [class.is-invalid]="marcarApPaternoTocado()" />
-                                            <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('pattern')" class="error-message"></div>
-                                        </div>
-                                    </div>
-
-
-                                    <!--HASTA AQUI-->
-
-                                    <div class="col-lg-3">
-                                        <div class="mb-1">
-                                            <label class="form-label">Apellido materno *</label>
-                                            <input type="text" class="form-control" formControlName="apMaterno" [class.is-invalid]="marcarApMaternoTocado()" />
-                                            <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('pattern')" class="error-message"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-1">
-                                            <label class="form-label">Sobrenombre *</label>
-                                            <input type="text" class="form-control" formControlName="sobrenombre" [class.is-invalid]="marcarSobrenombreTocado()" />
-                                            <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('pattern')" class="error-message"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <hr>
-                                <p>Información referente al suplente</p>
-                                <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="mb-1">
-                                            <label class="form-label">Nombre del suplente *</label>
-                                            <input type="text" class="form-control" formControlName="nameSuplent" [class.is-invalid]="marcarNombreSComoTocado()" />
-                                            <div *ngIf="nombreSTocado && userForm.get('nameSuplent')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="nombreSTocado && userForm.get('nameSuplent')?.hasError('pattern')" class="error-message"></div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <div class="mb-1">
-                                            <label class="form-label">Apellido paterno *</label>
-                                            <input type="text" class="form-control" formControlName="apPaternoS" [class.is-invalid]="marcarApPaternoSTocado()" />
-                                            <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('pattern')" class="error-message"></div>
-                                        </div>
-                                    </div>
-
-                                    <!--HASTA AQUI-->
-
-                                    <div class="col-lg-4">
-                                        <div class="mb-1">
-                                            <label class="form-label">Apellido materno *</label>
-                                            <input type="text" class="form-control" formControlName="apMaternoS" [class.is-invalid]="marcarApMaternoSTocado()" />
-                                            <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('pattern')" class="error-message"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <hr>
-                                <p>Información referente a la demarcación</p>
-
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="mb-1">
-                                            <div class="mb-1">
-                                                <label class="form-label">Partido Politíco *</label>
-                                                <select class="form-select" formControlName="partido">
-                                                    <option value="">Selecciona una opción...</option>
-                                                    <option value="PRI">Partido Revolucionario Institucional (PRI)</option>
-                                                    <option value="PAN">Partido Acción Nacional (PAN)</option>
-                                                    <option value="MORENA">Movimiento Regeneración Nacional (MORENA)</option>
-                                                    <option value="PRD">Partido de la Revolución Democrática (PRD)</option>
-                                                    <option value="PT">Partido del Trabajo (PT)</option>
-                                                </select>
-                                                <div *ngIf="userForm.get('partido')?.value===''" class="error-message"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-3">
-                                        <div class="mb-1">
-                                            <div class="mb-1">
-                                                <label class="form-label">Tipo de candidatura *</label>
-                                                <select class="form-select" formControlName="eleccion">
-                                                <option value="">Selecciona una opción...</option>
-                                                <option value="Gobernatura">Gobernatura</option>
-                                                <option value="Diputaciones Locales">Diputaciones Locales</option>
-                                                <option value="Ayuntamiento">Ayuntamiento</option>
-                                                <option value="Presidencias de comunidad">Presidencias de comunidad</option>
-                                                </select>
-                                                <div *ngIf="userForm.get('eleccion')?.value===''" class="error-message"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <div class="mb-1">
-                                            <div class="mb-1">
-                                                <label class="form-label">Estado *</label>
-                                                <select class="form-select" formControlName="estados">
-                                                    <option value="">Selecciona una opción...</option>
-                                                    <option value="Aguascalientes">Aguascalientes</option>
-                                                    <option value="Baja California">Baja California</option>
-                                                    <option value="Baja California Sur">Baja California Sur</option>
-                                                    <option value="Campeche">Campeche</option>
-                                                    <option value="Chiapas">Chiapas</option>
-                                                    <option value="Chihuahua">Chihuahua</option>
-                                                    <option value="Ciudad de México">Ciudad de México</option>
-                                                    <option value="Coahuila">Coahuila</option>
-                                                    <option value="Colima">Colima</option>
-                                                    <option value="Durango">Durango</option>
-                                                    <option value="Estado de México">Estado de México</option>
-                                                    <option value="Guanajuato">Guanajuato</option>
-                                                    <option value="Guerrero">Guerrero</option>
-                                                    <option value="Hidalgo">Hidalgo</option>
-                                                    <option value="Jalisco">Jalisco</option>
-                                                    <option value="Michoacán">Michoacán</option>
-                                                    <option value="Morelos">Morelos</option>
-                                                    <option value="Nayarit">Nayarit</option>
-                                                    <option value="Nuevo León">Nuevo León</option>
-                                                    <option value="Oaxaca">Oaxaca</option>
-                                                    <option value="Puebla">Puebla</option>
-                                                    <option value="Querétaro">Querétaro</option>
-                                                    <option value="Quintana Roo">Quintana Roo</option>
-                                                    <option value="San Luis Potosí">San Luis Potosí</option>
-                                                    <option value="Sinaloa">Sinaloa</option>
-                                                    <option value="Sonora">Sonora</option>
-                                                    <option value="Tabasco">Tabasco</option>
-                                                    <option value="Tamaulipas">Tamaulipas</option>
-                                                    <option value="Tlaxcala">Tlaxcala</option>
-                                                    <option value="Veracruz">Veracruz</option>
-                                                    <option value="Yucatán">Yucatán</option>
-                                                    <option value="Zacatecas">Zacatecas</option>
-
-                                                </select>
-                                                <div *ngIf="userForm.get('estados')?.value===''" class="error-message"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Diputaciones Locales' || userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
-                                        <div class="mb-1">
-                                            <div class="mb-1">
-                                                <label class="form-label">Distrito Local *</label>
-                                                <select class="form-select" formControlName="distritos" *ngIf="userForm.get('estados')?.value === 'Hidalgo' ">
-                                                    <option value="">Selecciona una opción...</option>
-                                                    <option value="Distrito 1 | Pachuca de Soto">Distrito 1 | Pachuca de Soto</option>
-                                                    <option value="Distrito 2 | Tulancingo de Bravo">Distrito 2 | Tulancingo de Bravo</option>
-                                                    <option value="Distrito 3 | Tula de Allende">Distrito 3 | Tula de Allende</option>
-                                                    <option value="Distrito 4 | Ixmiquilpan">Distrito 4 | Ixmiquilpan</option>
-                                                    <option value="Distrito 5 | Huejutla de Reyes">Distrito 5 | Huejutla de Reyes</option>
-                                                    <option value="Distrito 6 | Actopan">Distrito 6 | Actopan</option>
-                                                    <option value="Distrito 7 | Tepeji del Río de Ocampo">Distrito 7 | Tepeji del Río de Ocampo</option>
-                                                    <option value="Distrito 8 | Zimapán">Distrito 8 | Zimapán</option>
-                                                    <option value="Distrito 9 | Apan">Distrito 9 | Apan</option>
-                                                    <option value="Distrito 10 | Tizayuca">Distrito 10 | Tizayuca</option>
-                                                    <option value="Distrito 11 | Tepeapulco">Distrito 11 | Tepeapulco</option>
-                                                    <option value="Distrito 12 | Tlaxcoapan">Distrito 12 | Tlaxcoapan</option>
-                                                    <option value="Distrito 13 | Mineral de la Reforma">Distrito 13 | Mineral de la Reforma</option>
-                                                    <option value="Distrito 14 | Mixquiahuala de Juárez">Distrito 14 | Mixquiahuala de Juárez</option>
-                                                    <option value="Distrito 15 | Atotonilco el Grande">Distrito 15 | Atotonilco el Grande</option>
-                                                    <option value="Distrito 16 | Santiago Tulantepec de Lugo Guerrero">Distrito 16 | Santiago Tulantepec de Lugo Guerrero</option>
-                                                    <option value="Distrito 17 | Singuilucan">Distrito 17 | Singuilucan</option>
-                                                    <option value="Distrito 18 | Ajacuba">Distrito 18 | Ajacuba</option>
-                                                    <option value="Distrito 19 | Tlahuelilpan">Distrito 19 | Tlahuelilpan</option>
-                                                    <option value="Distrito 20 | Metepec">Distrito 20 | Metepec</option>
-                                                    <option value="Distrito 21 | Cuautepec de Hinojosa">Distrito 21 | Cuautepec de Hinojosa</option>
-                                                    <option value="Distrito 22 | San Agustín Tlaxiaca">Distrito 22 | San Agustín Tlaxiaca</option>
-                                                    <option value="Distrito 23 | Tezontepec de Aldama">Distrito 23 | Tezontepec de Aldama</option>
-                                                    <option value="Distrito 24 | Chapantongo">Distrito 24 | Chapantongo</option>
-                                                    <option value="Distrito 25 | Tepetitlán">Distrito 25 | Tepetitlán</option>
-                                                    <option value="Distrito 26 | Acaxochitlán">Distrito 26 | Acaxochitlán</option>
-                                                    <option value="Distrito 27 | Tecozautla">Distrito 27 | Tecozautla</option>
-                                                    <option value="Distrito 28 | San Salvador">Distrito 28 | San Salvador</option>
-                                                    <option value="Distrito 29 | Huichapan">Distrito 29 | Huichapan</option>
-                                                    <option value="Distrito 30 | Pacula">Distrito 30 | Pacula</option>
-                                                    <option value="Distrito 31 | Atitalaquia">Distrito 31 | Atitalaquia</option>
-                                                    <option value="Distrito 32 | Cardonal">Distrito 32 | Cardonal</option>
-                                                </select>
-                                                <div *ngIf="userForm.get('distritos')?.value===''" class="error-message"></div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-
-                                    <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'  ">
-                                        <div class="mb-1">
-                                            <div class="mb-1">
-                                                <label class="form-label">Ayuntamiento *</label>
-                                                <select class="form-select" formControlName="ayuntamiento" *ngIf="userForm.get('distritos')?.value === 'Distrito 1 | Pachuca de Soto' ">
-                                                    <option value="null">Selecciona una opción...</option>
-                                                    <option value="Pachuca">Pachuca de Soto</option>
-                                                    <option value="Mineral Del Chico">Mineral del Chico</option>
-                                                    <option value="Mineral Del Monte">Mineral del Monte</option>
-                                                    <option value="Epazoyucan">Epazoyucan</option>
-                                                    <option value="Zapotlan De Juarez">Zapotlán de Juárez</option>
-                                                </select>
-                                                <div *ngIf="userForm.get('ayuntamiento')?.value===''" class="error-message"></div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
-                                        <div class="mb-1">
-                                            <div class="mb-1">
-                                                <label class="form-label">Comunidad *</label>
-                                                <select class="form-select" formControlName="comunidad" *ngIf="userForm.get('ayuntamiento')?.value === 'Pachuca' ">
-                                                    <option value="">Selecciona una opción...</option>
-                                                    <option value="Centro">Centro</option>
-                                                    <option value="RealDelMonte">Real del Monte</option>
-                                                    <option value="VillasDePachuca">Villas de Pachuca</option>
-                                                    <option value="CerroDeLaCruz">Cerro de la Cruz</option>
-                                                    <option value="LaPaz">La Paz</option>
-                                                    <option value="SanCayetano">San Cayetano</option>
-                                                    <option value="Doctores">Doctores</option>
-                                                    <option value="NuevaImagen">Nueva Imagen</option>
-                                                    <option value="LosTuzos">Los Tuzos</option>
-                                                    <option value="ExHaciendaDeCoscotitlan">Ex-Hacienda de Coscotitlán</option>
-                                                </select>
-                                                <div *ngIf="userForm.get('comunidad')?.value===''" class="error-message"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-
-                                </div>
-
-
-
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-link link-secondary" (click)="resetForm()">
-                            Limpiar
-                          </button>
-                            <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="guardarUsuario()">
-                            Crear nuevo candidato
-                          </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!--FIN MODAL-->
-
-            <ng-container [ngSwitch]="isLoadingUsers">
-                <div class="progress" *ngSwitchCase="2">
-                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-                </div>
-
-                <div *ngSwitchCase="3">
-                    <div class="table-responsive">
-                        <table class="table card-table table-vcenter text-nowrap datatable">
-                            <thead>
-                                <tr>
-                                    <th class="w-1">Id</th>
-                                    <th>Nombre</th>
-                                    <th>Apellido Paterno</th>
-                                    <th>Apellido Materno</th>
-                                    <th>Partido Politico</th>
-                                    <th>Tipo de candidatura</th>
-                                    <th>Estado</th>
-                                    <th class="text-center" style="width: 7%">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-tbody">
-                                <tr></tr>
-                                <tr *ngFor="let CandidatosMaqu of candidato; let pointIndex = index">
-                                    <td>{{ pointIndex + 1 }}</td>
-                                    <td>{{ CandidatosMaqu.nombre }}</td>
-                                    <td>{{ CandidatosMaqu.apellidoPaterno }}</td>
-                                    <td>{{ CandidatosMaqu.apellidoMaterno }}</td>
-                                    <td>{{ CandidatosMaqu.Partido }}</td>
-                                    <td>{{ CandidatosMaqu.TipoCandidatura }}</td>
-                                    <td>{{ CandidatosMaqu.Estado }}</td>
-                                    <td>
-                                        <div class="d-flex justify-content-between">
-                                            <button class="btn btn-warning btn-icon btn-sm">
-                                            <i
-                                              class="ti ti-edit"
-                                              data-bs-toggle="modal"
-                                              data-bs-target="#modal-report-edit"
-                                            ></i>
-                                          </button>
-                                            <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px;">
-                                            <i class="ti ti-eraser"></i>
-                                          </button>
-                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="abrirModal(CandidatosMaqu)">
-                                            <i class="ti ti-eye"></i>
-                                          </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="card-footer d-flex align-items-center">
-                        <p class="m-0 text-muted">
-                            Showing <span>1</span> to <span>8</span> of
-                            <span>16</span> entries
-                        </p>
-                        <ul class="pagination m-0 ms-auto">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M15 6l-6 6l6 6" />
-                </svg> prev
-                                </a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item active">
-                                <a class="page-link" href="#">2</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">4</a></li>
-                            <li class="page-item"><a class="page-link" href="#">5</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">
-                next
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  class="icon"
-                  width="24"
-                  height="24"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  fill="none"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path d="M9 6l6 6l-6 6" />
-                </svg>
-              </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <app-no-results *ngSwitchCase="4"></app-no-results>
-            </ng-container>
+          </div>
         </div>
+      </div>
+
+      <!--MODAL AGREGAR USUARIO-->
+      <div
+        class="modal modal-blur fade"
+        id="modal-report"
+        tabindex="-1"
+        role="dialog"
+        aria-hidden="true"
+      >
+        <div
+          class="modal-dialog modal-lg modal-dialog-centered"
+          role="document"
+        >
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Nuevo Candidato</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+                (click)="resetForm()"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <!-- Inicio del formulario -->
+              <form [formGroup]="userForm" (ngSubmit)="guardarUsuario()">
+                <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
+                <p>Información referente al candidato</p>
+                <p>Los campos marcados con un (*) son obligatorios</p>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="mb-1">
+                      <label class="form-label">Nombre *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="nameCandidate"
+                        [class.is-invalid]="marcarNombreComoTocado()"
+                      />
+                      <div
+                        *ngIf="
+                          nombreTocado &&
+                          userForm.get('nameCandidate')?.hasError('required')
+                        "
+                        class="error-message"
+                      ></div>
+                      <div
+                        *ngIf="
+                          nombreTocado &&
+                          userForm.get('nameCandidate')?.hasError('pattern')
+                        "
+                        class="error-message"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="mb-1">
+                      <label class="form-label">Apellido paterno *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="apPaterno"
+                        [class.is-invalid]="marcarApPaternoTocado()"
+                      />
+                      <div
+                        *ngIf="
+                          apPaternoTocado &&
+                          userForm.get('apPaterno')?.hasError('required')
+                        "
+                        class="error-message"
+                      ></div>
+                      <div
+                        *ngIf="
+                          apPaternoTocado &&
+                          userForm.get('apPaterno')?.hasError('pattern')
+                        "
+                        class="error-message"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <!--HASTA AQUI-->
+
+                  <div class="col-lg-3">
+                    <div class="mb-1">
+                      <label class="form-label">Apellido materno *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="apMaterno"
+                        [class.is-invalid]="marcarApMaternoTocado()"
+                      />
+                      <div
+                        *ngIf="
+                          apMaternoTocado &&
+                          userForm.get('apMaterno')?.hasError('required')
+                        "
+                        class="error-message"
+                      ></div>
+                      <div
+                        *ngIf="
+                          apMaternoTocado &&
+                          userForm.get('apMaterno')?.hasError('pattern')
+                        "
+                        class="error-message"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="mb-1">
+                      <label class="form-label">Sobrenombre *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="sobrenombre"
+                        [class.is-invalid]="marcarSobrenombreTocado()"
+                      />
+                      <div
+                        *ngIf="
+                          sobrenombreTocado &&
+                          userForm.get('sobrenombre')?.hasError('required')
+                        "
+                        class="error-message"
+                      ></div>
+                      <div
+                        *ngIf="
+                          sobrenombreTocado &&
+                          userForm.get('sobrenombre')?.hasError('pattern')
+                        "
+                        class="error-message"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                <hr />
+                <p>Información referente al suplente</p>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="mb-1">
+                      <label class="form-label">Nombre del suplente *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="nameSuplent"
+                        [class.is-invalid]="marcarNombreSComoTocado()"
+                      />
+                      <div
+                        *ngIf="
+                          nombreSTocado &&
+                          userForm.get('nameSuplent')?.hasError('required')
+                        "
+                        class="error-message"
+                      ></div>
+                      <div
+                        *ngIf="
+                          nombreSTocado &&
+                          userForm.get('nameSuplent')?.hasError('pattern')
+                        "
+                        class="error-message"
+                      ></div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <div class="mb-1">
+                      <label class="form-label">Apellido paterno *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="apPaternoS"
+                        [class.is-invalid]="marcarApPaternoSTocado()"
+                      />
+                      <div
+                        *ngIf="
+                          apPaternoSTocado &&
+                          userForm.get('apPaternoS')?.hasError('required')
+                        "
+                        class="error-message"
+                      ></div>
+                      <div
+                        *ngIf="
+                          apPaternoSTocado &&
+                          userForm.get('apPaternoS')?.hasError('pattern')
+                        "
+                        class="error-message"
+                      ></div>
+                    </div>
+                  </div>
+
+                  <!--HASTA AQUI-->
+
+                  <div class="col-lg-4">
+                    <div class="mb-1">
+                      <label class="form-label">Apellido materno *</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        formControlName="apMaternoS"
+                        [class.is-invalid]="marcarApMaternoSTocado()"
+                      />
+                      <div
+                        *ngIf="
+                          apMaternoSTocado &&
+                          userForm.get('apMaternoS')?.hasError('required')
+                        "
+                        class="error-message"
+                      ></div>
+                      <div
+                        *ngIf="
+                          apMaternoSTocado &&
+                          userForm.get('apMaternoS')?.hasError('pattern')
+                        "
+                        class="error-message"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+
+                <hr />
+                <p>Información referente a la demarcación</p>
+
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="mb-1">
+                      <div class="mb-1">
+                        <label class="form-label">Partido Politíco *</label>
+                        <select class="form-select" formControlName="partido">
+                          <option value="">Selecciona una opción...</option>
+                          <option value="PRI">
+                            Partido Revolucionario Institucional (PRI)
+                          </option>
+                          <option value="PAN">
+                            Partido Acción Nacional (PAN)
+                          </option>
+                          <option value="MORENA">
+                            Movimiento Regeneración Nacional (MORENA)
+                          </option>
+                          <option value="PRD">
+                            Partido de la Revolución Democrática (PRD)
+                          </option>
+                          <option value="PT">Partido del Trabajo (PT)</option>
+                        </select>
+                        <div
+                          *ngIf="userForm.get('partido')?.value === ''"
+                          class="error-message"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div class="mb-1">
+                      <div class="mb-1">
+                        <label class="form-label">Tipo de candidatura *</label>
+                        <select class="form-select" formControlName="eleccion">
+                          <option value="">Selecciona una opción...</option>
+                          <option value="Gobernatura">Gobernatura</option>
+                          <option value="Diputaciones Locales">
+                            Diputaciones Locales
+                          </option>
+                          <option value="Ayuntamiento">Ayuntamiento</option>
+                          <option value="Presidencias de comunidad">
+                            Presidencias de comunidad
+                          </option>
+                        </select>
+                        <div
+                          *ngIf="userForm.get('eleccion')?.value === ''"
+                          class="error-message"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="mb-1">
+                      <div class="mb-1">
+                        <label class="form-label">Estado *</label>
+                        <select class="form-select" formControlName="estados">
+                          <option value="">Selecciona una opción...</option>
+                          <option value="Aguascalientes">Aguascalientes</option>
+                          <option value="Baja California">
+                            Baja California
+                          </option>
+                          <option value="Baja California Sur">
+                            Baja California Sur
+                          </option>
+                          <option value="Campeche">Campeche</option>
+                          <option value="Chiapas">Chiapas</option>
+                          <option value="Chihuahua">Chihuahua</option>
+                          <option value="Ciudad de México">
+                            Ciudad de México
+                          </option>
+                          <option value="Coahuila">Coahuila</option>
+                          <option value="Colima">Colima</option>
+                          <option value="Durango">Durango</option>
+                          <option value="Estado de México">
+                            Estado de México
+                          </option>
+                          <option value="Guanajuato">Guanajuato</option>
+                          <option value="Guerrero">Guerrero</option>
+                          <option value="Hidalgo">Hidalgo</option>
+                          <option value="Jalisco">Jalisco</option>
+                          <option value="Michoacán">Michoacán</option>
+                          <option value="Morelos">Morelos</option>
+                          <option value="Nayarit">Nayarit</option>
+                          <option value="Nuevo León">Nuevo León</option>
+                          <option value="Oaxaca">Oaxaca</option>
+                          <option value="Puebla">Puebla</option>
+                          <option value="Querétaro">Querétaro</option>
+                          <option value="Quintana Roo">Quintana Roo</option>
+                          <option value="San Luis Potosí">
+                            San Luis Potosí
+                          </option>
+                          <option value="Sinaloa">Sinaloa</option>
+                          <option value="Sonora">Sonora</option>
+                          <option value="Tabasco">Tabasco</option>
+                          <option value="Tamaulipas">Tamaulipas</option>
+                          <option value="Tlaxcala">Tlaxcala</option>
+                          <option value="Veracruz">Veracruz</option>
+                          <option value="Yucatán">Yucatán</option>
+                          <option value="Zacatecas">Zacatecas</option>
+                        </select>
+                        <div
+                          *ngIf="userForm.get('estados')?.value === ''"
+                          class="error-message"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-lg-3"
+                    *ngIf="
+                      userForm.get('eleccion')?.value ===
+                        'Diputaciones Locales' ||
+                      userForm.get('eleccion')?.value === 'Ayuntamiento' ||
+                      userForm.get('eleccion')?.value ===
+                        'Presidencias de comunidad'
+                    "
+                  >
+                    <div class="mb-1">
+                      <div class="mb-1">
+                        <label class="form-label">Distrito Local *</label>
+                        <select
+                          class="form-select"
+                          formControlName="distritos"
+                          *ngIf="userForm.get('estados')?.value === 'Hidalgo'"
+                        >
+                          <option value="">Selecciona una opción...</option>
+                          <option value="Distrito 1 | Pachuca de Soto">
+                            Distrito 1 | Pachuca de Soto
+                          </option>
+                          <option value="Distrito 2 | Tulancingo de Bravo">
+                            Distrito 2 | Tulancingo de Bravo
+                          </option>
+                          <option value="Distrito 3 | Tula de Allende">
+                            Distrito 3 | Tula de Allende
+                          </option>
+                          <option value="Distrito 4 | Ixmiquilpan">
+                            Distrito 4 | Ixmiquilpan
+                          </option>
+                          <option value="Distrito 5 | Huejutla de Reyes">
+                            Distrito 5 | Huejutla de Reyes
+                          </option>
+                          <option value="Distrito 6 | Actopan">
+                            Distrito 6 | Actopan
+                          </option>
+                          <option value="Distrito 7 | Tepeji del Río de Ocampo">
+                            Distrito 7 | Tepeji del Río de Ocampo
+                          </option>
+                          <option value="Distrito 8 | Zimapán">
+                            Distrito 8 | Zimapán
+                          </option>
+                          <option value="Distrito 9 | Apan">
+                            Distrito 9 | Apan
+                          </option>
+                          <option value="Distrito 10 | Tizayuca">
+                            Distrito 10 | Tizayuca
+                          </option>
+                          <option value="Distrito 11 | Tepeapulco">
+                            Distrito 11 | Tepeapulco
+                          </option>
+                          <option value="Distrito 12 | Tlaxcoapan">
+                            Distrito 12 | Tlaxcoapan
+                          </option>
+                          <option value="Distrito 13 | Mineral de la Reforma">
+                            Distrito 13 | Mineral de la Reforma
+                          </option>
+                          <option value="Distrito 14 | Mixquiahuala de Juárez">
+                            Distrito 14 | Mixquiahuala de Juárez
+                          </option>
+                          <option value="Distrito 15 | Atotonilco el Grande">
+                            Distrito 15 | Atotonilco el Grande
+                          </option>
+                          <option
+                            value="Distrito 16 | Santiago Tulantepec de Lugo Guerrero"
+                          >
+                            Distrito 16 | Santiago Tulantepec de Lugo Guerrero
+                          </option>
+                          <option value="Distrito 17 | Singuilucan">
+                            Distrito 17 | Singuilucan
+                          </option>
+                          <option value="Distrito 18 | Ajacuba">
+                            Distrito 18 | Ajacuba
+                          </option>
+                          <option value="Distrito 19 | Tlahuelilpan">
+                            Distrito 19 | Tlahuelilpan
+                          </option>
+                          <option value="Distrito 20 | Metepec">
+                            Distrito 20 | Metepec
+                          </option>
+                          <option value="Distrito 21 | Cuautepec de Hinojosa">
+                            Distrito 21 | Cuautepec de Hinojosa
+                          </option>
+                          <option value="Distrito 22 | San Agustín Tlaxiaca">
+                            Distrito 22 | San Agustín Tlaxiaca
+                          </option>
+                          <option value="Distrito 23 | Tezontepec de Aldama">
+                            Distrito 23 | Tezontepec de Aldama
+                          </option>
+                          <option value="Distrito 24 | Chapantongo">
+                            Distrito 24 | Chapantongo
+                          </option>
+                          <option value="Distrito 25 | Tepetitlán">
+                            Distrito 25 | Tepetitlán
+                          </option>
+                          <option value="Distrito 26 | Acaxochitlán">
+                            Distrito 26 | Acaxochitlán
+                          </option>
+                          <option value="Distrito 27 | Tecozautla">
+                            Distrito 27 | Tecozautla
+                          </option>
+                          <option value="Distrito 28 | San Salvador">
+                            Distrito 28 | San Salvador
+                          </option>
+                          <option value="Distrito 29 | Huichapan">
+                            Distrito 29 | Huichapan
+                          </option>
+                          <option value="Distrito 30 | Pacula">
+                            Distrito 30 | Pacula
+                          </option>
+                          <option value="Distrito 31 | Atitalaquia">
+                            Distrito 31 | Atitalaquia
+                          </option>
+                          <option value="Distrito 32 | Cardonal">
+                            Distrito 32 | Cardonal
+                          </option>
+                        </select>
+                        <div
+                          *ngIf="userForm.get('distritos')?.value === ''"
+                          class="error-message"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="col-lg-3"
+                    *ngIf="
+                      userForm.get('eleccion')?.value === 'Ayuntamiento' ||
+                      userForm.get('eleccion')?.value ===
+                        'Presidencias de comunidad'
+                    "
+                  >
+                    <div class="mb-1">
+                      <div class="mb-1">
+                        <label class="form-label">Ayuntamiento *</label>
+                        <select
+                          class="form-select"
+                          formControlName="ayuntamiento"
+                          *ngIf="
+                            userForm.get('distritos')?.value ===
+                            'Distrito 1 | Pachuca de Soto'
+                          "
+                        >
+                          <option value="null">Selecciona una opción...</option>
+                          <option value="Pachuca">Pachuca de Soto</option>
+                          <option value="Mineral Del Chico">
+                            Mineral del Chico
+                          </option>
+                          <option value="Mineral Del Monte">
+                            Mineral del Monte
+                          </option>
+                          <option value="Epazoyucan">Epazoyucan</option>
+                          <option value="Zapotlan De Juarez">
+                            Zapotlán de Juárez
+                          </option>
+                        </select>
+                        <div
+                          *ngIf="userForm.get('ayuntamiento')?.value === ''"
+                          class="error-message"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="col-lg-3"
+                    *ngIf="
+                      userForm.get('eleccion')?.value ===
+                      'Presidencias de comunidad'
+                    "
+                  >
+                    <div class="mb-1">
+                      <div class="mb-1">
+                        <label class="form-label">Comunidad *</label>
+                        <select
+                          class="form-select"
+                          formControlName="comunidad"
+                          *ngIf="
+                            userForm.get('ayuntamiento')?.value === 'Pachuca'
+                          "
+                        >
+                          <option value="">Selecciona una opción...</option>
+                          <option value="Centro">Centro</option>
+                          <option value="RealDelMonte">Real del Monte</option>
+                          <option value="VillasDePachuca">
+                            Villas de Pachuca
+                          </option>
+                          <option value="CerroDeLaCruz">
+                            Cerro de la Cruz
+                          </option>
+                          <option value="LaPaz">La Paz</option>
+                          <option value="SanCayetano">San Cayetano</option>
+                          <option value="Doctores">Doctores</option>
+                          <option value="NuevaImagen">Nueva Imagen</option>
+                          <option value="LosTuzos">Los Tuzos</option>
+                          <option value="ExHaciendaDeCoscotitlan">
+                            Ex-Hacienda de Coscotitlán
+                          </option>
+                        </select>
+                        <div
+                          *ngIf="userForm.get('comunidad')?.value === ''"
+                          class="error-message"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-link link-secondary"
+                (click)="resetForm()"
+              >
+                Limpiar
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="!userForm.valid"
+                (click)="guardarUsuario()"
+              >
+                Crear nuevo candidato
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--FIN MODAL-->
+
+      <ng-container [ngSwitch]="isLoadingUsers">
+        <div class="progress" *ngSwitchCase="2">
+          <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+        </div>
+
+        <div *ngSwitchCase="3">
+          <div class="table-responsive">
+            <table class="table card-table table-vcenter text-nowrap datatable">
+              <thead>
+                <tr>
+                  <th class="w-1">Id</th>
+                  <th>Nombre</th>
+                  <th>Apellido Paterno</th>
+                  <th>Apellido Materno</th>
+                  <th>Partido Politico</th>
+                  <th>Tipo de candidatura</th>
+                  <th>Estado</th>
+                  <th class="text-center" style="width: 7%">Acciones</th>
+                </tr>
+              </thead>
+              <tbody class="table-tbody">
+                <tr></tr>
+                <tr
+                  *ngFor="
+                    let CandidatosMaqu of candidato;
+                    let pointIndex = index
+                  "
+                >
+                  <td>{{ pointIndex + 1 }}</td>
+                  <td>{{ CandidatosMaqu.nombre }}</td>
+                  <td>{{ CandidatosMaqu.apellidoPaterno }}</td>
+                  <td>{{ CandidatosMaqu.apellidoMaterno }}</td>
+                  <td>{{ CandidatosMaqu.Partido }}</td>
+                  <td>{{ CandidatosMaqu.TipoCandidatura }}</td>
+                  <td>{{ CandidatosMaqu.Estado }}</td>
+                  <td>
+                    <div class="d-flex justify-content-between">
+                      <button class="btn btn-warning btn-icon btn-sm">
+                        <i
+                          class="ti ti-edit"
+                          data-bs-toggle="modal"
+                          data-bs-target="#modal-report-edit"
+                        ></i>
+                      </button>
+                      <button
+                        class="btn btn-danger btn-icon btn-sm"
+                        style="margin-left: 5px; margin-right: 5px"
+                      >
+                        <i class="ti ti-eraser"></i>
+                      </button>
+                      <button
+                        class="btn btn-primary btn-icon btn-sm"
+                        data-bs-toggle="modal"
+                        data-bs-target="#myModaledit"
+                        (click)="abrirModal(CandidatosMaqu)"
+                      >
+                        <i class="ti ti-eye"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="card-footer d-flex align-items-center">
+            <p class="m-0 text-muted">
+              Showing <span>1</span> to <span>8</span> of
+              <span>16</span> entries
+            </p>
+            <ul class="pagination m-0 ms-auto">
+              <li class="page-item disabled">
+                <a
+                  class="page-link"
+                  href="#"
+                  tabindex="-1"
+                  aria-disabled="true"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M15 6l-6 6l6 6" />
+                  </svg>
+                  prev
+                </a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">1</a></li>
+              <li class="page-item active">
+                <a class="page-link" href="#">2</a>
+              </li>
+              <li class="page-item"><a class="page-link" href="#">3</a></li>
+              <li class="page-item"><a class="page-link" href="#">4</a></li>
+              <li class="page-item"><a class="page-link" href="#">5</a></li>
+              <li class="page-item">
+                <a class="page-link" href="#">
+                  next
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9 6l6 6l-6 6" />
+                  </svg>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <app-no-results *ngSwitchCase="4"></app-no-results>
+      </ng-container>
     </div>
+  </div>
 </div>
 
 <!-- Modal para mostrar la información del usuario -->
-<div class="modal fade" id="myModaledit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title" id="exampleModalLabel">Información del Usuario</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()">
-                <span aria-hidden="true">&times;</span>
-                </button>
+<div
+  class="modal fade"
+  id="myModaledit"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">
+          Información del Usuario
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="resetForm()"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="background-color: #f6f8fb">
+        <div class="row row-cards">
+          <h3>INFORMACION REFERENTE AL CANDIDATO</h3>
+          <div class="col-md-6 col-lg-3">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">Nombre:</h2>
+                <h3>{{ usuarioSeleccionado?.nombre }}</h3>
+              </div>
             </div>
-            <div class="modal-body">
-                <div class="row row-cards">
-                    <h3>INFORMACION REFERENTE AL CANDIDATO</h3>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">Nombre:</h2>
-                                <h3>{{ usuarioSeleccionado?.nombre }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">Apellido Paterno:</h2>
-                                <h3>{{ usuarioSeleccionado?.apellidoPaterno }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">Apellido Materno:</h2>
-                                <h3>{{ usuarioSeleccionado?.apellidoMaterno }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">Sobrenombre:</h2>
-                                <h3>{{ usuarioSeleccionado?.Sobrenombre }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <br>
-                <div class="row row-cards">
-                    <h3>INFORMACION REFERENTE AL SUPLENTE</h3>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">Nombre:</h2>
-                                <h3>{{ usuarioSeleccionado?.NombreSuplente }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">Apellido Paterno:</h2>
-                                <h3>{{ usuarioSeleccionado?.apellidoPatSup }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">Apellido Materno:</h2>
-                                <h3>{{ usuarioSeleccionado?.apellidoMatSup }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row-cards">
-                    <h3>INFORMACION REFERENTE A LA DEMARCACIÓN</h3>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">TIPO DE CANDIDATURA:</h2>
-                                <h3>{{ usuarioSeleccionado?.TipoCandidatura }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">PARTIDO POLÍTICO:</h2>
-                                <h3>{{ usuarioSeleccionado?.Partido }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="card card-borderless">
-                            <div class="card-body">
-                                <h2 class="card-title">ESTADO:</h2>
-                                <h3>{{ usuarioSeleccionado?.Estado }}</h3>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">Apellido Paterno:</h2>
+                <h3>{{ usuarioSeleccionado?.apellidoPaterno }}</h3>
+              </div>
             </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">Apellido Materno:</h2>
+                <h3>{{ usuarioSeleccionado?.apellidoMaterno }}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-3">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">Sobrenombre:</h2>
+                <h3>{{ usuarioSeleccionado?.Sobrenombre }}</h3>
+              </div>
+            </div>
+          </div>
         </div>
+        <br />
+        <div class="row row-cards">
+          <h3>INFORMACION REFERENTE AL SUPLENTE</h3>
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">Nombre:</h2>
+                <h3>{{ usuarioSeleccionado?.NombreSuplente }}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">Apellido Paterno:</h2>
+                <h3>{{ usuarioSeleccionado?.apellidoPatSup }}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">Apellido Materno:</h2>
+                <h3>{{ usuarioSeleccionado?.apellidoMatSup }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row row-cards">
+          <h3>INFORMACION REFERENTE A LA DEMARCACIÓN</h3>
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">TIPO DE CANDIDATURA:</h2>
+                <h3>{{ usuarioSeleccionado?.TipoCandidatura }}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">PARTIDO POLÍTICO:</h2>
+                <h3>{{ usuarioSeleccionado?.Partido }}</h3>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6 col-lg-4">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h2 class="card-title">ESTADO:</h2>
+                <h3>{{ usuarioSeleccionado?.Estado }}</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row row-cards">
+          <div class="col-md-12">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h3 class="card-title">
+                  ¿Se identifica como una persona indígena o como parte de algún
+                  pueblo o comunidad indígena?
+                </h3>
+                <div>Sí</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h3 class="card-title">
+                  ¿Habla y/o entiende alguna lengua indígena nacional?
+                </h3>
+                <div>Sí</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="card card-borderless">
+              <div class="card-body">
+                <h3 class="card-title">¿Tiene alguna discapacidad?</h3>
+                <div>No</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
 
-
-
-
 <!--MODAL EDITAR USUARIO-->
-<div class="modal modal-blur fade" id="modal-report-edit" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Candidato</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"> </button>
+<div
+  class="modal modal-blur fade"
+  id="modal-report-edit"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Editar Candidato</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          (click)="resetForm()"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Inicio del formulario -->
+        <form [formGroup]="userForm" (ngSubmit)="guardarUsuario()">
+          <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
+          <h3>INFORMACION REFERENTE AL CANDIDATO</h3>
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="mb-1">
+                <label class="form-label">Nombre *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="nameCandidate"
+                  [class.is-invalid]="marcarNombreComoTocado()"
+                />
+                <div
+                  *ngIf="
+                    nombreTocado &&
+                    userForm.get('nameCandidate')?.hasError('required')
+                  "
+                  class="error-message"
+                ></div>
+                <div
+                  *ngIf="
+                    nombreTocado &&
+                    userForm.get('nameCandidate')?.hasError('pattern')
+                  "
+                  class="error-message"
+                ></div>
+              </div>
             </div>
-            <div class="modal-body">
-                <!-- Inicio del formulario -->
-                <form [formGroup]="userForm" (ngSubmit)="guardarUsuario()">
-
-
-                    <!--PARA CREAR OTRA FILA DE INPUTS COPIA Y PEGA EL CODIGO QUE ESTA DENTRO DEL COMENTARIO-->
-                    <h3>INFORMACION REFERENTE AL CANDIDATO</h3>
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="mb-1">
-                                <label class="form-label">Nombre *</label>
-                                <input type="text" class="form-control" formControlName="nameCandidate" [class.is-invalid]="marcarNombreComoTocado()" />
-                                <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('required')" class="error-message"></div>
-                                <div *ngIf="nombreTocado && userForm.get('nameCandidate')?.hasError('pattern')" class="error-message"></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="mb-1">
-                                <label class="form-label">Apellido paterno *</label>
-                                <input type="text" class="form-control" formControlName="apPaterno" [class.is-invalid]="marcarApPaternoTocado()" />
-                                <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('required')" class="error-message"></div>
-                                <div *ngIf="apPaternoTocado && userForm.get('apPaterno')?.hasError('pattern')" class="error-message"></div>
-                            </div>
-                        </div>
-
-
-                        <!--HASTA AQUI-->
-
-                        <div class="col-lg-3">
-                            <div class="mb-1">
-                                <label class="form-label">Apellido materno *</label>
-                                <input type="text" class="form-control" formControlName="apMaterno" [class.is-invalid]="marcarApMaternoTocado()" />
-                                <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('required')" class="error-message"></div>
-                                <div *ngIf="apMaternoTocado && userForm.get('apMaterno')?.hasError('pattern')" class="error-message"></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="mb-1">
-                                <label class="form-label">Sobrenombre *</label>
-                                <input type="text" class="form-control" formControlName="sobrenombre" [class.is-invalid]="marcarSobrenombreTocado()" />
-                                <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('required')" class="error-message"></div>
-                                <div *ngIf="sobrenombreTocado && userForm.get('sobrenombre')?.hasError('pattern')" class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <hr>
-                    <h3>INFORMACION REFERENTE AL SUPLENTE</h3>
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <div class="mb-1">
-                                <label class="form-label">Nombre del suplente *</label>
-                                <input type="text" class="form-control" formControlName="nameSuplent" [class.is-invalid]="marcarNombreSComoTocado()" />
-                                <div *ngIf="nombreSTocado && userForm.get('nameSuplent')?.hasError('required')" class="error-message"></div>
-                                <div *ngIf="nombreSTocado && userForm.get('nameSuplent')?.hasError('pattern')" class="error-message"></div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4">
-                            <div class="mb-1">
-                                <label class="form-label">Apellido paterno *</label>
-                                <input type="text" class="form-control" formControlName="apPaternoS" [class.is-invalid]="marcarApPaternoSTocado()" />
-                                <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('required')" class="error-message"></div>
-                                <div *ngIf="apPaternoSTocado && userForm.get('apPaternoS')?.hasError('pattern')" class="error-message"></div>
-                            </div>
-                        </div>
-
-                        <!--HASTA AQUI-->
-
-                        <div class="col-lg-4">
-                            <div class="mb-1">
-                                <label class="form-label">Apellido materno *</label>
-                                <input type="text" class="form-control" formControlName="apMaternoS" [class.is-invalid]="marcarApMaternoSTocado()" />
-                                <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('required')" class="error-message"></div>
-                                <div *ngIf="apMaternoSTocado && userForm.get('apMaternoS')?.hasError('pattern')" class="error-message"></div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <hr>
-                    <h3>INFORMACION REFERENTE A LA DEMARCACIÓN</h3>
-
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="mb-1">
-                                <div class="mb-1">
-                                    <label class="form-label">Partido Politíco *</label>
-                                    <select class="form-select" formControlName="partido">
-                                                  <option value="">Selecciona una opción...</option>
-                                                  <option value="PRI">Partido Revolucionario Institucional (PRI)</option>
-                                                  <option value="PAN">Partido Acción Nacional (PAN)</option>
-                                                  <option value="MORENA">Movimiento Regeneración Nacional (MORENA)</option>
-                                                  <option value="PRD">Partido de la Revolución Democrática (PRD)</option>
-                                                  <option value="PT">Partido del Trabajo (PT)</option>
-                                              </select>
-                                    <div *ngIf="userForm.get('partido')?.value===''" class="error-message"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-3">
-                            <div class="mb-1">
-                                <div class="mb-1">
-                                    <label class="form-label">Tipo de candidatura *</label>
-                                    <select class="form-select" formControlName="eleccion">
-                                              <option value="">Selecciona una opción...</option>
-                                              <option value="Gobernatura">Gobernatura</option>
-                                              <option value="Diputaciones Locales">Diputaciones Locales</option>
-                                              <option value="Ayuntamiento">Ayuntamiento</option>
-                                              <option value="Presidencias de comunidad">Presidencias de comunidad</option>
-                                              </select>
-                                    <div *ngIf="userForm.get('eleccion')?.value===''" class="error-message"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3">
-                            <div class="mb-1">
-                                <div class="mb-1">
-                                    <label class="form-label">Estado *</label>
-                                    <select class="form-select" formControlName="estados">
-                                                  <option value="">Selecciona una opción...</option>
-                                                  <option value="Aguascalientes">Aguascalientes</option>
-                                                  <option value="Baja California">Baja California</option>
-                                                  <option value="Baja California Sur">Baja California Sur</option>
-                                                  <option value="Campeche">Campeche</option>
-                                                  <option value="Chiapas">Chiapas</option>
-                                                  <option value="Chihuahua">Chihuahua</option>
-                                                  <option value="Ciudad de México">Ciudad de México</option>
-                                                  <option value="Coahuila">Coahuila</option>
-                                                  <option value="Colima">Colima</option>
-                                                  <option value="Durango">Durango</option>
-                                                  <option value="Estado de México">Estado de México</option>
-                                                  <option value="Guanajuato">Guanajuato</option>
-                                                  <option value="Guerrero">Guerrero</option>
-                                                  <option value="Hidalgo">Hidalgo</option>
-                                                  <option value="Jalisco">Jalisco</option>
-                                                  <option value="Michoacán">Michoacán</option>
-                                                  <option value="Morelos">Morelos</option>
-                                                  <option value="Nayarit">Nayarit</option>
-                                                  <option value="Nuevo León">Nuevo León</option>
-                                                  <option value="Oaxaca">Oaxaca</option>
-                                                  <option value="Puebla">Puebla</option>
-                                                  <option value="Querétaro">Querétaro</option>
-                                                  <option value="Quintana Roo">Quintana Roo</option>
-                                                  <option value="San Luis Potosí">San Luis Potosí</option>
-                                                  <option value="Sinaloa">Sinaloa</option>
-                                                  <option value="Sonora">Sonora</option>
-                                                  <option value="Tabasco">Tabasco</option>
-                                                  <option value="Tamaulipas">Tamaulipas</option>
-                                                  <option value="Tlaxcala">Tlaxcala</option>
-                                                  <option value="Veracruz">Veracruz</option>
-                                                  <option value="Yucatán">Yucatán</option>
-                                                  <option value="Zacatecas">Zacatecas</option>
-
-                                              </select>
-                                    <div *ngIf="userForm.get('estados')?.value===''" class="error-message"></div>
-                                </div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Diputaciones Locales' || userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
-                            <div class="mb-1">
-                                <div class="mb-1">
-                                    <label class="form-label">Distrito Local *</label>
-                                    <select class="form-select" formControlName="distritos" *ngIf="userForm.get('estados')?.value === 'Hidalgo' ">
-                                                  <option value="">Selecciona una opción...</option>
-                                                  <option value="Distrito 1 | Pachuca de Soto">Distrito 1 | Pachuca de Soto</option>
-                                                  <option value="Distrito 2 | Tulancingo de Bravo">Distrito 2 | Tulancingo de Bravo</option>
-                                                  <option value="Distrito 3 | Tula de Allende">Distrito 3 | Tula de Allende</option>
-                                                  <option value="Distrito 4 | Ixmiquilpan">Distrito 4 | Ixmiquilpan</option>
-                                                  <option value="Distrito 5 | Huejutla de Reyes">Distrito 5 | Huejutla de Reyes</option>
-                                                  <option value="Distrito 6 | Actopan">Distrito 6 | Actopan</option>
-                                                  <option value="Distrito 7 | Tepeji del Río de Ocampo">Distrito 7 | Tepeji del Río de Ocampo</option>
-                                                  <option value="Distrito 8 | Zimapán">Distrito 8 | Zimapán</option>
-                                                  <option value="Distrito 9 | Apan">Distrito 9 | Apan</option>
-                                                  <option value="Distrito 10 | Tizayuca">Distrito 10 | Tizayuca</option>
-                                                  <option value="Distrito 11 | Tepeapulco">Distrito 11 | Tepeapulco</option>
-                                                  <option value="Distrito 12 | Tlaxcoapan">Distrito 12 | Tlaxcoapan</option>
-                                                  <option value="Distrito 13 | Mineral de la Reforma">Distrito 13 | Mineral de la Reforma</option>
-                                                  <option value="Distrito 14 | Mixquiahuala de Juárez">Distrito 14 | Mixquiahuala de Juárez</option>
-                                                  <option value="Distrito 15 | Atotonilco el Grande">Distrito 15 | Atotonilco el Grande</option>
-                                                  <option value="Distrito 16 | Santiago Tulantepec de Lugo Guerrero">Distrito 16 | Santiago Tulantepec de Lugo Guerrero</option>
-                                                  <option value="Distrito 17 | Singuilucan">Distrito 17 | Singuilucan</option>
-                                                  <option value="Distrito 18 | Ajacuba">Distrito 18 | Ajacuba</option>
-                                                  <option value="Distrito 19 | Tlahuelilpan">Distrito 19 | Tlahuelilpan</option>
-                                                  <option value="Distrito 20 | Metepec">Distrito 20 | Metepec</option>
-                                                  <option value="Distrito 21 | Cuautepec de Hinojosa">Distrito 21 | Cuautepec de Hinojosa</option>
-                                                  <option value="Distrito 22 | San Agustín Tlaxiaca">Distrito 22 | San Agustín Tlaxiaca</option>
-                                                  <option value="Distrito 23 | Tezontepec de Aldama">Distrito 23 | Tezontepec de Aldama</option>
-                                                  <option value="Distrito 24 | Chapantongo">Distrito 24 | Chapantongo</option>
-                                                  <option value="Distrito 25 | Tepetitlán">Distrito 25 | Tepetitlán</option>
-                                                  <option value="Distrito 26 | Acaxochitlán">Distrito 26 | Acaxochitlán</option>
-                                                  <option value="Distrito 27 | Tecozautla">Distrito 27 | Tecozautla</option>
-                                                  <option value="Distrito 28 | San Salvador">Distrito 28 | San Salvador</option>
-                                                  <option value="Distrito 29 | Huichapan">Distrito 29 | Huichapan</option>
-                                                  <option value="Distrito 30 | Pacula">Distrito 30 | Pacula</option>
-                                                  <option value="Distrito 31 | Atitalaquia">Distrito 31 | Atitalaquia</option>
-                                                  <option value="Distrito 32 | Cardonal">Distrito 32 | Cardonal</option>
-                                              </select>
-                                    <div *ngIf="userForm.get('distritos')?.value===''" class="error-message"></div>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Ayuntamiento' || userForm.get('eleccion')?.value === 'Presidencias de comunidad'  ">
-                            <div class="mb-1">
-                                <div class="mb-1">
-                                    <label class="form-label">Ayuntamiento *</label>
-                                    <select class="form-select" formControlName="ayuntamiento" *ngIf="userForm.get('distritos')?.value === 'Distrito 1 | Pachuca de Soto' ">
-                                                  <option value="null">Selecciona una opción...</option>
-                                                  <option value="Pachuca">Pachuca de Soto</option>
-                                                  <option value="Mineral Del Chico">Mineral del Chico</option>
-                                                  <option value="Mineral Del Monte">Mineral del Monte</option>
-                                                  <option value="Epazoyucan">Epazoyucan</option>
-                                                  <option value="Zapotlan De Juarez">Zapotlán de Juárez</option>
-                                              </select>
-                                    <div *ngIf="userForm.get('ayuntamiento')?.value===''" class="error-message"></div>
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Presidencias de comunidad'">
-                            <div class="mb-1">
-                                <div class="mb-1">
-                                    <label class="form-label">Comunidad *</label>
-                                    <select class="form-select" formControlName="comunidad" *ngIf="userForm.get('ayuntamiento')?.value === 'Pachuca' ">
-                                                  <option value="">Selecciona una opción...</option>
-                                                  <option value="Centro">Centro</option>
-                                                  <option value="RealDelMonte">Real del Monte</option>
-                                                  <option value="VillasDePachuca">Villas de Pachuca</option>
-                                                  <option value="CerroDeLaCruz">Cerro de la Cruz</option>
-                                                  <option value="LaPaz">La Paz</option>
-                                                  <option value="SanCayetano">San Cayetano</option>
-                                                  <option value="Doctores">Doctores</option>
-                                                  <option value="NuevaImagen">Nueva Imagen</option>
-                                                  <option value="LosTuzos">Los Tuzos</option>
-                                                  <option value="ExHaciendaDeCoscotitlan">Ex-Hacienda de Coscotitlán</option>
-                                              </select>
-                                    <div *ngIf="userForm.get('comunidad')?.value===''" class="error-message"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+            <div class="col-lg-3">
+              <div class="mb-1">
+                <label class="form-label">Apellido paterno *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="apPaterno"
+                  [class.is-invalid]="marcarApPaternoTocado()"
+                />
+                <div
+                  *ngIf="
+                    apPaternoTocado &&
+                    userForm.get('apPaterno')?.hasError('required')
+                  "
+                  class="error-message"
+                ></div>
+                <div
+                  *ngIf="
+                    apPaternoTocado &&
+                    userForm.get('apPaterno')?.hasError('pattern')
+                  "
+                  class="error-message"
+                ></div>
+              </div>
             </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-6 col-lg-12">
-                        <h4>* CAMPOS OBLIGATORIOS</h4>
-                    </div>
+
+            <!--HASTA AQUI-->
+
+            <div class="col-lg-3">
+              <div class="mb-1">
+                <label class="form-label">Apellido materno *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="apMaterno"
+                  [class.is-invalid]="marcarApMaternoTocado()"
+                />
+                <div
+                  *ngIf="
+                    apMaternoTocado &&
+                    userForm.get('apMaterno')?.hasError('required')
+                  "
+                  class="error-message"
+                ></div>
+                <div
+                  *ngIf="
+                    apMaternoTocado &&
+                    userForm.get('apMaterno')?.hasError('pattern')
+                  "
+                  class="error-message"
+                ></div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="mb-1">
+                <label class="form-label">Sobrenombre *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="sobrenombre"
+                  [class.is-invalid]="marcarSobrenombreTocado()"
+                />
+                <div
+                  *ngIf="
+                    sobrenombreTocado &&
+                    userForm.get('sobrenombre')?.hasError('required')
+                  "
+                  class="error-message"
+                ></div>
+                <div
+                  *ngIf="
+                    sobrenombreTocado &&
+                    userForm.get('sobrenombre')?.hasError('pattern')
+                  "
+                  class="error-message"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+          <h3>INFORMACION REFERENTE AL SUPLENTE</h3>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="mb-1">
+                <label class="form-label">Nombre del suplente *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="nameSuplent"
+                  [class.is-invalid]="marcarNombreSComoTocado()"
+                />
+                <div
+                  *ngIf="
+                    nombreSTocado &&
+                    userForm.get('nameSuplent')?.hasError('required')
+                  "
+                  class="error-message"
+                ></div>
+                <div
+                  *ngIf="
+                    nombreSTocado &&
+                    userForm.get('nameSuplent')?.hasError('pattern')
+                  "
+                  class="error-message"
+                ></div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="mb-1">
+                <label class="form-label">Apellido paterno *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="apPaternoS"
+                  [class.is-invalid]="marcarApPaternoSTocado()"
+                />
+                <div
+                  *ngIf="
+                    apPaternoSTocado &&
+                    userForm.get('apPaternoS')?.hasError('required')
+                  "
+                  class="error-message"
+                ></div>
+                <div
+                  *ngIf="
+                    apPaternoSTocado &&
+                    userForm.get('apPaternoS')?.hasError('pattern')
+                  "
+                  class="error-message"
+                ></div>
+              </div>
+            </div>
+
+            <!--HASTA AQUI-->
+
+            <div class="col-lg-4">
+              <div class="mb-1">
+                <label class="form-label">Apellido materno *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="apMaternoS"
+                  [class.is-invalid]="marcarApMaternoSTocado()"
+                />
+                <div
+                  *ngIf="
+                    apMaternoSTocado &&
+                    userForm.get('apMaternoS')?.hasError('required')
+                  "
+                  class="error-message"
+                ></div>
+                <div
+                  *ngIf="
+                    apMaternoSTocado &&
+                    userForm.get('apMaternoS')?.hasError('pattern')
+                  "
+                  class="error-message"
+                ></div>
+              </div>
+            </div>
+          </div>
+
+          <hr />
+          <h3>INFORMACION REFERENTE A LA DEMARCACIÓN</h3>
+
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="mb-1">
+                <div class="mb-1">
+                  <label class="form-label">Partido Politíco *</label>
+                  <select class="form-select" formControlName="partido">
+                    <option value="">Selecciona una opción...</option>
+                    <option value="PRI">
+                      Partido Revolucionario Institucional (PRI)
+                    </option>
+                    <option value="PAN">Partido Acción Nacional (PAN)</option>
+                    <option value="MORENA">
+                      Movimiento Regeneración Nacional (MORENA)
+                    </option>
+                    <option value="PRD">
+                      Partido de la Revolución Democrática (PRD)
+                    </option>
+                    <option value="PT">Partido del Trabajo (PT)</option>
+                  </select>
+                  <div
+                    *ngIf="userForm.get('partido')?.value === ''"
+                    class="error-message"
+                  ></div>
                 </div>
-
-                <button type="button" class="btn btn-link link-secondary" (click)="resetForm()">Limpiar</button>
-                <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid" (click)="guardarUsuario()">Crear nuevo candidato</button>
+              </div>
             </div>
+
+            <div class="col-lg-3">
+              <div class="mb-1">
+                <div class="mb-1">
+                  <label class="form-label">Tipo de candidatura *</label>
+                  <select class="form-select" formControlName="eleccion">
+                    <option value="">Selecciona una opción...</option>
+                    <option value="Gobernatura">Gobernatura</option>
+                    <option value="Diputaciones Locales">
+                      Diputaciones Locales
+                    </option>
+                    <option value="Ayuntamiento">Ayuntamiento</option>
+                    <option value="Presidencias de comunidad">
+                      Presidencias de comunidad
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="userForm.get('eleccion')?.value === ''"
+                    class="error-message"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-3">
+              <div class="mb-1">
+                <div class="mb-1">
+                  <label class="form-label">Estado *</label>
+                  <select class="form-select" formControlName="estados">
+                    <option value="">Selecciona una opción...</option>
+                    <option value="Aguascalientes">Aguascalientes</option>
+                    <option value="Baja California">Baja California</option>
+                    <option value="Baja California Sur">
+                      Baja California Sur
+                    </option>
+                    <option value="Campeche">Campeche</option>
+                    <option value="Chiapas">Chiapas</option>
+                    <option value="Chihuahua">Chihuahua</option>
+                    <option value="Ciudad de México">Ciudad de México</option>
+                    <option value="Coahuila">Coahuila</option>
+                    <option value="Colima">Colima</option>
+                    <option value="Durango">Durango</option>
+                    <option value="Estado de México">Estado de México</option>
+                    <option value="Guanajuato">Guanajuato</option>
+                    <option value="Guerrero">Guerrero</option>
+                    <option value="Hidalgo">Hidalgo</option>
+                    <option value="Jalisco">Jalisco</option>
+                    <option value="Michoacán">Michoacán</option>
+                    <option value="Morelos">Morelos</option>
+                    <option value="Nayarit">Nayarit</option>
+                    <option value="Nuevo León">Nuevo León</option>
+                    <option value="Oaxaca">Oaxaca</option>
+                    <option value="Puebla">Puebla</option>
+                    <option value="Querétaro">Querétaro</option>
+                    <option value="Quintana Roo">Quintana Roo</option>
+                    <option value="San Luis Potosí">San Luis Potosí</option>
+                    <option value="Sinaloa">Sinaloa</option>
+                    <option value="Sonora">Sonora</option>
+                    <option value="Tabasco">Tabasco</option>
+                    <option value="Tamaulipas">Tamaulipas</option>
+                    <option value="Tlaxcala">Tlaxcala</option>
+                    <option value="Veracruz">Veracruz</option>
+                    <option value="Yucatán">Yucatán</option>
+                    <option value="Zacatecas">Zacatecas</option>
+                  </select>
+                  <div
+                    *ngIf="userForm.get('estados')?.value === ''"
+                    class="error-message"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="col-lg-3"
+              *ngIf="
+                userForm.get('eleccion')?.value === 'Diputaciones Locales' ||
+                userForm.get('eleccion')?.value === 'Ayuntamiento' ||
+                userForm.get('eleccion')?.value === 'Presidencias de comunidad'
+              "
+            >
+              <div class="mb-1">
+                <div class="mb-1">
+                  <label class="form-label">Distrito Local *</label>
+                  <select
+                    class="form-select"
+                    formControlName="distritos"
+                    *ngIf="userForm.get('estados')?.value === 'Hidalgo'"
+                  >
+                    <option value="">Selecciona una opción...</option>
+                    <option value="Distrito 1 | Pachuca de Soto">
+                      Distrito 1 | Pachuca de Soto
+                    </option>
+                    <option value="Distrito 2 | Tulancingo de Bravo">
+                      Distrito 2 | Tulancingo de Bravo
+                    </option>
+                    <option value="Distrito 3 | Tula de Allende">
+                      Distrito 3 | Tula de Allende
+                    </option>
+                    <option value="Distrito 4 | Ixmiquilpan">
+                      Distrito 4 | Ixmiquilpan
+                    </option>
+                    <option value="Distrito 5 | Huejutla de Reyes">
+                      Distrito 5 | Huejutla de Reyes
+                    </option>
+                    <option value="Distrito 6 | Actopan">
+                      Distrito 6 | Actopan
+                    </option>
+                    <option value="Distrito 7 | Tepeji del Río de Ocampo">
+                      Distrito 7 | Tepeji del Río de Ocampo
+                    </option>
+                    <option value="Distrito 8 | Zimapán">
+                      Distrito 8 | Zimapán
+                    </option>
+                    <option value="Distrito 9 | Apan">Distrito 9 | Apan</option>
+                    <option value="Distrito 10 | Tizayuca">
+                      Distrito 10 | Tizayuca
+                    </option>
+                    <option value="Distrito 11 | Tepeapulco">
+                      Distrito 11 | Tepeapulco
+                    </option>
+                    <option value="Distrito 12 | Tlaxcoapan">
+                      Distrito 12 | Tlaxcoapan
+                    </option>
+                    <option value="Distrito 13 | Mineral de la Reforma">
+                      Distrito 13 | Mineral de la Reforma
+                    </option>
+                    <option value="Distrito 14 | Mixquiahuala de Juárez">
+                      Distrito 14 | Mixquiahuala de Juárez
+                    </option>
+                    <option value="Distrito 15 | Atotonilco el Grande">
+                      Distrito 15 | Atotonilco el Grande
+                    </option>
+                    <option
+                      value="Distrito 16 | Santiago Tulantepec de Lugo Guerrero"
+                    >
+                      Distrito 16 | Santiago Tulantepec de Lugo Guerrero
+                    </option>
+                    <option value="Distrito 17 | Singuilucan">
+                      Distrito 17 | Singuilucan
+                    </option>
+                    <option value="Distrito 18 | Ajacuba">
+                      Distrito 18 | Ajacuba
+                    </option>
+                    <option value="Distrito 19 | Tlahuelilpan">
+                      Distrito 19 | Tlahuelilpan
+                    </option>
+                    <option value="Distrito 20 | Metepec">
+                      Distrito 20 | Metepec
+                    </option>
+                    <option value="Distrito 21 | Cuautepec de Hinojosa">
+                      Distrito 21 | Cuautepec de Hinojosa
+                    </option>
+                    <option value="Distrito 22 | San Agustín Tlaxiaca">
+                      Distrito 22 | San Agustín Tlaxiaca
+                    </option>
+                    <option value="Distrito 23 | Tezontepec de Aldama">
+                      Distrito 23 | Tezontepec de Aldama
+                    </option>
+                    <option value="Distrito 24 | Chapantongo">
+                      Distrito 24 | Chapantongo
+                    </option>
+                    <option value="Distrito 25 | Tepetitlán">
+                      Distrito 25 | Tepetitlán
+                    </option>
+                    <option value="Distrito 26 | Acaxochitlán">
+                      Distrito 26 | Acaxochitlán
+                    </option>
+                    <option value="Distrito 27 | Tecozautla">
+                      Distrito 27 | Tecozautla
+                    </option>
+                    <option value="Distrito 28 | San Salvador">
+                      Distrito 28 | San Salvador
+                    </option>
+                    <option value="Distrito 29 | Huichapan">
+                      Distrito 29 | Huichapan
+                    </option>
+                    <option value="Distrito 30 | Pacula">
+                      Distrito 30 | Pacula
+                    </option>
+                    <option value="Distrito 31 | Atitalaquia">
+                      Distrito 31 | Atitalaquia
+                    </option>
+                    <option value="Distrito 32 | Cardonal">
+                      Distrito 32 | Cardonal
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="userForm.get('distritos')?.value === ''"
+                    class="error-message"
+                  ></div>
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="col-lg-3"
+              *ngIf="
+                userForm.get('eleccion')?.value === 'Ayuntamiento' ||
+                userForm.get('eleccion')?.value === 'Presidencias de comunidad'
+              "
+            >
+              <div class="mb-1">
+                <div class="mb-1">
+                  <label class="form-label">Ayuntamiento *</label>
+                  <select
+                    class="form-select"
+                    formControlName="ayuntamiento"
+                    *ngIf="
+                      userForm.get('distritos')?.value ===
+                      'Distrito 1 | Pachuca de Soto'
+                    "
+                  >
+                    <option value="null">Selecciona una opción...</option>
+                    <option value="Pachuca">Pachuca de Soto</option>
+                    <option value="Mineral Del Chico">Mineral del Chico</option>
+                    <option value="Mineral Del Monte">Mineral del Monte</option>
+                    <option value="Epazoyucan">Epazoyucan</option>
+                    <option value="Zapotlan De Juarez">
+                      Zapotlán de Juárez
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="userForm.get('ayuntamiento')?.value === ''"
+                    class="error-message"
+                  ></div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-lg-3"
+              *ngIf="
+                userForm.get('eleccion')?.value === 'Presidencias de comunidad'
+              "
+            >
+              <div class="mb-1">
+                <div class="mb-1">
+                  <label class="form-label">Comunidad *</label>
+                  <select
+                    class="form-select"
+                    formControlName="comunidad"
+                    *ngIf="userForm.get('ayuntamiento')?.value === 'Pachuca'"
+                  >
+                    <option value="">Selecciona una opción...</option>
+                    <option value="Centro">Centro</option>
+                    <option value="RealDelMonte">Real del Monte</option>
+                    <option value="VillasDePachuca">Villas de Pachuca</option>
+                    <option value="CerroDeLaCruz">Cerro de la Cruz</option>
+                    <option value="LaPaz">La Paz</option>
+                    <option value="SanCayetano">San Cayetano</option>
+                    <option value="Doctores">Doctores</option>
+                    <option value="NuevaImagen">Nueva Imagen</option>
+                    <option value="LosTuzos">Los Tuzos</option>
+                    <option value="ExHaciendaDeCoscotitlan">
+                      Ex-Hacienda de Coscotitlán
+                    </option>
+                  </select>
+                  <div
+                    *ngIf="userForm.get('comunidad')?.value === ''"
+                    class="error-message"
+                  ></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <div class="row">
+          <div class="col-md-6 col-lg-12">
+            <h4>* CAMPOS OBLIGATORIOS</h4>
+          </div>
         </div>
 
+        <button
+          type="button"
+          class="btn btn-link link-secondary"
+          (click)="resetForm()"
+        >
+          Limpiar
+        </button>
+        <button
+          type="submit"
+          class="btn btn-primary"
+          [disabled]="!userForm.valid"
+          (click)="guardarUsuario()"
+        >
+          Crear nuevo candidato
+        </button>
+      </div>
     </div>
+  </div>
 </div>
 
 <!--FIN MODAL-->

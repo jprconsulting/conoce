@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { FormularioService } from 'src/app/core/services/formulario.service';
 import { LoadingStates } from 'src/app/global/globals';
-import { Formulario } from 'src/app/models/formulario';
+import { ConfigGoogleForm } from 'src/app/models/googleForm';
 
 
 @Component({
@@ -14,36 +14,37 @@ import { Formulario } from 'src/app/models/formulario';
 })
 export class FormularioComponent {
   // Usuarios
-  formulario: Formulario[] = [];
+  formulario: ConfigGoogleForm[] = [];
+  configForm!: ConfigGoogleForm;
+  jsonConfig: any;
   isLoadingUsers = LoadingStates.neutro;
-  FormularioFilter: Formulario[] = [];
-  formularioForm: FormGroup;
+  FormularioFilter: ConfigGoogleForm[] = [];
+  configGoogleFormFormGroup: FormGroup;
 
   constructor(
-    private FormularioService: FormularioService,
+    private formularioService: FormularioService,
     private fb: FormBuilder,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder,
   ) {
-    this.formularioForm = this.formBuilder.group({
-      FormularioIdFront:['', Validators.required],
-      FormNameFront: ['', Validators.required],
-      GoogleFormIdFront: ['', Validators.required],
-      GoogleEditFormIdFront: ['', Validators.required],
-      SheetNameFront: ['', Validators.required],
-      SpreadsheetIdFront: ['', Validators.required],
-      ProjectIdFront: ['', Validators.required],
-      archvioJson: ['', Validators.required]
+    this.configGoogleFormFormGroup = this.formBuilder.group({
+      formularioIdFront: ['', Validators.required],
+      formNameFront: ['', Validators.required],
+      googleFormIdFront: ['', Validators.required],
+      googleEditFormIdFront: ['', Validators.required],
+      spreadsheetIdFront: ['', Validators.required],
+      sheetNameFront: ['', Validators.required],
+      projectIdFront: ['', Validators.required],
     });
   }
 
   ngOnInit(): void {
-    this.obtenerFormularios();
+    // this.obtenerFormularios();
   }
 
   obtenerFormularios() {
-    this.FormularioService.getFormularios().subscribe(
+    this.formularioService.getFormularios().subscribe(
       (formularios) => {
         this.formulario = formularios;
         console.log('Respuesta de la API:', formularios);
@@ -57,7 +58,7 @@ export class FormularioComponent {
 
 
   resetForm() {
-    this.formularioForm.reset({
+    this.configGoogleFormFormGroup.reset({
       FormularioIdFront: '',
       FormNameFront: '',
       GoogleFormIdFront: '',
@@ -66,51 +67,65 @@ export class FormularioComponent {
       SheetNameFront: '',
       ProjectIdFront: '',
     });
-    this.formularioForm.get('archvioJson')?.setValue(null);
+    this.configGoogleFormFormGroup.get('archvioJson')?.setValue(null);
 
-    // Elimina y recrea el campo de carga de archivos
-    const archvioJsonInput = document.getElementById('archvioJsonInput') as HTMLInputElement;
-    if (archvioJsonInput) {
-      const parent = archvioJsonInput.parentElement;
-      if (parent) {
-        parent.removeChild(archvioJsonInput);
-        const newInput = document.createElement('input');
-        newInput.type = 'file';
-        newInput.accept = '.json';
-        newInput.className = 'form-control';
-        newInput.id = 'credencialesJSONInput';
-        newInput.addEventListener('change', (event) => this.onFileChange(event));
-        parent.appendChild(newInput);
-      }
-    }
+
   }
 
   onFileChange(event: any) {
-    const file = event.target.files[0];
-    this.formularioForm.get('archvioJson')?.setValue(file);
-}
+    event.preventDefault();
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+      const fileReader = new FileReader();
 
-guardarUsuario() {
-  console.log('El formulario es válido, enviando datos...');
-  if (this.formularioForm.valid) {
-    this.FormularioService.postFormulario(this.formularioForm.value).subscribe(
-      (response) => {
-        console.log('Formulario guardado con éxito', response);
+      fileReader.onload = (e: any) => {
+        // Aquí tienes el contenido del archivo JSON como una cadena
+        const jsonContent = e.target.result;
+
+        try {
+          // Intenta analizar el contenido JSON
+          this.jsonConfig = JSON.parse(jsonContent);
+        } catch (error) {
+          console.error('Error al analizar el archivo JSON:', error);
+        }
+      };
+
+      fileReader.readAsText(selectedFile);
+    }
+
+  }
+
+  guardarUsuario() {
+    console.log('El formulario es válido, enviando datos...');
+    this.configForm = this.configGoogleFormFormGroup.value as ConfigGoogleForm;
+    this.configForm.type = this.jsonConfig.type;
+    this.configForm.project_id = this.jsonConfig.project_id;
+    this.configForm.private_key_id = this.jsonConfig.private_key_id;
+    this.configForm.private_key = this.jsonConfig.private_key;
+    this.configForm.client_email = this.jsonConfig.client_email;
+    this.configForm.client_id = this.jsonConfig.client_id;
+    this.configForm.auth_uri = this.jsonConfig.auth_uri;
+    this.configForm.token_uri = this.jsonConfig.token_uri;
+    this.configForm.auth_provider_x509_cert_url = this.jsonConfig.auth_provider_x509_cert_url;
+    this.configForm.client_x509_cert_url = this.jsonConfig.client_x509_cert_url;
+    this.configForm.universe_domain = this.jsonConfig.universe_domain;
+ 
+    this.formularioService.postFormulario(this.configForm).subscribe({
+      next: () => {
+        console.log('Formulario guardado con éxito');
         // Limpia el formulario después de guardar
-        this.resetForm();
+        //this.resetForm();
         // Muestra un mensaje de éxito utilizando el servicio de mensajes
         this.mensajeService.mensajeExito('Formulario guardado con éxito');
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al guardar el formulario', error);
         // Muestra un mensaje de error utilizando el servicio de mensajes
-        this.mensajeService.mensajeError('Error al guardar el formulario');
+        //this.mensajeService.mensajeError('Error al guardar el formulario');
       }
-    );
-  } else {
-    console.log('Formulario no válido. Verifica los campos.');
+    });
+
   }
-}
 
 }
 
