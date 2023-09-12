@@ -18,6 +18,10 @@ export class PartidosComponent {
   coaliciones: Coaliciones[] = [];
   partidoForm: FormGroup;
   nombrePartido = '';
+  nombreCandidatura = '';
+  nombreCoalicion = '';
+  nombreCanInd = '';
+  candidatura = false;
 
   // Agrega una propiedad para controlar la visibilidad del campo de selección múltiple
   mostrarCampoPartidos  = false;
@@ -29,6 +33,11 @@ export class PartidosComponent {
       nombrePartido: [''],
       imagen: [''],
       candidatura: [''],
+      selectedPartidos: [''],
+      nombreCandidatura: [''],
+      nombreCoalicion: [''],
+      nombreCanInd: [''],
+      
     });
   }
 
@@ -44,9 +53,20 @@ export class PartidosComponent {
 
   // Método para cerrar el modal y limpiar los campos
   closeModal() {
+    this.partidoForm.reset({
+      candidatura:'',
+
+
+
+    });
     this.previewImage = null;
     this.nombrePartido = '';
     this.imagenInput.nativeElement.value = '';
+    this.candidatura = false;
+    this.nombreCandidatura = '';
+    this.nombreCoalicion = '';
+    this.nombreCanInd = '';
+    this.selectedPartidos= [''];
   }
 
   // Método para manejar el cambio de la imagen
