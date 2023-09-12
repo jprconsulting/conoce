@@ -159,87 +159,88 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form [formGroup]="partidoForm" (ngSubmit)="guardarPartido()">
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <div class="col-lg-6">
-                    <div class="mb-1">
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <div class="col-lg-6">
                         <div class="mb-1">
-                            <label class="form-label">Tipo de candidatura *</label>
-                            <select class="form-select" formControlName="candidatura" >
+                            <div class="form-group">
+                                <label for="candidatura">Tipo de candidatura *</label>
+                                <select class="form-select" formControlName="candidatura" (change)="toggleMostrarCampoPartidos()">
                                 <option value="">Selecciona una opción...</option>
                                 <option value="Partido">Partido político</option>
                                 <option value="Candidatura común">Candidatura común</option>
                                 <option value="Coalición">Coalición</option>
                                 <option value="Candidatura independiente">Candidatura independiente</option>
                             </select>
-                            <!-- <div *ngIf="userForm.get('eleccion')?.value === ''" class="error-message"></div>-->
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Campo de Nombre del partido -->
-                <!-- Campo de Nombre del partido -->
-<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Partido'">
-    <label for="nombrePartido">Nombre del partido:</label>
-    <input type="text" class="form-control" id="nombrePartido" formControlName="nombre">
-</div>
+                    <!-- Campo de Nombre del partido -->
+                    <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Partido'">
+                        <label for="nombrePartido">Nombre del partido:</label>
+                        <input type="text" class="form-control" id="nombrePartido" formControlName="nombre">
+                    </div>
 
-<!-- Campo de Nombre de la Candidatura Común -->
-<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura común'">
-    <label for="nombreCandidatura">Nombre de la candidatura:</label>
-    <input type="text" class="form-control" id="nombreCandidatura" formControlName="nombre">
-</div>
+                    <!-- Campo de Nombre de la Candidatura Común -->
+                    <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura común'">
+                        <label for="nombreCandidatura">Nombre de la candidatura:</label>
+                        <input type="text" class="form-control" id="nombreCandidatura" formControlName="nombre">
+                    </div>
 
-<!-- Campo de Nombre de la Coalición -->
-<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Coalición'">
-    <label for="nombreCoalicion">Nombre de la coalición:</label>
-    <input type="text" class="form-control" id="nombreCoalicion" formControlName="nombre">
-</div>
+                    <!-- Campo de Nombre de la Coalición -->
+                    <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Coalición'">
+                        <label for="nombreCoalicion">Nombre de la coalición:</label>
+                        <input type="text" class="form-control" id="nombreCoalicion" formControlName="nombre">
+                    </div>
 
-<!-- Campo de Nombre de la Candidatura Independiente -->
-<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura independiente'">
-    <label for="nombreCanInd">Nombre de la candidatura independiente:</label>
-    <input type="text" class="form-control" id="nombreCanInd" formControlName="nombre">
-</div>
+                    <!-- Campo de Nombre de la Candidatura Independiente -->
+                    <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura independiente'">
+                        <label for="nombreCanInd">Nombre de la candidatura independiente:</label>
+                        <input type="text" class="form-control" id="nombreCanInd" formControlName="nombre">
+                    </div>
 
-                <br><br>
-                <!-- Campo de Partidos que Componen la Coalición -->
-                <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Coalición'">
-                    <label for="partidosCoalicion">Partidos que Componen la Coalición:</label>
-                    <ng-select [items]="partidos" [multiple]="true" bindLabel="nombre" bindValue="id" [(ngModel)]="selectedPartidos" name="selectedPartidos">
-                        <!-- Personaliza las plantillas según tus necesidades -->
-                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.nombre}}
-                        </ng-template>
-                    </ng-select>
-                </div>
-                <br><br>
-                <!-- Campo de Subir Imagen -->
-                <div class="form-group">
-                    <label for="imagen">Subir Imagen:</label>
                     <br><br>
-                    <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
-                </div>
+                    <!-- Campo de Partidos que Componen la Coalición -->
+                    <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Coalición'">
+                        <label for="partidosCoalicion">Partidos que Componen la Coalición:</label>
+                        <!-- Utiliza formControlName para vincular el elemento de formulario -->
+                        <ng-select [items]="partidos" [multiple]="true" bindLabel="nombre" bindValue="id" formControlName="selectedPartidos" name="selectedPartidos">
+                            <!-- Personaliza las plantillas según tus necesidades -->
+                            <ng-template ng-option-tmp let-item="item">
+                                {{ item.nombre }}
+                            </ng-template>
+                        </ng-select>
+                    </div>
 
-                <!-- Vista previa de la imagen -->
-                <div *ngIf="previewImage" class="mt-3">
-                    <label>Imagen seleccionada:</label>
-                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+
+                    <br><br>
+                    <!-- Campo de Subir Imagen -->
+                    <div class="form-group">
+                        <label for="imagen">Subir Imagen:</label>
+                        <br><br>
+                        <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
+                    </div>
+
+                    <!-- Vista previa de la imagen -->
+                    <div *ngIf="previewImage" class="mt-3">
+                        <label>Imagen seleccionada:</label>
+                        <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
             <!-- Modal Footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" (click)="guardarCoalicion()">Guardar</button>
             </div>
-        
+
         </div>
-        
+
     </div>
 </div>
 
 <!-- Modal para Agregar Coalición -->
- <div class="modal fade" id="modal-coalicion" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="modal-coalicion" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <!-- Modal Header -->

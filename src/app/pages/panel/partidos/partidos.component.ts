@@ -3,8 +3,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { PartidoService } from 'src/app/core/services/partidos.service';
 import { Partidos } from 'src/app/models/partidos';
 import { Coaliciones } from 'src/app/models/coaliciones';
-import { FormGroup,FormBuilder } from '@angular/forms';
-
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-partidos',
@@ -12,7 +11,6 @@ import { FormGroup,FormBuilder } from '@angular/forms';
   styleUrls: ['./partidos.component.css']
 })
 export class PartidosComponent {
- // nombrePartido: string = '';
   previewImage: string | ArrayBuffer | null = null;
   partidos: Partidos[] = [];
   selectedPartidos: any[] = [];
@@ -20,12 +18,13 @@ export class PartidosComponent {
   coaliciones: Coaliciones[] = [];
   partidoForm: FormGroup;
   nombrePartido = '';
-  candidatura = false;
+
+  // Agrega una propiedad para controlar la visibilidad del campo de selección múltiple
+  mostrarCampoPartidos  = false;
 
   @ViewChild('imagenInput') imagenInput!: ElementRef;
 
-  constructor(private partidoService: PartidoService,
-    private fb: FormBuilder) {
+  constructor(private partidoService: PartidoService, private fb: FormBuilder) {
     this.partidoForm = this.fb.group({
       nombrePartido: [''],
       imagen: [''],
@@ -67,6 +66,7 @@ export class PartidosComponent {
     this.closeModal();
   }
 
+  // Método para guardar la coalición
   guardarCoalicion() {
     this.partidosSeleccionados = this.selectedPartidos;
     this.closeModal();
@@ -76,7 +76,7 @@ export class PartidosComponent {
   obtenerPartidos() {
     this.partidoService.obtenerPartidos().subscribe(
       (partidos: Partidos[]) => {
-        this.partidos = partidos; // Asigna el array de partidos a la propiedad 'partidos'
+        this.partidos = partidos;
         console.log('Partidos obtenidos:', this.partidos);
       },
       (error) => {
@@ -84,28 +84,28 @@ export class PartidosComponent {
       }
     );
   }
-obtenerCoaliciones() {
-  this.partidoService.obtenerCoaliciones().subscribe(
-    (coaliciones: Coaliciones[]) => {
-      this.coaliciones = coaliciones;
-      console.log('Partidos obtenidos:', this.coaliciones);
-    },
-    (error) => {
-      console.error('Error al obtener partidos:', error);
+
+  // Método para obtener y mostrar las coaliciones en la consola
+  obtenerCoaliciones() {
+    this.partidoService.obtenerCoaliciones().subscribe(
+      (coaliciones: Coaliciones[]) => {
+        this.coaliciones = coaliciones;
+        console.log('Coaliciones obtenidas:', this.coaliciones);
+      },
+      (error) => {
+        console.error('Error al obtener coaliciones:', error);
+      }
+    );
+  }
+
+  toggleMostrarCampoPartidos() {
+    const candidaturaControl = this.partidoForm.get('candidatura');
+    if (candidaturaControl !== null) {
+      const tipoCandidatura = candidaturaControl.value;
+      this.mostrarCampoPartidos = tipoCandidatura === 'Coalición';
+    } else {
+      // Manejar el caso en que candidaturaControl es null, si es necesario.
     }
-  );
+  }
 }
 
-resetForm() {
-  this.partidoForm.reset();
-  this.previewImage = null;
-
-  // Reemplaza el campo de entrada de archivo con un nuevo clon
-  const inputElement = this.imagenInput.nativeElement;
-  const newInput = inputElement.cloneNode(true);
-  inputElement.parentNode.replaceChild(newInput, inputElement);
-}
-
-
-
-}
