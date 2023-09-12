@@ -34,27 +34,7 @@
                                 <p>Información referente al candidato</p>
                                 <p>Los campos marcados con un (*) son obligatorios</p>
                                 <div class="row">
-                                    <div class="col-lg-4">
-                                        <div class="mb-1">
-                                            <label class="form-label">Imagen del candidato *</label>
-                                            <!-- Campo de Subir Imagen -->
-                                            <div class="form-group">
-                                                <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" *ngIf="!previewImage">
-                                            </div>
-                                            <div *ngIf="nameCandidate && userForm.get('nameCandidate')?.hasError('required')" class="error-message"></div>
-                                            <div *ngIf="nameCandidate && userForm.get('nameCandidate')?.hasError('pattern')" class="error-message"></div>
-                                            <!-- Vista previa de la imagen -->
-                                            <div *ngIf="previewImage" class="mt-3">
-                                                <label>Imagen seleccionada:</label>
-                                                <br><br>
-                                                <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
-                                                <br>
-                                                <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <div class="mb-1">
                                             <label class="form-label">Nombre *</label>
                                             <input type="text" class="form-control" formControlName="nameCandidate" [class.is-invalid]="marcarNombreComoTocado()" />
@@ -63,7 +43,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-4">
+                                    <div class="col-lg-6">
                                         <div class="mb-1">
                                             <label class="form-label">Sobrenombre *</label>
                                             <input type="text" class="form-control" formControlName="sobrenombre" [class.is-invalid]="marcarSobrenombreTocado()" />
@@ -111,7 +91,8 @@
                                 </div>
 
                                 <hr />
-                                <p>Información referente al suplente</p>
+                                <h3>INFORMACION REFERENTE AL SUPLENTE</h3>
+                                <br>
                                 <div class="row">
                                     <div class="col-lg-4">
                                         <div class="mb-1">
@@ -149,13 +130,8 @@
                                             <label class="form-label">Apellido materno *</label>
                                             <input type="text" class="form-control" formControlName="apMaternoS" [class.is-invalid]="marcarApMaternoSTocado()" />
                                             <div *ngIf="
-                                            apMaternoS &&
-                          userForm.get('apMaternoS')?.hasError('required')
-                        " class="error-message"></div>
-                                            <div *ngIf="
-                                            apMaternoS &&
-                          userForm.get('apMaternoS')?.hasError('pattern')
-                        " class="error-message"></div>
+                                            apMaternoS &&userForm.get('apMaternoS')?.hasError('required')" class="error-message"></div>
+                                            <div *ngIf="apMaternoS &&userForm.get('apMaternoS')?.hasError('pattern')" class="error-message"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -183,7 +159,7 @@
                             Partido de la Revolución Democrática (PRD)
                           </option>
                           <option value="PT">Partido del Trabajo (PT)</option>
-                        </select>
+                                                </select>
                                                 <div *ngIf="userForm.get('partido')?.value === ''" class="error-message"></div>
                                             </div>
                                         </div>
@@ -203,7 +179,7 @@
                           <option value="Presidencias de comunidad">
                             Presidencias de comunidad
                           </option>
-                        </select>
+                                                </select>
                                                 <div *ngIf="userForm.get('eleccion')?.value === ''" class="error-message"></div>
                                             </div>
                                         </div>
@@ -256,20 +232,16 @@
                           <option value="Veracruz">Veracruz</option>
                           <option value="Yucatán">Yucatán</option>
                           <option value="Zacatecas">Zacatecas</option>
-                        </select>
+                                                </select>
                                                 <div *ngIf="userForm.get('estados')?.value === ''" class="error-message"></div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
 
-                                    <div class="col-lg-3" *ngIf="
-                      userForm.get('eleccion')?.value ===
-                        'Diputaciones Locales' ||
-                      userForm.get('eleccion')?.value === 'Ayuntamiento' ||
-                      userForm.get('eleccion')?.value ===
-                        'Presidencias de comunidad'
-                    ">
-                                        <div class="mb-1">
+                                <div class="row">
+                                    <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value ==='Diputaciones Locales' ||userForm.get('eleccion')?.value === 'Ayuntamiento' ||userForm.get('eleccion')?.value ==='Presidencias de comunidad'">
+                                        <div class="mb-3">
                                             <div class="mb-1">
                                                 <label class="form-label">Distrito Local *</label>
                                                 <select class="form-select" formControlName="distritos" *ngIf="userForm.get('estados')?.value === 'Hidalgo'">
@@ -372,18 +344,14 @@
                           <option value="Distrito 32 | Cardonal">
                             Distrito 32 | Cardonal
                           </option>
-                        </select>
+                                                </select>
                                                 <div *ngIf="userForm.get('distritos')?.value === ''" class="error-message"></div>
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col-lg-3" *ngIf="
-                      userForm.get('eleccion')?.value === 'Ayuntamiento' ||
-                      userForm.get('eleccion')?.value ===
-                        'Presidencias de comunidad'
-                    ">
-                                        <div class="mb-1">
+                                    <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value === 'Ayuntamiento' ||userForm.get('eleccion')?.value ==='Presidencias de comunidad'">
+                                        <div class="mb-3">
                                             <div class="mb-1">
                                                 <label class="form-label">Ayuntamiento *</label>
                                                 <select class="form-select" formControlName="ayuntamiento" *ngIf="
@@ -402,15 +370,12 @@
                           <option value="Zapotlan De Juarez">
                             Zapotlán de Juárez
                           </option>
-                        </select>
+                                                </select>
                                                 <div *ngIf="userForm.get('ayuntamiento')?.value === ''" class="error-message"></div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-3" *ngIf="
-                      userForm.get('eleccion')?.value ===
-                      'Presidencias de comunidad'
-                    ">
+                                    <div class="col-lg-3" *ngIf="userForm.get('eleccion')?.value ==='Presidencias de comunidad'">
                                         <div class="mb-1">
                                             <div class="mb-1">
                                                 <label class="form-label">Comunidad *</label>
@@ -434,8 +399,32 @@
                           <option value="ExHaciendaDeCoscotitlan">
                             Ex-Hacienda de Coscotitlán
                           </option>
-                        </select>
+                                                </select>
                                                 <div *ngIf="userForm.get('comunidad')?.value === ''" class="error-message"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <hr />
+                                <h3>SECCION IMAGEN DEL CANDIDATO</h3>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div class="mb-1">
+                                            <label class="form-label">Imagen del candidato *</label>
+                                            <!-- Campo de Subir Imagen -->
+                                            <div class="form-group">
+                                                <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" *ngIf="!previewImage">
+                                            </div>
+                                            <div *ngIf="nameCandidate && userForm.get('nameCandidate')?.hasError('required')" class="error-message"></div>
+                                            <div *ngIf="nameCandidate && userForm.get('nameCandidate')?.hasError('pattern')" class="error-message"></div>
+                                            <!-- Vista previa de la imagen -->
+                                            <div *ngIf="previewImage" class="mt-3">
+                                                <label>Imagen seleccionada:</label>
+                                                <br><br>
+                                                <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                                                <br>
+                                                <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
                                             </div>
                                         </div>
                                     </div>
