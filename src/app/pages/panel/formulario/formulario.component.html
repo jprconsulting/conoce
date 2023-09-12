@@ -1,139 +1,122 @@
 <div class="row row-cards">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-header">
-        <h3 class="card-title">Configuración formulario</h3>
-      </div>
-      <div class="card-body border-bottom py-3">
-        <div class="d-flex">
-          <button
-            class="btn btn-primary"
-            data-bs-toggle="modal"
-            data-bs-target="#modal-report"
-          >
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Configuración formulario</h3>
+            </div>
+            <div class="card-body border-bottom py-3">
+                <div class="d-flex">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report">
             <i class="ti ti-plus me-1"></i>Configuración
           </button>
-          <div class="ms-auto text-muted">
-            <div class="input-icon">
-              <input
-                type="text"
-                value=""
-                class="form-control form-control-rounded"
-                placeholder="Buscar"
-              />
-              <span class="input-icon-addon">
+                    <div class="ms-auto text-muted">
+                        <div class="input-icon">
+                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <span class="input-icon-addon">
                 <i class="ti ti-search"></i>
               </span>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </div>
 
-      <!--MODAL AGREGAR CONFIGURACIÓN-->
-      <div
-        class="modal modal-blur fade"
-        id="modal-report"
-        tabindex="-1"
-        role="dialog"
-        aria-hidden="true"
-      >
-        <div
-          class="modal-dialog modal-lg modal-dialog-centered"
-          role="document"
-        >
-          <div class="modal-content">
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter text-nowrap datatable">
+                    <thead>
+                        <tr>
+                            <th class="w-1">ID</th>
+                            <th>Correo Electronico</th>
+                            <th>Nombre del formulario</th>
+                            <th>ID de Google Edit Form</th>
+                            <th>Nombre de la hoja</th>
+                            <th class="text-center" style="width: 7%">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                        <tr *ngFor="let formularios of formulario; let i = index">
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ formularios.clientEmail }}</td>
+                            <td>{{ formularios.formName }}</td>
+                            <td>{{ formularios.googleEditFormId }}</td>
+                            <td>{{ formularios.sheetName }}</td>
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-warning btn-icon btn-sm">
+                          <i
+                            class="ti ti-edit"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modal-report-edit"
+                          ></i>
+                        </button>
+                                    <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px">
+                          <i class="ti ti-eraser"></i>
+                        </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!--MODAL AGREGAR CONFIGURACIÓN-->
+<div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title">Agregar configuración de formulario.</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
+                <h5 class="modal-title">Agregar configuración de formulario.</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <!-- Inicio del formulario -->
-            <form
-              [formGroup]="configGoogleFormFormGroup"
-              (ngSubmit)="guardarUsuario()"
-            >
-              <div class="modal-body">
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="mb-3">
-                      <label class="form-label">ID del formulario</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="formularioIdFront"
-                        [class.is-invalid]="marcarFormularioIdTocado()"
-                      />
-                      <div
-                        *ngIf="formularioIdFrontTocado && configGoogleFormFormGroup.get('formularioIdFront')?.hasError('required')"
-                        class="error-message"
-                      ></div>
+            <form [formGroup]="configGoogleFormFormGroup" (ngSubmit)="guardarUsuario()">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">ID del formulario</label>
+                                <input type="text" class="form-control" formControlName="formularioIdFront" [class.is-invalid]="marcarFormularioIdTocado()" />
+                                <div *ngIf="formularioIdFrontTocado && configGoogleFormFormGroup.get('formularioIdFront')?.hasError('required')" class="error-message"></div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <br />
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="mb-3">
-                      <label class="form-label">Nombre del formulario</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="formNameFront"
-                        [class.is-invalid]="marcarFormNameFrontTocado()"
-                      />
-                      <div
-                        *ngIf="formNameFrontTocado && configGoogleFormFormGroup.get('formNameFront')?.hasError('required')"
-                        class="error-message"
-                      ></div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre del formulario</label>
+                                <input type="text" class="form-control" formControlName="formNameFront" [class.is-invalid]="marcarFormNameFrontTocado()" />
+                                <div *ngIf="formNameFrontTocado && configGoogleFormFormGroup.get('formNameFront')?.hasError('required')" class="error-message"></div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <br />
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="mb-3">
-                      <label class="form-label">ID de Google Form</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="googleFormIdFront"
-                        [class.is-invalid]="marcarGoogleFormIdFrontTocado()"
-                      />
-                      <div
-                        *ngIf="googleFormIdFrontTocado && configGoogleFormFormGroup.get('googleFormIdFront')?.hasError('required')"
-                        class="error-message"
-                      ></div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">ID de Google Form</label>
+                                <input type="text" class="form-control" formControlName="googleFormIdFront" [class.is-invalid]="marcarGoogleFormIdFrontTocado()" />
+                                <div *ngIf="googleFormIdFrontTocado && configGoogleFormFormGroup.get('googleFormIdFront')?.hasError('required')" class="error-message"></div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <br />
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="mb-3">
-                      <label class="form-label">ID de Google Edit Form</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="googleEditFormIdFront"
-                        [class.is-invalid]="marcarGoogleEditFormIdFrontTocado()"
-                      />
-                      <div
-                        *ngIf="googleEditFormIdFrontTocado && configGoogleFormFormGroup.get('googleEditFormIdFront')?.hasError('required')"
-                        class="error-message"
-                      ></div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">ID de Google Edit Form</label>
+                                <input type="text" class="form-control" formControlName="googleEditFormIdFront" [class.is-invalid]="marcarGoogleEditFormIdFrontTocado()" />
+                                <div *ngIf="googleEditFormIdFrontTocado && configGoogleFormFormGroup.get('googleEditFormIdFront')?.hasError('required')" class="error-message"></div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <br />
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="mb-3">
-                      <label class="form-label"
-                        >Nombre de la Hoja de Cálculo</label
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre de la Hoja de Cálculo</label
                       >
                       <input
                         type="text"
@@ -153,98 +136,46 @@
                   <div class="col-lg-12">
                     <div class="mb-3">
                       <label class="form-label">ID de la Hoja de Cálculo</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="spreadsheetIdFront"
-                        [class.is-invalid]="marcarSpreadsheetIdFrontTocado()"
-                      />
-                      <div
-                        *ngIf="spreadsheetIdFrontTocado && configGoogleFormFormGroup.get('spreadsheetIdFront')?.hasError('required')"
-                        class="error-message"
-                      ></div>
+                                <input type="text" class="form-control" formControlName="spreadsheetIdFront" [class.is-invalid]="marcarSpreadsheetIdFrontTocado()" />
+                                <div *ngIf="spreadsheetIdFrontTocado && configGoogleFormFormGroup.get('spreadsheetIdFront')?.hasError('required')" class="error-message"></div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </div>
-                <br />
-                <div class="row">
-                  <div class="col-lg-12">
-                    <div class="mb-3">
-                      <label class="form-label">ID del proyecto</label>
-                      <input
-                        type="text"
-                        class="form-control"
-                        formControlName="projectIdFront"
-                        [class.is-invalid]="marcarProjectIdFrontTocado()"
-                      />
-                      <div
-                        *ngIf="projectIdFrontTocado && configGoogleFormFormGroup.get('projectIdFront')?.hasError('required')"
-                        class="error-message"
-                      ></div>
+                    <br />
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">ID del proyecto</label>
+                                <input type="text" class="form-control" formControlName="projectIdFront" [class.is-invalid]="marcarProjectIdFrontTocado()" />
+                                <div *ngIf="projectIdFrontTocado && configGoogleFormFormGroup.get('projectIdFront')?.hasError('required')" class="error-message"></div>
+                            </div>
+                        </div>
                     </div>
-                  </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label class="form-label">Credenciales JSON</label>
+                            <div class="card">
+                                <div class="card-body">
+                                    <input type="file" class="form-control" id="credencialesJSONInput" accept=".json" (change)="onFileChange($event)" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="row">
-                  <div class="col-md-12">
-                    <label class="form-label">Credenciales JSON</label>
-                    <div class="card">
-                      <div class="card-body">
-                        <input
-                          type="file"
-                          class="form-control"
-                          id="credencialesJSONInput"
-                          accept=".json"
-                          (change)="onFileChange($event)"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-link link-secondary"
-                  data-bs-dismiss="modal"
-                  (click)="resetForm()"
-                >
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">
                   Limpiar
                 </button>
-                <button
-                  type="submit"
-                  class="btn btn-primary"
-                  [disabled]="!configGoogleFormFormGroup.valid"
-                >
+                    <button type="submit" class="btn btn-primary" [disabled]="!configGoogleFormFormGroup.valid">
                   Crear nuevo usuario
                 </button>
-              </div>
-              <!-- Fin del formulario -->
+                </div>
+                <!-- Fin del formulario -->
             </form>
-          </div>
         </div>
-
-        <!--FIN MODAL-->
-      </div>
     </div>
-  </div>
-  <!-- <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre del Formulario</th>
-                <th>ID de Google Form</th>
-                <th>ID de Spreadsheet</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let form of formulario">
-                <td>{{ form.FormularioIdFront }}</td>
-                <td>{{ form.FormNameFront }}</td>
-                <td>{{ form.GoogleFormIdFront }}</td>
-                <td>{{ form.SpreadsheetIdFront }}</td>
-            </tr>
-        </tbody>
-    </table> -->
+
+    <!--FIN MODAL-->
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
@@ -12,7 +12,7 @@ import { ConfigGoogleForm } from 'src/app/models/googleForm';
   templateUrl: './formulario.component.html',
   styleUrls: ['./formulario.component.css']
 })
-export class FormularioComponent {
+export class FormularioComponent implements OnInit {
   // Usuarios
   formulario: ConfigGoogleForm[] = [];
   configForm!: ConfigGoogleForm;
@@ -35,7 +35,7 @@ export class FormularioComponent {
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder,
-    
+
   ) {
     this.configGoogleFormFormGroup = this.formBuilder.group({
       formularioIdFront: ['', Validators.required],
@@ -49,7 +49,7 @@ export class FormularioComponent {
   }
 
   ngOnInit(): void {
-    // this.obtenerFormularios();
+    this.obtenerFormularios();
   }
 
   obtenerFormularios() {
@@ -62,9 +62,7 @@ export class FormularioComponent {
         console.error('Error al obtener los formularios', error);
       }
     );
-
   }
-
 
   resetForm() {
     this.configGoogleFormFormGroup.reset({
@@ -118,14 +116,14 @@ export class FormularioComponent {
     this.configForm.project_id = this.jsonConfig.project_id;
     this.configForm.private_key_id = this.jsonConfig.private_key_id;
     this.configForm.private_key = this.jsonConfig.private_key;
-    this.configForm.client_email = this.jsonConfig.client_email;
+    this.configForm.clientEmail = this.jsonConfig.client_email;
     this.configForm.client_id = this.jsonConfig.client_id;
     this.configForm.auth_uri = this.jsonConfig.auth_uri;
     this.configForm.token_uri = this.jsonConfig.token_uri;
     this.configForm.auth_provider_x509_cert_url = this.jsonConfig.auth_provider_x509_cert_url;
     this.configForm.client_x509_cert_url = this.jsonConfig.client_x509_cert_url;
     this.configForm.universe_domain = this.jsonConfig.universe_domain;
- 
+
     this.formularioService.postFormulario(this.configForm).subscribe({
       next: () => {
         console.log('Formulario guardado con éxito');

@@ -10,7 +10,7 @@ import { catchError, tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class UsuarioService {
-  route = `${environment.apiUrl}/usuarios_registro`;
+  route = `${environment.apiUrl}/obtener_usuarios`;
   private _refreshLisUsers$ = new Subject<Usuario>();
 
 

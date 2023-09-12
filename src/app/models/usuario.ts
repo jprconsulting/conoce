@@ -4,4 +4,6 @@ export interface Usuario {
     email: string;
     passwordUser: string;
     statusUser: boolean;
+    nombre: string;
+    apellidos: string;
 }

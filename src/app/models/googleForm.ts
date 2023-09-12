@@ -1,16 +1,16 @@
 export interface ConfigGoogleForm {
-  formularioIdFront: string;
-  formNameFront: string;
-  googleFormIdFront: string;
-  googleEditFormIdFront: string;
-  spreadsheetIdFront: string;
-  sheetNameFront: string;
-  projectIdFront: string;
+  formularioId: string;
+  formName: string;
+  googleFormId: string;
+  googleEditFormId: string;
+  spreadsheetId: string;
+  sheetName: string;
+  projectId: string;
   type: string;
   project_id: string;
   private_key_id: string;
   private_key: string;
-  client_email: string;
+  clientEmail: string;
   client_id: string;
   auth_uri: string;
   token_uri: string;
