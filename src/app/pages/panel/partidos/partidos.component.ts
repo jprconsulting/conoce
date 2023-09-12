@@ -12,21 +12,24 @@ import { FormGroup,FormBuilder } from '@angular/forms';
   styleUrls: ['./partidos.component.css']
 })
 export class PartidosComponent {
-  nombrePartido: string = '';
+ // nombrePartido: string = '';
   previewImage: string | ArrayBuffer | null = null;
   partidos: Partidos[] = [];
   selectedPartidos: any[] = [];
   partidosSeleccionados: any[] = [];
   coaliciones: Coaliciones[] = [];
   partidoForm: FormGroup;
+  nombrePartido = '';
+  candidatura = false;
 
   @ViewChild('imagenInput') imagenInput!: ElementRef;
 
   constructor(private partidoService: PartidoService,
     private fb: FormBuilder) {
     this.partidoForm = this.fb.group({
-      nombre: [''],
-      imagen: ['']
+      nombrePartido: [''],
+      imagen: [''],
+      candidatura: [''],
     });
   }
 
@@ -102,5 +105,7 @@ resetForm() {
   const newInput = inputElement.cloneNode(true);
   inputElement.parentNode.replaceChild(newInput, inputElement);
 }
+
+
 
 }

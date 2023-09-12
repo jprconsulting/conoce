@@ -155,45 +155,91 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h5 class="modal-title">Agregar Partido Político</h5>
+                <h5 class="modal-title">Agregar Partido Politíco</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form [formGroup]="partidoForm" (ngSubmit)="guardarPartido()">
             <!-- Modal Body -->
             <div class="modal-body">
-                <!-- Formulario -->
-                <form [formGroup]="partidoForm">
-                    <!-- Campo de Nombre del partido político -->
-                    <div class="form-group">
-                        <label for="nombre">Nombre del partido político:</label>
-                        <input type="text" class="form-control" id="nombre" formControlName="nombre">
+                <div class="col-lg-6">
+                    <div class="mb-1">
+                        <div class="mb-1">
+                            <label class="form-label">Tipo de candidatura *</label>
+                            <select class="form-select" formControlName="candidatura" >
+                                <option value="">Selecciona una opción...</option>
+                                <option value="Partido">Partido político</option>
+                                <option value="Candidatura común">Candidatura común</option>
+                                <option value="Coalición">Coalición</option>
+                                <option value="Candidatura independiente">Candidatura independiente</option>
+                            </select>
+                            <!-- <div *ngIf="userForm.get('eleccion')?.value === ''" class="error-message"></div>-->
+                        </div>
                     </div>
-                    <br>
-                    <!-- Campo de Subir Imagen -->
-                    <div class="form-group">
-                        <label for="imagen">Subir Imagen del partido político:</label>
-                        <br><br>
-                        <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
-                    </div>
+                </div>
+                <!-- Campo de Nombre del partido -->
+                <!-- Campo de Nombre del partido -->
+<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Partido'">
+    <label for="nombrePartido">Nombre del partido:</label>
+    <input type="text" class="form-control" id="nombrePartido" formControlName="nombre">
+</div>
 
-                    <!-- Vista previa de la imagen -->
-                    <div *ngIf="previewImage" class="mt-3">
-                        <label>Imagen seleccionada:</label>
-                        <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
-                    </div>
-                </form>
+<!-- Campo de Nombre de la Candidatura Común -->
+<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura común'">
+    <label for="nombreCandidatura">Nombre de la candidatura:</label>
+    <input type="text" class="form-control" id="nombreCandidatura" formControlName="nombre">
+</div>
+
+<!-- Campo de Nombre de la Coalición -->
+<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Coalición'">
+    <label for="nombreCoalicion">Nombre de la coalición:</label>
+    <input type="text" class="form-control" id="nombreCoalicion" formControlName="nombre">
+</div>
+
+<!-- Campo de Nombre de la Candidatura Independiente -->
+<div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura independiente'">
+    <label for="nombreCanInd">Nombre de la candidatura independiente:</label>
+    <input type="text" class="form-control" id="nombreCanInd" formControlName="nombre">
+</div>
+
+                <br><br>
+                <!-- Campo de Partidos que Componen la Coalición -->
+                <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Coalición'">
+                    <label for="partidosCoalicion">Partidos que Componen la Coalición:</label>
+                    <ng-select [items]="partidos" [multiple]="true" bindLabel="nombre" bindValue="id" [(ngModel)]="selectedPartidos" name="selectedPartidos">
+                        <!-- Personaliza las plantillas según tus necesidades -->
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                            <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.nombre}}
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <br><br>
+                <!-- Campo de Subir Imagen -->
+                <div class="form-group">
+                    <label for="imagen">Subir Imagen:</label>
+                    <br><br>
+                    <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
+                </div>
+
+                <!-- Vista previa de la imagen -->
+                <div *ngIf="previewImage" class="mt-3">
+                    <label>Imagen seleccionada:</label>
+                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                </div>
             </div>
-
+        </form>
             <!-- Modal Footer -->
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" (click)="resetForm()">Limpiar campos</button>
-                <button type="button" class="btn btn-primary" (click)="guardarPartido()">Guardar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" (click)="guardarCoalicion()">Guardar</button>
             </div>
+        
         </div>
+        
     </div>
 </div>
 
 <!-- Modal para Agregar Coalición -->
-<div class="modal fade" id="modal-coalicion" tabindex="-1" role="dialog" aria-hidden="true">
+ <div class="modal fade" id="modal-coalicion" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -240,48 +286,9 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 
-<!-- Modal Candidatura Independiente -->
-<div class="modal fade" id="modal-candidatura-independiente" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h5 class="modal-title">Agregar Candidatura Independiente</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
 
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <!-- Campo de Nombre del partido político -->
-                <div class="form-group">
-                    <label for="nombre">Nombre de la candidatura:</label>
-                    <input type="text" class="form-control" id="nombre">
-                </div>
-                <br>
-                <!-- Campo de Subir Imagen -->
-                <div class="form-group">
-                    <label for="imagen">Subir Imagen de la candidatura:</label>
-                    <br><br>
-                    <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
-                </div>
-
-                <!-- Vista previa de la imagen -->
-                <div *ngIf="previewImage" class="mt-3">
-                    <label>Imagen seleccionada:</label>
-                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
-                </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="guardarPartido()">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <!-- Modal Edicion Partido Politico-->
 <div class="modal fade" id="modal-edicion-partido-politico" tabindex="-1" role="dialog" aria-hidden="true">
