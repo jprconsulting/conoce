@@ -80,6 +80,11 @@ const routes: Routes = [
         loadChildren:() => import("./partidos/partidos.module")
         .then(c => c.PartidosModule)
       },
+      {
+        path: 'cargos',
+        loadChildren:() => import("./cargos/cargo.module")
+        .then(c => c.CargoModule)
+      },
     ]
   }
 ];
