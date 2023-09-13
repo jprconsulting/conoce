@@ -7,6 +7,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxPaginationModule,
     NgSelectModule,
   ]
 })

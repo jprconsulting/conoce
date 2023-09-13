@@ -22,8 +22,9 @@ export class PartidosComponent {
   nombreCoalicion = '';
   nombreCanInd = '';
   candidatura = false;
-
-  // Agrega una propiedad para controlar la visibilidad del campo de selección múltiple
+  filtro: string = '';
+  itemsPerPage: number = 2;
+  currentPage: number = 1;
   mostrarCampoPartidos  = false;
 
   @ViewChild('imagenInput') imagenInput!: ElementRef;
@@ -37,7 +38,7 @@ export class PartidosComponent {
       nombreCandidatura: [''],
       nombreCoalicion: [''],
       nombreCanInd: [''],
-      
+
     });
   }
 
@@ -127,5 +128,12 @@ export class PartidosComponent {
       // Manejar el caso en que candidaturaControl es null, si es necesario.
     }
   }
+
+  filtrarResultados() {
+    return this.partidos.filter(partido =>
+      partido.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+    );
+  }
+
 }
 
