@@ -5,12 +5,14 @@ import { HandleErrorService } from './handle-error.service';
 import { Usuario } from 'src/app/models/usuario';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { Rol } from 'src/app/models/Rol';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuarioService {
   route = `${environment.apiUrl}/obtener_usuarios`;
+  routeRol = 'https://mocki.io/v1/20dfd50b-967c-4038-93af-e58dfec8ac9f';
   private _refreshLisUsers$ = new Subject<Usuario>();
 
 
@@ -25,6 +27,12 @@ export class UsuarioService {
 
   getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.route).pipe(map((response: any) => response.response));
+  }
+
+  getRol(): Observable<Rol[]> {
+    return this.http.get<Rol[]>(this.routeRol).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   postUsuario(usuario: Usuario): Observable<Usuario> {

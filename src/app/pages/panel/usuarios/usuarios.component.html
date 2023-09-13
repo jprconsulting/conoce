@@ -86,10 +86,9 @@
                                         <div class="mb-3">
                                             <label class="form-label">Rol</label>
                                             <select class="form-select" formControlName="rol">
-                                              <option value="1">Administrador</option>
-                                              <option value="2">Usuario</option>
-                                              <option value="3">Candidato</option>
-                                            </select>
+                                        <option value="" disabled selected>Selecciona un rol</option>
+                                        <option *ngFor="let r of rol" [value]="r.rolId">{{ r.nombre }}</option>
+                                      </select>
                                         </div>
                                     </div>
 
@@ -227,7 +226,7 @@
                         </ul>
                     </div>
 
-                    
+
                 </div>
                 <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
@@ -300,12 +299,12 @@
                             <div class="mb-3">
                                 <label class="form-label">Rol</label>
                                 <select class="form-select" formControlName="rol">
-                  <option value="1">Administrador</option>
-                  <option value="2">Usuario</option>
-                  <option value="3">Candidato</option>
-                </select>
+                            <option value="" disabled selected>Selecciona un rol</option>
+                            <option *ngFor="let r of rol" [value]="r.rolId">{{ r.nombre }}</option>
+                          </select>
                             </div>
                         </div>
+
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label for="estadoActivo" class="form-label">Estatus</label>

@@ -6,6 +6,7 @@ import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { Usuario } from 'src/app/models/usuario';
 import { ReactiveFormsModule } from '@angular/forms';
+import { Rol } from 'src/app/models/Rol';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,10 +20,10 @@ export class UsuariosComponent implements OnInit {
   isLoadingUsers = LoadingStates.neutro;
   usuariosFilter: Usuario[] = [];
   userForm: FormGroup;
-
-    nombreTocado = false;
-    correoTocado = false;
-    contrasenaTocada = false;
+  rol: Rol[] = [];
+  nombreTocado = false;
+  correoTocado = false;
+  contrasenaTocada = false;
 
   constructor(
     private usuarioService: UsuarioService,
@@ -37,7 +38,7 @@ export class UsuariosComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       nombre: ['', Validators.required],
       correo: ['', Validators.required],
-      rol: ['1'],
+      rol: '',
       contraseña: [
         '',
         [
@@ -56,6 +57,7 @@ export class UsuariosComponent implements OnInit {
   ngOnInit(): void {
     this.usuarioService.refreshLisUsers.subscribe(() => this.getListadoUsuarios());
     this.getListadoUsuarios();
+    this.getRol();
   }
 
 
@@ -76,6 +78,18 @@ export class UsuariosComponent implements OnInit {
         console.log(this.isLoadingUsers);
       }
     });
+  }
+
+  getRol() {
+    this.usuarioService.getRol().subscribe(
+      (rol: Rol[]) => {
+        this.rol = rol;
+        console.log('Roles obtenidos:', this.rol);
+      },
+      (error) => {
+        console.error('Error al obtener roles:', error);
+      }
+    );
   }
 
   guardarUsuario() {
