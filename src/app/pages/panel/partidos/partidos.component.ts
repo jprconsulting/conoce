@@ -26,6 +26,7 @@ export class PartidosComponent {
   itemsPerPage: number = 2;
   currentPage: number = 1;
   mostrarCampoPartidos  = false;
+  itemsPerPageOptions: number[] = [2, 4, 6];
 
   @ViewChild('imagenInput') imagenInput!: ElementRef;
 
