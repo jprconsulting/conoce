@@ -6,6 +6,11 @@
   import { LoadingStates } from 'src/app/global/globals';
   import { CandidatosMaqu } from 'src/app/models/candidatosmaq';
   import { Subscription } from 'rxjs';
+  import { EstadoService } from 'src/app/core/services/estados.service';
+  import {Estados} from 'src/app/models/estados';
+  import {Candidaturas} from 'src/app/models/candidaturas';
+  import { PartidoService } from 'src/app/core/services/partidos.service';
+  import { Partidos } from 'src/app/models/partidos';
 
   @Component({
     selector: 'app-candidatos',
@@ -29,7 +34,6 @@
     apMaterno= false;
     sobrenombre= false;
     eleccion= false;
-    estados= false;
     distritos= false;
     ayuntamiento= false;
     comunidad= false;
@@ -37,15 +41,15 @@
     apPaternoS= false;
     apMaternoS= false;
     nameSuplent= false;
-      previewImage: string | ArrayBuffer | null = null;
+    previewImage: string | ArrayBuffer | null = null;
+    estados: Estados[] = [];
+    candidaturas: Candidaturas[] = [];
+    partidos: Partidos[] = [];
 
-
-// Método para abrir el modal y mostrar la información del usuario.
 // Método para abrir el modal y mostrar la información del usuario.
 abrirModal(candidato: CandidatosMaqu) {
   this.usuarioSeleccionado = candidato;
   console.log('Candidato seleccionado:', this.usuarioSeleccionado);
-  // Abre el modal aquí.
   this.previewImage = null;
 }
 
@@ -61,6 +65,9 @@ abrirModal(candidato: CandidatosMaqu) {
       private mensajeService: MensajeService,
       private spinnerService: NgxSpinnerService,
       private formBuilder: FormBuilder,
+      private estadoService: EstadoService,
+      private partidoService: PartidoService,
+
     ) {
       //this.crearFormularioGuardar();
       //this.subscribeRolID();
@@ -86,10 +93,13 @@ abrirModal(candidato: CandidatosMaqu) {
 
     }
 
-    ngOnInit(): void {
+    ngOnInit() {
       // this.candidatoService['refreshLisUsers'].subscribe(() => this.getListadocandidato());
       this.getListadocandidato();
-    }
+      this.obtenerEstados();
+      this.obtenerCandidaturas();
+      this.obtenerPartidos();
+      }
 
 
     getListadocandidato() {
@@ -109,6 +119,41 @@ abrirModal(candidato: CandidatosMaqu) {
           console.log(this.isLoadingUsers);
         }
       });
+    }
+
+    obtenerEstados() {
+      this.estadoService.obtenerEstados().subscribe(
+        (estados: Estados[]) => {
+          this.estados = estados;
+        },
+        (error) => {
+          console.error('Error al obtener estados:', error);
+        }
+      );
+    }
+
+    obtenerCandidaturas() {
+      this.estadoService.obtenerCandidaturas().subscribe(
+        (candidaturas: Candidaturas[]) => {
+          console.log('Datos de candidaturas recibidos:', candidaturas); // Agrega este console.log
+          this.candidaturas = candidaturas;
+        },
+        (error) => {
+          console.error('Error al obtener candidaturas:', error);
+        }
+      );
+    }
+
+    obtenerPartidos() {
+      this.partidoService.obtenerPartidos().subscribe(
+        (partidos: Partidos[]) => {
+          this.partidos = partidos;
+          console.log('Partidos obtenidos:', this.partidos);
+        },
+        (error) => {
+          console.error('Error al obtener partidos:', error);
+        }
+      );
     }
 
     guardarUsuario() {
@@ -141,7 +186,6 @@ abrirModal(candidato: CandidatosMaqu) {
       this.apMaterno = false;
       this.sobrenombre = false;
       this.eleccion = false;
-      this.estados = false;
       this.distritos = false;
       this.ayuntamiento = false;
       this.comunidad = false;

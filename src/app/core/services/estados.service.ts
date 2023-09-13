@@ -5,22 +5,29 @@ import { HandleErrorService } from './handle-error.service';
 import { Estados } from 'src/app/models/estados';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import {Candidaturas} from 'src/app/models/candidaturas';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PartidoService {
-  private apiUrl = 'https://mocki.io/v1/2812ea7c-a71c-44c6-8e02-aa174658fd0c';
+export class EstadoService {
+  private apiUrl = 'https://mocki.io/v1/42f19424-fae5-41e5-9785-0fc68bad139a';
+  private candUrl ='https://mocki.io/v1/decb48f3-ce22-4b36-a759-9548204206ce';
 
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) {}
 
-  obtenerPartidos(): Observable<Estados[]> {
+  obtenerEstados(): Observable<Estados[]> {
     return this.http.get<Estados[]>(this.apiUrl).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
+  obtenerCandidaturas(): Observable<Candidaturas[]> {
+    return this.http.get<Candidaturas[]>(this.candUrl).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }
