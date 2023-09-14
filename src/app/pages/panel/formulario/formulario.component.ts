@@ -24,6 +24,7 @@ export class FormularioComponent implements OnInit {
   itemsPerPage: number = 5;
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [5, 10, 15];
+  formularioSeleccionado: ConfigGoogleForm | null = null;
 
   formularioIdFrontTocado=false;
       formNameFrontTocado=false;
@@ -193,6 +194,11 @@ export class FormularioComponent implements OnInit {
     return this.formulario.filter(formulario =>
       formulario.formName.toLowerCase().includes(this.filtro.toLowerCase())
     );
+  }
+
+  abrirModal(formulario: ConfigGoogleForm) {
+    this.formularioSeleccionado = formulario;
+    console.log('Formulario seleccionado:', this.formularioSeleccionado);
   }
 }
 

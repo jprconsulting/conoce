@@ -42,15 +42,14 @@
                             <td>
                                 <div class="d-flex justify-content-between">
                                     <button class="btn btn-warning btn-icon btn-sm">
-                          <i
-                            class="ti ti-edit"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modal-report-edit"
-                          ></i>
-                        </button>
+                                        <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report-edit"></i>
+                                    </button>
                                     <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px">
-                          <i class="ti ti-eraser"></i>
-                        </button>
+                                        <i class="ti ti-eraser"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="abrirModal(formularios)">
+                                        <i class="ti ti-eye"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -189,4 +188,84 @@
     </div>
 
     <!--FIN MODAL-->
+</div>
+
+<!-- MODAL PARA VER INFORMACIÓN DE LA CONFIGURACIÓN -->
+<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title" id="exampleModalLabel">
+                    Información del formulario
+                </h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                
+            </div>
+            <!-- Inicio -->
+            
+            <div class="modal-body" style="background-color: #f6f8fb">
+                <div class="row row-cards">
+                    <div class="col-md-6 col-lg-2">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">ID del formulario:</h2>
+                                <h2>{{ formularioSeleccionado?.formularioId }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Nombre:</h2>
+                                <h2>{{ formularioSeleccionado?.formName }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">ID de Google Form:</h2>
+                                <h2>{{ formularioSeleccionado?.googleFormId }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">ID de Google Edit Form:</h2>
+                                <h2>{{ formularioSeleccionado?.googleEditFormId }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">Nombre de la hoja de calculo:</h2>
+                                <h2>{{ formularioSeleccionado?.sheetName }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-2">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">ID de la hoja de Cálculo:</h2>
+                                <h2>{{ formularioSeleccionado?.spreadsheetId }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="row row-cards">
+                    <div class="col-md-6 col-lg-2">
+                        <div class="card card-borderless">
+                            <div class="card-body">
+                                <h2 class="card-title">ID del proyecto:</h2>
+                                <h2>{{ formularioSeleccionado?.projectId }}</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

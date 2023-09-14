@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoadingStates } from 'src/app/global/globals';
 
 @Component({
   selector: 'app-cargos',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./cargos.component.css']
 })
 export class CargosComponent {
-
+  
 }

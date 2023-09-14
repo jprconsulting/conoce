@@ -23,3 +23,51 @@
     border: 1px solid #ccc;
     border-radius: 3px;
 }
+
+textarea {
+    resize: none;
+}
+
+.input-group {
+    position: relative;
+    border-radius: 10px;
+}
+
+.input-group .ti-search {
+    color: #000;
+    position: absolute;
+    right: 10px;
+    top: 10%;
+    transform: translateX(-150%);
+}
+
+.error-message {
+    color: red;
+}
+
+
+/* styles.css (o styles.scss) o en el archivo CSS de tu componente */
+
+
+/* styles.css (o styles.scss) o en el archivo CSS de tu componente */
+
+.modal-dialog {
+    max-width: 90%;
+    /* Ajusta el ancho máximo del modal al 90% del ancho de la pantalla */
+}
+
+h3 {
+    text-align: center;
+}
+
+h4 {
+    text-align: right;
+    color: red;
+}
+
+h2 {
+    text-align: center;
+}
+
+
+
