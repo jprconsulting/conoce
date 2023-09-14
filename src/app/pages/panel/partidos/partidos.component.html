@@ -85,7 +85,7 @@
             <form [formGroup]="partidoForm" (ngSubmit)="guardarPartido()">
                 <!-- Modal Body -->
                 <div class="modal-body">
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <div class="mb-1">
                             <div class="form-group">
                                 <label for="candidatura">Tipo de candidatura *</label>
@@ -128,33 +128,32 @@
                     </div>
 
                     <br><br>
-                    <!-- Campo de Partidos que Componen la Coalición -->
-                    <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Coalición'">
-                        <label for="partidosCoalicion">Partidos que Componen la Coalición:</label>
-                        <!-- Utiliza formControlName para vincular el elemento de formulario -->
-                        <ng-select [items]="partidos" [multiple]="true" bindLabel="nombre" bindValue="id" formControlName="selectedPartidos" name="selectedPartidos">
-                            <!-- Personaliza las plantillas según tus necesidades -->
-                            <ng-template ng-option-tmp let-item="item">
-                                {{ item.nombre }}
-                            </ng-template>
-                        </ng-select>
-                        <br><br>
-                    </div>
-
-
-
 
                     <!-- Campo de Subir Imagen -->
-                    <div class="form-group">
-                        <label for="imagen">Subir Imagen:</label>
-                        <br><br>
-                        <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
-                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 d-flex align-items-center justify-content-center">
+                            <div class="mb-1 text-center">
+                                <label class="form-label">Imagen del candidato *</label>
+                                <!-- Campo de Subir Imagen -->
+                                <div class="form-group">
+                                    <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
+                                  <img src="assets/images/placeholderimage.png" alt="Subir imagen">
+                                  <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;">
+                              </label>
+                                </div>
+                                <br>
+                                <label>Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
+                                <!-- Vista previa de la imagen -->
+                                <div *ngIf="previewImage" class="mt-3">
+                                    <label>Imagen seleccionada:</label>
+                                    <br><br><br>
+                                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                                    <br><br>
+                                    <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
+                                </div>
+                            </div>
+                        </div>
 
-                    <!-- Vista previa de la imagen -->
-                    <div *ngIf="previewImage" class="mt-3">
-                        <label>Imagen seleccionada:</label>
-                        <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
                     </div>
                 </div>
             </form>

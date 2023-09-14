@@ -136,5 +136,9 @@ export class PartidosComponent {
     );
   }
 
+  eliminarImagen() {
+    // Lógica para eliminar la imagen seleccionada
+    this.previewImage = null;
+  }
 }
 
