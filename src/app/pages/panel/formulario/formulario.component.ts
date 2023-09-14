@@ -20,6 +20,10 @@ export class FormularioComponent implements OnInit {
   isLoadingUsers = LoadingStates.neutro;
   FormularioFilter: ConfigGoogleForm[] = [];
   configGoogleFormFormGroup: FormGroup;
+  filtro: string = '';
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+  itemsPerPageOptions: number[] = [5, 10, 15];
 
   formularioIdFrontTocado=false;
       formNameFrontTocado=false;
@@ -183,6 +187,12 @@ export class FormularioComponent implements OnInit {
   marcarProjectIdFrontTocado() {
     this.projectIdFrontTocado = true;
     return this.configGoogleFormFormGroup.get('projectIdFront')?.invalid && this.configGoogleFormFormGroup.get('projectIdFront')?.touched;
+  }
+
+  filtrarResultados() {
+    return this.formulario.filter(formulario =>
+      formulario.formName.toLowerCase().includes(this.filtro.toLowerCase())
+    );
   }
 }
 

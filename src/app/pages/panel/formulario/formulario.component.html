@@ -11,7 +11,7 @@
           </button>
                     <div class="ms-auto text-muted">
                         <div class="input-icon">
-                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
                             <span class="input-icon-addon">
                 <i class="ti ti-search"></i>
               </span>
@@ -33,7 +33,7 @@
                         </tr>
                     </thead>
                     <tbody class="table-tbody">
-                        <tr *ngFor="let formularios of formulario; let i = index">
+                        <tr *ngFor="let formularios of filtrarResultados()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage } ; let i = index">
                             <td>{{ i + 1 }}</td>
                             <td>{{ formularios.clientEmail }}</td>
                             <td>{{ formularios.formName }}</td>
@@ -57,7 +57,18 @@
                     </tbody>
                 </table>
             </div>
+            <div class="pagination-and-items-per-page" style="margin-bottom: 0px;">
+                <div class="items-per-page">
+                    <label for="itemsPerPage">Elementos por página:</label>
+                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px;">
+              <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
+            </select>
+                </div>
 
+                <div class="pagination-container">
+                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                </div>
+            </div>
         </div>
     </div>
 </div>

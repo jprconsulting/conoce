@@ -45,6 +45,10 @@
     estados: Estados[] = [];
     candidaturas: Candidaturas[] = [];
     partidos: Partidos[] = [];
+    filtro: string = '';
+    itemsPerPage: number = 2;
+    currentPage: number = 1;
+    itemsPerPageOptions: number[] = [2, 4, 6];
 
 // Método para abrir el modal y mostrar la información del usuario.
 abrirModal(candidato: CandidatosMaqu) {
@@ -279,5 +283,10 @@ abrirModal(candidato: CandidatosMaqu) {
       this.previewImage = null;
     }
 
+    filtrarResultados() {
+      return this.candidato.filter(candidato =>
+        candidato.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+      );
+    }
   }
 
