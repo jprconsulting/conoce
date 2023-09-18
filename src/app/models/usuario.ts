@@ -1,9 +1,11 @@
+
 export interface Usuario {
     usuarioId: number;
     rolId: number;
+    rol: string;
     email: string;
-    passwordUser: string;
-    statusUser: boolean;
+    password: string;
+    estatus: boolean;
     nombre: string;
     apellidos: string;
 }

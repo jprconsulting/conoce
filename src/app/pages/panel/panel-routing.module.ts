@@ -76,9 +76,9 @@ const routes: Routes = [
         .then(c => c.DemarcacionesModule)
       },
       {
-        path: 'partidos',
-        loadChildren:() => import("./partidos/partidos.module")
-        .then(c => c.PartidosModule)
+        path: 'Candidaturas',
+        loadChildren:() => import("./candidaturas/candidaturas.module")
+        .then(c => c.CandidaturasModule)
       },
       {
         path: 'cargos',

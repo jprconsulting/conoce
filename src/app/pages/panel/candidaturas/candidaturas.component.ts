@@ -1,16 +1,16 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { PartidoService } from 'src/app/core/services/partidos.service';
+import { CandidaturasService } from 'src/app/core/services/candidaturas.service';
 import { Partidos } from 'src/app/models/partidos';
 import { Coaliciones } from 'src/app/models/coaliciones';
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-partidos',
-  templateUrl: './partidos.component.html',
-  styleUrls: ['./partidos.component.css']
+  templateUrl: './candidaturas.component.html',
+  styleUrls: ['./candidaturas.component.css']
 })
-export class PartidosComponent {
+export class CandidaturasComponent {
   previewImage: string | ArrayBuffer | null = null;
   partidos: Partidos[] = [];
   selectedPartidos: any[] = [];
@@ -30,7 +30,7 @@ export class PartidosComponent {
 
   @ViewChild('imagenInput') imagenInput!: ElementRef;
 
-  constructor(private partidoService: PartidoService, private fb: FormBuilder) {
+  constructor(private partidoService: CandidaturasService, private fb: FormBuilder) {
     this.partidoForm = this.fb.group({
       nombrePartido: [''],
       imagen: [''],

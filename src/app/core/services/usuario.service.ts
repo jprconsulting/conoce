@@ -11,10 +11,8 @@ import { Rol } from 'src/app/models/Rol';
   providedIn: 'root'
 })
 export class UsuarioService {
-  route = `${environment.apiUrl}/obtener_usuarios`;
-  routeRol = 'https://mocki.io/v1/20dfd50b-967c-4038-93af-e58dfec8ac9f';
-  private _refreshLisUsers$ = new Subject<Usuario>();
-
+  route = `${environment.apiUrl}/usuario`;
+  private _refreshLisUsers$ = new Subject<Usuario | null>();
 
   constructor(
     private http: HttpClient,
@@ -26,17 +24,29 @@ export class UsuarioService {
   }
 
   getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.route).pipe(map((response: any) => response.response));
+    return this.http.get<Usuario[]>(`${this.route}/obtener_usuarios`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
-  getRol(): Observable<Rol[]> {
-    return this.http.get<Rol[]>(this.routeRol).pipe(
+  getRoles(): Observable<Rol[]> {
+    return this.http.get<Rol[]>(`${environment.apiUrl}/roles/obtener_roles`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
   postUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(this.route, usuario)
+    return this.http.post<Usuario>(`${this.route}/agregar_usuario`, usuario)
+      .pipe(
+        tap(() => {
+          this._refreshLisUsers$.next(null);
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }
+
+  deleteUsuario(id: number) {
+    return this.http.delete(`${this.route}/eliminar_usuario/${id}`)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next;
@@ -45,11 +55,11 @@ export class UsuarioService {
       );
   }
 
-  deleteUsuario(id: string) {
-    return this.http.delete(`${this.route}/${id}`)
+  putUsuario(usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.route}/editar_usuario`, usuario)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next;
+          this._refreshLisUsers$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );
