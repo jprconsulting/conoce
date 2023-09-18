@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { CandidatoService } from 'src/app/core/services/candidato.service';
 import { Observable } from 'rxjs';
-import { CandidatosMaqu } from 'src/app/models/candidatosmaq';
+import { Candidato } from 'src/app/models/candidato';
 import { FormularioService } from 'src/app/core/services/formulario.service';
 import { ConfigGoogleForm } from 'src/app/models/googleForm';
 
@@ -15,7 +15,7 @@ export class AsignacionComponent implements OnInit {
   variableDeControl: number = 1;
   people$: Observable<any[]> = new Observable<any[]>();
   selectedPeople: any[] = [];
-  candidato: CandidatosMaqu[] = [];
+  candidato: Candidato[] = [];
   selectedCandidatos: any[] = [];
   formulario: ConfigGoogleForm[] = [];
   // Declarar un FormGroup para tu formulario
@@ -33,7 +33,7 @@ export class AsignacionComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.candidatoService.getCandidatos().subscribe(data => {
+    this.candidatoService.getCandidatos().subscribe((data: Candidato[]) => {
       console.log(data);
       this.candidato = data;
     });

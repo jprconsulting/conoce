@@ -6,113 +6,67 @@
             </div>
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-cargo">
-                    <i class="ti ti-plus me-1"></i>Agregar Cargo
-                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
+            <i class="ti ti-plus me-1"></i>Agregar Cargo
+          </button>
                     <div class="ms-auto text-muted">
                         <div class="input-icon">
                             <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
                             <span class="input-icon-addon">
-                                <i class="ti ti-search"></i>
-                            </span>
+                <i class="ti ti-search"></i>
+              </span>
                         </div>
                     </div>
                 </div>
             </div>
-  
-              <!--MODAL AGREGAR USUARIO-->
-            <div class="modal modal-blur fade" id="modal-cargo" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title">Nuevo Cargo</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" ></button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Inicio del formulario -->
-                            <form >
-                                <p>Los campos marcados con un (*) son obligatorios</p>
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="mb-1">
-                                            <label class="form-label">Cargo *</label>
-                                            <input type="text" class="form-control" formControlName="nameCandidate"/>
-                                             
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-link link-secondary" >Limpiar</button>
-                            <button type="submit" class="btn btn-primary" >Crear nuevo cargo</button>
-                        </div>
-                    </div>
+
+            <ng-container [ngSwitch]="isLoadingUsers">
+                <div class="progress" *ngSwitchCase="2">
+                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                 </div>
-            </div>
-  
-            <!--FIN MODAL-->
-  
-            <ng-container >
-                
-  
-                <div >
+
+                <div *ngSwitchCase="3">
                     <div class="table-responsive">
                         <table class="table card-table table-vcenter text-nowrap datatable">
                             <thead>
                                 <tr>
-                                    <th class="w-1">Id</th>
+                                    <th class="w-1">ID</th>
                                     <th>Nombre del cargo</th>
                                     <th class="text-center" style="width: 7%">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
-                                <tr>
-                                    <td>1</td>
-                                    <td>Diputado</td>
+                                <tr *ngFor="let cargo of cargosFilter; let pointIndex = index">
+                                    <td>{{ cargo.cargoId }}</td>
+                                    <td>{{ cargo.nombreCargo }}</td>
                                     <td>
                                         <div class="d-flex justify-content-between">
-                                            <button class="btn btn-warning btn-icon btn-sm">
-                                              <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report-edit"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px">
-                                              <i class="ti ti-eraser"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" >
-                                              <i class="ti ti-eye"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Regidor</td>
-                                    <td>
-                                        <div class="d-flex justify-content-between">
-                                            <button class="btn btn-warning btn-icon btn-sm">
-                                              <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report-edit"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px">
-                                              <i class="ti ti-eraser"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" >
-                                              <i class="ti ti-eye"></i>
-                                            </button>
+                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(cargo)">
+                                  <i class="ti ti-edit"></i>
+                                </button>
+                                            <button class="btn btn-danger btn-icon btn-sm" (click)="borrarUsuario(cargo.cargoId, cargo.nombreCargo)">
+                                  <i class="ti ti-eraser"></i>
+                                </button>
                                         </div>
                                     </td>
                                 </tr>
                             </tbody>
                         </table>
+
                     </div>
+
                     <div class="card-footer d-flex align-items-center">
-                        <p class="m-0 text-muted">Showing <span>1</span> to <span>8</span> of<span>16</span> entries</p>
+                        <p class="m-0 text-muted">
+                            Showing <span>1</span> to <span>8</span> of
+                            <span>16</span> entries
+                        </p>
                         <ul class="pagination m-0 ms-auto">
                             <li class="page-item disabled">
                                 <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
                                     <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M15 6l-6 6l6 6" />
-                                    </svg> prev
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M15 6l-6 6l6 6" />
+                  </svg> prev
                                 </a>
                             </li>
                             <li class="page-item"><a class="page-link" href="#">1</a></li>
@@ -123,29 +77,70 @@
                             <li class="page-item"><a class="page-link" href="#">4</a></li>
                             <li class="page-item"><a class="page-link" href="#">5</a></li>
                             <li class="page-item">
-                                <a class="page-link" href="#">next
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        class="icon"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="2"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        >
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M9 6l6 6l-6 6" />
-                                    </svg>
-                                </a>
+                                <a class="page-link" href="#">
+                  next
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="icon"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    stroke-width="2"
+                    stroke="currentColor"
+                    fill="none"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M9 6l6 6l-6 6" />
+                  </svg>
+                </a>
                             </li>
                         </ul>
                     </div>
                 </div>
+                <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
         </div>
     </div>
+
+    <!--MODAL AGREGAR USUARIO-->
+    <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        {{ isModalAdd ? "Agregar" : "Actualizar" }} Cargo
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+                </div>
+
+                <form [formGroup]="userForm" (ngSubmit)="submitUsuario()">
+                    <div class="modal-body">
+                        <!-- Inicio del formulario -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input type="text" class="form-control" formControlName="nombreCargo" />
+                                    <div *ngIf="userForm.get('nombreCargo')?.touched" class="error-message">
+                                        <div *ngIf="userForm.get('nombreCargo')?.hasError('required')">
+                                            El nombre es obligatorio
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Fin del formulario -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
+              {{ isModalAdd ? "Agregar" : "Actualizar" }}
+            </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--FIN MODAL-->
 </div>
-  
