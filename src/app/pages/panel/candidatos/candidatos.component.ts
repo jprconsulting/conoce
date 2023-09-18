@@ -9,7 +9,7 @@
   import { EstadoService } from 'src/app/core/services/estados.service';
   import {Estados} from 'src/app/models/estados';
   import {Candidaturas} from 'src/app/models/candidaturas';
-  import { PartidoService } from 'src/app/core/services/partidos.service';
+  import { CandidaturasService } from 'src/app/core/services/candidaturas.service';
   import { Partidos } from 'src/app/models/partidos';
 
   @Component({
@@ -70,7 +70,7 @@ abrirModal(candidato: CandidatosMaqu) {
       private spinnerService: NgxSpinnerService,
       private formBuilder: FormBuilder,
       private estadoService: EstadoService,
-      private partidoService: PartidoService,
+      private partidoService: CandidaturasService,
 
     ) {
       //this.crearFormularioGuardar();

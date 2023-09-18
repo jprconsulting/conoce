@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { Usuario } from 'src/app/models/usuario';
-import { ReactiveFormsModule } from '@angular/forms';
 import { Rol } from 'src/app/models/Rol';
 
 @Component({
@@ -15,31 +14,38 @@ import { Rol } from 'src/app/models/Rol';
 })
 export class UsuariosComponent implements OnInit {
 
+  @ViewChild('closebutton') closebutton!: ElementRef;
+
   // Usuarios
+  usuario!: Usuario;
   usuarios: Usuario[] = [];
   isLoadingUsers = LoadingStates.neutro;
   usuariosFilter: Usuario[] = [];
-  userForm: FormGroup;
-  rol: Rol[] = [];
-  nombreTocado = false;
-  correoTocado = false;
-  contrasenaTocada = false;
+  userForm!: FormGroup;
+  roles: Rol[] = [];
+  isModalAdd = false;
 
   constructor(
     private usuarioService: UsuarioService,
-    private fbGenerador: FormBuilder,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder,
   ) {
-    //this.crearFormularioGuardar();
-    //this.subscribeRolID();
+    this.crearFormularioUsuario();
+  }
 
+  ngOnInit(): void {
+    this.usuarioService.refreshLisUsers.subscribe(() => this.getListadoUsuarios());
+    this.getListadoUsuarios();
+    this.getRoles();
+  }
+
+  crearFormularioUsuario() {
     this.userForm = this.formBuilder.group({
-      nombre: ['', Validators.required],
-      correo: ['', Validators.required],
-      rol: '',
-      contraseña: [
+      usuarioId: [null],
+      rolId: [null, Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: [
         '',
         [
           Validators.required,
@@ -48,99 +54,109 @@ export class UsuariosComponent implements OnInit {
           Validators.pattern(/[0-9]/),
         ],
       ],
-      estadoActivo: [true],
+      nombre: ['', Validators.required],
+      apellidos: ['', Validators.required],
+      estatus: [true],
     });
-
-
   }
-
-  ngOnInit(): void {
-    this.usuarioService.refreshLisUsers.subscribe(() => this.getListadoUsuarios());
-    this.getListadoUsuarios();
-    this.getRol();
-  }
-
 
   getListadoUsuarios() {
     this.isLoadingUsers = LoadingStates.trueLoading;
     this.usuarioService.getUsuarios().subscribe({
       next: (usuariosFromApi) => {
-        setTimeout(() => {
-          this.usuarios = usuariosFromApi;
-          console.log(this.usuarios);
-          this.usuariosFilter = this.usuarios;
-          this.isLoadingUsers = LoadingStates.falseLoading;
-
-        }, 3000);
+        this.usuarios = usuariosFromApi;
+        this.usuariosFilter = this.usuarios;
+        this.isLoadingUsers = LoadingStates.falseLoading;
       }, error: () => {
-        console.log('error');
         this.isLoadingUsers = LoadingStates.errorLoading;
-        console.log(this.isLoadingUsers);
       }
     });
   }
 
-  getRol() {
-    this.usuarioService.getRol().subscribe(
-      (rol: Rol[]) => {
-        this.rol = rol;
-        console.log('Roles obtenidos:', this.rol);
+  getRoles() {
+    this.usuarioService.getRoles().subscribe({
+      next: (rolesFromAPI) => {
+        this.roles = rolesFromAPI;
       },
-      (error) => {
-        console.error('Error al obtener roles:', error);
+      error: (error) => {
+        console.log('error al obtener los roles', error);
+      }
+    });
+  }
+
+  resetForm() {
+    this.closebutton.nativeElement.click();
+    this.userForm.reset();
+  }
+
+
+  agregarUsuario() {
+    this.usuarioService.postUsuario(this.usuario).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito("Usuario agregado con éxito");
+        this.resetForm();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError("Error al agregar usuario");
+        console.error(error);
+      }
+    }
+    );
+  }
+
+  actualizarUsuario() {
+    this.usuarioService.putUsuario(this.usuario).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito("Usuario actualizado con éxito");
+        this.resetForm();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError("Error al actualizar usuario");
+        console.error(error);
+      }
+    }
+    );
+  }
+
+  submitUsuario() {
+    this.usuario = this.userForm.value as Usuario;
+    this.isModalAdd ? this.agregarUsuario() : this.actualizarUsuario();
+  }
+
+  borrarUsuario(id: number, nombreUsuario: string) {
+    this.mensajeService.mensajeAdvertencia(
+      `¿Estás seguro de eliminar el usuario: ${nombreUsuario}?`,
+      () => {
+        this.usuarioService.deleteUsuario(id).subscribe({
+          next: () => {
+            this.mensajeService.mensajeExito('Usuario borrado correctamente');
+            //this.ConfigPaginator.currentPage = 1;
+          },
+          error: (error) => this.mensajeService.mensajeError(error)
+        });
       }
     );
   }
 
-  guardarUsuario() {
-    const formData = this.userForm.value;
-
+  handleChangeAdd() {
+    this.userForm.reset();
+    this.isModalAdd = true;
   }
 
-  resetForm() {
-    this.userForm.reset({
-      nombre: '',
-      correo: '',
-      rol: '1',
-      contraseña: '',
-      estadoActivo: true,
+  setDataModalUpdate(user: Usuario) {
+    this.isModalAdd = false;
+    this.userForm.patchValue({
+      usuarioId: user.usuarioId,
+      rolId: user.rolId,
+      email: user.email,
+      password: user.password,
+      estatus: user.estatus,
+      nombre: user.nombre,
+      apellidos: user.apellidos
     });
-
-    this.nombreTocado = false;
-    this.correoTocado = false;
-    this.contrasenaTocada = false;
+    console.log(this.userForm.value);
   }
 
-   marcarNombreComoTocado() {
-    this.nombreTocado = true;
-  }
 
-  marcarCorreoComoTocado() {
-    this.correoTocado = true;
-  }
-
-  marcarContrasenaComoTocada() {
-    this.contrasenaTocada = true;
-  }
-
-  agregarUsuario() {
-    if (this.userForm.valid) {
-      const nuevoUsuario = this.userForm.value;
-
-      this.usuarioService.postUsuario(nuevoUsuario).subscribe(
-        (usuarioAgregado) => {
-          // El usuario se ha agregado correctamente, puedes realizar acciones adicionales si es necesario.
-          this.mensajeService.mensajeExito("Usuario agregado con éxito");
-          this.getListadoUsuarios();
-          this.resetForm();
-        },
-        (error) => {
-          // Manejo de errores en caso de que la adición de usuario falle.
-          this.mensajeService.mensajeError("Error al agregar usuario");
-          console.error(error);
-        }
-      );
-    }
-  }
 
 }

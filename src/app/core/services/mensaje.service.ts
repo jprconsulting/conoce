@@ -26,7 +26,10 @@ export class MensajeService {
     })
   }
 
-  mensajeAdvertencia(titulo: string) {
+  mensajeAdvertencia(
+    titulo: string,
+    onConfirm: () => void
+  ) {
     Swal.fire({
       title: titulo,
       icon: 'warning',
@@ -36,16 +39,9 @@ export class MensajeService {
       confirmButtonText: 'Sí, borrarlo!'
     }).then((result) => {
       if (result.value) {
-        Swal.fire({
-          position: 'top-end',
-          icon: 'success',
-          title: 'Registro eliminado',
-          showConfirmButton: false,
-          timer: 1500
-        })
+        onConfirm(); 
       }
-    })
-
+    });
   }
 
 

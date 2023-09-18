@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class PartidoService {
+export class CandidaturasService {
   private apiUrl = 'https://mocki.io/v1/04d093df-4b09-4edf-8541-7acb11d3de03';
   private apiUrlCoa = 'https://mocki.io/v1/af888585-4b5d-49ab-b29a-38a014d20991';
 

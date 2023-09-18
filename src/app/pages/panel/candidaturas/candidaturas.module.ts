@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PartidosRoutingModule } from './partidos-routing.module';
-import { PartidosComponent } from './partidos.component';
+import { CandidaturasRoutingModule } from './candidaturas-routing.module';
+import { CandidaturasComponent } from './candidaturas.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
@@ -11,11 +11,11 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
-    PartidosComponent
+    CandidaturasComponent
   ],
   imports: [
     CommonModule,
-    PartidosRoutingModule,
+    CandidaturasRoutingModule,
     SharedModule,
     ReactiveFormsModule,
     FormsModule,
@@ -23,4 +23,4 @@ import { NgxPaginationModule } from 'ngx-pagination';
     NgSelectModule,
   ]
 })
-export class PartidosModule { }
+export class CandidaturasModule { }
