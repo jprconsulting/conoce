@@ -4,7 +4,8 @@ import { CargosComponent } from './cargos.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { CargosRoutingModule } from './cargo-routing.module'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-
+import { NgSelectModule } from '@ng-select/ng-select';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     CargosRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    NgSelectModule,
+    NgxPaginationModule,
   ]
 })
 export class CargoModule { }

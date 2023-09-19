@@ -39,8 +39,8 @@ export class CargoService {
   }
 
   deleteCrago(id: number) {
-    return this.http.delete(`${this.route}/eliminar_cargo/${id}`)
-      .pipe(
+    return this.http.delete(`${this.route}/eliminar_cargo?id=${id}`)
+    .pipe(
         tap(() => {
           this._refreshLisUsers$.next;
         }),

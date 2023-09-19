@@ -19,12 +19,17 @@ export class CargosComponent implements OnInit {
   cargo!: Cargos;
   cargos: Cargos[] = [];
   isLoadingUsers = LoadingStates.neutro;
-  cargosFilter: Cargos[] = [];
+  usuariosFilter: Cargos[] = [];
   userForm!: FormGroup;
   isModalAdd = false;
+  filtro: string = '';
+  itemsPerPage: number = 2;
+  currentPage: number = 1;
+  mostrarCampoPartidos  = false;
+  itemsPerPageOptions: number[] = [2, 4, 6];
 
   constructor(
-    private cargoService:   CargoService,
+    private cargoService: CargoService,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
     private formBuilder: FormBuilder,
@@ -39,7 +44,7 @@ export class CargosComponent implements OnInit {
 
   crearFormularioUsuario() {
     this.userForm = this.formBuilder.group({
-      cargoId: [],
+      cargoId: [null],
       nombreCargo: ['', Validators.required],
     });
   }
@@ -49,13 +54,10 @@ export class CargosComponent implements OnInit {
     this.cargoService.getCargos().subscribe({
       next: (usuariosFromApi) => {
         this.cargos = usuariosFromApi;
-        this.cargosFilter = this.cargos;
+        this.usuariosFilter = this.cargos;
         this.isLoadingUsers = LoadingStates.falseLoading;
-        console.log('Lista de cargos:', this.cargos); // Agregado para depurar
-      },
-      error: (error) => {
+      }, error: () => {
         this.isLoadingUsers = LoadingStates.errorLoading;
-        console.error('Error al obtener cargos:', error); // Agregado para depurar
       }
     });
   }
@@ -64,6 +66,7 @@ export class CargosComponent implements OnInit {
     this.closebutton.nativeElement.click();
     this.userForm.reset();
   }
+
 
   agregarUsuario() {
     const cargoIdControl = this.userForm.get('cargoId');
@@ -80,28 +83,28 @@ export class CargosComponent implements OnInit {
 
     this.cargoService.postCargo(cargoData).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Usuario agregado con éxito");
+        this.mensajeService.mensajeExito("Cargo agregado con éxito");
         this.resetForm();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar usuario");
+        this.mensajeService.mensajeError("Error al agregar cargo");
         console.error(error);
       }
     });
   }
 
-
   actualizarUsuario() {
     this.cargoService.putCargo(this.cargo).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Cargo actualizado con éxito");
+        this.mensajeService.mensajeExito("Usuario actualizado con éxito");
         this.resetForm();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al actualizar cargo");
-        console.error('Error al actualizar usuario:', error); // Agregado para depurar
+        this.mensajeService.mensajeError("Error al actualizar usuario");
+        console.error(error);
       }
-    });
+    }
+    );
   }
 
   submitUsuario() {
@@ -109,23 +112,25 @@ export class CargosComponent implements OnInit {
     this.isModalAdd ? this.agregarUsuario() : this.actualizarUsuario();
   }
 
-  borrarUsuario(id: number, nombreCargo: string) {
+  borrarUsuario(id: number, nombreUsuario: string) {
     this.mensajeService.mensajeAdvertencia(
-      `¿Estás seguro de eliminar el Cargo: ${nombreCargo}?`,
+      `¿Estás seguro de eliminar el usuario: ${nombreUsuario}?`,
       () => {
         this.cargoService.deleteCrago(id).subscribe({
           next: () => {
-            this.mensajeService.mensajeExito('Cargo borrado correctamente');
-            //this.ConfigPaginator.currentPage = 1;
+            this.mensajeService.mensajeExito('Usuario borrado correctamente');
+            // this.ConfigPaginator.currentPage = 1; // Si necesitas realizar alguna acción adicional después de la eliminación
           },
           error: (error) => {
-            this.mensajeService.mensajeError(error);
-            console.error('Error al borrar usuario:', error); // Agregado para depurar
+            const errorMessage = typeof error === 'string' ? error : 'Error al borrar usuario';
+            this.mensajeService.mensajeError(errorMessage);
+            console.error('Error al borrar usuario:', error); // Para depuración, puedes mostrar el error en la consola
           }
         });
       }
     );
   }
+
 
   handleChangeAdd() {
     this.userForm.reset();
@@ -136,8 +141,15 @@ export class CargosComponent implements OnInit {
     this.isModalAdd = false;
     this.userForm.patchValue({
       cargoId: user.cargoId,
-      nombrecargo: user.nombreCargo,
+      nombreCargo: user.nombreCargo,
     });
-    console.log('Datos del formulario modal:', this.userForm.value); // Agregado para depurar
+    console.log(this.userForm.value);
   }
+
+  filtrarResultados() {
+    return this.cargos.filter(cargo =>
+      cargo.nombreCargo.toLowerCase().includes(this.filtro.toLowerCase())
+    );
+  }
+
 }
