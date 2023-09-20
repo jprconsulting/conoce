@@ -25,20 +25,18 @@
                     <thead>
                         <tr>
                             <th>Foto</th>
-                            <th>Nombre</th>
                             <th>Tipo de candidatura</th>
-                            <th>Partido (s)</th>
+                            <th>Nombre</th>
                             <th class="text-center" style="width: 7%">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-tbody">
                         <tr *ngFor="let partido of filtrarResultados() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
                             <td>
-                                <img [src]="partido.foto" alt="Foto del partido" width="100">
+                                <img [src]="partido.logo" alt="Foto del partido" width="100">
                             </td>
-                            <td>{{ partido.nombre }}</td>
-                            <td>Partido Político</td>
-                            <td>{{ partido.nombre }}</td>
+                            <td>{{ partido.nombreTipoCandidatura }}</td>
+                            <td>{{ partido.nombreCandidatura }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">
                                     <button class="btn btn-warning btn-icon btn-sm">

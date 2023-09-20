@@ -45,7 +45,6 @@ export class CandidaturasComponent {
 
   ngOnInit() {
     this.obtenerPartidos();
-    this.obtenerCoaliciones();
   }
 
   // Método para abrir el modal
@@ -107,18 +106,6 @@ export class CandidaturasComponent {
     );
   }
 
-  // Método para obtener y mostrar las coaliciones en la consola
-  obtenerCoaliciones() {
-    this.partidoService.obtenerCoaliciones().subscribe(
-      (coaliciones: Coaliciones[]) => {
-        this.coaliciones = coaliciones;
-        console.log('Coaliciones obtenidas:', this.coaliciones);
-      },
-      (error) => {
-        console.error('Error al obtener coaliciones:', error);
-      }
-    );
-  }
 
   toggleMostrarCampoPartidos() {
     const candidaturaControl = this.partidoForm.get('candidatura');
@@ -132,7 +119,7 @@ export class CandidaturasComponent {
 
   filtrarResultados() {
     return this.partidos.filter(partido =>
-      partido.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+      partido.nombreTipoCandidatura.toLowerCase().includes(this.filtro.toLowerCase()),
     );
   }
 

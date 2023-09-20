@@ -23,7 +23,7 @@ export class CandidatoService {
   }
 
   getCandidatos(): Observable<Candidato[]> {
-    return this.http.get<Candidato[]>(`${this.route}/obtener_candidaturas`).pipe(
+    return this.http.get<Candidato[]>(`${this.route}/obtener_candidatos`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
