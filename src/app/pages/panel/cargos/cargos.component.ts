@@ -23,10 +23,10 @@ export class CargosComponent implements OnInit {
   userForm!: FormGroup;
   isModalAdd = false;
   filtro: string = '';
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 3;
   currentPage: number = 1;
   mostrarCampoPartidos  = false;
-  itemsPerPageOptions: number[] = [2, 4, 6];
+  itemsPerPageOptions: number[] = [3, 6, 9];
 
   constructor(
     private cargoService: CargoService,

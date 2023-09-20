@@ -332,27 +332,28 @@
                     <div class="row">
                         <div class="col-lg-12 d-flex align-items-center justify-content-center">
                             <div class="mb-1 text-center">
-                                <label class="form-label">Imagen del candidato *</label>
                                 <!-- Campo de Subir Imagen -->
                                 <div class="form-group">
                                     <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
-                                              <img src="assets/images/placeholderimage.png" alt="Subir imagen">
-                                              <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;">
-                                            </label>
+                                        <br>
+                                        <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
+                                        <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;">
+                                    </label>
                                 </div>
                                 <br>
-                                <label>Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
+                                <!-- Texto para seleccionar imagen -->
+                                <label class="form-label" *ngIf="!previewImage">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
+
                                 <!-- Vista previa de la imagen -->
                                 <div *ngIf="previewImage" class="mt-3">
+                                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
+                                    <br>
                                     <label>Imagen seleccionada:</label>
-                                    <br><br><br>
-                                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
                                     <br><br>
                                     <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <!-- Fin del formulario -->
                 </div>

@@ -232,22 +232,19 @@ export class CandidatosComponent implements OnInit {
 
   onImageChange(event: any) {
     const file = event.target.files[0];
-    const reader = new FileReader();
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.previewImage = reader.result; // Actualiza la previsualización
 
-    reader.onload = (e: any) => {
-      // e.target.result contiene la imagen en base64
-      const base64Image = e.target.result;
-
-      const fotoControl = this.userForm.get('foto');
-      if (fotoControl) {
-        fotoControl.setValue(base64Image);
-      }
-    };
-
-    reader.readAsDataURL(file);
+        const fotoControl = this.userForm.get('foto');
+        if (fotoControl) {
+          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+        }
+      };
+    }
   }
-
-
 
   eliminarImagen() {
     this.previewImage = null;

@@ -30,14 +30,12 @@
                         <table class="table card-table table-vcenter text-nowrap datatable">
                             <thead>
                                 <tr>
-                                    <th class="w-1">ID</th>
                                     <th>Nombre del cargo</th>
                                     <th class="text-center" style="width: 7%">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
                                 <tr *ngFor="let cargo of filtrarResultados() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                    <td>{{ cargo.cargoId }}</td>
                                     <td>{{ cargo.nombreCargo }}</td>
                                     <td>
                                         <div class="d-flex justify-content-between">

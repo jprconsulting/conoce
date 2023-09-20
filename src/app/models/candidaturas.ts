@@ -1,4 +1,4 @@
 export interface Candidaturas {
-  tipoCandidaturaId : boolean;
+  tipoCandidaturaId : number;
   nombreTipoCandidatura : string;
 }

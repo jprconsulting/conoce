@@ -19,15 +19,8 @@ textarea {
     color: red;
 }
 
-
-/* styles.css (o styles.scss) o en el archivo CSS de tu componente */
-
-
-/* styles.css (o styles.scss) o en el archivo CSS de tu componente */
-
 .modal-dialog {
     max-width: 95%;
-    /* Ajusta el ancho máximo del modal al 90% del ancho de la pantalla */
 }
 
 h3 {
@@ -55,7 +48,6 @@ h2 {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-    /* Espacio inferior opcional */
     padding: 10px;
     background-color: #f0f0f0;
     border-radius: 5px;
@@ -79,4 +71,19 @@ p {
 
 hr {
     color: blue;
+}
+
+
+/* Estilos para igualar el tamaño de las imágenes */
+
+.imagen-container {
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
+
+.imagen-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
