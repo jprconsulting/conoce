@@ -6,27 +6,42 @@ import { Estados } from 'src/app/models/estados';
 import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import {Candidaturas} from 'src/app/models/candidaturas';
+import {Cargos} from 'src/app/models/cargos';
+import {Genero} from 'src/app/models/genero';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EstadoService {
-  private apiUrl = 'https://mocki.io/v1/42f19424-fae5-41e5-9785-0fc68bad139a';
-  private candUrl ='https://mocki.io/v1/decb48f3-ce22-4b36-a759-9548204206ce';
-
+  private estadosRoute = `${environment.apiUrl}/estado/obtener_estados`;
+  private candidaturasRoute = `${environment.apiUrl}/tipo_candidatura/obtener_tipos_candidaturas`;
+  private cargoRoute = `${environment.apiUrl}/cargo/obtener_cargos`;
+  private genRoute ='https://mocki.io/v1/ced770e1-5963-4f39-bcb3-5f92cddddfe7';
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) {}
 
   obtenerEstados(): Observable<Estados[]> {
-    return this.http.get<Estados[]>(this.apiUrl).pipe(
+    return this.http.get<Estados[]>(this.estadosRoute).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
   obtenerCandidaturas(): Observable<Candidaturas[]> {
-    return this.http.get<Candidaturas[]>(this.candUrl).pipe(
+    return this.http.get<Candidaturas[]>(this.candidaturasRoute).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
+  obtenerCargos(): Observable<Cargos[]> {
+    return this.http.get<Cargos[]>(this.cargoRoute).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
+  obtenerGeneros(): Observable<Genero[]> {
+    return this.http.get<Genero[]>(this.genRoute).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }

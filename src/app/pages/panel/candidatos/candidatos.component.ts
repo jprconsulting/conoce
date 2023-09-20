@@ -10,6 +10,9 @@ import { Candidaturas } from 'src/app/models/candidaturas';
 import { CandidaturasService } from 'src/app/core/services/candidaturas.service';
 import { Partidos } from 'src/app/models/partidos';
 import { EstadoService } from 'src/app/core/services/estados.service';
+import {Cargos} from 'src/app/models/cargos';
+import {Genero} from 'src/app/models/genero';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-candidatos',
@@ -23,12 +26,12 @@ export class CandidatosComponent implements OnInit {
   opcionSeleccionada: string = 'opcion1'; // Valor predeterminado del primer dropdown
   opcionSeleccionada2: string = ''; // Valor predeterminado del segundo dropdown
   mostrarSegundoDropdown: boolean = false; // Variable para mostrar/ocultar el segundo dropdown
-
   // Usuarios
   candidato: Candidato[] = [];
   isLoadingUsers = LoadingStates.neutro;
   candidatoFilter: Candidato[] = [];
   usuarioSeleccionado: Candidato | null = null;
+  candidaturaSeleccionada: string = '';
 
   userForm!: FormGroup;
   previewImage: string | ArrayBuffer | null = null;
@@ -40,6 +43,8 @@ export class CandidatosComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [2, 4, 6];
   isModalAdd = false;
+  cargos: Cargos[] = [];
+  genero: Genero [] = [];
 
   constructor(
     private candidatoService: CandidatoService,
@@ -49,6 +54,7 @@ export class CandidatosComponent implements OnInit {
     private formBuilder: FormBuilder,
     private estadoService: EstadoService,
     private partidoService: CandidaturasService,
+    private http: HttpClient,
   ) {
     this.crearFormularioCandidato();
     //this.subscribeRolID();
@@ -59,20 +65,21 @@ export class CandidatosComponent implements OnInit {
       candidatoId: [null],
       nombrePropietario: ['', Validators.required],
       sobrenombrePropietario: ['', Validators.required],
-      generoId: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
-      nombreSuplente: ['', [Validators.required, Validators.pattern('^[a-zA-Z ]+$')]],
+      generoId: [null, Validators.required],
+      nombreSuplente: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       fechaNacimiento: ['', Validators.required],
-      direccionCasaCampaña: [''],
+      direccionCasaCampaña: ['', Validators.required],
       telefonoPublico: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
-      paginaWeb: [''],
-      estadoId: [''],
-      cargoId: [''],
-      facebook:[''],
-      twitter:[''],
-      instagram:[''],
-      tiktok:[''],
-      candidaturaId: [''],
+      paginaWeb: ['', Validators.required],
+      cargoId: [null, Validators.required],
+      estadoId: [null, Validators.required],
+      candidaturaId: [null, Validators.required],
+      facebook:['', Validators.required],
+      twitter:['', Validators.required],
+      instagram:['', Validators.required],
+      tiktok:['', Validators.required],
+      foto:['', Validators.required]
     });
   }
 
@@ -82,6 +89,9 @@ export class CandidatosComponent implements OnInit {
     this.obtenerEstados();
     this.obtenerCandidaturas();
     this.obtenerPartidos();
+    this.obtenerCargos();
+    this.obtenerGeneros();
+
   }
 
   getListadocandidato() {
@@ -103,6 +113,30 @@ export class CandidatosComponent implements OnInit {
     });
   }
 
+  obtenerCargos() {
+    this.estadoService.obtenerCargos().subscribe(
+      (cargos: Cargos[]) => {
+        this.cargos = cargos;
+        console.log('Cargos recibidos:', cargos);
+      },
+      (error) => {
+        console.error('Error al obtener cargos:', error);
+      }
+    );
+  }
+
+  obtenerGeneros() {
+    this.estadoService.obtenerGeneros().subscribe(
+      (genero: Genero[]) => {
+        this.genero = genero;
+        console.log('Generos recibidos:', genero);
+      },
+      (error) => {
+        console.error('Error al obtener generos:', error);
+      }
+    );
+  }
+
   obtenerEstados() {
     this.estadoService.obtenerEstados().subscribe(
       (estados: Estados[]) => {
@@ -117,7 +151,7 @@ export class CandidatosComponent implements OnInit {
   obtenerCandidaturas() {
     this.estadoService.obtenerCandidaturas().subscribe(
       (candidaturas: Candidaturas[]) => {
-        console.log('Datos de candidaturas recibidos:', candidaturas); // Agrega este console.log
+        console.log('Datos de candidaturas recibidos:', candidaturas);
         this.candidaturas = candidaturas;
       },
       (error) => {
@@ -198,14 +232,22 @@ export class CandidatosComponent implements OnInit {
 
   onImageChange(event: any) {
     const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.previewImage = reader.result;
-      };
-    }
+    const reader = new FileReader();
+
+    reader.onload = (e: any) => {
+      // e.target.result contiene la imagen en base64
+      const base64Image = e.target.result;
+
+      const fotoControl = this.userForm.get('foto');
+      if (fotoControl) {
+        fotoControl.setValue(base64Image);
+      }
+    };
+
+    reader.readAsDataURL(file);
   }
+
+
 
   eliminarImagen() {
     this.previewImage = null;
@@ -221,4 +263,38 @@ export class CandidatosComponent implements OnInit {
     this.userForm.reset();
     this.isModalAdd = true;
   }
+
+  cargarGenero() {
+    this.genero = [
+      { generoId: 1, nombreGenero: 'Femenino' },
+      { generoId: 2, nombreGenero: 'Masculino' },
+    ];
+        this.userForm.get('generoId')?.enable();
+  }
+
+  cargarEstados() {
+    this.http.get<Estados[]>('https://conocelosprueba.bsite.net/api/estado/obtener_estados')
+    .subscribe((data) => {
+      this.estados = data;
+      this.userForm.get('estadoId')?.enable();
+    });
+    this.userForm.get('estadoId')?.enable();
+  }
+
+  cargarCargos() {
+    this.http.get<Cargos[]>('https://conocelosprueba.bsite.net/api/cargo/obtener_cargos')
+      .subscribe((data) => {
+        this.cargos = data;
+        this.userForm.get('cargoId')?.enable();
+      });
+}
+
+cargarCandidaturas() {
+  this.http.get<Candidaturas[]>('https://conocelosprueba.bsite.net/api/candidatura/obtener_candidaturas')
+    .subscribe((data) => {
+      this.candidaturas = data;
+      this.userForm.get('candidaturaId')?.enable();
+    });
+}
+
 }

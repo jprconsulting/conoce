@@ -131,7 +131,10 @@
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label">Género</label>
-                                <input type="text" class="form-control" formControlName="generoId" />
+                                <select class="form-select" formControlName="generoId">
+                              <option value="null">Selecciona una opción...</option>
+                              <option *ngFor="let generoItem of genero" [value]="generoItem.generoId">{{ generoItem.nombreGenero }}</option>
+                            </select>
                                 <div *ngIf="userForm.get('generoId')?.touched" class="error-message">
                                     <div *ngIf="userForm.get('generoId')?.hasError('required')">
                                         El género es obligatorio
@@ -174,7 +177,7 @@
                         <div class="col-lg-6">
                             <div class="mb-3">
                                 <label class="form-label">Fecha de nacimiento</label>
-                                <input type="data" class="form-control" formControlName="fechaNacimiento" />
+                                <input type="date" class="form-control" formControlName="fechaNacimiento" />
                                 <div *ngIf="userForm.get('fechaNacimiento')?.touched" class="error-message">
                                     <div *ngIf="userForm.get('fechaNacimiento')?.hasError('required')">
                                         La fecha de nacimiento es requerida
@@ -228,10 +231,13 @@
                         <div class="col-lg-4">
                             <div class="mb-3">
                                 <label class="form-label">Cargo</label>
-                                <input type="tel" class="form-control" formControlName="cargoId" />
+                                <select class="form-select" formControlName="cargoId">
+                              <option value="null">Selecciona un cargo...</option>
+                              <option *ngFor="let cargoItem of cargos" [value]="cargoItem.cargoId">{{ cargoItem.nombreCargo }}</option>
+                            </select>
                                 <div *ngIf="userForm.get('cargoId')?.touched" class="error-message">
                                     <div *ngIf="userForm.get('cargoId')?.hasError('required')">
-                                        El cargo es requerido
+                                        El cargo es obligatorio
                                     </div>
                                 </div>
                             </div>
@@ -240,7 +246,10 @@
                         <div class="col-lg-4">
                             <div class="mb-3">
                                 <label class="form-label">Estado</label>
-                                <input type="text" class="form-control" formControlName="estadoId" />
+                                <select class="form-select" formControlName="estadoId">
+                              <option value="null">Selecciona un estado...</option>
+                              <option *ngFor="let estadoItem of estados" [value]="estadoItem.estadoId">{{ estadoItem.nombreEstado }}</option>
+                            </select>
                                 <div *ngIf="userForm.get('estadoId')?.touched" class="error-message">
                                     <div *ngIf="userForm.get('estadoId')?.hasError('required')">
                                         El estado es obligatorio
@@ -251,15 +260,19 @@
 
                         <div class="col-lg-4">
                             <div class="mb-3">
-                                <label class="form-label">Tipo de candidatura</label>
-                                <input type="tel" class="form-control" formControlName="candidaturaId" />
+                                <label class="form-label">Candidatura</label>
+                                <select class="form-select" formControlName="candidaturaId">
+                              <option value="null">Selecciona una candidatura...</option>
+                              <option *ngFor="let candidaturaItem of candidaturas" [value]="candidaturaItem.tipoCandidaturaId">{{ candidaturaItem.nombreTipoCandidatura }}</option>
+                            </select>
                                 <div *ngIf="userForm.get('candidaturaId')?.touched" class="error-message">
                                     <div *ngIf="userForm.get('candidaturaId')?.hasError('required')">
-                                        El tipo de candidatura es requerido
+                                        La candidatura es obligatoria
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
                     <hr />
                     <h2>REDES SOCIALES</h2>
@@ -325,7 +338,7 @@
                                     <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
                                               <img src="assets/images/placeholderimage.png" alt="Subir imagen">
                                               <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;">
-                                          </label>
+                                            </label>
                                 </div>
                                 <br>
                                 <label>Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
