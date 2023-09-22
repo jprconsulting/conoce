@@ -36,9 +36,9 @@
                                         </tr>
                                     </thead>
                                     <tbody class="table-tbody">
-                                        <tr *ngFor="let candidatoItem of candidato; let pointIndex = index">
+                                        <tr *ngFor="let candidatoItem of usuario; let pointIndex = index">
                                             <td>{{ pointIndex + 1 }}</td>
-                                            <td>{{ candidatoItem.nombrePropietario }}</td>
+                                            <td>{{ candidatoItem.nombre }}</td>
                                             <td>FORM_HIDALGO_2023</td>
                                         </tr>
                                     </tbody>
@@ -98,50 +98,52 @@
         </div>
     </div>
 </div>
-<!-- MODAL AGREGAR USUARIO -->
+
+<!--MODAL AGREGAR USUARIO-->
 <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Nuevo Usuario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                <h5 class="modal-title">
+                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Asignación de Formulario
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
             </div>
-            <div class="modal-body">
-                <!-- Inicio del formulario -->
-                <div class="row">
-                    <div class="col-lg-12">
-                        <label for="partidosCoalicion">Seleccione el formulario:</label>
-                        <div class="form-group">
-                            <select [(ngModel)]="selectedFormulario" id="selectFormulario" name="selectFormulario" style="width: 667px;height: 32px">
-                            <option value="">Seleccione un formulario</option>
-                            <option *ngFor="let item of formulario" [value]="item.formularioId">{{ item.formName }}</option>
-                          </select>
+
+            <form [formGroup]="userForm" (ngSubmit)="submitUsuario()">
+                <div class="modal-body">
+                    <!-- Inicio del formulario -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <label for="selectFormulario">Seleccione el formulario:</label>
+                            <div class="form-group">
+                                <select formControlName="selectFormulario" id="selectFormulario" name="selectFormulario" style="width: 667px;height: 32px">
+                        <option value="">Seleccione un formulario</option>
+                        <option *ngFor="let item of formulario" [value]="item.formularioId">{{ item.formName }}</option>
+                      </select>
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="col-lg-12">
+                            <label for="selectedCandidatos">Seleccione los usuarios:</label>
+                            <ng-select [items]="usuario" [multiple]="true" bindLabel="nombre" bindValue="id" [(ngModel)]="selectedCandidatos" name="selectedCandidatos">
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.nombre}}
+                                </ng-template>
+                            </ng-select>
                         </div>
                     </div>
-                    <br><br>
-                    <div class="col-lg-12">
-                        <label for="partidosCoalicion">Seleccione los usuarios:</label>
-                        <ng-select [items]="candidato" [multiple]="true" bindLabel="nombre" bindValue="id" [(ngModel)]="selectedCandidatos" name="selectedCandidatos">
-                            <!-- Personaliza las plantillas según tus necesidades -->
-                            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                                <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> {{item.nombre}}
-                            </ng-template>
-                        </ng-select>
-                    </div>
+                    <!-- Fin del formulario -->
+                    <br>
                 </div>
-                <!-- Fin del formulario -->
-                <br>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-link link-secondary">
-                        Limpiar
-                      </button>
-                <button type="submit" class="btn btn-primary">
-                        Crear nuevo usuario
-                      </button>
-            </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
+                  {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                </button>
+                </div>
+            </form>
+
         </div>
     </div>
 </div>
-
-<!-- FIN MODAL -->
+<!--FIN MODAL-->

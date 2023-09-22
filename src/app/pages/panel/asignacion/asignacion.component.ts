@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
-import { CandidatoService } from 'src/app/core/services/candidato.service';
+import { FormGroup, FormControl, FormBuilder  } from '@angular/forms';
+import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { Observable } from 'rxjs';
-import { Candidato } from 'src/app/models/candidato';
+import { Usuario } from 'src/app/models/usuario';
 import { FormularioService } from 'src/app/core/services/formulario.service';
 import { ConfigGoogleForm } from 'src/app/models/googleForm';
 
@@ -15,27 +15,34 @@ export class AsignacionComponent implements OnInit {
   variableDeControl: number = 1;
   people$: Observable<any[]> = new Observable<any[]>();
   selectedPeople: any[] = [];
-  candidato: Candidato[] = [];
+  usuario: Usuario[] = [];
   selectedCandidatos: any[] = [];
   formulario: ConfigGoogleForm[] = [];
-  // Declarar un FormGroup para tu formulario
   myForm: FormGroup;
   selectedFormularios: (number | null)[] = [];
-  selectedFormulario: number = 0;// O el tipo de dato correcto para el ID del formulario
+  selectedFormulario: number = 0;
+  isModalAdd = false;
+  userForm!: FormGroup;
 
   constructor(
-    private candidatoService: CandidatoService,
+    private usuarioService : UsuarioService,
     private formularioService: FormularioService,
+    private fb: FormBuilder,
     ) {
+      this.userForm = this.fb.group({
+        // Define los campos y las validaciones necesarias
+      });
+
     this.myForm = new FormGroup({
       usuarios: new FormControl([]),
     });
   }
 
   ngOnInit() {
-    this.candidatoService.getCandidatos().subscribe((data: Candidato[]) => {
+    this.usuarioService.getUsuarios().subscribe((data: Usuario[]) => {
       console.log(data);
-      this.candidato = data;
+      // Filtrar solo los usuarios (no administradores)
+      this.usuario = data.filter(usuario => usuario.rol === 'Candidato');
     });
 
     this.formularioService.getFormularios().subscribe(data => {
@@ -43,6 +50,7 @@ export class AsignacionComponent implements OnInit {
       this.formulario = data;
     });
   }
+
 
 
   onFormularioSelect(event: any[]) {
@@ -62,4 +70,15 @@ onSubmit() {
   console.log('Valores del formulario:', valoresFormulario);
   console.log('Formularios seleccionados:', this.selectedFormularios);
 }
+
+handleChangeAdd() {
+  this.userForm.reset();
+  this.isModalAdd = true;
+}
+
+submitUsuario() {
+  // this.usuario = this.userForm.value as Usuario;
+  // this.isModalAdd ? this.agregarUsuario() : this.actualizarUsuario();
+}
+
 }
