@@ -85,7 +85,8 @@ export class CandidaturasComponent {
       nombreCanInd: [''],
       acronimoCanInd: [''],
       estatus: [true, Validators.required],
-      imagen: [null, Validators.required]
+      imagen: [null, Validators.required],
+      nombreFoto: ['',Validators.required],
     });
   }
 
@@ -97,24 +98,18 @@ export class CandidaturasComponent {
     this.partidoForm.reset();
     this.isModalAdd = true;
   }
-  // Método para cerrar el modal y limpiar los campos
-  closeModal() {
-    this.partidoForm.reset({
-      candidatura:'',
 
-
-
-    });
-    this.previewImage = null;
-    this.nombrePartido = '';
-    this.imagenInput.nativeElement.value = '';
-    this.candidatura = false;
-    this.nombreCandidatura = '';
-    this.nombreCoalicion = '';
-    this.nombreCanInd = '';
-    this.selectedPartidos= [''];
-
-  }
+// Método para cerrar el modal y reiniciar completamente el formulario
+closeModal() {
+  this.crearFormularioPartido(); // Vuelve a crear el formulario
+  this.previewImage = null; // Elimina la imagen de vista previa
+  this.nombrePartido = '';
+  this.nombreCandidatura = '';
+  this.nombreCoalicion = '';
+  this.nombreCanInd = '';
+  this.selectedPartidos = [];
+  this.isModalAdd = false;
+}
 
   // Método para manejar el cambio de la imagen
   onImageChange(event: any) {

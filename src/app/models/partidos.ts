@@ -1,8 +1,9 @@
 export interface Partidos {
-  candidaturaId: number,
-  tipoCandidaturaId: number,
-  nombreTipoCandidatura: string,
-  nombreCandidatura: string,
-  base64Logo: string,
-  estatus: boolean
+  tipoCandidaturaId: number;
+  nombreTipoCandidatura: string;
+  nombreCandidatura: string;
+  nombreFoto: string;
+  acronimo: string;
+  base64Logo: string;
+  estatus: boolean;
 }
