@@ -2,58 +2,234 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Tipo de elección</h3>
+                <h3 class="card-title">Tipo de Agrupación</h3>
             </div>
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-partido-politico">
-                    <i class="ti ti-plus me-1"></i>Agregar Candidatura
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-partido-politico" (click)="handleChangeAdd()">
+                    <i class="ti ti-plus me-1"></i>Agregar Agrupación Política
                   </button>
-                    <div class="ms-auto text-muted">
-                        <div class="input-icon">
-                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                            <i class="ti ti-search"></i>
-                          </span>
-                        </div>
-                    </div>
                 </div>
             </div>
             <br>
-            <div class="table-responsive">
-                <table class="table card-table table-vcenter text-nowrap datatable">
-                    <thead>
-                        <tr>
-                            <th>Foto</th>
-                            <th>Tipo de candidatura</th>
-                            <th>Nombre</th>
-                            <th class="text-center" style="width: 7%">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-tbody">
-                        <tr *ngFor="let partido of filtrarResultados() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                            <td>
-                                <img [src]="partido.logo" alt="Foto del partido" width="100">
-                            </td>
-                            <td>{{ partido.nombreTipoCandidatura }}</td>
-                            <td>{{ partido.nombreCandidatura }}</td>
-                            <td>
-                                <div class="d-flex justify-content-between">
-                                    <button class="btn btn-warning btn-icon btn-sm">
-                          <i
-                            class="ti ti-edit"
-                            data-bs-toggle="modal"
-                            data-bs-target="#modal-edicion-partido-politico"
-                          ></i>
-                        </button>
-                                    <button class="btn btn-danger btn-icon btn-sm">
-                          <i class="ti ti-eraser"></i>
-                        </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+
+            <div class="accordion" id="accordion-example">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-1">
+                        <button class="accordion-button " type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true">
+                    PARTIDOS POLÍTICOS
+                  </button>
+                    </h2>
+                    <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
+                        <div class="accordion-body pt-0">
+                            <!-- Tabla para Partido Político -->
+                            <table class="table card-table table-vcenter text-nowrap datatable" *ngIf="getPartidosPorTipoCandidatura('Partido Político').length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Tipo de candidatura</th>
+                                        <th>Nombre</th>
+                                        <th>Estatus</th>
+                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-tbody">
+                                    <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Partido Político') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                                        <td>
+                                            <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
+                                        </td>
+                                        <td>{{ partido.nombreTipoCandidatura }}</td>
+                                        <td>{{ partido.nombreCandidatura }}</td>
+                                        <td>
+                                            <ng-container *ngIf="partido.estatus; else elseEST">
+                                                <span class="badge bg-success me-1"></span>Activo
+                                            </ng-container>
+                                            <ng-template #elseEST>
+                                                <span class="badge bg-danger me-1"></span> Inactivo
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <!-- <button class="btn btn-warning btn-icon btn-sm">
+                                    <i
+                                      class="ti ti-edit"
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#modal-edicion-partido-politico"
+                                    ></i>
+                                  </button> -->
+                                                <button class="btn btn-danger btn-icon btn-sm">
+                                <i class="ti ti-eraser"></i>
+                              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-2">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
+                    CANDIDATURAS COMUNES
+                  </button>
+                    </h2>
+                    <div id="collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                        <div class="accordion-body pt-0">
+                            <!-- Tabla para Candidatura Común -->
+                            <table class="table card-table table-vcenter text-nowrap datatable" *ngIf="getPartidosPorTipoCandidatura('Candidatura Común').length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Tipo de candidatura</th>
+                                        <th>Nombre</th>
+                                        <th>Estatus</th>
+                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-tbody">
+                                    <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Candidatura Común') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                                        <td>
+                                            <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
+                                        </td>
+                                        <td>{{ partido.nombreTipoCandidatura }}</td>
+                                        <td>{{ partido.nombreCandidatura }}</td>
+                                        <td>
+                                            <ng-container *ngIf="partido.estatus; else elseEST">
+                                                <span class="badge bg-success me-1"></span>Activo
+                                            </ng-container>
+                                            <ng-template #elseEST>
+                                                <span class="badge bg-danger me-1"></span> Inactivo
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <!-- <button class="btn btn-warning btn-icon btn-sm">
+                                      <i
+                                        class="ti ti-edit"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-edicion-partido-politico"
+                                      ></i>
+                                    </button> -->
+                                                <button class="btn btn-danger btn-icon btn-sm">
+                                <i class="ti ti-eraser"></i>
+                              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-3">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">
+                    COALICIONES
+                  </button>
+                    </h2>
+                    <div id="collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                        <div class="accordion-body pt-0">
+                            <!-- Tabla para Coalición -->
+                            <table class="table card-table table-vcenter text-nowrap datatable" *ngIf="getPartidosPorTipoCandidatura('Coalición').length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Tipo de candidatura</th>
+                                        <th>Nombre</th>
+                                        <th>Estatus</th>
+                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-tbody">
+                                    <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Coalición') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                                        <td>
+                                            <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
+                                        </td>
+                                        <td>{{ partido.nombreTipoCandidatura }}</td>
+                                        <td>{{ partido.nombreCandidatura }}</td>
+                                        <td>
+                                            <ng-container *ngIf="partido.estatus; else elseEST">
+                                                <span class="badge bg-success me-1"></span>Activo
+                                            </ng-container>
+                                            <ng-template #elseEST>
+                                                <span class="badge bg-danger me-1"></span> Inactivo
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <!-- <button class="btn btn-warning btn-icon btn-sm">
+                                      <i
+                                        class="ti ti-edit"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-edicion-partido-politico"
+                                      ></i>
+                                    </button> -->
+                                                <button class="btn btn-danger btn-icon btn-sm">
+                                <i class="ti ti-eraser"></i>
+                              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-4">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-4" aria-expanded="false">
+                    CANDIDATURAS INDEPENDIENTES
+                  </button>
+                    </h2>
+                    <div id="collapse-4" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                        <div class="accordion-body pt-0">
+                            <!-- Tabla para Candidatura Independiente -->
+                            <table class="table card-table table-vcenter text-nowrap datatable" *ngIf="getPartidosPorTipoCandidatura('Candidatura Independiente').length > 0">
+                                <thead>
+                                    <tr>
+                                        <th>Foto</th>
+                                        <th>Tipo de candidatura</th>
+                                        <th>Nombre</th>
+                                        <th>Estatus</th>
+                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-tbody">
+                                    <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Candidatura Independiente') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                                        <td>
+                                            <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
+                                        </td>
+                                        <td>{{ partido.nombreTipoCandidatura }}</td>
+                                        <td>{{ partido.nombreCandidatura }}</td>
+                                        <td>
+                                            <ng-container *ngIf="partido.estatus; else elseEST">
+                                                <span class="badge bg-success me-1"></span>Activo
+                                            </ng-container>
+                                            <ng-template #elseEST>
+                                                <span class="badge bg-danger me-1"></span> Inactivo
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <!-- <button class="btn btn-warning btn-icon btn-sm">
+                                      <i
+                                        class="ti ti-edit"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#modal-edicion-partido-politico"
+                                      ></i>
+                                    </button> -->
+                                                <button class="btn btn-danger btn-icon btn-sm">
+                                <i class="ti ti-eraser"></i>
+                              </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="pagination-and-items-per-page" style="margin-bottom: 0px;">
                 <div class="items-per-page">
@@ -71,44 +247,57 @@
     </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modal-partido-politico" tabindex="-1" role="dialog" aria-hidden="true">
+<!--MODAL AGREGAR AGRUPACIÓN-->
+<div class="modal modal-blur fade" id="modal-partido-politico" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
-            <!-- Modal Header -->
             <div class="modal-header">
-                <h5 class="modal-title">AGREGAR CANDIDATURA</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title">
+                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Agrupación Política
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
             </div>
-            <form [formGroup]="partidoForm" (ngSubmit)="guardarPartido()">
-                <!-- Modal Body -->
+
+            <form [formGroup]="partidoForm" (ngSubmit)="agregarCargo()">
                 <div class="modal-body">
+                    <!-- Tipo de Agrupación -->
                     <div class="col-lg-12">
                         <div class="mb-1">
                             <div class="form-group">
-                                <label for="candidatura">Tipo de candidatura *</label>
+                                <label for="candidatura" style="margin-bottom: 5px;">Tipo de Agrupación *</label>
                                 <select class="form-select" formControlName="candidatura" (change)="toggleMostrarCampoPartidos()">
-                                <option value="">Selecciona una opción...</option>
-                                <option value="Partido">Partido político</option>
-                                <option value="Candidatura común">Candidatura común</option>
-                                <option value="Coalición">Coalición</option>
-                                <option value="Candidatura independiente">Candidatura independiente</option>
-                            </select>
+                                  <option value="">Selecciona una opción...</option>
+                                  <option value="Partido">Partido político</option>
+                                  <option value="Candidatura común">Candidatura común</option>
+                                  <option value="Coalición">Coalición</option>
+                                  <option value="Candidatura independiente">Candidatura independiente</option>
+                              </select>
                             </div>
                         </div>
                     </div>
+
                     <!-- Campo de Nombre del partido -->
                     <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Partido'">
-                        <br><br>
+                        <br>
                         <label for="nombrePartido">Nombre del partido:</label>
                         <input type="text" class="form-control" id="nombrePartido" formControlName="nombrePartido">
+
+                        <!-- Campo de Acrónimo del partido -->
+                        <br>
+                        <label for="acronimoPartido">Acrónimo del partido:</label>
+                        <input type="text" class="form-control" id="acronimoPartido" formControlName="acronimoPartido">
                     </div>
 
                     <!-- Campo de Nombre de la Candidatura Común -->
                     <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura común'">
-                        <br><br>
+                        <br>
                         <label for="nombreCandidatura">Nombre de la candidatura:</label>
                         <input type="text" class="form-control" id="nombreCandidatura" formControlName="nombreCandidatura">
+
+                        <!-- Campo de Acrónimo de la candidatura común -->
+                        <br>
+                        <label for="acronimoCandidatura">Acrónimo de la candidatura:</label>
+                        <input type="text" class="form-control" id="acronimoCandidatura" formControlName="acronimoCandidatura">
                     </div>
 
                     <!-- Campo de Nombre de la Coalición -->
@@ -116,28 +305,37 @@
                         <br><br>
                         <label for="nombreCoalicion">Nombre de la coalición:</label>
                         <input type="text" class="form-control" id="nombreCoalicion" formControlName="nombreCoalicion">
+
+                        <!-- Campo de Acrónimo de la coalición -->
+                        <br>
+                        <label for="acronimoCoalicion">Acrónimo de la coalición:</label>
+                        <input type="text" class="form-control" id="acronimoCoalicion" formControlName="acronimoCoalicion">
                     </div>
 
                     <!-- Campo de Nombre de la Candidatura Independiente -->
                     <div class="form-group" *ngIf="partidoForm.get('candidatura')?.value === 'Candidatura independiente'">
-                        <br><br>
+                        <br>
                         <label for="nombreCanInd">Nombre de la candidatura:</label>
                         <input type="text" class="form-control" id="nombreCanInd" formControlName="nombreCanInd">
-                    </div>
 
+                        <!-- Campo de Acrónimo de la candidatura independiente -->
+                        <br>
+                        <label for="acronimoCanInd">Acrónimo de la candidatura:</label>
+                        <input type="text" class="form-control" id="acronimoCanInd" formControlName="acronimoCanInd">
+                    </div>
                     <br><br>
 
                     <!-- Campo de Subir Imagen -->
                     <div class="row">
                         <div class="col-lg-12 d-flex align-items-center justify-content-center">
                             <div class="mb-1 text-center">
-                                <label class="form-label">Imagen del candidato *</label>
+                                <label class="form-label">Emblema de la Agrupación *</label>
                                 <!-- Campo de Subir Imagen -->
                                 <div class="form-group">
                                     <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
-                                  <img src="assets/images/placeholderimage.png" alt="Subir imagen">
-                                  <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;">
-                              </label>
+                              <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
+                              <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;" accept="image/*" [formControl]="imagenControl">
+                            </label>
                                 </div>
                                 <br>
                                 <label>Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
@@ -145,68 +343,44 @@
                                 <div *ngIf="previewImage" class="mt-3">
                                     <label>Imagen seleccionada:</label>
                                     <br><br><br>
-                                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
+                                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
                                     <br><br>
                                     <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
                                 </div>
                             </div>
                         </div>
-
+                    </div>
+                    <br>
+                    <div class="col-lg-6">
+                        <div class="mb-3">
+                            <label for="estadoActivo" class="form-label">Estatus</label>
+                            <label class="form-check form-switch checkbox-verde">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  formControlName="estatus"
+                />
+                <span
+                  class="form-check-label"
+                  [ngClass]="{
+                    'text-success': partidoForm.get('estatus')?.value === true,
+                    'text-danger': partidoForm.get('estatus')?.value === false
+                  }"
+                >
+                  {{
+                    partidoForm.get("estatus")?.value ? "Activo" : "Inactivo"
+                  }}
+                </span>
+              </label>
+                        </div>
                     </div>
                 </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" [disabled]="!partidoForm.valid">
+            {{ isModalAdd ? "Agregar" : "Actualizar" }}
+          </button>
+                </div>
             </form>
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeModal()">Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="guardarCoalicion()">Guardar</button>
-            </div>
-
-        </div>
-
-    </div>
-</div>
-
-
-
-
-<!-- Modal Edicion Partido Politico-->
-<div class="modal fade" id="modal-edicion-partido-politico" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h5 class="modal-title">Editar Partido Político</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <!-- Modal Body -->
-            <div class="modal-body">
-                <!-- Campo de Nombre del partido político -->
-                <div class="form-group">
-                    <label for="nombre">Nombre del partido político:</label>
-                    <input type="text" class="form-control" id="nombre">
-                </div>
-                <br>
-                <!-- Campo de Subir Imagen -->
-                <div class="form-group">
-                    <label for="imagen">Subir Imagen del partido político:</label>
-                    <br><br>
-                    <input type="file" class="form-control-file" id="imagen" (change)="onImageChange($event)">
-                </div>
-
-                <!-- Vista previa de la imagen -->
-                <div *ngIf="previewImage" class="mt-3">
-                    <label>Imagen seleccionada:</label>
-                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen">
-                </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" (click)="guardarPartido()">Actualizar</button>
-            </div>
         </div>
     </div>
 </div>
-
-<!-- Modal para Editar Coalición -->

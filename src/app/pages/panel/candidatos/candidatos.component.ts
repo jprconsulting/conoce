@@ -161,7 +161,7 @@ export class CandidatosComponent implements OnInit {
   }
 
   obtenerPartidos() {
-    this.partidoService.obtenerPartidos().subscribe(
+    this.partidoService.getCandidaturas().subscribe(
       (partidos: Partidos[]) => {
         this.partidos = partidos;
         console.log('Partidos obtenidos:', this.partidos);
