@@ -76,19 +76,16 @@ export class CandidaturasComponent {
   crearFormularioPartido() {
     this.partidoForm = this.formBuilder.group({
       candidatura: ['', Validators.required],
-      nombrePartido: [''],
-      acronimoPartido: [''],
-      nombreCandidatura: [''],
-      acronimoCandidatura: [''],
-      nombreCoalicion: [''],
-      acronimoCoalicion: [''],
-      nombreCanInd: [''],
-      acronimoCanInd: [''],
+      nombreCandidatura: ['', Validators.required],
+      acronimo: [''],
       estatus: [true, Validators.required],
-      imagen: [null, Validators.required],
-      nombreFoto: ['',Validators.required],
+      base64Logo: [''],
+      nombreFoto: ['', Validators.required],
     });
   }
+
+
+
 
   get imagenControl(): FormControl {
     return this.partidoForm.get('imagen') as FormControl;
@@ -111,22 +108,31 @@ closeModal() {
   this.isModalAdd = false;
 }
 
-  // Método para manejar el cambio de la imagen
-  onImageChange(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.previewImage = reader.result; // Actualiza la previsualización
+// Método para manejar el cambio de la imagen
+onImageChange(event: any) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      // La cadena Base64 incluye el prefijo "data:image/png;base64,"
+      const base64String = reader.result as string;
 
-        const fotoControl = this.partidoForm.get('foto');
-        if (fotoControl) {
-          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
-        }
-      };
-    }
+      // Eliminar el prefijo "data:image/png;base64," de la cadena
+      const base64WithoutPrefix = base64String.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+
+      console.log(base64WithoutPrefix); // Verifica que la cadena no incluya el prefijo
+
+      // Asigna la cadena Base64 sin el prefijo al control del formulario base64Logo
+      const base64LogoControl = this.partidoForm.get('base64Logo');
+      if (base64LogoControl instanceof FormControl) {
+        base64LogoControl.setValue(base64WithoutPrefix);
+      }
+
+      this.previewImage = base64WithoutPrefix; // Actualiza la previsualización
+    };
   }
+}
 
   // Método para guardar el partido político
   guardarPartido() {
@@ -146,55 +152,6 @@ closeModal() {
     );
   }
 
-
-
-  toggleMostrarCampoPartidos() {
-    const candidaturaControl = this.partidoForm.get('candidatura');
-    if (candidaturaControl) {
-      const candidaturaValue = candidaturaControl.value;
-
-      // Deshabilitar todos los campos primero
-      const nombrePartidoControl = this.partidoForm.get('nombrePartido');
-      const acronimoPartidoControl = this.partidoForm.get('acronimoPartido');
-      const nombreCandidaturaControl = this.partidoForm.get('nombreCandidatura');
-      const acronimoCandidaturaControl = this.partidoForm.get('acronimoCandidatura');
-      const nombreCoalicionControl = this.partidoForm.get('nombreCoalicion');
-      const acronimoCoalicionControl = this.partidoForm.get('acronimoCoalicion');
-      const nombreCanIndControl = this.partidoForm.get('nombreCanInd');
-      const acronimoCanIndControl = this.partidoForm.get('acronimoCanInd');
-
-      nombrePartidoControl?.setValue('');
-      acronimoPartidoControl?.setValue('');
-      nombreCandidaturaControl?.setValue('');
-      acronimoCandidaturaControl?.setValue('');
-      nombreCoalicionControl?.setValue('');
-      acronimoCoalicionControl?.setValue('');
-      nombreCanIndControl?.setValue('');
-      acronimoCanIndControl?.setValue('');
-
-      // Habilitar los campos según la opción seleccionada
-      if (candidaturaValue === 'Partido') {
-        nombrePartidoControl?.enable();
-        acronimoPartidoControl?.enable();
-      } else if (candidaturaValue === 'Candidatura común') {
-        nombreCandidaturaControl?.enable();
-        acronimoCandidaturaControl?.enable();
-      } else if (candidaturaValue === 'Coalición') {
-        nombreCoalicionControl?.enable();
-        acronimoCoalicionControl?.enable();
-      } else if (candidaturaValue === 'Candidatura independiente') {
-        nombreCanIndControl?.enable();
-        acronimoCanIndControl?.enable();
-      }
-    }
-  }
-
-  filtrarResultados() {
-    return this.partidos.filter(partido =>
-      partido.nombreTipoCandidatura.toLowerCase().includes(this.filtro.toLowerCase()),
-    );
-  }
-
   eliminarImagen() {
     this.previewImage = null;
   }
@@ -205,18 +162,50 @@ closeModal() {
   }
 
   agregarCargo() {
-    console.log('Datos a enviar:', this.partido); // Agrega esta línea para ver los datos antes de enviarlos
+    const candidaturaControl = this.partidoForm.get('candidatura');
 
-    this.candidaturaService.postCandidaturas(this.partido).subscribe({
-      next: () => {
-        this.mensajeService.mensajeExito("Agrupación agregada con éxito");
-        this.resetForm();
-      },
-      error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar agrupación");
-        console.error(error);
+    if (candidaturaControl && candidaturaControl.value !== null && this.partidoForm.valid) {
+      const tipoAgrupacionId = candidaturaControl.value;
+      const tipoAgrupacionTexto = this.getTipoAgrupacionNombre(tipoAgrupacionId); // Obtener el nombre correspondiente
+
+      const nombreCandidatura = this.partidoForm.get('nombreCandidatura')?.value || '';
+      const acronimo = this.partidoForm.get('acronimo')?.value || '';
+      const estatus = this.partidoForm.get('estatus')?.value || '';
+
+      // Elimina el prefijo "data:image/png;base64," del valor de base64Logo
+      const base64LogoControl = this.partidoForm.get('base64Logo');
+      let base64Logo = base64LogoControl?.value || '';
+      if (base64Logo.startsWith('data:image/png;base64,')) {
+        base64Logo = base64Logo.replace('data:image/png;base64,', ''); // Elimina el prefijo
       }
-    });
+
+      const nombreFoto = this.partidoForm.get('nombreFoto')?.value || '';
+
+      this.partido = {
+        tipoCandidaturaId: tipoAgrupacionId,
+        nombreTipoCandidatura: tipoAgrupacionTexto,
+        nombreCandidatura,
+        acronimo,
+        estatus,
+        base64Logo, // Ahora base64Logo no tiene el prefijo
+        nombreFoto,
+      };
+
+      console.log('Datos a enviar:', this.partido);
+
+      this.candidaturaService.postCandidaturas(this.partido).subscribe({
+        next: () => {
+          this.mensajeService.mensajeExito("Agrupación agregada con éxito");
+          this.resetForm();
+        },
+        error: (error) => {
+          this.mensajeService.mensajeError("Error al agregar agrupación");
+          console.error(error);
+        }
+      });
+    } else {
+      console.log('El formulario no es válido o candidaturaControl es nulo. No se enviarán datos.');
+    }
   }
 
   getDatosAgrupados() {
@@ -237,6 +226,20 @@ closeModal() {
     return this.datos.filter(partido => partido.nombreTipoCandidatura === tipoCandidatura);
   }
 
+  getTipoAgrupacionNombre(valor: number): string {
+    switch (valor) {
+      case 1:
+        return "Partido político";
+      case 2:
+        return "Candidatura común";
+      case 3:
+        return "Coalición";
+      case 4:
+        return "Candidatura independiente";
+      default:
+        return "";
+    }
+  }
 
 }
 
