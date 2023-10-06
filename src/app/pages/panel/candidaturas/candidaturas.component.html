@@ -23,7 +23,7 @@
                         <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
                             <div class="accordion-body pt-0">
                                 <!-- Tabla para Partido Político -->
-                                <table class="table card-table table-vcenter text-nowrap datatable" *ngIf="getPartidosPorTipoCandidatura('Partido Político').length > 0">
+                                <table class="table card-table table-vcenter text-nowrap datatable" *ngIf="filtro === 'Partido Politico'">
                                     <thead>
                                         <tr>
                                             <th>Foto</th>
@@ -34,12 +34,12 @@
                                         </tr>
                                     </thead>
                                     <tbody class="table-tbody">
-                                        <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Partido Político') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                            <td>
+                                        <tr *ngFor="let partido of partidos | filterByTipoCandidatura:filtro">
+                                            <!-- <td>
                                                 <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
-                                            </td>
-                                            <td>{{ partido.nombreTipoCandidatura }}</td>
+                                            </td> -->
                                             <td>{{ partido.nombreCandidatura }}</td>
+                                            <td>{{ partido.logo }}</td>
                                             <td>
                                                 <ng-container *ngIf="partido.estatus; else elseEST">
                                                     <span class="badge bg-success me-1"></span>Activo
@@ -89,11 +89,11 @@
                                     </thead>
                                     <tbody class="table-tbody">
                                         <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Candidatura Común') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                            <td>
+                                            <!-- <td>
                                                 <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
-                                            </td>
-                                            <td>{{ partido.nombreTipoCandidatura }}</td>
+                                            </td> -->
                                             <td>{{ partido.nombreCandidatura }}</td>
+                                            <td>{{ partido.logo }}</td>
                                             <td>
                                                 <ng-container *ngIf="partido.estatus; else elseEST">
                                                     <span class="badge bg-success me-1"></span>Activo
@@ -143,11 +143,11 @@
                                     </thead>
                                     <tbody class="table-tbody">
                                         <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Coalición') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                            <td>
+                                            <!-- <td>
                                                 <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
-                                            </td>
-                                            <td>{{ partido.nombreTipoCandidatura }}</td>
+                                            </td> -->
                                             <td>{{ partido.nombreCandidatura }}</td>
+                                            <td>{{ partido.logo }}</td>
                                             <td>
                                                 <ng-container *ngIf="partido.estatus; else elseEST">
                                                     <span class="badge bg-success me-1"></span>Activo
@@ -197,11 +197,11 @@
                                     </thead>
                                     <tbody class="table-tbody">
                                         <tr *ngFor="let partido of getPartidosPorTipoCandidatura('Candidatura Independiente') | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                            <td>
+                                            <!-- <td>
                                                 <img [src]="partido.base64Logo" alt="Foto del partido" width="100">
-                                            </td>
-                                            <td>{{ partido.nombreTipoCandidatura }}</td>
+                                            </td> -->
                                             <td>{{ partido.nombreCandidatura }}</td>
+                                            <td>{{ partido.logo }}</td>
                                             <td>
                                                 <ng-container *ngIf="partido.estatus; else elseEST">
                                                     <span class="badge bg-success me-1"></span>Activo
@@ -254,13 +254,12 @@
                         <div class="mb-1">
                             <div class="form-group">
                                 <label for="candidatura" style="margin-bottom: 5px;">Tipo de Agrupación *</label>
-                                <select class="form-select" formControlName="candidatura">
-                                  <option value="">Selecciona una opción...</option>
+                                <select class="form-select" formControlName="candidatura" id="candidatura">                                  <option value="">Selecciona una opción...</option>
                                   <option value="1">Partido político</option>
                                   <option value="2">Candidatura común</option>
                                   <option value="3">Coalición</option>
                                   <option value="4">Candidatura independiente</option>
-                              </select>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -268,7 +267,7 @@
                     <!-- Campo de Nombre del partido -->
                     <div class="form-group">
                         <label for="nombreCandidatura">Nombre de la agrupación:</label>
-                        <input type="text" class="form-control" id="nombreCandidatura" formControlName="nombreCandidatura">
+                        <input type="text" class="form-control" id="logo" formControlName="logo">
                     </div>
                     <br>
                     <div class="form-group">
@@ -302,12 +301,6 @@
                         </div>
                     </div>
                     <br>
-                    <!-- Campo de Nombre de la Foto -->
-                    <div class="form-group">
-                        <label for="nombreFoto">Nombre de la Foto:</label>
-                        <input type="text" class="form-control" id="nombreFoto" formControlName="nombreFoto">
-                    </div>
-                    <br>
                     <div class="col-lg-6">
                         <div class="mb-3">
                             <label for="estadoActivo" class="form-label">Estatus</label>
@@ -333,7 +326,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" [disabled]="!partidoForm.valid">
+                    <button type="submit" class="btn btn-primary">
             {{ isModalAdd ? "Agregar" : "Actualizar" }}
           </button>
                 </div>

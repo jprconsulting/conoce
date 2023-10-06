@@ -5,18 +5,6 @@ import { Partidos } from 'src/app/models/partidos';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Pipe, PipeTransform } from '@angular/core'; // Importa Pipe y PipeTransform
 
-@Pipe({
-  name: 'filterByTipoCandidatura'
-})
-export class FilterByTipoCandidaturaPipe implements PipeTransform {
-  transform(items: any[], filtro: string): any[] {
-    if (!filtro) return items; // Si el filtro está vacío, retorna todos los elementos.
-
-    // Filtra los elementos que coinciden con el tipo de candidatura especificado.
-    return items.filter(item => item.nombreTipoCandidatura.toLowerCase().includes(filtro.toLowerCase()));
-  }
-}
-
 @Component({
   selector: 'app-partidos',
   templateUrl: './candidaturas.component.html',
@@ -32,9 +20,9 @@ export class CandidaturasComponent {
   partidosSeleccionados: any[] = [];
   partidoForm!: FormGroup;
   nombrePartido = '';
-  nombreCandidatura = '';
   nombreCoalicion = '';
   nombreCanInd = '';
+  logo = '';
   candidatura = false;
   filtro: string = '';
   itemsPerPage: number = 2;
@@ -59,15 +47,25 @@ export class CandidaturasComponent {
   }
 
   ngOnInit() {
+    console.log('En ngOnInit, antes de obtener los partidos');
     this.obtenerPartidos();
+    console.log('En ngOnInit, después de obtener los partidos');
+    this.agruparDatosPorTipoCandidatura();
   }
 
   private agruparDatosPorTipoCandidatura() {
-    this.datosAgrupados['Partido Político'] = this.datos.filter(partido => partido.nombreTipoCandidatura === 'Partido Político');
-    this.datosAgrupados['Candidatura Común'] = this.datos.filter(partido => partido.nombreTipoCandidatura === 'Candidatura Común');
-    this.datosAgrupados['Coalición'] = this.datos.filter(partido => partido.nombreTipoCandidatura === 'Coalición');
-    this.datosAgrupados['Candidatura Independiente'] = this.datos.filter(partido => partido.nombreTipoCandidatura === 'Candidatura Independiente');
+    console.log('Dentro de agruparDatosPorTipoCandidatura, antes de filtrar');
+    this.datosAgrupados['Partido Politico'] = this.datos.filter(partido => partido.tipoCandidaturaId === 1);
+    console.log('Datos agrupados para Partido Politico:', this.datosAgrupados['Partido Politico']);
+    this.datosAgrupados['Candidatura Común'] = this.datos.filter(partido => partido.tipoCandidaturaId === 2);
+    console.log('Datos agrupados para Candidatura Común:', this.datosAgrupados['Candidatura Común']);
+    this.datosAgrupados['Coalición'] = this.datos.filter(partido => partido.tipoCandidaturaId === 3);
+    console.log('Datos agrupados para Coalición:', this.datosAgrupados['Coalición']);
+    this.datosAgrupados['Candidatura Independiente'] = this.datos.filter(partido => partido.tipoCandidaturaId === 4);
+    console.log('Datos agrupados para Candidatura Independiente:', this.datosAgrupados['Candidatura Independiente']);
   }
+
+
   // Método para abrir el modal
   openModal() {
     this.previewImage = null;
@@ -76,11 +74,11 @@ export class CandidaturasComponent {
   crearFormularioPartido() {
     this.partidoForm = this.formBuilder.group({
       candidatura: ['', Validators.required],
-      nombreCandidatura: ['', Validators.required],
       acronimo: [''],
       estatus: [true, Validators.required],
-      base64Logo: [''],
-      nombreFoto: ['', Validators.required],
+      logo: ['']
+      // base64Logo: [''],
+      // nombreFoto: ['', Validators.required],
     });
   }
 
@@ -101,7 +99,6 @@ closeModal() {
   this.crearFormularioPartido(); // Vuelve a crear el formulario
   this.previewImage = null; // Elimina la imagen de vista previa
   this.nombrePartido = '';
-  this.nombreCandidatura = '';
   this.nombreCoalicion = '';
   this.nombreCanInd = '';
   this.selectedPartidos = [];
@@ -129,7 +126,7 @@ onImageChange(event: any) {
         base64LogoControl.setValue(base64WithoutPrefix);
       }
 
-      this.previewImage = base64WithoutPrefix; // Actualiza la previsualización
+      this.previewImage = base64String; // Actualiza la previsualización
     };
   }
 }
@@ -161,58 +158,68 @@ onImageChange(event: any) {
     this.partidoForm.reset();
   }
 
-  agregarCargo() {
-    const candidaturaControl = this.partidoForm.get('candidatura');
+agregarCargo() {
+  const candidaturaControl = this.partidoForm.get('candidatura');
 
-    if (candidaturaControl && candidaturaControl.value !== null && this.partidoForm.valid) {
-      const tipoAgrupacionId = candidaturaControl.value;
-      const tipoAgrupacionTexto = this.getTipoAgrupacionNombre(tipoAgrupacionId); // Obtener el nombre correspondiente
+  if (candidaturaControl && candidaturaControl.value !== null && this.partidoForm.valid) {
+    const tipoAgrupacionId = candidaturaControl.value;
+    const tipoAgrupacionTexto = this.getTipoAgrupacionNombre(tipoAgrupacionId);
 
-      const nombreCandidatura = this.partidoForm.get('nombreCandidatura')?.value || '';
-      const acronimo = this.partidoForm.get('acronimo')?.value || '';
-      const estatus = this.partidoForm.get('estatus')?.value || '';
+    // Obtén el elemento <select> del HTML
+    const selectElement = document.getElementById('candidatura') as HTMLSelectElement;
 
-      // Elimina el prefijo "data:image/png;base64," del valor de base64Logo
-      const base64LogoControl = this.partidoForm.get('base64Logo');
-      let base64Logo = base64LogoControl?.value || '';
-      if (base64Logo.startsWith('data:image/png;base64,')) {
-        base64Logo = base64Logo.replace('data:image/png;base64,', ''); // Elimina el prefijo
-      }
+    // Obtén el texto de la opción seleccionada directamente
+    const selectedOptionText = selectElement.options[selectElement.selectedIndex].text;
 
-      const nombreFoto = this.partidoForm.get('nombreFoto')?.value || '';
+    const acronimo = this.partidoForm.get('acronimo')?.value || '';
+    const estatus = this.partidoForm.get('estatus')?.value || '';
+    const logo = this.partidoForm.get('logo')?.value || '';
 
-      this.partido = {
-        tipoCandidaturaId: tipoAgrupacionId,
-        nombreTipoCandidatura: tipoAgrupacionTexto,
-        nombreCandidatura,
-        acronimo,
-        estatus,
-        base64Logo, // Ahora base64Logo no tiene el prefijo
-        nombreFoto,
-      };
-
-      console.log('Datos a enviar:', this.partido);
-
-      this.candidaturaService.postCandidaturas(this.partido).subscribe({
-        next: () => {
-          this.mensajeService.mensajeExito("Agrupación agregada con éxito");
-          this.resetForm();
-        },
-        error: (error) => {
-          this.mensajeService.mensajeError("Error al agregar agrupación");
-          console.error(error);
-        }
-      });
-    } else {
-      console.log('El formulario no es válido o candidaturaControl es nulo. No se enviarán datos.');
+    // Elimina el prefijo "data:image/png;base64," del valor de base64Logo
+    const base64LogoControl = this.partidoForm.get('base64Logo');
+    let base64Logo = base64LogoControl?.value || '';
+    if (base64Logo.startsWith('data:image/png;base64,')) {
+      base64Logo = base64Logo.replace('data:image/png;base64,', ''); // Elimina el prefijo
     }
+
+    const nombreFoto = this.partidoForm.get('nombreFoto')?.value || '';
+
+    // Crea el objeto partido con los valores
+    const partido = {
+      tipoCandidaturaId: tipoAgrupacionId,
+      nombreCandidatura: selectedOptionText, // Utiliza el texto directamente
+      acronimo,
+      estatus,
+      // base64Logo, (si es necesario)
+      nombreFoto,
+      logo,
+    };
+
+    // Agrega un console.log para verificar los datos a enviar
+    console.log('Datos a enviar:', partido);
+
+    // Envía el objeto partido al servicio
+    this.candidaturaService.postCandidaturas(partido).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito("Agrupación agregada con éxito");
+        this.resetForm();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError("Error al agregar agrupación");
+        console.error(error);
+      }
+    });
+  } else {
+    console.log('El formulario no es válido o candidaturaControl es nulo. No se enviarán datos.');
   }
+}
+
 
   getDatosAgrupados() {
     const datosAgrupados: { [key: string]: Partidos[] } = {};
 
     this.datos.forEach(partido => {
-      const tipoCandidatura = partido.nombreTipoCandidatura;
+      const tipoCandidatura = partido.nombreCandidatura;
       if (!datosAgrupados[tipoCandidatura]) {
         datosAgrupados[tipoCandidatura] = [];
       }
@@ -223,10 +230,12 @@ onImageChange(event: any) {
   }
 
   getPartidosPorTipoCandidatura(tipoCandidatura: string): Partidos[] {
-    return this.datos.filter(partido => partido.nombreTipoCandidatura === tipoCandidatura);
+    return this.datos.filter(partido => partido.nombreCandidatura === tipoCandidatura);
   }
 
   getTipoAgrupacionNombre(valor: number): string {
+    console.log('getTipoAgrupacionNombre recibió valor:', valor);
+
     switch (valor) {
       case 1:
         return "Partido político";
@@ -240,6 +249,7 @@ onImageChange(event: any) {
         return "";
     }
   }
+
 
 }
 

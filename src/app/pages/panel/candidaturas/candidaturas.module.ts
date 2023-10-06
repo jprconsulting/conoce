@@ -8,10 +8,12 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FilterByTipoCandidaturaPipe } from './filter-by-tipo-candidatura.pipe';
 
 @NgModule({
   declarations: [
-    CandidaturasComponent
+    CandidaturasComponent,
+    FilterByTipoCandidaturaPipe,
   ],
   imports: [
     CommonModule,
