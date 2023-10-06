@@ -36,6 +36,9 @@ export class AsignacionComponent implements OnInit {
     this.myForm = new FormGroup({
       usuarios: new FormControl([]),
     });
+    this.userForm = this.fb.group({
+      selectFormulario: [''],
+    });
   }
 
   ngOnInit() {
