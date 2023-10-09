@@ -10,9 +10,9 @@ import { ConfigGoogleForm } from 'src/app/models/googleForm';
   providedIn: 'root'
 })
 export class FormularioService {
-  private agregarFormularioRoute = `${environment.apiUrl}/agregar_formulario`;
+  private agregarFormularioRoute = `${environment.apiUrl}/tabla_formulario/agregar_formulario`;
   // private agregarFormularioRoute = '/api/agregar_formulario';
-  private obtenerTablasFormularioRoute = `${environment.apiUrl}/obtener_tablas_formulario`;
+  private obtenerTablasFormularioRoute = `${environment.apiUrl}/tabla_formulario/obtener_tablas_formulario`;
   private _refreshLisUsers$ = new Subject<ConfigGoogleForm>();
 
   constructor(

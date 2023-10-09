@@ -28,7 +28,7 @@ export class CandidaturasService {
     );
   }
   postCandidaturas(partidos: Partidos): Observable<Partidos> {
-    return this.http.post<Partidos>(`${this.route}/subir_base64`, partidos)
+    return this.http.post<Partidos>(`${this.route}/agregar_candidatura`, partidos)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);

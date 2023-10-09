@@ -229,8 +229,32 @@ agregarCargo() {
     return datosAgrupados;
   }
 
+  filtrarCandidaturas(tipoCandidatura: string) {
+    this.filtro = tipoCandidatura;
+  }
+
+  mostrarTodasCandidaturas() {
+    this.filtro = '';
+  }
+
   getPartidosPorTipoCandidatura(tipoCandidatura: string): Partidos[] {
-    return this.datos.filter(partido => partido.nombreCandidatura === tipoCandidatura);
+    return this.datos.filter(partido => partido.tipoCandidaturaId === this.getTipoCandidaturaId(tipoCandidatura));
+  }
+
+  getTipoCandidaturaId(nombreCandidatura: string): number {
+    // Mapea los nombres de candidatura a sus respectivos IDs
+    switch (nombreCandidatura.toLowerCase()) {
+      case 'partido politico':
+        return 1;
+      case 'candidatura comun':
+        return 2;
+      case 'coalicion':
+        return 3;
+      case 'candidatura independiente':
+        return 4;
+      default:
+        return 0; // Puedes usar 0 para representar un valor desconocido o no válido
+    }
   }
 
   getTipoAgrupacionNombre(valor: number): string {

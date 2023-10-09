@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { SecurityService } from 'src/app/core/services/security.service';
+import { AppUserAuth } from 'src/app/models/login';
 
 @Component({
   selector: 'app-inicio',
@@ -6,5 +8,17 @@ import { Component } from '@angular/core';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent {
+
+
+  dataObject!: AppUserAuth | null;
+
+  constructor(private securityService: SecurityService) {
+    localStorage.getItem('dataObject') && this.setDataUser();
+  }
+
+  setDataUser() {
+    this.dataObject = this.securityService.getDataUser();
+  }
+
 
 }
