@@ -9,7 +9,7 @@ import { tap, catchError } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class SecurityService {
-  route = `${environment.apiUrl}/Autenticar`;
+  route = `${environment.apiUrl}/security`;
   dataObject!: AppUserAuth;
 
 
@@ -22,11 +22,11 @@ export class SecurityService {
   login(entity: AppUser) {
     localStorage.removeItem('dataObject');
     localStorage.removeItem('token');
-    return this.http.post(`${this.route}`, entity)
+    return this.http.post(`${this.route}/login`, entity)
       .pipe(
         tap((resp: any) => {
           this.dataObject = resp;
-          localStorage.setItem('dataObject', resp);
+          localStorage.setItem('dataObject', JSON.stringify(this.dataObject));
           localStorage.setItem('token', this.dataObject.token);
         }),
         catchError(this.handleErrorService.handleError)

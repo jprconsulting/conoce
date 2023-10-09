@@ -7,6 +7,7 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NoResultsComponent } from './components/no-results/no-results.component';
+import { HasClaimDirective } from './directives/has-claim.directive';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { NoResultsComponent } from './components/no-results/no-results.component
     SidebarComponent,
     NotFoundComponent,
     FooterComponent,
-    NoResultsComponent
+    NoResultsComponent,
+    HasClaimDirective
   ],
   exports: [
     ContentComponent,
@@ -23,7 +25,8 @@ import { NoResultsComponent } from './components/no-results/no-results.component
     SidebarComponent,
     NotFoundComponent,
     FooterComponent,
-    NoResultsComponent
+    NoResultsComponent,
+    HasClaimDirective
   ],
   imports: [
     CommonModule,

@@ -51,10 +51,10 @@ export class LoginComponent implements OnInit {
 
   createFormUserLogin() {
     this.formUserLogin = this.formBuilder.group({
-      nombreUsuario: ['', Validators.compose([
+      email: ['', Validators.compose([
         Validators.required, Validators.minLength(3)
       ])],
-      clave: ['', Validators.compose([
+      password: ['', Validators.compose([
         Validators.required, Validators.minLength(3)
       ])]
     });

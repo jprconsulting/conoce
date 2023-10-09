@@ -1,6 +1,6 @@
 export interface AppUser {
-    nombreUsuario: string;
-    clave: string;
+    email: string;
+    password: string;
 }
 
 export interface AppUserAuth {
