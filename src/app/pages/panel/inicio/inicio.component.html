@@ -12,26 +12,26 @@
 </div>
 
 
-<div class="row row-cards mt-2">
-    <div class="col-md-4" *ngIf="dataObject && dataObject.isAuthenticated">
-        <div class="card card-sm" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessUsuarios'">
+<div class="row row-cards mt-2" *ngIf="dataObject && dataObject.isAuthenticated">
+    <div class="col-md-4" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessUsuarios'">
+        <div class="card card-sm">
             <div class="card bg-secondary text-secondary-fg">
                 <div class="card-stamp">
                     <div class="card-stamp-icon bg-white text-secondary">
                         <!-- Download SVG icon from http://tabler-icons.io/i/star -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                    <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
-                    <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                    <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-                 </svg>
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+                        </svg>
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a class="nav-link" [routerLink]="['/panel/usuarios']">
+                            <a [routerLink]="['usuarios']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -76,7 +76,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/asignacion">
+                            <a [routerLink]="['asignacion']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user-check" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -121,7 +121,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/candidatos">
+                            <a [routerLink]="['candidatos']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-podium" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -150,7 +150,7 @@
     </div>
 </div>
 
-<div class="row row-cards mt-2">
+<div class="row row-cards mt-2" *ngIf="dataObject && dataObject.isAuthenticated">
     <div class="col-md-4">
         <div class="card card-sm">
             <div class="card bg-secondary text-secondary-fg">
@@ -167,7 +167,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/demarcaciones">
+                            <a [routerLink]="['demarcaciones']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-map-pin" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -209,7 +209,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/formulario">
+                            <a [routerLink]="['formulario']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-file-plus" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -255,7 +255,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/mis-cuestionarios">
+                            <a [routerLink]="['mis-cuestionarios']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-list" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -287,7 +287,7 @@
 </div>
 
 
-<div class="row row-cards mt-2">
+<div class="row row-cards mt-2" *ngIf="dataObject && dataObject.isAuthenticated">
     <div class="col-md-4">
         <div class="card card-sm">
             <div class="card bg-secondary text-secondary-fg">
@@ -308,7 +308,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/partidos">
+                            <a [routerLink]="['partidos']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users-group" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -355,7 +355,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/personalizacion">
+                            <a [routerLink]="['personalizacion']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-palette" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
@@ -399,7 +399,7 @@
                 <div class="card-body">
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <a href="/panel/faq">
+                            <a [routerLink]="['faq']">
                                 <span class="bg-yellow text-white avatar"><!-- Download SVG icon from http://tabler-icons.io/i/message -->
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-help-hexagon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                           <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
