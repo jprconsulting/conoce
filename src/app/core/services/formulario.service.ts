@@ -35,4 +35,14 @@ export class FormularioService {
         catchError(this.handleErrorService.handleError)
       );
   }
+
+  deleteFormulario(formularioId: number) {
+    return this.http.delete(`${this.route}/eliminar_formulario/${formularioId}`)
+      .pipe(
+        tap(() => {
+          this._refreshLisUsers$.next;
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 }

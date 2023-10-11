@@ -1,5 +1,5 @@
 export interface ConfigGoogleForm {
-  formularioId: string;
+  formularioId: number;
   formName: string;
   googleFormId: string;
   spreadsheetId: string;

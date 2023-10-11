@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
@@ -13,7 +13,9 @@ import { ConfigGoogleForm } from 'src/app/models/googleForm';
   styleUrls: ['./formulario.component.css']
 })
 export class FormularioComponent implements OnInit {
-  // Usuarios
+
+  @ViewChild('closebutton') closebutton!: ElementRef;
+
   formulario: ConfigGoogleForm[] = [];
   configForm!: ConfigGoogleForm;
   jsonConfig: any;
@@ -25,14 +27,7 @@ export class FormularioComponent implements OnInit {
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [5, 10, 15];
   formularioSeleccionado: ConfigGoogleForm | null = null;
-
-  formularioIdFrontTocado=false;
-      formNameFrontTocado=false;
-      googleFormIdFrontTocado=false;
-      googleEditFormIdFrontTocado=false;
-      spreadsheetIdFrontTocado=false;
-      sheetNameFrontTocado=false;
-      projectIdFrontTocado =false;
+  isModalAdd = false;
 
   constructor(
     private formularioService: FormularioService,
@@ -47,7 +42,7 @@ export class FormularioComponent implements OnInit {
       formName: ['', Validators.required],
       googleFormId: ['', Validators.required],
       spreadsheetId: ['', Validators.required],
-      sheetName: ['', Validators.required], 
+      sheetName: ['', Validators.required],
     });
   }
 
@@ -68,25 +63,13 @@ export class FormularioComponent implements OnInit {
   }
 
   resetForm() {
-    this.configGoogleFormFormGroup.reset({
-      formularioIdFront: '',
-      formNameFront: '',
-      googleFormIdFront: '',
-      googleEditFormIdFront: '',
-      spreadsheetIdFront: '',
-      sheetNameFront: '',
-      projectIdFront: '',
-    });
-    this.configGoogleFormFormGroup.get('archvioJson')?.setValue(null);
-    this.formularioIdFrontTocado=false;
-    this.formNameFrontTocado=false;
-    this.googleFormIdFrontTocado=false;
-    this.googleEditFormIdFrontTocado=false;
-    this.spreadsheetIdFrontTocado=false;
-    this.sheetNameFrontTocado=false;
-    this.projectIdFrontTocado =false;
+    this.closebutton.nativeElement.click();
+    this.configGoogleFormFormGroup.reset();
+  }
 
-
+  handleChangeAdd() {
+    this.configGoogleFormFormGroup.reset();
+    this.isModalAdd = true;
   }
 
   onFileChange(event: any) {
@@ -138,47 +121,10 @@ export class FormularioComponent implements OnInit {
       error: (error) => {
         console.error('Error al guardar el formulario', error);
         // Muestra un mensaje de error utilizando el servicio de mensajes
-        //this.mensajeService.mensajeError('Error al guardar el formulario');
+        this.mensajeService.mensajeError('Error al guardar el formulario');
       }
     });
 
-  }
-
-
-
-  marcarFormularioIdTocado() {
-    this.formularioIdFrontTocado = true;
-    return this.configGoogleFormFormGroup.get('formularioIdFront')?.invalid && this.configGoogleFormFormGroup.get('formularioIdFront')?.touched;
-  }
-
-  marcarFormNameFrontTocado() {
-    this.formNameFrontTocado = true;
-    return this.configGoogleFormFormGroup.get('formNameFront')?.invalid && this.configGoogleFormFormGroup.get('formNameFront')?.touched;
-  }
-
-  marcarGoogleFormIdFrontTocado() {
-    this.googleFormIdFrontTocado = true;
-    return this.configGoogleFormFormGroup.get('googleFormIdFront')?.invalid && this.configGoogleFormFormGroup.get('googleFormIdFront')?.touched;
-  }
-
-  marcarGoogleEditFormIdFrontTocado() {
-    this.googleEditFormIdFrontTocado = true;
-    return this.configGoogleFormFormGroup.get('googleEditFormIdFront')?.invalid && this.configGoogleFormFormGroup.get('googleEditFormIdFront')?.touched;
-  }
-
-  marcarSpreadsheetIdFrontTocado() {
-    this.spreadsheetIdFrontTocado = true;
-    return this.configGoogleFormFormGroup.get('spreadsheetIdFront')?.invalid && this.configGoogleFormFormGroup.get('spreadsheetIdFront')?.touched;
-  }
-
-  marcarSheetNameFrontTocado() {
-    this.sheetNameFrontTocado = true;
-    return this.configGoogleFormFormGroup.get('sheetNameFront')?.invalid && this.configGoogleFormFormGroup.get('sheetNameFront')?.touched;
-  }
-
-  marcarProjectIdFrontTocado() {
-    this.projectIdFrontTocado = true;
-    return this.configGoogleFormFormGroup.get('projectIdFront')?.invalid && this.configGoogleFormFormGroup.get('projectIdFront')?.touched;
   }
 
   filtrarResultados() {
@@ -190,6 +136,21 @@ export class FormularioComponent implements OnInit {
   abrirModal(formulario: ConfigGoogleForm) {
     this.formularioSeleccionado = formulario;
     console.log('Formulario seleccionado:', this.formularioSeleccionado);
+  }
+
+  borrarFormulario(formularioId: number, formName: string) {
+    this.mensajeService.mensajeAdvertencia(
+      `¿Estás seguro de eliminar el formulario: ${formName}?`,
+      () => {
+        this.formularioService.deleteFormulario(formularioId).subscribe({
+          next: () => {
+            this.mensajeService.mensajeExito('Formulario borrado correctamente');
+            //this.ConfigPaginator.currentPage = 1;
+          },
+          error: (error) => this.mensajeService.mensajeError(error)
+        });
+      }
+    );
   }
 }
 
