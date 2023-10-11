@@ -43,13 +43,11 @@ export class FormularioComponent implements OnInit {
 
   ) {
     this.configGoogleFormFormGroup = this.formBuilder.group({
-      formularioIdFront: ['', Validators.required],
-      formNameFront: ['', Validators.required],
-      googleFormIdFront: ['', Validators.required],
-      googleEditFormIdFront: ['', Validators.required],
-      spreadsheetIdFront: ['', Validators.required],
-      sheetNameFront: ['', Validators.required],
-      projectIdFront: ['', Validators.required],
+      formularioId: [null],
+      formName: ['', Validators.required],
+      googleFormId: ['', Validators.required],
+      spreadsheetId: ['', Validators.required],
+      sheetName: ['', Validators.required], 
     });
   }
 
@@ -118,16 +116,16 @@ export class FormularioComponent implements OnInit {
     console.log('El formulario es válido, enviando datos...');
     this.configForm = this.configGoogleFormFormGroup.value as ConfigGoogleForm;
     this.configForm.type = this.jsonConfig.type;
-    this.configForm.project_id = this.jsonConfig.project_id;
-    this.configForm.private_key_id = this.jsonConfig.private_key_id;
-    this.configForm.private_key = this.jsonConfig.private_key;
+    this.configForm.projectId = this.jsonConfig.project_id;
+    this.configForm.privateKeyId = this.jsonConfig.private_key_id;
+    this.configForm.privateKey = this.jsonConfig.private_key;
     this.configForm.clientEmail = this.jsonConfig.client_email;
-    this.configForm.client_id = this.jsonConfig.client_id;
-    this.configForm.auth_uri = this.jsonConfig.auth_uri;
-    this.configForm.token_uri = this.jsonConfig.token_uri;
-    this.configForm.auth_provider_x509_cert_url = this.jsonConfig.auth_provider_x509_cert_url;
-    this.configForm.client_x509_cert_url = this.jsonConfig.client_x509_cert_url;
-    this.configForm.universe_domain = this.jsonConfig.universe_domain;
+    this.configForm.clientId = this.jsonConfig.client_id;
+    this.configForm.authUri = this.jsonConfig.auth_uri;
+    this.configForm.tokenUri = this.jsonConfig.token_uri;
+    this.configForm.authProviderX509CertUrl = this.jsonConfig.auth_provider_x509_cert_url;
+    this.configForm.clientX509CertUrl = this.jsonConfig.client_x509_cert_url;
+    this.configForm.universeDomain = this.jsonConfig.universe_domain;
 
     this.formularioService.postFormulario(this.configForm).subscribe({
       next: () => {
@@ -146,13 +144,6 @@ export class FormularioComponent implements OnInit {
 
   }
 
-  // this.formularioIdFrontTocado=false;
-  //   this.formNameFrontTocado=false;
-  //   this.googleFormIdFrontTocado=false;
-  //   this.googleEditFormIdFrontTocado=false;
-  //   this.spreadsheetIdFrontTocado=false;
-  //   this.sheetNameFrontTocado=false;
-  //   this.projectIdFrontTocado =false;
 
 
   marcarFormularioIdTocado() {

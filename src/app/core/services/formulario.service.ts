@@ -10,9 +10,7 @@ import { ConfigGoogleForm } from 'src/app/models/googleForm';
   providedIn: 'root'
 })
 export class FormularioService {
-  private agregarFormularioRoute = `${environment.apiUrl}/tabla_formulario/agregar_formulario`;
-  // private agregarFormularioRoute = '/api/agregar_formulario';
-  private obtenerTablasFormularioRoute = `${environment.apiUrl}/tabla_formulario/obtener_tablas_formulario`;
+  route = `${environment.apiUrl}/config-google-form`;
   private _refreshLisUsers$ = new Subject<ConfigGoogleForm>();
 
   constructor(
@@ -25,14 +23,14 @@ export class FormularioService {
   }
 
   postFormulario(formData: ConfigGoogleForm) {
-    return this.http.post<ConfigGoogleForm>(this.agregarFormularioRoute, formData)
+    return this.http.post<ConfigGoogleForm>(`${this.route}/post-config-google-forms`, formData)
       .pipe(
         catchError(this.handleErrorService.handleError)
       );
   }
 
   getFormularios(): Observable<ConfigGoogleForm[]> {
-    return this.http.get<ConfigGoogleForm[]>(this.obtenerTablasFormularioRoute)
+    return this.http.get<ConfigGoogleForm[]>(`${this.route}/get-config-google-forms`)
       .pipe(
         catchError(this.handleErrorService.handleError)
       );

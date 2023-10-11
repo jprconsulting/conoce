@@ -2,19 +2,17 @@ export interface ConfigGoogleForm {
   formularioId: string;
   formName: string;
   googleFormId: string;
-  googleEditFormId: string;
   spreadsheetId: string;
   sheetName: string;
-  projectId: string;
   type: string;
-  project_id: string;
-  private_key_id: string;
-  private_key: string;
+  projectId: string;
+  privateKeyId: string;
+  privateKey: string;
   clientEmail: string;
-  client_id: string;
-  auth_uri: string;
-  token_uri: string;
-  auth_provider_x509_cert_url: string;
-  client_x509_cert_url: string;
-  universe_domain: string;
+  clientId: string;
+  authUri: string;
+  tokenUri: string;
+  authProviderX509CertUrl: string;
+  clientX509CertUrl: string;
+  universeDomain: string;
 }
