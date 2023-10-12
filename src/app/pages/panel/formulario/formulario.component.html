@@ -24,7 +24,6 @@
                 <table class="table card-table table-vcenter text-nowrap datatable">
                     <thead>
                         <tr>
-                            <th class="w-1">ID</th>
                             <th>Correo Electronico</th>
                             <th>Nombre del formulario</th>
                             <th>Nombre de la hoja</th>
@@ -32,32 +31,23 @@
                         </tr>
                     </thead>
                     <tbody class="table-tbody">
-                        <tr *ngFor="
-                let formularios of filtrarResultados()
-                  | paginate
-                    : { itemsPerPage: itemsPerPage, currentPage: currentPage };
-                let i = index
-              ">
-                            <td>{{ i + 1 }}</td>
+                        <tr *ngFor="let formularios of filtrarResultados()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index">
                             <td>{{ formularios.clientEmail }}</td>
                             <td>{{ formularios.formName }}</td>
                             <td>{{ formularios.sheetName }}</td>
                             <td>
                                 <div class="d-flex justify-content-between">
                                     <button class="btn btn-warning btn-icon btn-sm">
-                    <i
-                      class="ti ti-edit"
-                      data-bs-toggle="modal"
-                      data-bs-target="#modal-report-edit"
-                    ></i>
-                  </button>
+                                      <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report-edit"></i>
+                                    </button>
+
                                     <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px" (click)="borrarFormulario(formularios.formularioId, formularios.formName)">
-                    <i class="ti ti-eraser"></i>
-                </button>
+                                      <i class="ti ti-eraser"></i>
+                                    </button>
 
                                     <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="abrirModal(formularios)">
-                    <i class="ti ti-eye"></i>
-                  </button>
+                                      <i class="ti ti-eye"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -74,7 +64,6 @@
             </option>
           </select>
                 </div>
-
                 <div class="pagination-container">
                     <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
                 </div>

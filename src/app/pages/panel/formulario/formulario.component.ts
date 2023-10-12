@@ -114,7 +114,7 @@ export class FormularioComponent implements OnInit {
       next: () => {
         console.log('Formulario guardado con éxito');
         // Limpia el formulario después de guardar
-        //this.resetForm();
+        this.resetForm();
         // Muestra un mensaje de éxito utilizando el servicio de mensajes
         this.mensajeService.mensajeExito('Formulario guardado con éxito');
       },
