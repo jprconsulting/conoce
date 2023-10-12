@@ -45,4 +45,14 @@ export class FormularioService {
         catchError(this.handleErrorService.handleError)
       );
   }
+
+  putFormulario(configForm: ConfigGoogleForm): Observable<ConfigGoogleForm> {
+    return this.http.put<ConfigGoogleForm>(`${this.route}/actualizar-formulario`, configForm)
+      .pipe(
+        tap(() => {
+          this._refreshLisUsers$.next;
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 }

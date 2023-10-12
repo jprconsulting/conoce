@@ -92,7 +92,6 @@ export class FormularioComponent implements OnInit {
 
       fileReader.readAsText(selectedFile);
     }
-
   }
 
   guardarUsuario() {
@@ -124,7 +123,6 @@ export class FormularioComponent implements OnInit {
         this.mensajeService.mensajeError('Error al guardar el formulario');
       }
     });
-
   }
 
   filtrarResultados() {
@@ -151,6 +149,50 @@ export class FormularioComponent implements OnInit {
         });
       }
     );
+  }
+
+  actualizarFormulario() {
+    this.configForm = this.configGoogleFormFormGroup.value as ConfigGoogleForm;
+    this.configForm.type = this.jsonConfig.type;
+    this.configForm.projectId = this.jsonConfig.project_id;
+    this.configForm.privateKeyId = this.jsonConfig.private_key_id;
+    this.configForm.privateKey = this.jsonConfig.private_key;
+    this.configForm.clientEmail = this.jsonConfig.client_email;
+    this.configForm.clientId = this.jsonConfig.client_id;
+    this.configForm.authUri = this.jsonConfig.auth_uri;
+    this.configForm.tokenUri = this.jsonConfig.token_uri;
+    this.configForm.authProviderX509CertUrl = this.jsonConfig.auth_provider_x509_cert_url;
+    this.configForm.clientX509CertUrl = this.jsonConfig.client_x509_cert_url;
+    this.configForm.universeDomain = this.jsonConfig.universe_domain;
+
+    this.formularioService.putFormulario(this.configForm).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito("Formulario actualizado con éxito");
+        this.resetForm();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError("Error al actualizar formulario");
+        console.error(error);
+      }
+    }
+    );
+  }
+
+  setDataModalUpdate(user: ConfigGoogleForm) {
+    this.isModalAdd = false;
+    this.configGoogleFormFormGroup.patchValue({
+      formularioId: user.formularioId,
+      formName: user.formName,
+      googleFormId: user.googleFormId,
+      spreadsheetId: user.spreadsheetId,
+      sheetName: user.sheetName,
+    });
+    console.log(this.configGoogleFormFormGroup.value);
+  }
+
+  submitUsuario() {
+    this.configForm = this.configGoogleFormFormGroup.value as ConfigGoogleForm;
+    this.isModalAdd ? this.guardarUsuario() : this.actualizarFormulario();
   }
 }
 
