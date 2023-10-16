@@ -31,6 +31,9 @@ export class AsignacionComponent implements OnInit {
   userFormul!: FormGroup;
   formuser: Formuser[]=[];
   formusers!: Formuser;
+  formuserAsignaciones: Formuser[] = [];
+  filtro: string = '';
+  formusuarios: Formuser[] = [];
 
   constructor(
     private usuarioService : UsuarioService,
@@ -43,31 +46,29 @@ export class AsignacionComponent implements OnInit {
       this.crearFormularioUsuario();
     }
 
-  ngOnInit() {
-    this.usuarioService.getUsuarios().subscribe((data: Usuario[]) => {
-      console.log(data);
-      this.usuario = data.filter(usuario => usuario.rol === 'Candidato');
-    });
+    ngOnInit() {
+      this.usuarioService.getUsuarios().subscribe((data: Usuario[]) => {
+        console.log(data);
+        this.usuario = data.filter(usuario => usuario.rol === 'Candidato');
+      });
 
-    this.formularioUserService.getFormularios().subscribe((data: Formuser[]) => {
-      console.log(data);
-    })
+      this.formularioUserService.getFormularios().subscribe((data: Formuser[]) => {
+        console.log(data);
+        this.formuser = data;
+      });
 
-    this.formularioService.getFormularios().subscribe(data => {
-      console.log(data);
-      this.formulario = data;
-    });
-  }
-
+      this.formularioService.getFormularios().subscribe(data => {
+        console.log(data);
+        this.formulario = data;
+      });
+    }
 
 
   onFormularioSelect(event: any[]) {
-    // Realiza la conversión y filtrado de elementos no numéricos
     this.selectedFormularios = event
       .map((item: any) => parseInt(item.formularioId))
       .filter(id => !isNaN(id));
 
-    // Muestra los IDs seleccionados en la consola
     console.log('Formularios seleccionados (IDs):', this.selectedFormularios);
   }
 
@@ -91,6 +92,7 @@ submitUsuario() {
 
 crearFormularioUsuario() {
   this.userForm = this.formBuilder.group({
+    formularioUsuarioId: [null],
     formularioId: [''],
     usuarioId: [''],
   });
@@ -99,16 +101,15 @@ crearFormularioUsuario() {
 agregarUsuario() {
   const valoresFormulario = this.userForm.value;
 
-  console.log('Valores del formulario a enviar:', valoresFormulario); // Agrega esta línea
+  console.log('Valores del formulario a enviar:', valoresFormulario);
 
-  // Asegúrate de que los campos necesarios existen en el formulario
-  if (valoresFormulario.formularioId && valoresFormulario.selectedCandidatos) {
+  if (valoresFormulario.formularioId && valoresFormulario.usuarioId) {
     const formularioUsuario = {
+      formularioUsuarioId: 0,
       formularioId: valoresFormulario.formularioId,
-      usuarioId: valoresFormulario.selectedCandidatos
+      usuarioIds: valoresFormulario.usuarioId
     };
 
-    // Envía el objeto a través de tu servicio o API
     this.formularioUserService.postFormulario(formularioUsuario).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Asignación agregada con éxito");
@@ -120,13 +121,12 @@ agregarUsuario() {
       }
     });
   } else {
-    // Manejo de error si los campos requeridos no están completos
     this.mensajeService.mensajeError("Por favor, complete los campos requeridos");
   }
 }
 
 actualizarUsuario() {
-  this.formularioUserService.putFormulario(this.formusers).subscribe({
+  this.formularioUserService.putUsuario(this.formusers).subscribe({
     next: () => {
       this.mensajeService.mensajeExito("Usuario actualizado con éxito");
       this.resetForm();
@@ -143,4 +143,38 @@ resetForm() {
   this.userForm.reset();
 }
 
+obtenerNombreFormulario(formularioId: number): string {
+  const formulario = this.formulario.find(f => f.formularioId === formularioId);
+  return formulario ? formulario.formName : 'Sin nombre';
+}
+
+obtenerNombreUsuario(usuarioIds: number | number[]): string {
+  const userIdsArray = Array.isArray(usuarioIds) ? usuarioIds : [usuarioIds];
+  const nombres = userIdsArray.map(usuarioId => {
+    const usuario = this.usuario.find(u => u.usuarioId === usuarioId);
+    return usuario ? usuario.nombre : 'Sin nombre';
+  });
+  return nombres.join(', '); // Para mostrar múltiples nombres si corresponde
+}
+
+borrarFormulario(formularioId: number, usuarioId: number) {
+  this.mensajeService.mensajeAdvertencia(
+    `¿Estás seguro de eliminar el formulario?`,
+    () => {
+      this.formularioUserService.deleteFormulario(formularioId, usuarioId).subscribe({
+        next: () => {
+          this.mensajeService.mensajeExito('Formulario eliminado correctamente');
+          // Realiza cualquier otra acción que necesites después de eliminar el formulario.
+        },
+        error: (error) => this.mensajeService.mensajeError(error)
+      });
+    }
+  );
+}
+
+filtrarResultados() {
+  return this.usuario.filter(usuario =>
+    usuario.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+  );
+}
 }

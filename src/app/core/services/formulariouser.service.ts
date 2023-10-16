@@ -36,18 +36,21 @@ export class FormularioUserService {
       );
   }
 
-  deleteFormulario(formularioId: number) {
-    return this.http.delete(`${this.route}/eliminar_formulario/${formularioId}`)
+  deleteFormulario(formularioId: number, usuarioId: number) {
+    const url = `${this.route}/delete-formulario-usuario?formularioId=${formularioId}&usuarioId=${usuarioId}`;
+
+    return this.http.delete(url)
       .pipe(
         tap(() => {
+          // Emitir una notificación de actualización si es necesario
           this._refreshLisUsers$.next;
         }),
         catchError(this.handleErrorService.handleError)
       );
   }
 
-  putFormulario(configForm: Formuser): Observable<Formuser> {
-    return this.http.put<Formuser>(`${this.route}/actualizar-formulario`, configForm)
+  putUsuario(usuario: Formuser): Observable<Formuser> {
+    return this.http.put<Formuser>(`${this.route}/update-formulario-usuario`, usuario)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next;
