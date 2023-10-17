@@ -28,12 +28,9 @@ export class AsignacionComponent implements OnInit {
   selectedFormularios: (number | null)[] = [];
   selectedFormulario: number = 0;
   isModalAdd = false;
-  userFormul!: FormGroup;
   formuser: Formuser[]=[];
   formusers!: Formuser;
-  formuserAsignaciones: Formuser[] = [];
   filtro: string = '';
-  formusuarios: Formuser[] = [];
 
   constructor(
     private usuarioService : UsuarioService,
@@ -92,7 +89,7 @@ submitUsuario() {
 
 crearFormularioUsuario() {
   this.userForm = this.formBuilder.group({
-    formularioUsuarioId: [null],
+    formularioUsuarioId: [''],
     formularioId: [''],
     usuarioId: [''],
   });
@@ -126,7 +123,8 @@ agregarUsuario() {
 }
 
 actualizarUsuario() {
-  this.formularioUserService.putUsuario(this.formusers).subscribe({
+  console.log('Datos a enviar:', this.formusers);
+  this.formularioUserService.putFormulario(this.formusers).subscribe({
     next: () => {
       this.mensajeService.mensajeExito("Usuario actualizado con éxito");
       this.resetForm();
@@ -135,9 +133,9 @@ actualizarUsuario() {
       this.mensajeService.mensajeError("Error al actualizar usuario");
       console.error(error);
     }
-  }
-  );
+  });
 }
+
 resetForm() {
   this.closebutton.nativeElement.click();
   this.userForm.reset();
@@ -154,7 +152,7 @@ obtenerNombreUsuario(usuarioIds: number | number[]): string {
     const usuario = this.usuario.find(u => u.usuarioId === usuarioId);
     return usuario ? usuario.nombre : 'Sin nombre';
   });
-  return nombres.join(', '); // Para mostrar múltiples nombres si corresponde
+  return nombres.join(', ');
 }
 
 borrarFormulario(formularioId: number, usuarioId: number) {
@@ -164,7 +162,6 @@ borrarFormulario(formularioId: number, usuarioId: number) {
       this.formularioUserService.deleteFormulario(formularioId, usuarioId).subscribe({
         next: () => {
           this.mensajeService.mensajeExito('Formulario eliminado correctamente');
-          // Realiza cualquier otra acción que necesites después de eliminar el formulario.
         },
         error: (error) => this.mensajeService.mensajeError(error)
       });
@@ -177,4 +174,15 @@ filtrarResultados() {
     usuario.nombre.toLowerCase().includes(this.filtro.toLowerCase())
   );
 }
+
+setDataModalUpdate(user: Formuser) {
+  this.isModalAdd = false;
+  this.userForm.patchValue({
+    formularioUsuarioId: user.formularioUsuarioId,
+    formularioId: user.formularioId,
+    usuarioIds: user.usuarioIds
+  });
+  console.log(this.userForm.value);
+}
+
 }

@@ -49,8 +49,8 @@ export class FormularioUserService {
       );
   }
 
-  putUsuario(usuario: Formuser): Observable<Formuser> {
-    return this.http.put<Formuser>(`${this.route}/update-formulario-usuario`, usuario)
+  putFormulario(formusers: Formuser): Observable<Formuser> {
+    return this.http.put<Formuser>(`${this.route}/update-formulario-usuario`, formusers)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next;
