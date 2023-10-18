@@ -85,6 +85,7 @@ const routes: Routes = [
         loadChildren:() => import("./email/email.module")
         .then(c => c.EmailModule)
       },
+      
       {
         path: 'cargos',
         loadChildren:() => import("./cargos/cargo.module")
