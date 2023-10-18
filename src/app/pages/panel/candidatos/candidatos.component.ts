@@ -28,7 +28,7 @@ export class CandidatosComponent implements OnInit {
   mostrarSegundoDropdown: boolean = false; // Variable para mostrar/ocultar el segundo dropdown
   // Usuarios
   candidato: Candidato[] = [];
-  isLoadingUsers = LoadingStates.neutro;
+  isLoadingUsers: number = 0;
   candidatoFilter: Candidato[] = [];
   usuarioSeleccionado: Candidato | null = null;
   candidaturaSeleccionada: string = '';
@@ -45,6 +45,7 @@ export class CandidatosComponent implements OnInit {
   isModalAdd = false;
   cargos: Cargos[] = [];
   genero: Genero [] = [];
+  candidatos: Candidato[] = [];
 
   constructor(
     private candidatoService: CandidatoService,
@@ -84,34 +85,29 @@ export class CandidatosComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.candidatoService.refreshLisUsers.subscribe(() => this.getListadocandidato());
     this.getListadocandidato();
     this.obtenerEstados();
     this.obtenerCandidaturas();
     this.obtenerPartidos();
     this.obtenerCargos();
     this.obtenerGeneros();
-
   }
 
   getListadocandidato() {
     this.isLoadingUsers = LoadingStates.trueLoading;
-    this.candidatoService.getCandidatos().subscribe({
-      next: (candidatosFromApi) => {
-        setTimeout(() => {
-          this.candidato = candidatosFromApi;
-          console.log(this.candidato);
-          this.candidatoFilter = this.candidato;
-          this.isLoadingUsers = LoadingStates.falseLoading;
-
-        }, 3000);
-      }, error: () => {
-        console.log('error');
-        this.isLoadingUsers = LoadingStates.errorLoading;
-        console.log(this.isLoadingUsers);
-      }
-    });
-  }
+    this.candidatoService.getCandidatos().subscribe(
+        (candidatosFromApi) => {
+            this.candidatos = candidatosFromApi;
+            this.candidatoFilter = this.candidatos;
+            console.log('Candidatos cargados:', this.candidatos);
+            this.isLoadingUsers = LoadingStates.falseLoading;
+        },
+        (error) => {
+            console.log('Error al cargar candidatos:', error);
+            this.isLoadingUsers = LoadingStates.errorLoading;
+        }
+    );
+}
 
   obtenerCargos() {
     this.estadoService.obtenerCargos().subscribe(

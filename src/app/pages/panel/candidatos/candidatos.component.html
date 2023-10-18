@@ -7,83 +7,54 @@
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
-                  <i class="ti ti-plus me-1"></i>Agregar Usuario
-                </button>
+            <i class="ti ti-plus me-1"></i>Agregar Usuario
+          </button>
                     <div class="ms-auto text-muted">
                         <div class="input-icon">
                             <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
                             <span class="input-icon-addon">
-                              <i class="ti ti-search"></i>
-                            </span>
+                <i class="ti ti-search"></i>
+              </span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <ng-container [ngSwitch]="isLoadingUsers">
-                <div class="progress" *ngSwitchCase="2">
-                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-                </div>
-
-                <div *ngSwitchCase="3">
-                    <div class="table-responsive">
-                        <table class="table card-table table-vcenter text-nowrap datatable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido Paterno</th>
-                                    <th>Apellido Materno</th>
-                                    <th>Partido Politico</th>
-                                    <th>Tipo de candidatura</th>
-                                    <th>Estado</th>
-                                    <th class="text-center" style="width: 7%">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-tbody">
-                                <tr></tr>
-                                <tr *ngFor="let Candidatos of filtrarResultados()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                    <td>{{ Candidatos.nombrePropietario }}</td>
-                                    <td>{{ Candidatos.sobrenombrePropietario }}</td>
-                                    <td>{{ Candidatos.estatus }}</td>
-                                    <td>{{ Candidatos.cargoId }}</td>
-                                    <td>{{ Candidatos.estadoId }}</td>
-                                    <td>{{ Candidatos.candidaturaId }}</td>
-                                    <td>
-                                        <div class="d-flex justify-content-between">
-                                            <button class="btn btn-warning btn-icon btn-sm">
-                                              <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px">
-                                              <i class="ti ti-eraser"></i>
-                                            </button>
-                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="abrirModal(Candidatos)">
-                                              <i class="ti ti-eye"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px;">
-                        <div class="items-per-page">
-                            <label for="itemsPerPage">Elementos por página:</label>
-                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px;">
-                        <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
-                      </select>
-                        </div>
-
-                        <div class="pagination-container">
-                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
-                        </div>
-                    </div>
-                </div>
-                <app-no-results *ngSwitchCase="4"></app-no-results>
-            </ng-container>
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter text-nowrap datatable">
+                    <thead>
+                        <tr>
+                            <th>Nombre del (la) candidato (a)</th>
+                            <th>Cargo</th>
+                            <th>Candidatura</th>
+                            <th class="text-center" style="width: 7%">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                        <tr *ngFor="let candidato of candidato">
+                            <td>{{ candidato.nombrePropietario }}</td>
+                            <td>{{ candidato.cargoId }}</td>
+                            <td>{{ candidato.candidaturaId }}</td>
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-warning btn-icon btn-sm">
+                    <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
+                  </button>
+                                    <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px">
+                    <i class="ti ti-eraser"></i>
+                  </button>
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="abrirModal(candidato)">
+                    <i class="ti ti-eye"></i>
+                  </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
-
 
 <!--MODAL AGREGAR CANDIDATO-->
 <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
