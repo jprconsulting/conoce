@@ -1,0 +1,119 @@
+<div class="row row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Email</h3>
+            </div>
+            <div class="card-body border-bottom py-3">
+                <div class="d-flex">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" >
+            <i class="ti ti-plus me-1"></i>Configura Email
+          </button>
+                    <div class="ms-auto text-muted">
+                        <div class="input-icon">
+                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <span class="input-icon-addon">
+                <i class="ti ti-search"></i>
+              </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <ng-container >
+                
+            </ng-container>
+        </div>
+    </div>
+
+    <!--MODAL AGREGAR USUARIO-->
+    <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true" >
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                       Configura tu cuenta de correo
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+                </div>
+
+                <form [formGroup]="EmailsForm">
+                    <div class="modal-body margen">
+                        <!-- Inicio del formulario -->
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Direccion de coreo Electronico*:</label>
+                                <input type="text" class="form-control" formControlName="email" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Contraseña*:</label>
+                                <input type="password" class="form-control" formControlName="contraseña" />
+                            </div>
+                        </div>
+                        
+                        <label for="form-label spacios" class="spacios">Opciones abanzadas:</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label spacios" for="flexCheckDefault">
+                              El coreo saliente usa las mismas credenciales que el coreo entrante
+                            </label>
+                          </div>
+                          
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Nombre de Usuario*:</label>
+                                <input type="password" class="form-control" formControlName="NombreUsuario" />
+                            </div>
+                        </div>
+                        
+                        <h2><label class="form-label" >Correo Entrante(IMAP):</label></h2>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label spacio">Servidor*:</label>
+                                    <input type="text" class="form-control" formControlName="Servidor1" /> 
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label spacio">Puerto*:</label>
+                                    <input type="password" class="form-control" formControlName="puerto1" />
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h2><label class="form-label">Correo Saliente(SMTP):</label></h2>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label spacio">Servidor*:</label>
+                                    <input type="text" class="form-control" formControlName="Servidor2" /> 
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label spacio">Puerto*:</label>
+                                    <input type="password" class="form-control" formControlName="puerto2" />
+                                </div>
+                            </div>
+                        </div>
+                        <label for="form-label " class="spacios">Seguridad del servidor</label>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" formControlName="confirma">
+                            <label class="form-check-label spacios" for="flexCheckDefault">
+                              Confirmar en cualquier certificado
+                            </label>
+                          </div>
+                        <!-- Fin del formulario -->
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" >Conectar bandeja de entrada</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--FIN MODAL-->
+</div>
