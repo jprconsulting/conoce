@@ -31,6 +31,8 @@ export class AsignacionComponent implements OnInit {
   formuser: Formuser[]=[];
   formusers!: Formuser;
   filtro: string = '';
+  usuariosAsociadosAlFormulario: Formuser[] = [];
+  formulariosUnicos: { formulario: ConfigGoogleForm, usuarios: Usuario[] }[] = [];
 
   constructor(
     private usuarioService : UsuarioService,
@@ -58,6 +60,8 @@ export class AsignacionComponent implements OnInit {
         console.log(data);
         this.formulario = data;
       });
+
+      this.formulariosUnicos = this.procesarDatos(this.formuser, this.formulario, this.usuario);
     }
 
 
@@ -84,14 +88,13 @@ handleChangeAdd() {
 
 submitUsuario() {
   this.formusers = this.userForm.value as Formuser;
-  this.isModalAdd ? this.agregarUsuario() : this.actualizarUsuario();
+  this.isModalAdd ? this.agregarUsuario() : this.editarUsuarios();
 }
 
 crearFormularioUsuario() {
   this.userForm = this.formBuilder.group({
-    formularioUsuarioId: [''],
     formularioId: [''],
-    usuarioId: [''],
+    usuarioIds: [''],
   });
 }
 
@@ -100,11 +103,10 @@ agregarUsuario() {
 
   console.log('Valores del formulario a enviar:', valoresFormulario);
 
-  if (valoresFormulario.formularioId && valoresFormulario.usuarioId) {
+  if (valoresFormulario.formularioId && valoresFormulario.usuarioIds) {
     const formularioUsuario = {
-      formularioUsuarioId: 0,
       formularioId: valoresFormulario.formularioId,
-      usuarioIds: valoresFormulario.usuarioId
+      usuarioIds: valoresFormulario.usuarioIds
     };
 
     this.formularioUserService.postFormulario(formularioUsuario).subscribe({
@@ -122,19 +124,18 @@ agregarUsuario() {
   }
 }
 
-actualizarUsuario() {
-  console.log('Datos a enviar:', this.formusers);
-  this.formularioUserService.putFormulario(this.formusers).subscribe({
-    next: () => {
-      this.mensajeService.mensajeExito("Usuario actualizado con éxito");
-      this.resetForm();
-    },
-    error: (error) => {
-      this.mensajeService.mensajeError("Error al actualizar usuario");
-      console.error(error);
-    }
-  });
-}
+editarUsuarios() {
+    this.formularioUserService.putFormulario(this.formusers).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito('Edición exitosa');
+        this.resetForm();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError('Error durante la edición');
+        console.error(error);
+      }
+    });
+  }
 
 resetForm() {
   this.closebutton.nativeElement.click();
@@ -178,11 +179,25 @@ filtrarResultados() {
 setDataModalUpdate(user: Formuser) {
   this.isModalAdd = false;
   this.userForm.patchValue({
-    formularioUsuarioId: user.formularioUsuarioId,
     formularioId: user.formularioId,
     usuarioIds: user.usuarioIds
   });
   console.log(this.userForm.value);
+}
+
+procesarDatos(formuser: Formuser[], formularios: ConfigGoogleForm[], usuarios: Usuario[]): { formulario: ConfigGoogleForm, usuarios: Usuario[] }[] {
+  const formulariosUnicos: { formulario: ConfigGoogleForm, usuarios: Usuario[] }[] = [];
+
+  formularios.forEach((formulario) => {
+    const asignacionesParaFormulario = formuser.filter((asignacion) => asignacion.formularioId === formulario.formularioId);
+    const usuarioIdsUnicos = Array.from(new Set(asignacionesParaFormulario.map((asignacion) => asignacion.usuarioIds).flat()));
+
+    const usuariosAsociados = usuarios.filter((usuario) => usuarioIdsUnicos.includes(usuario.usuarioId));
+
+    formulariosUnicos.push({ formulario, usuarios: usuariosAsociados });
+  });
+
+  return formulariosUnicos;
 }
 
 }
