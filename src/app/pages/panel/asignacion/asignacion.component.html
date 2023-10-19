@@ -29,7 +29,7 @@
                         </tr>
                     </thead>
                     <tbody class="table-tbody">
-                        <tr *ngFor="let asignacion of formuser">
+                        <tr *ngFor="let asignacion of formuser | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index">
                             <td>{{ obtenerNombreFormulario(asignacion.formularioId) }}</td>
                             <td>{{ obtenerNombreUsuario(asignacion.usuarioIds) }}</td>
                             <td>
@@ -45,6 +45,19 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                <div class="items-per-page">
+                    <label for="itemsPerPage">Elementos por página:</label>
+                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+          <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+                </div>
+                <div class="pagination-container">
+                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                </div>
             </div>
         </div>
     </div>

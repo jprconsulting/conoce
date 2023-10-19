@@ -7,6 +7,7 @@ import { AsignacionComponent } from './asignacion.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule,
     NgSelectModule,
+    NgxPaginationModule
   ]
 })
 export class AsignacionModule { }

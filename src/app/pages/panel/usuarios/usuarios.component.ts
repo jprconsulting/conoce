@@ -24,6 +24,9 @@ export class UsuariosComponent implements OnInit {
   userForm!: FormGroup;
   roles: Rol[] = [];
   isModalAdd = false;
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+  itemsPerPageOptions: number[] = [5, 10, 15];
 
   constructor(
     private usuarioService: UsuarioService,

@@ -33,6 +33,9 @@ export class AsignacionComponent implements OnInit {
   filtro: string = '';
   usuariosAsociadosAlFormulario: Formuser[] = [];
   formulariosUnicos: { formulario: ConfigGoogleForm, usuarios: Usuario[] }[] = [];
+  itemsPerPage: number = 5;
+  currentPage: number = 1;
+  itemsPerPageOptions: number[] = [5, 10, 15];
 
   constructor(
     private usuarioService : UsuarioService,
