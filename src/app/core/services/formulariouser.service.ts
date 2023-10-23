@@ -42,15 +42,14 @@ export class FormularioUserService {
     return this.http.delete(url)
       .pipe(
         tap(() => {
-          // Emitir una notificación de actualización si es necesario
           this._refreshLisUsers$.next;
         }),
         catchError(this.handleErrorService.handleError)
       );
   }
 
-  putFormulario(formusers: Formuser): Observable<Formuser> {
-    return this.http.put<Formuser>(`${this.route}/update-formulario-usuario`, formusers)
+  putFormulario(data: { formularioId: number, usuarioIds: number[] }) {
+    return this.http.post<Formuser>(`${this.route}/editar_usuario`, data)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next;
@@ -58,4 +57,15 @@ export class FormularioUserService {
         catchError(this.handleErrorService.handleError)
       );
   }
+
+cargarUsuariosPorFormularioId(formularioId: number): Observable<Formuser[]> {
+  const url = `${this.route}/get-formulario-usuarios/${formularioId}`;
+
+  return this.http.get<Formuser[]>(url)
+    .pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+}
+
+
 }

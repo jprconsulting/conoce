@@ -1,5 +1,5 @@
 export interface Formuser {
-  formularioUsuarioId: number;
+  formularioUsuarioId?: number;
   formularioId: number;
-  usuarioIds: number;
+  usuarioIds: number[];
 }
