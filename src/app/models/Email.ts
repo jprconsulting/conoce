@@ -1,10 +1,11 @@
 export interface Email {
-    Id: number;
-    EmailOrigen: string;
-    Contraseña: string;
-    Credenciales: boolean;
-    NombreUsuario: string;
-    ServidorOrigen: number;
-    PuertoOrigen: string;
-    ConfiarCertificado: boolean;
+    id: number;
+    emailOrigen: string;
+    contraseña: string;
+    credenciales: boolean;
+    nombreUsuario: string;
+    servidorOrigen: number;
+    puertoOrigen: string;
+    confiarCertificado: boolean;
+    perfilCorreo: string;
 }

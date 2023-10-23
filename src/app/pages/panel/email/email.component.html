@@ -6,7 +6,7 @@
             </div>
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" >
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
             <i class="ti ti-plus me-1"></i>Configura Email
           </button>
                     <div class="ms-auto text-muted">
@@ -27,14 +27,42 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                       Configura tu cuenta de correo
+                        {{ isModalAdd ? "Configura tu cuenta de " : "Actualizar tu cuenta de " }} Correo
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
                 </div>
                 
-                <form [formGroup]="EmailsForm">
+                <form [formGroup]="EmailsForm" (ngSubmit)="submitEmail()">
                     <div class="modal-body margen">
                         <!-- Inicio del formulario -->
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Perfil de Correo*:</label>
+                                <input type="text" class="form-control" formControlName="PerfilCorreo" />
+                                <div *ngIf="EmailsForm.get('PerfilCorreo')?.touched"class="error-message">
+                                    <div *ngIf="EmailsForm.get('PerfilCorreo')?.hasError('required')" class="text-danger">
+                                      El perfil de correo es requerido
+                                    </div>
+                                    <div *ngIf="EmailsForm.get('PerfilCorreo')?.hasError('pattern')" class="text-danger">
+                                        El perfil de correo  no puede tener letras
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Nombre de Usuario*:</label>
+                                <input type="text" class="form-control" formControlName="NombreUsuario" />
+                                <div *ngIf="EmailsForm.get('NombreUsuario')?.touched"class="error-message">
+                                    <div *ngIf="EmailsForm.get('NombreUsuario')?.hasError('required')" class="text-danger">
+                                      El nombre de usuario es requerido
+                                    </div>
+                                    <div *ngIf="EmailsForm.get('NombreUsuario')?.hasError('pattern')" class="text-danger">
+                                        El nombre de usuario no puede tener letras
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
                         <div class="row">
                             <div class="mb-3">
                                 <label class="form-label spacio">Dirección de coreo electrónico origen*:</label>
@@ -60,30 +88,22 @@
                                 </div> 
                             </div>
                         </div>
-                        <label (click)="mostrar()" class="spacios">Opciones Avanzadas<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <label (click)="mostrar()" class="spacios">Opciones Avanzadas:*<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                             <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                             <path d="M12 5l0 14"></path>
                             <path d="M18 13l-6 6"></path>
                             <path d="M6 13l6 6"></path>
                          </svg></label>
                         <div *ngIf="mostrarElemento">
-                            <input type="checkbox" class="hidden-checkbox spacios">El correo saliente usa las mismas credenciales que el correo entrante
+                            <input type="checkbox" formControlName="credenciales"class="hidden-checkbox spacios">El correo saliente usa las mismas credenciales que el correo entrante
+                            <div *ngIf="EmailsForm.get('credenciales')?.touched"class="error-message">
+                                <div *ngIf="EmailsForm.get('credenciales')?.hasError('required')" class="text-danger">
+                                  Confirma las credenciales
+                                </div>
+                            </div>
                         </div>         
                         <br>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label class="form-label spacio">Nombre de Usuario*:</label>
-                                <input type="text" class="form-control" formControlName="NombreUsuario" />
-                                <div *ngIf="EmailsForm.get('NombreUsuario')?.touched"class="error-message">
-                                    <div *ngIf="EmailsForm.get('NombreUsuario')?.hasError('required')" class="text-danger">
-                                      El nombre de usuario es requerido
-                                    </div>
-                                    <div *ngIf="EmailsForm.get('NombreUsuario')?.hasError('pattern')" class="text-danger">
-                                        El nombre de usuario no puede tener letras
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
+                        
                         <h2><label class="form-label">Correo Saliente(SMTP):</label></h2>
                         <div class="row">
                             <div class="col-lg-6">
@@ -111,14 +131,19 @@
                                     </div> 
                                 </div>
                             </div>
-                                <label (click)="mostrar1()" class="spacios">Seguridad del servidor<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <label (click)="mostrar1()" class="spacios">Seguridad del servidor:*<svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-down" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                                     <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
                                     <path d="M12 5l0 14"></path>
                                     <path d="M18 13l-6 6"></path>
                                     <path d="M6 13l6 6"></path>
                                     </svg></label>
                                     <div *ngIf="mostrarElemento1">
-                                        <input type="checkbox" class="hidden-checkbox">Confiar en cualquier certificado 
+                                        <input type="checkbox" formControlName="confiarCertificado" class="hidden-checkbox">Confiar en cualquier certificado 
+                                        <div *ngIf="EmailsForm.get('confiarCertificado')?.touched"class="error-message">
+                                            <div *ngIf="EmailsForm.get('confiarCertificado')?.hasError('required')" class="text-danger">
+                                              Confirma Certificado
+                                            </div>
+                                        </div>
                                 </div>
                                 
                         </div>
@@ -127,7 +152,7 @@
                     </div>
                     <h5 class="label1">Todos los campos marcados con * son requeridos. </h5>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" (click)="agregarEmail()" (click)="ResetForm()" [disabled]="!EmailsForm.valid">Enviar</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!EmailsForm.valid">{{ isModalAdd ? "Agregar" : "Actualizar" }}</button>
                     </div>
                 </form>
             </div>
@@ -135,93 +160,99 @@
     </div>
     <!--FIN MODAL-->
 </div>
-<div class="container row">
-    <div class="table-responsive">
-      <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Email</th>
-                <th>Credencila</th>
-                <th>Nombre de Usuario</th>
-                <th>Servidor</th>
-                <th>Puerto</th>
-                <th>Certificado</th>
-                <th class="text-center" style="width: 7%">Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <!-- Utiliza un *ngFor para iterar sobre la lista de partidos *ngFor="let email of emails" -->
-            <tr >
-                <td>1</td>
-                <td>ruby@gmail.com</td>
-                <td>true</td>
-                <td>Ruby</td>
-                <td>smtp.gmail.com</td>
-                <td>587</td>
-                <td>true</td>
-                <td>
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal-report2">
-                        <i class="ti ti-mail-filled"
-                          data-bs-toggle="modal" data-bs-target="#modal-report2"
-                          ></i>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-      </table>
-    <div>
-  </div>
 
-  <div class="row row-cards">
-    <div class="modal modal-blur " id="modal-report2" tabindex="-1" role="dialog" aria-hidden="true" >
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                       Configura tu cuenta de correo
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
-                </div>
-                
-                <form [formGroup]="EmailsForm2">
-                    <div class="modal-body margen">
-                        <!-- Inicio del formulario -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label class="form-label spacio">Dirección de coreo electrónico*:</label>
-                                <input type="text" class="form-control" formControlName="EmailDestino" />
-                                <div *ngIf="EmailsForm2.get('EmailDestino')?.touched"class="error-message">
-                                    <div *ngIf="EmailsForm2.get('EmailDestino')?.hasError('required')" class="text-danger">
-                                      El email es requerido
+        <ng-container [ngSwitch]="isLoadingEmails">
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter text-nowrap datatable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre de usuario</th>
+                            <th>Email</th>
+                            <th>Propietario</th>
+                            <th class="text-center" style="width: 7%">Acciones</th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                        <tr></tr>
+                        <tr *ngFor="let emails of emails; let i = index">
+                            <td>{{ emails.id}}</td>
+                            <td>{{ emails.nombreUsuario }}</td>
+                            <td>{{ emails.emailOrigen }}</td>
+                            <td>{{ emails.perfilCorreo }}</td>
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-success btn-icon btn-sm  button2" data-bs-toggle="modal" data-bs-target="#modal-report2" (click)="setDataModalUpdate(emails)" >
+                                    <i class="ti ti-mail-filled"
+                                      data-bs-toggle="modal" data-bs-target="#modal-report2"
+                                      ></i> 
+                                    </button>
+                                    <div class="row row-cards">
+                                        <div class="modal modal-blur " id="modal-report2" tabindex="-1" role="dialog" aria-hidden="true" >
+                                            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">
+                                                           Configura tu cuenta de correo
+                                                        </h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
+                                                    </div>
+                                                    <form [formGroup]="EmailsForm2">
+                                                        <div class="modal-body margen">
+                                                            <!-- Inicio del formulario -->
+                                                            <div class="row">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label spacio">Dirección de coreo electrónico*:</label>
+                                                                    <input type="text" class="form-control" formControlName="EmailDestino" />
+                                                                    <div *ngIf="EmailsForm2.get('EmailDestino')?.touched"class="error-message">
+                                                                        <div *ngIf="EmailsForm2.get('EmailDestino')?.hasError('required')" class="text-danger">
+                                                                          El email es requerido
+                                                                        </div>
+                                                                        <div *ngIf="EmailsForm2.get('EmailDestino')?.hasError('email')" class="text-danger">
+                                                                            Ingrese un email valido
+                                                                        </div>
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label spacio">Mensaje*:</label>
+                                                                    <textarea class="form-control" id="Mensaje" rows="3" formControlName="Mensaje"></textarea>
+                                                                    <div *ngIf="EmailsForm2.get('Mensaje')?.touched"class="error-message">
+                                                                        <div *ngIf="EmailsForm2.get('Mensaje')?.hasError('required')" class="text-danger">
+                                                                          El mensaje es requerido
+                                                                        </div>
+                                                                    </div> 
+                                                                </div>
+                                                            </div>
+                                                            <!-- Fin del formulario -->
+                                                        </div>
+                                                        <div >
+                                                        <h5 class="label1">Todos los campos marcados con * son requeridos. </h5>
+                                                        <button class="btn btn-success enviar " 
+                                                            (click)="enviarEmail(emails.id, EmailsForm2?.get('EmailDestino')?.value, EmailsForm2?.get('Mensaje')?.value); ResetForm()"> Enviar</button>   
+                                                            </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div *ngIf="EmailsForm2.get('EmailDestino')?.hasError('email')" class="text-danger">
-                                        Ingrese un email valido
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label class="form-label spacio">Mensaje*:</label>
-                                <textarea class="form-control" id="Mensaje" rows="3" formControlName="Mensaje"></textarea>
-                                <div *ngIf="EmailsForm2.get('Mensaje')?.touched"class="error-message">
-                                    <div *ngIf="EmailsForm2.get('Mensaje')?.hasError('required')" class="text-danger">
-                                      El mensaje es requerido
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
-                        <!-- Fin del formulario -->
-                    </div>
-                    <h5 class="label1">Todos los campos marcados con * son requeridos. </h5>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary"  (click)="ResetForm()" [disabled]="!EmailsForm2.valid">Enviar</button>
-                    </div>
-                </form>
+                                    <button class="btn btn-danger btn-icon btn-sm button" (click)="borrarEmail(emails.id, emails.emailOrigen)">
+                                        <i class="ti ti-trash"></i>
+                                    </button>
+                            
+                                    <button class="btn btn-warning btn-icon btn-sm button" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(emails)">
+                                        <i class="ti ti-edit"></i>
+                                      </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-        </div>
-    </div>
+        </ng-container>
+       
+        
+    
     
