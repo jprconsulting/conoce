@@ -58,13 +58,13 @@ crearFormularioEmail() {
   this.EmailsForm = this.formBuilder.group({
     id:[],
     EmailOrigen: ['',[Validators.required,Validators.email]],
-    Contraseña: ['', [Validators.required]],
-    NombreUsuario: ['',[ Validators.required,Validators.pattern('^[a-zA-Z ]+$')]],
+    Contraseña: ['', [Validators.required, Validators.minLength(8)]],
+    NombreUsuario: ['',[ Validators.required,Validators.pattern('^[a-zA-Z ]+$'), Validators.minLength(3)]],
     ServidorOrigen: ['', [Validators.required]],
-    PuertoOrigen: ['', [Validators.required,Validators.pattern('^[0-9]+$')]],
+    PuertoOrigen: ['', [Validators.required,Validators.pattern('^[0-9]+$'),Validators.minLength(2)]],
     credenciales:[ , [Validators.required]],
     confiarCertificado:[ , [Validators.required]],
-    PerfilCorreo: ['',[ Validators.required,Validators.pattern('^[a-zA-Z ]+$')]]
+    PerfilCorreo: ['',[ Validators.required,Validators.pattern('^[a-zA-Z ]+$'),Validators.minLength(2)]]
 
   });
 }
@@ -142,17 +142,21 @@ enviarEmail(id: number, EmailDestino: string, Mensaje: string) {
         this.mensajeService.mensajeExito('Email enviado');  
     },
     error: (error) => {
-      console.error('Error inesperado:', error);
-      this.mensajeService.mensajeError("Error al enviar");
+      if (error && error.message) {
+        const mensajeError = error.message;
+        if (mensajeError.includes("The SMTP server requires a secure connection or the client was not authenticated. The server response was: 5.7.0 Authentication Required")) {
+          this.mensajeService.mensajeError('El servidor SMTP requiere una conexión segura o el cliente no ha sido autenticado. Respuesta del servidor: 5.7.0 Autenticación requerida.');
+        } else {
+          this.mensajeService.mensajeError('Error en el puerto');
+        }
+      }
+      console.error('Error en el puerto');
+      this.mensajeService.mensajeError('Error inesperado');
       // Aquí puedes manejar el error o mostrar un mensaje al usuario
     }
   });
 }
 
-optener(emailId: number){
-
-console.log(this.email.id)
-}
 
 borrarEmail(id: number, Email: string) {
   this.mensajeService.mensajeAdvertencia(

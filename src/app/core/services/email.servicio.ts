@@ -57,20 +57,14 @@ export class EmailService {
   enviarEmail(id: number, EmailDestino: string, Mensaje: string): Observable<any> {
     return this.http.post<any>(`${this.route}/obtenercorreos/${id}?EmailDestino=${EmailDestino}&Mensaje=${Mensaje}`, Mensaje)
       .pipe(
-        tap(() => {
-          
-        }),
         catchError((error: HttpErrorResponse) => {
-          if (error.status === 503) {
-            // Access the error message from the response body
-            const errorMessage = "Error en Puerto";
-            console.error(errorMessage);
-            // You can display the errorMessage or take any other appropriate action
+          if (error.status === 400) {
+            return throwError(error.error); 
+          } else {
+            return throwError('Error inesperado al enviar el correo electrónico');
           }
-          return throwError(error);
         })
       );
-      
   }
   
 

@@ -85,7 +85,11 @@ const routes: Routes = [
         loadChildren:() => import("./email/email.module")
         .then(c => c.EmailModule)
       },
-      
+      {
+        path: 'Consentimientos',
+        loadChildren:() => import("./consentimientos/consentimientos.module")
+        .then(c => c.ConsentimientosModule)
+      },
       {
         path: 'cargos',
         loadChildren:() => import("./cargos/cargo.module")

@@ -46,6 +46,9 @@
                                     <div *ngIf="EmailsForm.get('PerfilCorreo')?.hasError('pattern')" class="text-danger">
                                         El perfil de correo  no puede tener letras
                                     </div>
+                                    <div *ngIf="EmailsForm.get('PerfilCorreo')?.hasError('minlength')" class="text-danger">
+                                        El perfil de correo no puede ser menor a 3 caracteres.
+                                      </div>
                                 </div> 
                             </div>
                         </div>
@@ -60,6 +63,9 @@
                                     <div *ngIf="EmailsForm.get('NombreUsuario')?.hasError('pattern')" class="text-danger">
                                         El nombre de usuario no puede tener letras
                                     </div>
+                                    <div *ngIf="EmailsForm.get('NombreUsuario')?.hasError('minlength')" class="text-danger">
+                                        El nombre de correo no puede ser menor a 3 caracteres.
+                                      </div>
                                 </div> 
                             </div>
                         </div>
@@ -85,6 +91,9 @@
                                     <div *ngIf="EmailsForm.get('Contraseña')?.hasError('required')" class="text-danger">
                                       La contraseña es requerida 
                                     </div>
+                                    <div *ngIf="EmailsForm.get('Contraseña')?.hasError('minlength')" class="text-danger">
+                                        La contraseña no puede ser menor a 8 caracteres.
+                                      </div>
                                 </div> 
                             </div>
                         </div>
@@ -127,6 +136,9 @@
                                         </div>
                                         <div *ngIf="EmailsForm.get('PuertoOrigen')?.hasError('pattern')" class="text-danger">
                                             No se aceptan letras en el puerto
+                                        </div>
+                                        <div *ngIf="EmailsForm.get('PuertoOrigen')?.hasError('minlength')" class="text-danger">
+                                            El puerto no puede ser menor a 2 caracteres.
                                         </div>
                                     </div> 
                                 </div>
