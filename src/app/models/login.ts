@@ -4,6 +4,7 @@ export interface AppUser {
 }
 
 export interface AppUserAuth {
+    usuarioId: number;
     nombre: string;
     apellidos: string;
     email: string;
@@ -11,6 +12,7 @@ export interface AppUserAuth {
     isAuthenticated: boolean;
     token: string;
     claims: Array<AppRolClaim>;
+    formulariosAsignados: Array<FormulariosAsignados>
 }
 
 export interface AppRolClaim {
@@ -20,3 +22,8 @@ export interface AppRolClaim {
     claimValue: boolean;
 }
 
+export interface FormulariosAsignados {
+  formName: string;
+  googleFormId: string;
+  estatus: boolean;
+}

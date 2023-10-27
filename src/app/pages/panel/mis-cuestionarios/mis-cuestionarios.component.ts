@@ -1,5 +1,7 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SecurityService } from 'src/app/core/services/security.service';
+import { FormulariosAsignados } from 'src/app/models/login';
 
 @Component({
   selector: 'app-mis-cuestionarios',
@@ -7,28 +9,35 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
   styleUrls: ['./mis-cuestionarios.component.css']
 })
 export class MisCuestionariosComponent {
-  googleFormId: string = "1FAIpQLScKWIweNXsT0P6IHSOMuQkpr8x-Rrrfzl5hCKViq270WpB7qQ";
+  googleFormId: SafeResourceUrl | undefined;
   googleFormUrl: SafeResourceUrl | undefined;
   formularios: { id: string, urlEdicion: string }[] = [];
   enlaceEdicion: string | null = null;
   enlaceEdicionUsuario: string = '';
+  formulariosAsignados: FormulariosAsignados[] = [];
+  itemsPerPage: number = 7;
+  currentPage: number = 1;
+  itemsPerPageOptions: number[] = [7, 14, 21];
 
   @ViewChild('googleFormFrame', { static: false }) googleFormFrame: ElementRef | undefined;
 
   constructor(
     private sanitizer: DomSanitizer,
     private el: ElementRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private securityService: SecurityService
   ) { }
 
   ngOnInit() {
-    // Usar el sanitizer para hacer que la URL sea segura
-    this.googleFormUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      `https://docs.google.com/forms/d/e/${this.googleFormId}/viewform?embedded=true`
-    );
-
     // Capturar la URL actual
     this.enlaceEdicionUsuario = window.location.href;
+
+    // Obtener el userId del servicio y mostrarlo en el console.log
+    const usuarioId = this.securityService.getUsuarioId();
+    console.log('UsuarioId:', usuarioId);
+
+    // Obtener formularios asignados
+    this.mostrarFormulariosAsignados();
   }
 
   ngAfterViewInit() {
@@ -58,21 +67,33 @@ export class MisCuestionariosComponent {
     }
   }
 
-  handleClick() {
-    const spanElement = this.el.nativeElement.querySelector('.NPEfkd');
-    console.log(spanElement);
+  handleClick(formulario: FormulariosAsignados) {
+    console.log('Formulario seleccionado:', formulario);
 
-    if (spanElement) {
-      this.renderer.listen(spanElement, 'click', () => {
-        console.log('spanElement');
-      });
-    } else {
-      console.log('no existe');
-    }
+    // Aquí puedes configurar la URL del iframe con el ID del formulario
+    this.googleFormUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/forms/d/e/${formulario.googleFormId}/viewform?embedded=true`);
   }
+
 
   iniciarEdicion() {
     // Establece el enlace a la página de edición de Google Forms
     this.enlaceEdicion = 'https://docs.google.com/forms/u/0/edit';
+  }
+
+  mostrarFormulariosAsignados() {
+    const formulariosAsignados = this.securityService.getFormulariosAsignados();
+    if (formulariosAsignados) {
+      this.formulariosAsignados = formulariosAsignados;
+      console.log('Formularios Asignados:', this.formulariosAsignados);
+    } else {
+      console.log('No se encontraron formularios asignados.');
+    }
+  }
+
+  openGoogleFormModal(googleFormId: string) {
+    this.googleFormUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      `https://docs.google.com/forms/d/e/${googleFormId}/viewform?embedded=true`
+    );
+    console.log('Valor de googleFormUrl:', this.googleFormUrl);
   }
 }

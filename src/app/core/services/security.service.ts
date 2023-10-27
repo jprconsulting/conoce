@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HandleErrorService } from './handle-error.service';
-import { AppUser, AppUserAuth } from 'src/app/models/login';
+import { AppUser, AppUserAuth, FormulariosAsignados } from 'src/app/models/login';
 import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
@@ -11,31 +11,38 @@ import { tap, catchError } from 'rxjs/operators';
 export class SecurityService {
   route = `${environment.apiUrl}/security`;
   dataObject!: AppUserAuth;
-
+  formulariosAsignados: FormulariosAsignados[] = [];
 
   constructor(
     private http: HttpClient,
-    private handleErrorService: HandleErrorService,
-
+    private handleErrorService: HandleErrorService
   ) { }
 
   login(entity: AppUser) {
     localStorage.removeItem('dataObject');
     localStorage.removeItem('token');
-    return this.http.post(`${this.route}/login`, entity)
-      .pipe(
-        tap((resp: any) => {
-          this.dataObject = resp;
-          localStorage.setItem('dataObject', JSON.stringify(this.dataObject));
-          localStorage.setItem('token', this.dataObject.token);
-        }),
-        catchError(this.handleErrorService.handleError)
-      )
+    localStorage.removeItem('usuarioId');
+    localStorage.removeItem('formulariosAsignados');
+
+    return this.http.post<AppUserAuth>(`${this.route}/login`, entity)
+    .pipe(
+      tap((resp: AppUserAuth) => {
+        this.dataObject = resp;
+        this.formulariosAsignados = resp.formulariosAsignados;
+        localStorage.setItem('dataObject', JSON.stringify(this.dataObject));
+        localStorage.setItem('token', this.dataObject.token);
+        localStorage.setItem('usuarioId', this.dataObject.usuarioId.toString());
+        localStorage.setItem('formulariosAsignados', JSON.stringify(this.formulariosAsignados));
+      }),
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   logout() {
     localStorage.removeItem('dataObject');
     localStorage.removeItem('token');
+    localStorage.removeItem('usuarioId');
+    localStorage.removeItem('formulariosAsignados');
   }
 
   hasClaim(cliamType: any, claimValue?: any) {
@@ -87,8 +94,18 @@ export class SecurityService {
     }
   }
 
+  getUsuarioId(): number | null {
+    const usuarioId = localStorage.getItem('usuarioId');
+    return usuarioId ? parseInt(usuarioId, 10) : null;
+  }
 
-
-
+  getFormulariosAsignados(): FormulariosAsignados[] | null {
+    const data = localStorage.getItem('formulariosAsignados');
+    if (data) {
+      return JSON.parse(data);
+    } else {
+      return null;
+    }
+}
 
 }
