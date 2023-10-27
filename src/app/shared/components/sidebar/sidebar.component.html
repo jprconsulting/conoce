@@ -271,6 +271,16 @@
                 </a>
             </li>
             <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" style="margin-bottom: 10px;">
+                <a class="nav-link" [routerLink]="['Email']">
+                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+                        <i class="ti ti-mail-filled"
+                        data-bs-toggle="modal" data-bs-target="#modal-report2" style="color: white"
+                        ></i> 
+          </span>
+                    <span class="nav-link-title">Configura Email</span>
+                </a>
+            </li>
+            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" style="margin-bottom: 10px;">
                 <a class="nav-link" [routerLink]="['faq']">
                     <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-help-octagon" style="color: white"></i>

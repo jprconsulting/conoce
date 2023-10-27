@@ -13,3 +13,16 @@
     padding-left: 60px;
 }
 
+.button{
+    margin-left: 5px;
+}
+.button2{
+    margin-right: 15px;
+}
+.enviar{
+    display: flex;
+  justify-content: center; 
+  text-align: center;
+  margin: 0 auto;
+    margin-bottom: 20px;
+}

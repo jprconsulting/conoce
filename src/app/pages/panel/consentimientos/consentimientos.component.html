@@ -1,0 +1,110 @@
+<div class="row row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Agrega Consentimiento/ Aviso de privacidad</h3>
+            </div>
+            <div class="card-body border-bottom py-3">
+                <div class="d-flex">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" >
+            <i class="ti ti-plus me-1"></i>Agregar
+          </button>
+                    <div class="ms-auto text-muted">
+                        <div class="input-icon">
+                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <span class="input-icon-addon">
+                <i class="ti ti-search"></i>
+              </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true" >
+        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        Consentimiento/ Aviso de privacidad
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton > </button>
+                </div>
+                
+                <form [formGroup]="ConsentimientoForm">
+
+                    <div class="modal-body margen">
+                        <!-- Inicio del formulario -->
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Nombre*:</label>
+                                <input type="text" class="form-control" formControlName="Nombre" />
+                                <div *ngIf="ConsentimientoForm.get('Nombre')?.touched"class="error-message">
+                                    <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('required')" class="text-danger">
+                                      El nombre es requerido
+                                    </div>
+                                    <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('pattern')" class="text-danger">
+                                        El nombre no puede contener numeros
+                                    </div>
+                                    <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('minlength')" class="text-danger">
+                                        El nombre no puede ser menor a 3 caracteres.
+                                      </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Cuerpo de correo*:</label>
+                                <textarea class="form-control" id="Cuerpo_correo" rows="3" formControlName="cuerpo_correo"></textarea>
+                                <div *ngIf="ConsentimientoForm.get('Cuerpo_correo')?.touched"class="error-message">
+                                    <div *ngIf="ConsentimientoForm.get('Cuerpo_correo')?.hasError('required')" class="text-danger">
+                                      El nombre es requerido
+                                    </div>
+                                    
+                                </div>     
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label class="form-label spacio">Reach text*:</label>
+                                <textarea class="form-control" id="Mensaje" rows="3" formControlName="Mensaje"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="Correo" class="spacio">Seleccionar perfil de correo*</label>
+                                <select class="form-select" formControlName="Correo" id="Correo">                                  
+                                  <option value="">Selecciona una opción...</option>
+                                  <option value="1">value 1</option>
+                                  <option value="2">value 2</option>
+                                  <option value="3">value 3</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="mb-3">
+                                <label for="candidatura" class="spacio">Estado*:</label>
+                                <select class="form-select" formControlName="candidatura" id="candidatura">                                  
+                                  <option value="">Selecciona una opción...</option>
+                                  <option value="Activo">Activo</option>
+                                  <option value="Inactivo">Inactivo</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label for="formGroupExampleInput2" class="form-control-label line-spacing spacio">Fecha de envío *</label>
+                            <input type="date" class="form-control" id="Fechadenvio" formControlName="Fechadenvio" [max]="getCurrentDate()" [min]="getCurrentDate()">
+                        </div>                          
+                          
+                        <!-- Fin del formulario -->
+                    </div>
+                    <h5 class="label1">Todos los campos marcados con * son requeridos. </h5>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary" >vvv</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--FIN MODAL-->
