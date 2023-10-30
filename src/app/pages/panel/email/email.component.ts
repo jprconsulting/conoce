@@ -92,6 +92,7 @@ getEmails() {
         this.isLoadingEmails = LoadingStates.errorLoading;
       }
     });
+
   }
 
 
@@ -165,7 +166,7 @@ borrarEmail(id: number, Email: string) {
       this.EmailService.deleteEmail(id).subscribe({
         next: () => {
           this.mensajeService.mensajeExito('Email borrado correctamente');
-          //this.ConfigPaginator.currentPage = 1;
+          this.getEmails();
         },
         error: (error) => this.mensajeService.mensajeError(error)
       });
