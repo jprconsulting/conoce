@@ -38,10 +38,10 @@
                             </td>
                             <td>
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-success btn-icon btn-sm" data-bs-toggle="modal" [disabled]="formulario.estatus" data-bs-target="#modal-google-form" (click)="handleClick(formulario)">
+                                    <button class="btn btn-success btn-icon btn-sm" data-bs-toggle="modal" [disabled]="formulario.estatus" data-bs-target="#modal-google-form" (click)="handleClick(formulario)" (click)="cambiarEstatusFormulario(formulario.formularioUsuarioId)">
                                       <i class="ti ti-file-plus"></i>
-                                    </button>
-                                    <button class="btn btn-warning btn-icon btn-sm">
+                                  </button>
+                                    <button class="btn btn-warning btn-icon btn-sm" [disabled]="!formulario.estatus" (click)="handleClick(formulario)">
                                       <i class="ti ti-file-pencil"></i>
                                   </button>
                                 </div>

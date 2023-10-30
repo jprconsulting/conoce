@@ -1,5 +1,6 @@
 import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { FormularioAsignadoService } from 'src/app/core/services/formularioAsignado.service';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { FormulariosAsignados } from 'src/app/models/login';
 
@@ -18,6 +19,7 @@ export class MisCuestionariosComponent {
   itemsPerPage: number = 7;
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [7, 14, 21];
+  formularioUsuarioId: number | undefined;
 
   @ViewChild('googleFormFrame', { static: false }) googleFormFrame: ElementRef | undefined;
 
@@ -25,7 +27,8 @@ export class MisCuestionariosComponent {
     private sanitizer: DomSanitizer,
     private el: ElementRef,
     private renderer: Renderer2,
-    private securityService: SecurityService
+    private securityService: SecurityService,
+    private formularioService: FormularioAsignadoService
   ) { }
 
   ngOnInit() {
@@ -69,10 +72,12 @@ export class MisCuestionariosComponent {
 
   handleClick(formulario: FormulariosAsignados) {
     console.log('Formulario seleccionado:', formulario);
+    console.log('formularioUsuarioId seleccionado:', formulario.formularioUsuarioId); // Agregar esta línea
 
     // Aquí puedes configurar la URL del iframe con el ID del formulario
     this.googleFormUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`https://docs.google.com/forms/d/e/${formulario.googleFormId}/viewform?embedded=true`);
   }
+
 
 
   iniciarEdicion() {
@@ -96,4 +101,18 @@ export class MisCuestionariosComponent {
     );
     console.log('Valor de googleFormUrl:', this.googleFormUrl);
   }
+
+  cambiarEstatusFormulario(formularioUsuarioId: number) {
+    this.formularioService.cambiarEstatusFormulario(formularioUsuarioId).subscribe(
+      (response) => {
+        console.log('Estado del formulario actualizado con éxito', response);
+        // Actualiza el estado en tu componente si es necesario
+      },
+      (error) => {
+        console.error('Error al actualizar el estado del formulario', error);
+        // Maneja el error según tus necesidades
+      }
+    );
+  }
+
 }

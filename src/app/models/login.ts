@@ -23,6 +23,7 @@ export interface AppRolClaim {
 }
 
 export interface FormulariosAsignados {
+  formularioUsuarioId: number;
   formName: string;
   googleFormId: string;
   estatus: boolean;
