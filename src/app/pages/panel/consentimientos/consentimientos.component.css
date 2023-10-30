@@ -8,8 +8,53 @@
 .spacios{
     padding-bottom: 10px;
 }
-
+.button{
+  margin-left: 5px;
+}
+.button2{
+  margin-right: 15px;
+}
 .label1{ 
     padding-left: 60px;
 }
 
+.rich-text-editor {
+    width: 100%;
+    max-width: 800px;
+    height: 150px;
+    padding: 10px;
+    height: 150px;
+
+  }
+  .rich-text-editor button {
+    background-color: #007BFF;
+    color: #fff;
+    font-size: 8px;
+    padding: 8px 8px; 
+    border: none; 
+    cursor: pointer; 
+  }
+  
+  .rich-text-editor button:hover {
+    background-color: #0056b3; 
+    
+  }
+  .estilo{
+    height: 300px;
+    width: 100%;
+    border: 1px solid #ccc;
+  }
+  .fin{
+    margin-top: 180px;
+    padding-left: 60px;
+  }
+  .button2{
+    margin-right: 15px;
+}
+.enviar{
+  display: flex;
+justify-content: center; 
+text-align: center;
+margin: 0 auto;
+  margin-bottom: 20px;
+}

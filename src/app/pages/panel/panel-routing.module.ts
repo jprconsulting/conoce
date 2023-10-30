@@ -91,6 +91,11 @@ const routes: Routes = [
         .then(c => c.ConsentimientosModule)
       },
       {
+        path: 'Datos/:id',
+        loadChildren:() => import("./datos/datos.module")
+        .then(c => c.DatosModule)
+      },
+      {
         path: 'cargos',
         loadChildren:() => import("./cargos/cargo.module")
         .then(c => c.CargoModule)
