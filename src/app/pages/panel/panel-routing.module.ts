@@ -95,6 +95,11 @@ const routes: Routes = [
         loadChildren:() => import("./cargos/cargo.module")
         .then(c => c.CargoModule)
       },
+      {
+        path: 'respuestas',
+        loadChildren:() => import("./respuestas/respuestas.module")
+        .then(c => c.RespuestasModule)
+      },
     ]
   }
 ];
