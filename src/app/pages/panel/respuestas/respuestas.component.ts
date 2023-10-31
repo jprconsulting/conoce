@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LoadingStates } from 'src/app/global/globals';
 
 @Component({
   selector: 'app-respuestas',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./respuestas.component.css']
 })
 export class RespuestasComponent {
+  isLoadingUsers = LoadingStates.neutro;
 
 }
