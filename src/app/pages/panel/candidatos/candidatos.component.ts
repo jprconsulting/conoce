@@ -13,6 +13,9 @@ import { EstadoService } from 'src/app/core/services/estados.service';
 import {Cargos} from 'src/app/models/cargos';
 import {Genero} from 'src/app/models/genero';
 import { HttpClient } from '@angular/common/http';
+import { FormularioService } from 'src/app/core/services/formulario.service';
+import { ConfigGoogleForm } from 'src/app/models/googleForm';
+import { RespuestasGoogleService } from 'src/app/core/services/respuestasGoogle.service';
 
 @Component({
   selector: 'app-candidatos',
@@ -46,6 +49,8 @@ export class CandidatosComponent implements OnInit {
   cargos: Cargos[] = [];
   genero: Genero [] = [];
   candidatos: Candidato[] = [];
+  configGoogleForms: ConfigGoogleForm[] = [];
+  googleFormIds: string[] = [];
 
   constructor(
     private candidatoService: CandidatoService,
@@ -56,6 +61,8 @@ export class CandidatosComponent implements OnInit {
     private estadoService: EstadoService,
     private partidoService: CandidaturasService,
     private http: HttpClient,
+    private formularioService: FormularioService,
+    private respuestasGoogleService : RespuestasGoogleService,
   ) {
     this.crearFormularioCandidato();
     //this.subscribeRolID();
@@ -91,6 +98,7 @@ export class CandidatosComponent implements OnInit {
     this.obtenerPartidos();
     this.obtenerCargos();
     this.obtenerGeneros();
+    this.getConfigGoogleForms();
   }
 
   getListadocandidato() {
@@ -290,4 +298,29 @@ cargarCandidaturas() {
     });
 }
 
+getConfigGoogleForms() {
+  this.formularioService.getFormularios().subscribe(
+    (configGoogleFormsFromApi) => {
+      this.configGoogleForms = configGoogleFormsFromApi;
+      console.log('Configuraciones de Google Form cargadas:', this.configGoogleForms);
+    },
+    (error) => {
+      console.error('Error al cargar configuraciones de Google Form:', error);
+    }
+  );
+}
+
+enviarGoogleFormIds() {
+  this.googleFormIds = this.configGoogleForms.map((config) => config.googleFormId);
+  console.log('Google Form Ids a enviar:', this.googleFormIds);
+
+
+  this.respuestasGoogleService.enviarGoogleFormIds(this.googleFormIds).subscribe(
+    (response) => {
+    },
+    (error) => {
+      console.error('Error al enviar los Google Form Ids:', error);
+    }
+  );
+}
 }

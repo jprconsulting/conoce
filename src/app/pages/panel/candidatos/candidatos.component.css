@@ -87,3 +87,30 @@ hr {
     height: 100%;
     object-fit: cover;
 }
+
+.card-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+
+.header-left {
+    text-align: left;
+}
+
+.header-right {
+    text-align: right;
+}
+
+.revisar-button {
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.revisar-button:hover {
+    background-color: #0056b3;
+}
