@@ -105,6 +105,11 @@ const routes: Routes = [
         loadChildren:() => import("./respuestas/respuestas.module")
         .then(c => c.RespuestasModule)
       },
+      {
+        path: 'formulario-asignado',
+        loadChildren:() => import("./formulario-asignado/formulario-asignado.module")
+        .then(c => c.FormularioAsignadoModule)
+      },
     ]
   }
 ];
