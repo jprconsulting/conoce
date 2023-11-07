@@ -1,560 +1,403 @@
 <div class="container-xl">
-  <div class="card">
-    <div class="card-body">
-      <div class="accordion" id="accordion-example">
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-1">
-            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true">
-              Distrito local
-            </button>
-          </h2>
-          <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
-            <div class="accordion-body pt-0">
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-distrito-local">
-                <i class="ti ti-plus me-1"></i>Agregar Distrito local
-              </button>
-              
-              <!-- MODAL AGREGAR DISTRITO LOCAL -->
-              <div class="modal modal-blur fade" id="modal-distrito-local" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Nuevo Distrito local</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <!-- Inicio del formulario -->
-                      <form [formGroup]="distritoLocalForm">
-                        <!-- <div class="mb-3">
-                          <label for="id" class="form-label">ID:</label>
-                          <input type="number" id="id" class="form-control" [(ngModel)]="distritoLocal.id" name="id" required min="0">
-                        </div> -->
-                        <div class="row mb-3">
-                          <div class="col-md-6">
-                            <label for="nombre" class="form-label">Nombre:</label>
-                            <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" formControlName="nombre" [class.is-invalid]="marcarNombreTocado()">
-                            <div *ngIf="nombreTocado && distritoLocalForm.get('nombre')?.hasError('required')" class="error-message">
-                              
-                            </div>
-                            <div *ngIf="nombreTocado && distritoLocalForm.get('nombre')?.hasError('pattern')" class="error-message">
-                              
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <label for="acronimo" class="form-label">Acrónimo:</label>
-                            <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" formControlName="acronimo" [class.is-invalid]="marcarAcronimoTocado()">
-                            <div *ngIf="acronimoTocado && distritoLocalForm.get('acronimo')?.hasError('required')" class="error-message">
-                              
-                            </div>
-                            <div *ngIf="acronimoTocado && distritoLocalForm.get('acronimo')?.hasError('pattern')" class="error-message">
-                              
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mb-3">
-                          <div class="row">
-                            <div class="col-md-6">
-                              <label for="activo" class="form-label">Activo:</label>
-                              <div class="form-check form-switch">
-                                <input type="checkbox" class="form-check-input" id="activo" [(ngModel)]="distritoLocal.activo" name="activo">
-                                <label class="form-check-label" for="activo">Activo</label>
-                              </div>
-                            </div>
-                            <div class="col-md-6">
-                              <label for="extPet" class="form-label">Ext-pet:</label>
-                              <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" formControlName="extPet" [class.is-invalid]="marcarExtPetTocado()">
-                              <div *ngIf="extPetTocado && distritoLocalForm.get('extPet')?.hasError('required')" class="error-message">
-                                
-                              </div>
-                              <div *ngIf="extPetTocado && distritoLocalForm.get('extPet')?.hasError('pattern')" class="error-message">
-                                
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mb-3">
-                          <label for="estado" class="form-label">Estados:</label>
-                          <select id="estado" class="form-select" [(ngModel)]="distritoLocal.estado" formControlName="estado">
-                            <option value="">Selecciona una opción...</option>
-                            <option value="Aguascalientes">Aguascalientes</option>
-                            <option value="Baja California">Baja California</option>
-                            <option value="Baja California Sur">Baja California Sur</option>
-                            <option value="Campeche">Campeche</option>
-                            <option value="Chiapas">Chiapas</option>
-                            <option value="Chihuahua">Chihuahua</option>
-                            <option value="Ciudad de México">Ciudad de México</option>
-                            <option value="Coahuila">Coahuila</option>
-                            <option value="Colima">Colima</option>
-                            <option value="Durango">Durango</option>
-                            <option value="Estado de México">Estado de México</option>
-                            <option value="Guanajuato">Guanajuato</option>
-                            <option value="Guerrero">Guerrero</option>
-                            <option value="Hidalgo">Hidalgo</option>
-                            <option value="Jalisco">Jalisco</option>
-                            <option value="Michoacán">Michoacán</option>
-                            <option value="Morelos">Morelos</option>
-                            <option value="Nayarit">Nayarit</option>
-                            <option value="Nuevo León">Nuevo León</option>
-                            <option value="Oaxaca">Oaxaca</option>
-                            <option value="Puebla">Puebla</option>
-                            <option value="Querétaro">Querétaro</option>
-                            <option value="Quintana Roo">Quintana Roo</option>
-                            <option value="San Luis Potosí">San Luis Potosí</option>
-                            <option value="Sinaloa">Sinaloa</option>
-                            <option value="Sonora">Sonora</option>
-                            <option value="Tabasco">Tabasco</option>
-                            <option value="Tamaulipas">Tamaulipas</option>
-                            <option value="Tlaxcala">Tlaxcala</option>
-                            <option value="Veracruz">Veracruz</option>
-                            <option value="Yucatán">Yucatán</option>
-                            <option value="Zacatecas">Zacatecas</option>
-                          </select>
-                          <div *ngIf="distritoLocalForm.get('estado')?.value===''" class="error-message">
-                            
-                          </div>
-                        </div>
-                      </form>
-                      <!-- Fin del formulario -->
-                      <br>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal" (click)="resetForm()">Limpiar</button>
-                      <button type="button" class="btn btn-primary" [disabled]="!distritoLocalForm.valid">Crear nuevo distrito local</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <!-- FIN MODAL -->
-              <div [ngSwitch]="variableDeControl">
-                <!-- Inicio del bloque ngSwitch -->
-                <div class="progress" *ngSwitchCase="2">
-                  <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-                </div>
-              </div>
-<!-- Lista de Distritos Locales -->
-<div class="table-responsive" *ngIf="distritosLocales.length > 0">
-  <br>
-              <div class="input-icon">
-                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                            <i class="ti ti-search"></i>
-                          </span>
-                        </div>  
-                        <br>
-  <table class="table card-table table-vcenter text-nowrap datatable">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Acrónimo</th>
-        <th class="text-center" style="width: 7%">Acciones</th>
-      </tr>
-    </thead>
-    <tbody class="table-tbody">
-      <tr *ngFor="let distritoLocal of distritosLocales; let i = index">
-        <td>{{ distritoLocal.nombre }}</td>
-        <td>{{ distritoLocal.acronimo }}</td>
-        <td>
-          <button class="btn btn-warning btn-icon btn-sm" (click)="editarDistritoLocal(i)">
-            <i class="ti ti-edit"></i>
-          </button>
-          <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarDistritoLocal(i)">
-            <i class="ti ti-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div *ngIf="distritosLocales.length === 0">
-  <p>No hay Distritos Locales agregados.</p>
-</div>
-<div class="card-footer d-flex align-items-center">
-  <p class="m-0 text-muted">
-      Showing <span>1</span> to <span>8</span> of
-      <span>16</span> entries
-  </p>
-  <ul class="pagination m-0 ms-auto">
-      <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-<path d="M15 6l-6 6l6 6" />
-</svg> prev
-          </a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active">
-          <a class="page-link" href="#">2</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item"><a class="page-link" href="#">5</a></li>
-      <li class="page-item">
-          <a class="page-link" href="#">
-next
-<svg
-xmlns="http://www.w3.org/2000/svg"
-class="icon"
-width="24"
-height="24"
-viewBox="0 0 24 24"
-stroke-width="2"
-stroke="currentColor"
-fill="none"
-stroke-linecap="round"
-stroke-linejoin="round"
->
-<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-<path d="M9 6l6 6l-6 6" />
-</svg>
-</a>
-      </li>
-  </ul>
-</div>
-          
-            </div>
-          </div>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Demarcaciones</h3>
         </div>
+        <div class="card-body">
+            <div class="accordion" id="accordion-example">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-1">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true" (click)="handleChangeAdd()">
+                          Distrito local
+                        </button>
+                    </h2>
+                    <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
+                        <div class="accordion-body pt-0">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-distrito-local">
+                              <i class="ti ti-plus me-1"></i>Agregar Distrito local
+                            </button>
 
-        <!-- El segundo formulario también necesita la estructura de dos columnas -->
-        <div class="accordion-item">
-          <h2 class="accordion-header" id="heading-2">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
-              Ayuntamiento
-            </button>
-          </h2>
-          <div id="collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
-            <div class="accordion-body pt-0">
-              <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento">
+                            <!-- MODAL AGREGAR DISTRITO LOCAL -->
+                            <div class="modal modal-blur fade" id="modal-distrito-local" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">
+                                                {{ isModalAdd ? "Actualizar" : "Agregar" }} distrito local
+                                            </h5>
+
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="distritoLocalForm">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="nombreDistritoLocal" class="form-label">Nombre de Distrito Local:</label>
+                                                        <input type="text" id="nombreDistritoLocal" class="form-control" formControlName="nombreDistritoLocal">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <label for="acronimo" class="form-label">Acrónimo:</label>
+                                                        <input type="text" id="acronimo" class="form-control" formControlName="acronimo">
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label for="estadoId" class="form-label">Estado:</label>
+                                                            <select class="form-select" formControlName="estadoId">
+                                                        <option value="null">Selecciona un estado...</option>
+                                                        <option *ngFor="let estadoItem of estados" [value]="estadoItem.estadoId">{{ estadoItem.nombreEstado }}</option>
+                                                      </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="estadoActivo" class="form-label">Estatus</label>
+                                                            <label class="form-check form-switch checkbox-verde">
+                                                        <input class="form-check-input" type="checkbox" formControlName="estatus" />
+                                                        <span class="form-check-label" [ngClass]="{
+                                                            'text-success': distritoLocalForm.get('estatus')?.value === true,
+                                                            'text-danger': distritoLocalForm.get('estatus')?.value === false}">
+                                                          {{ distritoLocalForm.get("estatus")?.value ? "Activo" : "Inactivo" }}
+                                                        </span>
+                                                      </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="extPet" class="form-label">Ext-pet:</label>
+                                                    <input type="text" id="extPet" class="form-control" formControlName="extPet">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" (click)="enviarFormulario()"> {{ isModalAdd ? "Actualizar" : "Agregar"}}</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Lista de Distritos Locales -->
+                            <div class="table-responsive" *ngIf="distritosLocales.length > 0">
+                                <br>
+                                <div class="input-icon">
+                                    <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <span class="input-icon-addon">
+                                      <i class="ti ti-search"></i>
+                                    </span>
+                                </div>
+                                <br>
+                                <div class="card">
+                                    <table class="table card-table table-vcenter text-nowrap datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Acrónimo</th>
+                                                <th>Ext-pet</th>
+                                                <th>Estatus</th>
+                                                <th>Estado</th>
+                                                <th class="text-center" style="width: 7%">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-tbody">
+                                            <tr *ngFor="let distritoLocal of distritosLocales; let i = index">
+                                                <td>{{ distritoLocal.nombreDistritoLocal }}</td>
+                                                <td>{{ distritoLocal.acronimo }}</td>
+                                                <td>{{ distritoLocal.extPet }}</td>
+                                                <td>
+                                                    <ng-container *ngIf="distritoLocal.estatus; else elseEST">
+                                                        <span class="badge bg-success me-1"></span>Activo
+                                                    </ng-container>
+                                                    <ng-template #elseEST>
+                                                        <span class="badge bg-danger me-1"></span> Inactivo
+                                                    </ng-template>
+                                                </td>
+                                                <td>{{ getNombreEstado(distritoLocal.estadoId) }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-between">
+                                                        <button class="btn btn-warning btn-icon btn-sm">
+                                                  <i class="ti ti-edit"></i>
+                                                </button>
+                                                        <button class="btn btn-danger btn-icon btn-sm">
+                                                  <i class="ti ti-trash"></i>
+                                                </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div *ngIf="distritosLocales.length === 0">
+                                <p>No hay Distritos Locales agregados.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- El segundo formulario también necesita la estructura de dos columnas -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-2">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
+                          Ayuntamiento
+                        </button>
+                    </h2>
+                    <div id="collapse-2" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                        <div class="accordion-body pt-0">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento">
                 <i class="ti ti-plus me-1"></i>Agregar Ayuntamiento
               </button>
-              <!-- MODAL AGREGAR AYUNTAMIENTO -->
-              <div class="modal modal-blur fade" id="modal-ayuntamiento" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title">Nuevo Ayuntamiento</h5>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <!-- Inicio del formulario -->
-                      <form  [formGroup]="ayuntamientoForm">
-                        <!-- <div class="mb-3">
-                          <label for="ayuntamientoId" class="form-label">ID:</label>
-                          <input type="number" id="id" class="form-control" [(ngModel)]="distritoLocal.id" name="id" required min="0">
-                        </div> -->
-                        <div class="row mb-3">
-                      <div class="col-md-6">
-                        <label for="nombre" class="form-label">Nombre:</label>
-                        <input type="text" id="nombre" class="form-control" [(ngModel)]="distritoLocal.nombre" formControlName="nombreA" [class.is-invalid]="marcarNombreATocado()">
-                        <div *ngIf="nombreATocado && ayuntamientoForm.get('nombreA')?.hasError('required')" class="error-message"></div>
-                      </div>
-                      <div class="col-md-6">
-                        <label for="acronimo" class="form-label">Acrónimo:</label>
-                        <input type="text" id="acronimo" class="form-control" [(ngModel)]="distritoLocal.acronimo" formControlName="acronimoA" [class.is-invalid]="marcarAcronimoATocado()">
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <label for="activo" class="form-label">Activo:</label>
-                          <div class="form-check form-switch">
-                            <input type="checkbox" class="form-check-input" id="activo" [(ngModel)]="distritoLocal.activo" formControlName="activo">
-                            <label class="form-check-label" for="activo">Activo</label>
-                          </div>
+                            <!-- MODAL AGREGAR AYUNTAMIENTO -->
+                            <div class="modal modal-blur fade" id="modal-ayuntamiento" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Nuevo Ayuntamiento</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="ayuntamientoForm">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="nombreAyuntamiento" class="form-label">Nombre de Ayuntamiento:</label>
+                                                        <input type="text" id="nombreAyuntamiento" class="form-control" formControlName="nombreAyuntamiento">
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="acronimo" class="form-label">Acrónimo:</label>
+                                                            <input type="text" id="acronimo" class="form-control" formControlName="acronimo">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label for="distritoLocalId" class="form-label">Distrito local:</label>
+                                                            <select class="form-select" formControlName="distritoLocalId">
+                                                      <option value="null">Selecciona un distrito...</option>
+                                                      <option *ngFor="let distritosLocalesItem of distritosLocales" [value]="distritosLocalesItem.distritoLocalId">{{ distritosLocalesItem.nombreDistritoLocal }}</option>
+                                                    </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="estadoActivo" class="form-label">Estatus</label>
+                                                            <label class="form-check form-switch checkbox-verde">
+                                                      <input class="form-check-input" type="checkbox" formControlName="estatus" />
+                                                      <span class="form-check-label" [ngClass]="{
+                                                          'text-success': distritoLocalForm.get('estatus')?.value === true,
+                                                          'text-danger': distritoLocalForm.get('estatus')?.value === false}">
+                                                        {{ distritoLocalForm.get("estatus")?.value ? "Activo" : "Inactivo" }}
+                                                      </span>
+                                                    </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="extPet" class="form-label">Ext-pet:</label>
+                                                    <input type="text" id="extPet" class="form-control" formControlName="extPet">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" (click)="enviarAyuntamiento()">Crear nuevo Ayuntamiento</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- FIN MODAL -->
+                            <br>
+                            <!-- Lista de Ayuntamientos -->
+                            <div class="table-responsive" *ngIf="ayuntamientos.length > 0">
+                                <br>
+                                <div class="input-icon">
+                                    <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <span class="input-icon-addon">
+                                <i class="ti ti-search"></i>
+                              </span>
+                                </div>
+                                <br>
+                                <div class="card">
+                                    <table class="table card-table table-vcenter text-nowrap datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Acrónimo</th>
+                                                <th>Ext-pet</th>
+                                                <th>Estatus</th>
+                                                <th>Distrito local</th>
+                                                <th class="text-center" style="width: 7%">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-tbody">
+                                            <tr *ngFor="let ayuntamiento of ayuntamientos; let i = index">
+                                                <td>{{ ayuntamiento.nombreAyuntamiento }}</td>
+                                                <td>{{ ayuntamiento.acronimo }}</td>
+                                                <td>{{ ayuntamiento.extPet }}</td>
+                                                <td>
+                                                    <ng-container *ngIf="ayuntamiento.estatus; else elseEST">
+                                                        <span class="badge bg-success me-1"></span>Activo
+                                                    </ng-container>
+                                                    <ng-template #elseEST>
+                                                        <span class="badge bg-danger me-1"></span> Inactivo
+                                                    </ng-template>
+                                                </td>
+                                                <td>{{ getNombreDistritoLocal(ayuntamiento.distritoLocalId) }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-between">
+                                                        <button class="btn btn-warning btn-icon btn-sm">
+                                                      <i class="ti ti-edit"></i>
+                                                    </button>
+                                                        <button class="btn btn-danger btn-icon btn-sm">
+                                                      <i class="ti ti-trash"></i>
+                                                    </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div *ngIf="ayuntamientos.length === 0">
+                                <p>No hay Ayuntamientos agregados.</p>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                          <label for="extPet" class="form-label">Ext-pet:</label>
-                          <input type="text" id="extPet" class="form-control" [(ngModel)]="distritoLocal.extPet" formControlName="extPetA" [class.is-invalid]="marcarExtPetATocado()">
-                        </div>
-                      </div>
                     </div>
-                        <div class="mb-3">
-                          <label for="ayuntamientoDistritoLocal" class="form-label">Distrito Local:</label>
-                          <select id="ayuntamientoDistritoLocal" class="form-select" [(ngModel)]="ayuntamiento.distritoLocal" name="distritoLocal" required>
-                            <!-- Agrega opciones para seleccionar un Distrito Local -->
-                            <option value="Distrito 1 | Pachuca de Soto">Distrito 1 | Pachuca de Soto</option>
-                            <option value="Distrito 2 | Tulancingo de Bravo">Distrito 2 | Tulancingo de Bravo</option>
-                            <!-- Agrega más opciones según tus datos -->
-                          </select>
-                        </div>     
-                      </form>
-                      <!-- Fin del formulario -->
-                      <br>
-                    </div>
-                    <div class="modal-footer">
-                      <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal">Limpiar</button>
-                      <button type="button" class="btn btn-primary">Crear nuevo ayuntamiento</button>
-                    </div>
-                  </div>
                 </div>
-              </div>
-              <!-- FIN MODAL -->
-              <div [ngSwitch]="variableDeControl">
-                <!-- Inicio del bloque ngSwitch -->
-                <div class="progress" *ngSwitchCase="2">
-                  <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-                </div>
-              </div>
-              <br>
-              <div class="input-icon">
-                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                            <i class="ti ti-search"></i>
-                          </span>
-                        </div>
-                        <br>
-                        <div>
-              <div class="table-responsive" *ngIf="ayuntamientos.length > 0">
-               
-                <table class="table card-table table-vcenter text-nowrap datatable">
-                  <thead>
-                    <tr>
-                      <th>Nombre</th>
-                      <th>Acrónimo</th>
-                      <th class="text-center" style="width: 7%">Acciones</th>
-                    </tr>
-                  </thead>
-                  <tbody class="table-tbody">
-                    <tr *ngFor="let ayuntamiento of ayuntamientos; let i = index">
-                      <td>{{ ayuntamiento.nombre }}</td>
-                      <td>{{ ayuntamiento.acronimo }}</td>
-                      <td>
-                        <button class="btn btn-warning btn-icon btn-sm" (click)="editarAyuntamiento(i)">
-                          <i class="ti ti-edit"></i>
+
+
+
+                <!-- Nuevo bloque para Comunidad -->
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="heading-3">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">
+                          Comunidad
                         </button>
-                        <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(i)">
-                          <i class="ti ti-trash"></i>
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div *ngIf="ayuntamientos.length === 0">
-                <p>No hay Ayuntamientos agregados.</p>
-              </div>
-              <div class="card-footer d-flex align-items-center">
-                <p class="m-0 text-muted">
-                    Showing <span>1</span> to <span>8</span> of
-                    <span>16</span> entries
-                </p>
-                <ul class="pagination m-0 ms-auto">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M15 6l-6 6l6 6" />
-          </svg> prev
-                        </a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">2</a>
-                    </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item"><a class="page-link" href="#">4</a></li>
-                    <li class="page-item"><a class="page-link" href="#">5</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">
-          next
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="icon"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            stroke-width="2"
-            stroke="currentColor"
-            fill="none"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M9 6l6 6l-6 6" />
-          </svg>
-        </a>
-                    </li>
-                </ul>
-            </div>
-            </div>
-          </div>
-        </div>
-        </div>
+                    </h2>
+                    <div id="collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
+                        <div class="accordion-body pt-0">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-comunidad">
+                              <i class="ti ti-plus me-1"></i>Agregar Comunidad
+                            </button>
+                            <!-- MODAL AGREGAR COMUNIDAD -->
+                            <div class="modal modal-blur fade" id="modal-comunidad" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Nueva Comunidad</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form [formGroup]="comunidadForm">
+                                                <div class="row mb-3">
+                                                    <div class="col-md-6">
+                                                        <label for="nombreComunidad" class="form-label">Nombre de Comunidad:</label>
+                                                        <input type="text" id="nombreComunidad" class="form-control" formControlName="nombreComunidad">
+                                                    </div>
 
-
-
-<!-- Nuevo bloque para Comunidad -->
-<div class="accordion-item">
-  <h2 class="accordion-header" id="heading-3">
-    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-3" aria-expanded="false">
-      Comunidad
-    </button>
-  </h2>
-  <div id="collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
-    <div class="accordion-body pt-0">
-      <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-comunidad">
-        <i class="ti ti-plus me-1"></i>Agregar Comunidad
-      </button>
-      <!-- MODAL AGREGAR COMUNIDAD -->
-      <div class="modal modal-blur fade" id="modal-comunidad" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">Nueva Comunidad</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-              <!-- Inicio del formulario -->
-              <form [formGroup]="comunidadForm">
-                <!-- <div class="mb-3">
-                  <label for="comunidadId" class="form-label">ID:</label>
-                  <input type="number" id="comunidadId" class="form-control" [(ngModel)]="comunidad.id" name="id" required>
-                </div> -->
-                
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                  <label for="comunidadNombre" class="form-label">Nombre:</label>
-                  <input type="text" id="comunidadNombre" class="form-control" [(ngModel)]="comunidad.nombre" formControlName="nombreC" [class.is-invalid]="marcarNombreCTocado()">
-                  <div *ngIf="nombreCTocado && comunidadForm.get('nombreC')?.hasError('required')" class="error-message"></div>
-                </div>
-                <div class="col-md-6">
-                  <label for="comunidadAcronimo" class="form-label">Acrónimo:</label>
-                  <input type="text" id="comunidadAcronimo" class="form-control" [(ngModel)]="comunidad.acronimo" formControlName="acronimoC" [class.is-invalid]="marcarAcronimoCTocado()">
-                  <div *ngIf="acronimoCTocado && comunidadForm.get('acronimoC')?.hasError('required')" class="error-message"></div>
-                </div>
-              </div>
-                <div class="mb-3">
-                
-                  <div class="row">
-                    <div class="col-md-6">
-                      <label for="comunidadActivo" class="form-label">Activo:</label>
-                      <div class="form-check form-switch">
-                        <input type="checkbox" class="form-check-input" id="comunidadActivo" [(ngModel)]="comunidad.activo" name="activo">
-                        <label class="form-check-label" for="comunidadActivo">Activo</label>
-                      </div>
-                    </div>
-                    <div class="col-md-6">
-                      <label for="comunidadExtPet" class="form-label">Ext-pet:</label>
-                      <input type="text" id="comunidadExtPet" class="form-control" [(ngModel)]="comunidad.extPet" formControlName="extPetC" [class.is-invalid]="marcarExtPetCTocado()">
-                      <div *ngIf="extPetCTocado && comunidadForm.get('extPetC')?.hasError('required')" class="error-message"></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="mb-3">
-                  <label for="comunidadAyuntamiento" class="form-label">Ayuntamiento:</label>
-                  <select id="comunidadAyuntamiento" class="form-select" [(ngModel)]="comunidad.ayuntamiento" name="ayuntamiento" required>
-                    <!-- Agrega opciones para seleccionar un Ayuntamiento -->
-                    <option value="Ayuntamiento de Pachuca de Soto">Ayuntamiento de Pachuca de Soto</option>
-                    <option value="Ayuntamiento de Tulancingo de Bravo">Ayuntamiento de Tulancingo de Bravo</option>
-                    <!-- Agrega más opciones según tus datos -->
-                  </select>
-                </div>
-              </form>
-              <!-- Fin del formulario -->
-              <br>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-link link-secondary" data-bs-dismiss="modal">Limpiar</button>
-              <button type="button" class="btn btn-primary">Crear nueva comunidad</button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- FIN MODAL -->
-      <div [ngSwitch]="variableDeControl">
-        <!-- Inicio del bloque ngSwitch -->
-        <div class="progress" *ngSwitchCase="2">
-          <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-        </div>
-      </div>
-      <!-- Lista de Comunidades -->
-<div class="table-responsive" *ngIf="comunidades.length > 0">
-  <br>
-              <div class="input-icon">
-                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                            <i class="ti ti-search"></i>
-                          </span>
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3">
+                                                            <label for="acronimo" class="form-label">Acrónimo:</label>
+                                                            <input type="text" id="acronimo" class="form-control" formControlName="acronimo">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-3">
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label for="ayuntamientoId" class="form-label">Ayuntamiento:</label>
+                                                            <select class="form-select" formControlName="ayuntamientoId">
+                                                    <option value="null">Selecciona un ayuntamiento...</option>
+                                                    <option *ngFor="let ayuntamientoItem of ayuntamientos" [value]="ayuntamientoItem.ayuntamientoId">{{ ayuntamientoItem.nombreAyuntamiento }}</option>
+                                                  </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4">
+                                                        <div class="mb-3">
+                                                            <label for="estadoActivo" class="form-label">Estatus</label>
+                                                            <label class="form-check form-switch checkbox-verde">
+                                                    <input class="form-check-input" type="checkbox" formControlName="estatus" />
+                                                    <span class="form-check-label" [ngClass]="{
+                                                        'text-success': distritoLocalForm.get('estatus')?.value === true,
+                                                        'text-danger': distritoLocalForm.get('estatus')?.value === false}">
+                                                      {{ distritoLocalForm.get("estatus")?.value ? "Activo" : "Inactivo" }}
+                                                    </span>
+                                                  </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="extPet" class="form-label">Ext-pet:</label>
+                                                    <input type="text" id="extPet" class="form-control" formControlName="extPet">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-primary" (click)="agregarComunidad()">Crear nueva Comunidad</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- FIN MODAL -->
+                            <!-- Lista de Comunidades -->
+                            <div class="table-responsive" *ngIf="comunidades.length > 0">
+                                <br>
+                                <div class="input-icon">
+                                    <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <span class="input-icon-addon">
+                                <i class="ti ti-search"></i>
+                              </span>
+                                </div>
+                                <br>
+                                <div class="card">
+                                    <table class="table card-table table-vcenter text-nowrap datatable">
+                                        <thead>
+                                            <tr>
+                                                <th>Nombre</th>
+                                                <th>Acrónimo</th>
+                                                <th>Ext-pet</th>
+                                                <th>Estatus</th>
+                                                <th>Ayuntamiento</th>
+                                                <th class="text-center" style="width: 7%">Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="table-tbody">
+                                            <tr *ngFor="let comunidad of comunidades; let i = index">
+                                                <td>{{ comunidad.nombreComunidad }}</td>
+                                                <td>{{ comunidad.acronimo }}</td>
+                                                <td>{{ comunidad.extPet }}</td>
+                                                <td>
+                                                    <ng-container *ngIf="comunidad.estatus; else elseEST">
+                                                        <span class="badge bg-success me-1"></span>Activo
+                                                    </ng-container>
+                                                    <ng-template #elseEST>
+                                                        <span class="badge bg-danger me-1"></span> Inactivo
+                                                    </ng-template>
+                                                </td>
+                                                <td>{{ getNombreAyuntamiento(comunidad.ayuntamientoId) }}</td>
+                                                <td>
+                                                    <div class="d-flex justify-content-between">
+                                                        <button class="btn btn-warning btn-icon btn-sm">
+                                                      <i class="ti ti-edit"></i>
+                                                    </button>
+                                                        <button class="btn btn-danger btn-icon btn-sm">
+                                                      <i class="ti ti-trash"></i>
+                                                    </button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div *ngIf="comunidades.length === 0">
+                                <p>No hay Comunidades agregadas.</p>
+                            </div>
                         </div>
-                        <br>
-  <table class="table card-table table-vcenter text-nowrap datatable">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Acrónimo</th>
-        <th class="text-center" style="width: 7%">Acciones</th>
-      </tr>
-    </thead>
-    <tbody class="table-tbody">
-      <tr *ngFor="let comunidad of comunidades; let i = index">
-        <td>{{ comunidad.nombre }}</td>
-        <td>{{ comunidad.acronimo }}</td>
-        <td>
-          <button class="btn btn-warning btn-icon btn-sm" (click)="editarComunidad(i)">
-            <i class="ti ti-edit"></i>
-          </button>
-          <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarComunidad(i)">
-            <i class="ti ti-trash"></i>
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div *ngIf="comunidades.length === 0">
-  <p>No hay Comunidades agregadas.</p>
-</div>
-<div class="card-footer d-flex align-items-center">
-  <p class="m-0 text-muted">
-      Showing <span>1</span> to <span>8</span> of
-      <span>16</span> entries
-  </p>
-  <ul class="pagination m-0 ms-auto">
-      <li class="page-item disabled">
-          <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-<path d="M15 6l-6 6l6 6" />
-</svg> prev
-          </a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">1</a></li>
-      <li class="page-item active">
-          <a class="page-link" href="#">2</a>
-      </li>
-      <li class="page-item"><a class="page-link" href="#">3</a></li>
-      <li class="page-item"><a class="page-link" href="#">4</a></li>
-      <li class="page-item"><a class="page-link" href="#">5</a></li>
-      <li class="page-item">
-          <a class="page-link" href="#">
-next
-<svg
-xmlns="http://www.w3.org/2000/svg"
-class="icon"
-width="24"
-height="24"
-viewBox="0 0 24 24"
-stroke-width="2"
-stroke="currentColor"
-fill="none"
-stroke-linecap="round"
-stroke-linejoin="round"
->
-<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-<path d="M9 6l6 6l-6 6" />
-</svg>
-</a>
-      </li>
-  </ul>
-</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-</div>
-
-
-
-      </div>
-    </div>
-  </div>
 </div>
