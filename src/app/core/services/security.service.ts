@@ -4,12 +4,15 @@ import { environment } from 'src/environments/environment';
 import { HandleErrorService } from './handle-error.service';
 import { AppUser, AppUserAuth, FormulariosAsignados } from 'src/app/models/login';
 import { tap, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SecurityService {
   route = `${environment.apiUrl}/security`;
+  private apiUrl = 'https://localhost:7154/api';
+
   dataObject!: AppUserAuth;
   formulariosAsignados: FormulariosAsignados[] = [];
 
@@ -108,4 +111,9 @@ export class SecurityService {
     }
 }
 
+getUsuariosConFormulario(formularioId: number): Observable<any[]> {
+  const url = `${this.apiUrl}/formulario-usuario/get-formulario-usuario/${formularioId}`;
+
+  return this.http.get<any[]>(url);
+}
 }

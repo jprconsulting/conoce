@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HandleErrorService } from './handle-error.service';
@@ -12,6 +12,7 @@ import { Rol } from 'src/app/models/Rol';
 })
 export class UsuarioService {
   route = `${environment.apiUrl}/usuario`;
+  private apiUrl = 'https://localhost:7154/api';
   private _refreshLisUsers$ = new Subject<Usuario | null>();
 
   constructor(
@@ -69,6 +70,17 @@ export class UsuarioService {
       catchError(this.handleErrorService.handleError)
     );
   }
+  getUsuariosPorIds(ids: number[]): Observable<Usuario[]> {
+    const params = new HttpParams().set('ids', ids.join(','));
+    return this.http.get<Usuario[]>(`${this.route}/usuario/obtener_usuario`, { params })
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 
+  getUsuariosConFormulario(formularioId: number): Observable<any[]> {
+    const url = `${this.apiUrl}/formulario-usuario/get-formulario-usuario/${formularioId}`;
 
+    return this.http.get<any[]>(url);
+  }
 }

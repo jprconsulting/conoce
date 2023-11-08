@@ -51,7 +51,7 @@ export class AsignacionComponent implements OnInit {
     ngOnInit() {
       this.usuarioService.getUsuarios().subscribe((data: Usuario[]) => {
         console.log(data);
-        this.usuario = data.filter(usuario => usuario.rol === 'Candidato');
+        this.usuario = data.filter(usuario => usuario.rol === 'Candidato' || usuario.rol === 'Gestor');
       });
 
       this.formularioUserService.getFormularios().subscribe((data: Formuser[]) => {

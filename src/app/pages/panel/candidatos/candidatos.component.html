@@ -2,8 +2,14 @@
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Candidatos</h3>
+                <div class="header-left">
+                    <h3 class="card-title" style="width: 105px;">Candidatos</h3>
+                </div>
+                <div class="header-right">
+                    <button class="revisar-button" (click)="enviarGoogleFormIds()">Revisar respuestas</button>
+                </div>
             </div>
+
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">

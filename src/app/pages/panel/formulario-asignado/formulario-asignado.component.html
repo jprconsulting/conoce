@@ -1,0 +1,63 @@
+<div class="row">
+    <div class="col-12">
+        <select [(ngModel)]="formularioId" (change)="cargarUsuariosConFormulario()">
+          <option [value]="0">Seleccionar un formulario</option>
+          <option *ngFor="let formulario of formulariosAsignados" [value]="formulario.formularioId">{{ formulario.formName }}</option>
+      </select>
+    </div>
+</div>
+<br>
+<div class="row row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table card-table table-vcenter text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Usuario</th>
+                            <th>Estatus</th>
+                            <th class="text-center" style="width: 7%">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="table-tbody">
+                        <tr *ngFor="let usuario of usuariosConFormulario">
+                            <td>{{ usuario.nombre }}</td>
+                            <td>
+                                <ng-container *ngIf="usuario.estatus; else elseEST">
+                                    <span class="badge bg-success me-1"></span> Contestado
+                                </ng-container>
+                                <ng-template #elseEST>
+                                    <span class="badge bg-danger me-1"></span> Sin contestar
+                                </ng-template>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-success btn-icon btn-sm" data-bs-toggle="modal" [disabled]="usuario.estatus" data-bs-target="#modal-google-form" (click)="handleClick(formularioId)">
+                                  <i class="ti ti-file-plus"></i>
+                              </button>
+                                    <button class="btn btn-warning btn-icon btn-sm" [disabled]="!usuario.estatus">
+                                  <i class="ti ti-file-pencil"></i>
+                              </button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal modal-blur fade" id="modal-google-form" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cuestionario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+                <iframe id="googleForm" [src]="googleFormUrl" width="640" height="1035" frameborder="0" marginheight="0" marginwidth="0" scrolling="no">Cargando…</iframe>
+            </div>
+        </div>
+    </div>
+</div>
