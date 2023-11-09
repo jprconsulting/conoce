@@ -23,6 +23,8 @@ export class DemarcacionesComponent implements OnInit {
   ayuntamientoForm: FormGroup;
   comunidadForm: FormGroup;
   distritoLocal!: DistritoLocal;
+  ayuntamiento!: Ayuntamiento;
+  comunidad!: Comunidad;
   distritosLocales: DistritoLocal[] = [];
   ayuntamientos: Ayuntamiento[] = [];
   comunidades: Comunidad[] = [];
@@ -35,6 +37,8 @@ export class DemarcacionesComponent implements OnInit {
 
   searchTerm: string = '';
   filteredDistritosLocales: DistritoLocal[] = [];
+  filteredAyuntamientos: Ayuntamiento[] = [];
+  filteredComunidades: Comunidad[] = [];
 
   constructor(
     private distritoLocalService: DistritoLocalService,
@@ -54,6 +58,7 @@ export class DemarcacionesComponent implements OnInit {
     });
 
     this.ayuntamientoForm = this.formBuilder.group({
+      ayuntamientoId: [null],
       nombreAyuntamiento: ['', [Validators.required]],
       acronimo: ['', [Validators.required]],
       estatus: [true],
@@ -62,6 +67,7 @@ export class DemarcacionesComponent implements OnInit {
     });
 
     this.comunidadForm = this.formBuilder.group({
+      comunidadId: [null],
       nombreComunidad: ['', [Validators.required]],
       acronimo: ['', [Validators.required]],
       estatus: [true],
@@ -163,19 +169,28 @@ export class DemarcacionesComponent implements OnInit {
     if (this.ayuntamientoForm.valid) {
       const ayuntamientoData: Ayuntamiento = this.ayuntamientoForm.value;
 
-      this.ayuntamientoService.postAyuntamiento(ayuntamientoData).subscribe({
-        next: () => {
-          this.mensajeService.mensajeExito('Ayuntamiento agregado con éxito');
-          this.resetForm();
-        },
-        error: (error) => {
-          this.mensajeService.mensajeError('Error al agregar Ayuntamiento');
-          console.error(error);
-        }
-      });
-    } else {
+      const nombreExistente = this.ayuntamientos.some(a => a.nombreAyuntamiento === ayuntamientoData.nombreAyuntamiento);
+      const acronimoExistente = this.ayuntamientos.some(a => a.acronimo === ayuntamientoData.acronimo);
+
+      if (nombreExistente) {
+        this.mensajeService.mensajeError('Ya existe un Ayuntamiento con este nombre.');
+      } else if (acronimoExistente) {
+        this.mensajeService.mensajeError('Ya existe un Ayuntamiento con este acrónimo.');
+      } else {
+        this.ayuntamientoService.postAyuntamiento(ayuntamientoData).subscribe({
+          next: () => {
+            this.mensajeService.mensajeExito('Ayuntamiento agregado con éxito');
+            this.resetFormAy();
+          },
+          error: (error) => {
+            this.mensajeService.mensajeError('Error al agregar Ayuntamiento');
+            console.error(error);
+          }
+        });
+      }
     }
   }
+
 
   agregarComunidad(): void {
     if (this.comunidadForm.valid) {
@@ -197,9 +212,34 @@ export class DemarcacionesComponent implements OnInit {
   resetForm() {
     this.closebutton.nativeElement.click();
     this.distritoLocalForm.reset();
-    this.ayuntamientoForm.reset();
     this.comunidadForm.reset();
+  }
 
+  resetFormAy() {
+    if (this.isModalAdd) {
+      this.closebutton.nativeElement.click();
+    }
+    this.ayuntamientoForm.reset();
+  }
+
+  submitAyuntamientos() {
+    this.ayuntamiento = this.ayuntamientoForm.value as Ayuntamiento;
+    if (this.isModalAdd) {
+      this.enviarAyuntamiento();
+    } else {
+      this.actualizarAyuntamiento();
+    }
+    this.resetFormAy();
+  }
+
+  submitComunidades() {
+    this.comunidad = this.comunidadForm.value as Comunidad;
+    if (this.isModalAdd) {
+      this.agregarComunidad();
+    } else {
+      this.actualizarComunidad();
+    }
+    this.resetFormAy();
   }
 
   handleChangeAdd() {
@@ -265,6 +305,60 @@ export class DemarcacionesComponent implements OnInit {
     );
   }
 
+  actualizarAyuntamiento() {
+    this.ayuntamientoService.editarAyuntamiento(this.ayuntamiento).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito("Ayuntamiento actualizado con éxito");
+        this.resetFormAy();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError("Error al actualizar el ayuntamiento");
+        console.error(error);
+      }
+    }
+    );
+  }
+
+  actualizarComunidad() {
+    this.comunidadService.editarComunidad(this.comunidad).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito("Comunidad actualizada con éxito");
+        this.resetForm();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError("Error al actualizar la comunidad");
+        console.error(error);
+      }
+    }
+    );
+  }
+
+  setDataModalUpdateComunidad(user: Comunidad) {
+    this.isModalAdd = false;
+    this.comunidadForm.patchValue({
+      comunidadId: user.comunidadId,
+      nombreComunidad: user.nombreComunidad,
+      acronimo: user.acronimo,
+      estatus: user.estatus,
+      extPet: user.extPet,
+      ayuntamientoId: user.ayuntamientoId
+    });
+    console.log(this.comunidadForm.value);
+  }
+
+  setDataModalUpdateAyuntamiento(user: Ayuntamiento) {
+    this.isModalAdd = false;
+    this.ayuntamientoForm.patchValue({
+      ayuntamientoId: user.ayuntamientoId,
+      nombreAyuntamiento: user.nombreAyuntamiento,
+      acronimo: user.acronimo,
+      estatus: user.estatus,
+      extPet: user.extPet,
+      distritoLocalId: user.distritoLocalId
+    });
+    console.log(this.ayuntamientoForm.value);
+  }
+
   setDataModalUpdate(user: DistritoLocal) {
     this.isModalAdd = false;
     this.distritoLocalForm.patchValue({
@@ -283,6 +377,8 @@ export class DemarcacionesComponent implements OnInit {
     this.isModalAdd ? this.enviarFormulario() : this.actualizarUsuario();
   }
 
+
+
   filtrarDistritoslocales = () => {
     return this.distritosLocales.filter(distritoLocal => {
       const searchTermLower = this.searchTerm.toLowerCase();
@@ -293,6 +389,23 @@ export class DemarcacionesComponent implements OnInit {
     });
   };
 
+  filtrarAyuntamientos = () => {
+    return this.ayuntamientos.filter(ayuntamientos => {
+      const searchTermLower = this.searchTerm.toLowerCase();
+      return (
+        ayuntamientos.nombreAyuntamiento.toLowerCase().includes(searchTermLower) ||
+        ayuntamientos.acronimo.toLowerCase().includes(searchTermLower)
+      );
+    });
+  };
 
-
+  filtrarComunidades = () => {
+    return this.comunidades.filter(comunidades => {
+      const searchTermLower = this.searchTerm.toLowerCase();
+      return (
+        comunidades.nombreComunidad.toLowerCase().includes(searchTermLower) ||
+        comunidades.acronimo.toLowerCase().includes(searchTermLower)
+      );
+    });
+  };
 }

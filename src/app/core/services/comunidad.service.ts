@@ -34,4 +34,10 @@ export class ComunidadService {
       catchError(this.handleErrorService.handleError)
     );
   }
+
+  editarComunidad(comunidad: Comunidad): Observable<any> {
+    return this.http.put(`${this.apiUrl}/editar_comunidad`, comunidad).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }

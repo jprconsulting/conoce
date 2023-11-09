@@ -168,7 +168,7 @@
                 <!-- El segundo formulario también necesita la estructura de dos columnas -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-2">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false" (click)="handleChangeAdd()">
                           Ayuntamiento
                         </button>
                     </h2>
@@ -182,11 +182,13 @@
                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Nuevo Ayuntamiento</h5>
+                                            <h5 class="modal-title">
+                                                {{ isModalAdd ? "Agregar" : "Actualizar" }} ayuntamiento
+                                            </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form [formGroup]="ayuntamientoForm">
+                                            <form [formGroup]="ayuntamientoForm" (ngSubmit)="submitAyuntamientos()">
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
                                                         <label for="nombreAyuntamiento" class="form-label">Nombre de Ayuntamiento:</label>
@@ -217,7 +219,7 @@
                                                       <span class="form-check-label" [ngClass]="{
                                                           'text-success': distritoLocalForm.get('estatus')?.value === true,
                                                           'text-danger': distritoLocalForm.get('estatus')?.value === false}">
-                                                        {{ distritoLocalForm.get("estatus")?.value ? "Activo" : "Inactivo" }}
+                                                        {{ ayuntamientoForm.get("estatus")?.value ? "Activo" : "Inactivo" }}
                                                       </span>
                                                     </label>
                                                         </div>
@@ -227,10 +229,12 @@
                                                     <label for="extPet" class="form-label">Ext-pet:</label>
                                                     <input type="text" id="extPet" class="form-control" formControlName="extPet">
                                                 </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary" [disabled]="!ayuntamientoForm.valid" data-bs-dismiss="modal">
+                                              {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                                            </button>
+                                                </div>
                                             </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" (click)="enviarAyuntamiento()">Crear nuevo Ayuntamiento</button>
                                         </div>
                                     </div>
                                 </div>
@@ -242,10 +246,10 @@
                             <div class="table-responsive" *ngIf="ayuntamientos.length > 0">
                                 <br>
                                 <div class="input-icon">
-                                    <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
                                     <span class="input-icon-addon">
-                                <i class="ti ti-search"></i>
-                              </span>
+                                    <i class="ti ti-search"></i>
+                                  </span>
                                 </div>
                                 <br>
                                 <div class="card">
@@ -261,7 +265,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-tbody">
-                                            <tr *ngFor="let ayuntamiento of ayuntamientos; let i = index">
+                                            <tr *ngFor="let ayuntamiento of filtrarAyuntamientos()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
                                                 <td>{{ ayuntamiento.nombreAyuntamiento }}</td>
                                                 <td>{{ ayuntamiento.acronimo }}</td>
                                                 <td>{{ ayuntamiento.extPet }}</td>
@@ -276,7 +280,7 @@
                                                 <td>{{ getNombreDistritoLocal(ayuntamiento.distritoLocalId) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-warning btn-icon btn-sm">
+                                                        <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento" (click)="setDataModalUpdateAyuntamiento(ayuntamiento)">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
                                                         <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.ayuntamientoId, ayuntamiento.nombreAyuntamiento)">
@@ -287,6 +291,19 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                                        <div class="items-per-page">
+                                            <label for="itemsPerPage">Elementos por página:</label>
+                                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                            <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                              {{ option }}
+                            </option>
+                          </select>
+                                        </div>
+                                        <div class="pagination-container">
+                                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div *ngIf="ayuntamientos.length === 0">
@@ -315,11 +332,14 @@
                                 <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">Nueva Comunidad</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            <h5 class="modal-title">
+                                                {{ isModalAdd ? "Agregar" : "Actualizar" }} comunidad
+                                            </h5>
+
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
                                         </div>
                                         <div class="modal-body">
-                                            <form [formGroup]="comunidadForm">
+                                            <form [formGroup]="comunidadForm" (ngSubmit)="submitComunidades()">
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
                                                         <label for="nombreComunidad" class="form-label">Nombre de Comunidad:</label>
@@ -351,7 +371,7 @@
                                                     <span class="form-check-label" [ngClass]="{
                                                         'text-success': distritoLocalForm.get('estatus')?.value === true,
                                                         'text-danger': distritoLocalForm.get('estatus')?.value === false}">
-                                                      {{ distritoLocalForm.get("estatus")?.value ? "Activo" : "Inactivo" }}
+                                                      {{ comunidadForm.get("estatus")?.value ? "Activo" : "Inactivo" }}
                                                     </span>
                                                   </label>
                                                         </div>
@@ -361,10 +381,12 @@
                                                     <label for="extPet" class="form-label">Ext-pet:</label>
                                                     <input type="text" id="extPet" class="form-control" formControlName="extPet">
                                                 </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-primary" [disabled]="!comunidadForm.valid" data-bs-dismiss="modal">
+                                            {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                                          </button>
+                                                </div>
                                             </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" (click)="agregarComunidad()">Crear nueva Comunidad</button>
                                         </div>
                                     </div>
                                 </div>
@@ -374,10 +396,10 @@
                             <div class="table-responsive" *ngIf="comunidades.length > 0">
                                 <br>
                                 <div class="input-icon">
-                                    <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
                                     <span class="input-icon-addon">
-                                <i class="ti ti-search"></i>
-                              </span>
+                                  <i class="ti ti-search"></i>
+                                </span>
                                 </div>
                                 <br>
                                 <div class="card">
@@ -408,7 +430,7 @@
                                                 <td>{{ getNombreAyuntamiento(comunidad.ayuntamientoId) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-warning btn-icon btn-sm">
+                                                        <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-comunidad" (click)="setDataModalUpdateComunidad(comunidad)">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
                                                         <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarComunidad(comunidad.comunidadId, comunidad.nombreComunidad)">
@@ -419,6 +441,19 @@
                                             </tr>
                                         </tbody>
                                     </table>
+                                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                                        <div class="items-per-page">
+                                            <label for="itemsPerPage">Elementos por página:</label>
+                                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                          <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                            {{ option }}
+                          </option>
+                        </select>
+                                        </div>
+                                        <div class="pagination-container">
+                                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div *ngIf="comunidades.length === 0">

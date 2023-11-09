@@ -34,4 +34,10 @@ export class AyuntamientoService {
       catchError(this.handleErrorService.handleError)
     );
   }
+
+  editarAyuntamiento(ayuntamiento: Ayuntamiento): Observable<any> {
+    return this.http.put(`${this.apiUrl}/editar_ayuntamiento`, ayuntamiento).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }
