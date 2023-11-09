@@ -18,6 +18,7 @@ export class ConsentimientoService {
   private _refreshLisemail$ = new Subject<Email | null>();
   route = `${environment.apiUrl}/consentimiento`;
   selectedEmails: any;
+  enlaceEdicionUsuario2: string = '';
 
   constructor(
     private http: HttpClient,
@@ -70,8 +71,6 @@ export class ConsentimientoService {
   enviarConsentimientos(email: string, id: number, selectedEmails: string[]) {
     const encodedEmail = encodeURIComponent(email);
     SelectedEmails: selectedEmails
-
-  // Send the request with the request object in the request body
   return this.http.post<Consentimiento>(`${this.route}/obtenercorreos?EmailOrigen=${encodedEmail}&id=${id}`, selectedEmails)
     .pipe(
       catchError((error: HttpErrorResponse) => {
@@ -83,6 +82,16 @@ export class ConsentimientoService {
       })
     );
 }
+getId(): number | null {
+  const Id = localStorage.getItem('Id');
+  return Id ? parseInt(Id, 10) : null;
+}
+getConsentimientoPorId(id: number) {
+  return this.http.get<Consentimiento>(`${this.route}/datos/${id}`).pipe(
+    catchError(this.handleErrorService.handleError)
+  );
+}
+
 }
   
   

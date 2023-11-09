@@ -65,7 +65,11 @@ export class UsuarioService {
         catchError(this.handleErrorService.handleError)
       );
   }
-
+  getPorId(id: number) {
+    return this.http.get<Usuario>(`${this.route}/obtener_usuario/${id}`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
   getUsuariosPorIds(ids: number[]): Observable<Usuario[]> {
     const params = new HttpParams().set('ids', ids.join(','));
     return this.http.get<Usuario[]>(`${this.route}/usuario/obtener_usuario`, { params })

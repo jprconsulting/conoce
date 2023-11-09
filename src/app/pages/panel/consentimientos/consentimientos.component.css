@@ -9,10 +9,10 @@
     padding-bottom: 10px;
 }
 .button{
-  margin-left: 5px;
+  margin: 5px;
 }
 .button2{
-  margin-right: 15px;
+  margin-right: 40px;
 }
 .label1{ 
     padding-left: 60px;
@@ -48,13 +48,28 @@
     margin-top: 180px;
     padding-left: 60px;
   }
-  .button2{
-    margin-right: 15px;
-}
+
 .enviar{
   display: flex;
-justify-content: center; 
-text-align: center;
-margin: 0 auto;
+  justify-content: center; 
+  text-align: center;
+  margin: 0 auto;
   margin-bottom: 20px;
+  border-right-width: 1px;
+  margin-right: 30px;
+}
+.scrollable-container {
+  height: 300px;
+  overflow-y: auto; 
+  border: 1px solid #ccc; 
+}
+.margin{
+  margin-left: 10px;
+}
+.filtro{
+  margin-right: 35px;
+  margin-left: 35px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+
 }
