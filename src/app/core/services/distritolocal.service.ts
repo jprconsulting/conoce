@@ -27,4 +27,17 @@ export class DistritoLocalService {
       catchError(this.handleErrorService.handleError)
     );
   }
+
+  eliminarDistritoLocal(distritoLocalId: number): Observable<any> {
+    const url = `${this.apiUrl}/eliminar_distrito/${distritoLocalId}`;
+    return this.http.delete(url).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
+  editarDistritoLocal(distritoLocal: DistritoLocal): Observable<any> {
+    return this.http.put(`${this.apiUrl}/editar_distrito`, distritoLocal).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }

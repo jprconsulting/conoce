@@ -27,4 +27,11 @@ export class AyuntamientoService {
       catchError(this.handleErrorService.handleError)
     );
   }
+
+  eliminarAyuntamiento(ayuntamientoId: number): Observable<any> {
+    const url = `${this.apiUrl}/eliminar_ayuntamiento/${ayuntamientoId}`;
+    return this.http.delete(url).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }

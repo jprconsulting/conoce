@@ -7,13 +7,13 @@
             <div class="accordion" id="accordion-example">
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-1">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true" (click)="handleChangeAdd()">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-1" aria-expanded="true">
                           Distrito local
                         </button>
                     </h2>
                     <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
                         <div class="accordion-body pt-0">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-distrito-local">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-distrito-local" (click)="handleChangeAdd()">
                               <i class="ti ti-plus me-1"></i>Agregar Distrito local
                             </button>
 
@@ -23,21 +23,27 @@
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title">
-                                                {{ isModalAdd ? "Actualizar" : "Agregar" }} distrito local
+                                                {{ isModalAdd ? "Agregar" : "Actualizar" }} distrito local
                                             </h5>
 
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
                                         </div>
-                                        <div class="modal-body">
-                                            <form [formGroup]="distritoLocalForm">
+                                        <form [formGroup]="distritoLocalForm" (ngSubmit)="submitDistritosLocales()">
+                                            <div class="modal-body">
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
                                                         <label for="nombreDistritoLocal" class="form-label">Nombre de Distrito Local:</label>
                                                         <input type="text" id="nombreDistritoLocal" class="form-control" formControlName="nombreDistritoLocal">
+                                                        <div *ngIf="distritoLocalForm.get('nombreDistritoLocal')?.hasError('required')">
+                                                            El nombre es requerido
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="acronimo" class="form-label">Acrónimo:</label>
                                                         <input type="text" id="acronimo" class="form-control" formControlName="acronimo">
+                                                        <div *ngIf="distritoLocalForm.get('acronimo')?.hasError('required')">
+                                                            El acronimo es requerido
+                                                        </div>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3">
@@ -48,6 +54,11 @@
                                                         <option value="null">Selecciona un estado...</option>
                                                         <option *ngFor="let estadoItem of estados" [value]="estadoItem.estadoId">{{ estadoItem.nombreEstado }}</option>
                                                       </select>
+                                                            <div *ngIf="distritoLocalForm.get('estadoId')?.touched" class="error-message">
+                                                                <div *ngIf="distritoLocalForm.get('estadoId')?.hasError('required')">
+                                                                    El estado es requerido
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
@@ -67,12 +78,17 @@
                                                 <div class="mb-3">
                                                     <label for="extPet" class="form-label">Ext-pet:</label>
                                                     <input type="text" id="extPet" class="form-control" formControlName="extPet">
+                                                    <div *ngIf="distritoLocalForm.get('extPet')?.hasError('required')">
+                                                        La petición externa es requerida
+                                                    </div>
                                                 </div>
-                                            </form>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" (click)="enviarFormulario()"> {{ isModalAdd ? "Actualizar" : "Agregar"}}</button>
-                                        </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="submit" class="btn btn-primary" [disabled]="!distritoLocalForm.valid">
+                                            {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                                          </button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +97,7 @@
                             <div class="table-responsive" *ngIf="distritosLocales.length > 0">
                                 <br>
                                 <div class="input-icon">
-                                    <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
                                     <span class="input-icon-addon">
                                       <i class="ti ti-search"></i>
                                     </span>
@@ -100,7 +116,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-tbody">
-                                            <tr *ngFor="let distritoLocal of distritosLocales; let i = index">
+                                            <tr *ngFor="let distritoLocal of filtrarDistritoslocales()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
                                                 <td>{{ distritoLocal.nombreDistritoLocal }}</td>
                                                 <td>{{ distritoLocal.acronimo }}</td>
                                                 <td>{{ distritoLocal.extPet }}</td>
@@ -115,10 +131,10 @@
                                                 <td>{{ getNombreEstado(distritoLocal.estadoId) }}</td>
                                                 <td>
                                                     <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-warning btn-icon btn-sm">
+                                                        <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-distrito-local" (click)="setDataModalUpdate(distritoLocal)">
                                                   <i class="ti ti-edit"></i>
                                                 </button>
-                                                        <button class="btn btn-danger btn-icon btn-sm">
+                                                        <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarDistritoLocal(distritoLocal.distritoLocalId, distritoLocal.nombreDistritoLocal)">
                                                   <i class="ti ti-trash"></i>
                                                 </button>
                                                     </div>
@@ -126,6 +142,20 @@
                                             </tr>
                                         </tbody>
                                     </table>
+
+                                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                                        <div class="items-per-page">
+                                            <label for="itemsPerPage">Elementos por página:</label>
+                                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                              <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                                {{ option }}
+                              </option>
+                            </select>
+                                        </div>
+                                        <div class="pagination-container">
+                                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                             <div *ngIf="distritosLocales.length === 0">
@@ -249,7 +279,7 @@
                                                         <button class="btn btn-warning btn-icon btn-sm">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
-                                                        <button class="btn btn-danger btn-icon btn-sm">
+                                                        <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.ayuntamientoId, ayuntamiento.nombreAyuntamiento)">
                                                       <i class="ti ti-trash"></i>
                                                     </button>
                                                     </div>
@@ -381,7 +411,7 @@
                                                         <button class="btn btn-warning btn-icon btn-sm">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
-                                                        <button class="btn btn-danger btn-icon btn-sm">
+                                                        <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarComunidad(comunidad.comunidadId, comunidad.nombreComunidad)">
                                                       <i class="ti ti-trash"></i>
                                                     </button>
                                                     </div>
