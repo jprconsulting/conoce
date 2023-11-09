@@ -13,8 +13,8 @@
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
-            <i class="ti ti-plus me-1"></i>Agregar Usuario
-          </button>
+                      <i class="ti ti-plus me-1"></i>Agregar Candidato
+                    </button>
                     <div class="ms-auto text-muted">
                         <div class="input-icon">
                             <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
@@ -31,27 +31,37 @@
                     <thead>
                         <tr>
                             <th>Nombre del (la) candidato (a)</th>
+                            <th>Apellido materno</th>
+                            <th>Apellido paterno</th>
                             <th>Cargo</th>
-                            <th>Candidatura</th>
+                            <th>Agrupación política</th>
+                            <th>Respuestas de formularios</th>
                             <th class="text-center" style="width: 7%">Acciones</th>
                         </tr>
                     </thead>
                     <tbody class="table-tbody">
-                        <tr *ngFor="let candidato of candidato">
-                            <td>{{ candidato.nombrePropietario }}</td>
-                            <td>{{ candidato.cargoId }}</td>
-                            <td>{{ candidato.candidaturaId }}</td>
-                            <td>
+                        <tr *ngFor="let candidato of candidatos" class="align-items-center">
+                            <td class="justify-content-center">{{ candidato.nombre }}</td>
+                            <td class="justify-content-center">{{ candidato.apellidoPaterno }}</td>
+                            <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
+                            <td class="justify-content-center">{{ getNombreCargo(candidato.cargoId) }}</td>
+                            <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
+                            <td class="justify-content-center">
+                                <div class="d-flex justify-content-center">
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="abrirModal(candidato)">
+                                      <i class="ti ti-eye"></i>
+                                  </button>
+                                </div>
+                            </td>
+
+                            <td class="justify-content-center">
                                 <div class="d-flex justify-content-between">
                                     <button class="btn btn-warning btn-icon btn-sm">
-                    <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
-                  </button>
+                                      <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
+                                  </button>
                                     <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px">
-                    <i class="ti ti-eraser"></i>
-                  </button>
-                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="abrirModal(candidato)">
-                    <i class="ti ti-eye"></i>
-                  </button>
+                                      <i class="ti ti-eraser"></i>
+                                  </button>
                                 </div>
                             </td>
                         </tr>
@@ -68,7 +78,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Usuario
+                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Candidato
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
             </div>

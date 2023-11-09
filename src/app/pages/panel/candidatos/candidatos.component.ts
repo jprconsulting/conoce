@@ -117,6 +117,15 @@ export class CandidatosComponent implements OnInit {
     );
 }
 
+getNombreCargo(cargoId: number): string {
+  const cargo = this.cargos.find((e) => e.cargoId === cargoId);
+  return cargo ? cargo.nombreCargo : 'Desconocido';
+}
+
+getNombreAgrupacion(candidaturaId: number): string {
+  const candidaturas = this.candidaturas.find((e) => e.tipoCandidaturaId === candidaturaId);
+  return candidaturas ? candidaturas.nombreTipoCandidatura : 'Desconocido';
+}
   obtenerCargos() {
     this.estadoService.obtenerCargos().subscribe(
       (cargos: Cargos[]) => {
@@ -256,7 +265,7 @@ export class CandidatosComponent implements OnInit {
 
   filtrarResultados() {
     return this.candidato.filter(candidato =>
-      candidato.nombrePropietario.toLowerCase().includes(this.filtro.toLowerCase())
+      candidato.nombre.toLowerCase().includes(this.filtro.toLowerCase())
     );
   }
 
