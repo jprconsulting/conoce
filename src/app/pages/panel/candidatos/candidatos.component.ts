@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormularioService } from 'src/app/core/services/formulario.service';
 import { ConfigGoogleForm } from 'src/app/models/googleForm';
 import { RespuestasGoogleService } from 'src/app/core/services/respuestasGoogle.service';
+import { RespuestaGoogleFormulario } from 'src/app/models/respuesta-google-formulario';
 
 @Component({
   selector: 'app-candidatos',
@@ -26,6 +27,8 @@ export class CandidatosComponent implements OnInit {
 
   @ViewChild('closebutton') closebutton!: ElementRef;
 
+  respuestasGoogleFormulario: RespuestaGoogleFormulario[] = [];
+  candidatoId: number = 1;
   opcionSeleccionada: string = 'opcion1'; // Valor predeterminado del primer dropdown
   opcionSeleccionada2: string = ''; // Valor predeterminado del segundo dropdown
   mostrarSegundoDropdown: boolean = false; // Variable para mostrar/ocultar el segundo dropdown
@@ -62,7 +65,7 @@ export class CandidatosComponent implements OnInit {
     private partidoService: CandidaturasService,
     private http: HttpClient,
     private formularioService: FormularioService,
-    private respuestasGoogleService : RespuestasGoogleService,
+    private respuestasGoogleFormularioService : RespuestasGoogleService,
   ) {
     this.crearFormularioCandidato();
     //this.subscribeRolID();
@@ -324,7 +327,7 @@ enviarGoogleFormIds() {
   console.log('Google Form Ids a enviar:', this.googleFormIds);
 
 
-  this.respuestasGoogleService.enviarGoogleFormIds(this.googleFormIds).subscribe(
+  this.respuestasGoogleFormularioService.enviarGoogleFormIds(this.googleFormIds).subscribe(
     (response) => {
     },
     (error) => {
@@ -332,4 +335,16 @@ enviarGoogleFormIds() {
     }
   );
 }
+
+obtenerRespuestas(candidatoId: number) {
+  this.respuestasGoogleFormularioService.obtenerRespuestasPorCandidatoId(candidatoId).subscribe(
+    (respuestas) => {
+      console.log('Respuestas:', respuestas);
+    },
+    (error) => {
+      console.error('Error al obtener respuestas:', error);
+    }
+  );
 }
+}
+

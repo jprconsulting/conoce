@@ -35,7 +35,6 @@
                             <th>Apellido paterno</th>
                             <th>Cargo</th>
                             <th>Agrupación política</th>
-                            <th>Respuestas de formularios</th>
                             <th class="text-center" style="width: 7%">Acciones</th>
                         </tr>
                     </thead>
@@ -47,15 +46,10 @@
                             <td class="justify-content-center">{{ getNombreCargo(candidato.cargoId) }}</td>
                             <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
                             <td class="justify-content-center">
-                                <div class="d-flex justify-content-center">
-                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="abrirModal(candidato)">
-                                      <i class="ti ti-eye"></i>
-                                  </button>
-                                </div>
-                            </td>
-
-                            <td class="justify-content-center">
                                 <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#myModaledit" (click)="obtenerRespuestas(candidatoId)" style="margin-left: 5px; margin-right: 5px">
+                                    <i class="ti ti-eye"></i>
+                                </button>
                                     <button class="btn btn-warning btn-icon btn-sm">
                                       <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
                                   </button>
