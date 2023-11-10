@@ -194,20 +194,31 @@ export class DemarcacionesComponent implements OnInit {
 
   agregarComunidad(): void {
     if (this.comunidadForm.valid) {
-      const comunidadData = this.comunidadForm.value;
+      const nuevaComunidadData = this.comunidadForm.value;
 
-      this.comunidadService.agregarComunidad(comunidadData).subscribe({
-        next: (nuevaComunidad) => {
-          this.mensajeService.mensajeExito('Comunidad agregada con éxito');
-          this.resetForm();
-        },
-        error: (error) => {
-          this.mensajeService.mensajeError('Error al agregar comunidad');
-          console.error(error);
-        }
-      });
+      const nombreExistente = this.comunidades.some(c => c.nombreComunidad === nuevaComunidadData.nombreComunidad);
+      const acronimoExistente = this.comunidades.some(c => c.acronimo === nuevaComunidadData.acronimo);
+
+      if (nombreExistente) {
+        this.mensajeService.mensajeError('Ya existe una Comunidad con este nombre.');
+      } else if (acronimoExistente) {
+        this.mensajeService.mensajeError('Ya existe una Comunidad con este acrónimo.');
+      } else {
+        this.comunidadService.agregarComunidad(nuevaComunidadData).subscribe({
+          next: (nuevaComunidad) => {
+            this.mensajeService.mensajeExito('Comunidad agregada con éxito');
+            this.resetForm();
+            this.comunidades.push(nuevaComunidad);
+          },
+          error: (error) => {
+            this.mensajeService.mensajeError('Error al agregar comunidad');
+            console.error(error);
+          }
+        });
+      }
     }
   }
+
 
   resetForm() {
     this.closebutton.nativeElement.click();
@@ -257,11 +268,18 @@ export class DemarcacionesComponent implements OnInit {
           next: () => {
             this.mensajeService.mensajeExito('Distrito Local eliminado correctamente');
           },
-          error: (error) => this.mensajeService.mensajeError(error)
+          error: (error) => {
+            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el Distrito Local porque tiene Ayuntamientos registrados.') {
+              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene Ayuntamientos registrados.');
+            } else {
+              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene Ayuntamientos registrados.');
+            }
+          }
         });
       }
     );
   }
+
 
   eliminarAyuntamiento(ayuntamientoId: number, nombreAyuntamiento: string) {
     this.mensajeService.mensajeAdvertencia(
@@ -271,8 +289,13 @@ export class DemarcacionesComponent implements OnInit {
           next: () => {
             this.mensajeService.mensajeExito('Ayuntamiento eliminado correctamente');
           },
-          error: (error) => this.mensajeService.mensajeError(error)
-        });
+          error: (error) => {
+            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el Ayuntamiento porque tiene Comunidades registradas.') {
+              this.mensajeService.mensajeError('No se puede eliminar el Ayuntamiento porque tiene Comunidades registradas');
+            } else {
+              this.mensajeService.mensajeError('No se puede eliminar el Ayuntamiento porque tiene Comunidades registradas');
+            }
+          }        });
       }
     );
   }

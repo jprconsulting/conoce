@@ -324,7 +324,7 @@
                     </h2>
                     <div id="collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
                         <div class="accordion-body pt-0">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-comunidad">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-comunidad" (click)="handleChangeAdd()">
                               <i class="ti ti-plus me-1"></i>Agregar Comunidad
                             </button>
                             <!-- MODAL AGREGAR COMUNIDAD -->
@@ -415,7 +415,7 @@
                                             </tr>
                                         </thead>
                                         <tbody class="table-tbody">
-                                            <tr *ngFor="let comunidad of comunidades; let i = index">
+                                            <tr *ngFor="let comunidad of filtrarComunidades()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
                                                 <td>{{ comunidad.nombreComunidad }}</td>
                                                 <td>{{ comunidad.acronimo }}</td>
                                                 <td>{{ comunidad.extPet }}</td>
