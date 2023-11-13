@@ -7,8 +7,13 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { ElementRef, ViewChild } from '@angular/core';
 import { Email } from 'src/app/models/Email';
 import { EmailService } from 'src/app/core/services/email.servicio';
-import { UsuarioService } from 'src/app/core/services/usuario.service';
-import { Usuario } from 'src/app/models/usuario';
+import { CandidatoService } from 'src/app/core/services/candidato.service';
+import { Candidato } from 'src/app/models/candidato';
+import { HttpClient } from '@angular/common/http';
+import { Cargos } from 'src/app/models/cargos';
+import { Candidaturas } from 'src/app/models/candidaturas';
+import { EstadoService } from 'src/app/core/services/estados.service';
+import { Estados } from 'src/app/models/estados';
 @Component({
   selector: 'app-consentimientos',
   templateUrl: './consentimientos.component.html',
@@ -19,24 +24,40 @@ export class ConsentimientosComponent  {
   ConsentimientoForm!: FormGroup;
   isModalAdd =  false;
   isLoadingConsentimiento = LoadingStates.neutro;
+  isLoadingcandidatoService = LoadingStates.neutro;
   Consentimientos: Consentimiento[] = [];
   consentimiento!: Consentimiento;
   ConsentimientosFilter: Consentimiento[] = [];
   emails: Email[] = [];
   formData: any;
   email!: Email;
-  usuarios: Usuario[] = [];
+  Candidatos: Candidato[] = [];
+  candidaturas: Candidaturas[] = [];
+  candidatos!: any[];
   isLoadingEmails = LoadingStates.neutro;
   isLoadingUsers = LoadingStates.neutro;
+  isLoadingCandidato = LoadingStates.neutro;
   selectedEmails: string[] = [];
+  filterText: string = ''; 
+  filterText2: string = ''; 
+  filterText3: string = '';
+  filteredCandidates: any[] = []; 
+  candidatoFilter: Candidato[] = [];
+  estados: Estados[] = [];
+  cargos: Cargos[] = [];
   @ViewChild('cuerpocorreo', { static: false }) cuerpoCorreoElement?: ElementRef;
-  
+
   ngOnInit(): void {
     this.ConsentimientoService.refreshLisConsentimiento.subscribe(() => this.getConsentimientos());
     this.getConsentimientos();
+    this.getListadocandidato();
     this.getEmails();
-    this.getListadoUsuarios();
+    this.obtenerCargos();
+    this.obtenerEstados();
 
+    this.candidatoService.getCandidatos().subscribe(data => {
+      this.candidatos = data; // Asigna los datos a la variable
+    });
   }
   getCurrentDate(): string {
     const today = new Date();
@@ -50,7 +71,9 @@ export class ConsentimientosComponent  {
     private ConsentimientoService: ConsentimientoService,
     private mensajeService: MensajeService,
     private EmailService: EmailService,
-    private usuarioService: UsuarioService
+    private candidatoService: CandidatoService,
+    private http: HttpClient,
+    private estadoService: EstadoService,
     
     ){
       this.creaFormulario();
@@ -60,7 +83,7 @@ export class ConsentimientosComponent  {
   }
   creaFormulario1(){
     this.ConsentimientoForm2 = this.formBuilder.group({
-      Emailuser: ['', [Validators.required]]
+      Emailuser: ['', [Validators.required]],
     })
   }
   creaFormulario(){
@@ -71,6 +94,7 @@ export class ConsentimientosComponent  {
       email: ['', [Validators.required]],
       Estado: ['', [Validators.required]],
       Fechadenvio: ['', [Validators.required]],
+      fechaaceptacion: [null]
     })
   }
   submitconsentimiento(){
@@ -126,22 +150,13 @@ prepararModalAgregar() {
   // También puedes restablecer el formulario u otros valores si es necesario
   this.ResetForm();
 }
-getConsentimientos() {
-  this.isLoadingConsentimiento = LoadingStates.trueLoading;
-  this.ConsentimientoService.getConsentimiento().subscribe({
-    next: (ConsentimientoFromApi) => {
-      this.Consentimientos = ConsentimientoFromApi;
-      this.ConsentimientosFilter = this.Consentimientos;
-      this.isLoadingConsentimiento = LoadingStates.falseLoading;
-      console.log(this.Consentimientos);
-    }, error: () => {
-      this.isLoadingConsentimiento = LoadingStates.errorLoading;
-    }
-  });
-}
+
 ResetForm() {
   this.ConsentimientoForm.reset();
   this.ConsentimientoForm2.reset();
+  this.filterText = ''; 
+  this.filterText2 = ''; 
+  this.filterText3 = '';
   const editorElement = document.getElementById('cuerpocorreoEditor');
   if (editorElement) {
     editorElement.innerHTML = '';
@@ -171,10 +186,9 @@ getEmails() {
   this.EmailService.getEmail().subscribe({
     next: (emailFromAPI) => {
       this.emails = emailFromAPI;
-      console.log(this.emails);
     },
     error: (error) => {
-      console.log('error al obtener los roles', error);
+      console.log('error al obtener', error);
     }
   });
 }
@@ -205,12 +219,10 @@ deleteConsentimiento(id: number, Consentimiento: string) {
   );
 }
 enviarConsentimientos(email: string, id: number, selectedEmails: string[]) {
-  
-  
-  const email2 = this.formData.email;
+    const email2 = this.formData.email;
     const id2 = this.formData.id;
-const selectedEmails2 = this.selectedEmails;
-this.ConsentimientoService.enviarConsentimientos(email2, id2, selectedEmails2).subscribe({
+    const selectedEmails2 = this.selectedEmails;
+  this.ConsentimientoService.enviarConsentimientos(email2, id2, selectedEmails2).subscribe({
   next: () => {
     this.mensajeService.mensajeExito('Email enviado');
   },
@@ -218,7 +230,7 @@ this.ConsentimientoService.enviarConsentimientos(email2, id2, selectedEmails2).s
     this.isLoadingUsers = LoadingStates.errorLoading;
   }
 });
-
+this.mensajeService.mensajeExito('Email enviado');
 }
 
 
@@ -244,28 +256,46 @@ actualizarConsentimiento() {
       next: () => {
         this.mensajeService.mensajeExito("Actualizado con éxito");
         this.ResetForm();
-        console.log(this.consentimiento);
         this.getConsentimientos();
       },
       error: (error) => {
         this.mensajeService.mensajeError("Error al actualizar");
         console.error(error);
-        console.log(this.consentimiento);
       }
     });
   }
 }
-getListadoUsuarios() {
-  this.isLoadingUsers = LoadingStates.trueLoading;
-  this.usuarioService.getUsuarios().subscribe({
-    next: (usuariosFromApi) => {
-      this.usuarios = usuariosFromApi;
-      this.isLoadingUsers = LoadingStates.falseLoading;
+getConsentimientos() {
+  this.isLoadingConsentimiento = LoadingStates.trueLoading;
+  this.ConsentimientoService.getConsentimiento().subscribe({
+    next: (ConsentimientoFromApi) => {
+      this.Consentimientos = ConsentimientoFromApi;
+      this.ConsentimientosFilter = this.Consentimientos;
+      this.isLoadingConsentimiento = LoadingStates.falseLoading;
     }, error: () => {
-      this.isLoadingUsers = LoadingStates.errorLoading;
+      this.isLoadingConsentimiento = LoadingStates.errorLoading;
     }
   });
 }
+getListadocandidato() {
+  this.isLoadingcandidatoService = LoadingStates.trueLoading;
+  this.candidatoService.getCandidatos().subscribe(
+    (candidatosFromApi) => {
+        this.Candidatos = candidatosFromApi;
+        this.candidatoFilter = this.Candidatos;
+        console.log('Candidatos cargados:', this.Candidatos);
+        this.isLoadingcandidatoService = LoadingStates.falseLoading;
+    },
+    (error) => {
+        console.log('Error al cargar candidatos:', error);
+        this.isLoadingcandidatoService = LoadingStates.errorLoading;
+    }
+  );
+}
+
+
+
+
 setDataModalUpdate(consentimiento: Consentimiento) {
   const cuerpocorreoEditor = document.getElementById('cuerpocorreoEditor');
   this.isModalAdd = false;
@@ -291,5 +321,65 @@ setDataModalUpdate(consentimiento: Consentimiento) {
   console.log(this.ConsentimientoForm.value);
 }
 
+filterCandidates() {
+  this.filteredCandidates = this.candidatos.filter((candidato) => {
+    return candidato.candidato.nombrePropietario.toLowerCase().includes(this.filterText.toLowerCase());
+  });
+
+  this.applyFilters2And3();
+}
+
+filterCandidates2() {
+  this.applyFilters2And3();
+}
+
+filterCandidates3() {
+  this.applyFilters2And3();
+}
+
+applyFilters2And3() {
+  if (this.filterText2 === 'null' && this.filterText3 === 'null') {
+    // No se ha seleccionado ni estado ni cargo, mostrar todos los candidatos
+    this.filteredCandidates = this.candidatos;
+  } else {
+    // Aplicar filtro de estado si se ha seleccionado
+    if (this.filterText2 !== 'null') {
+      this.filteredCandidates = this.filteredCandidates.filter((candidato) => {
+        return candidato.estado.nombreEstado.toLowerCase() === this.filterText2.toLowerCase();
+      });
+    }
+
+    // Aplicar filtro de cargo si se ha seleccionado
+    if (this.filterText3 !== 'null') {
+      this.filteredCandidates = this.filteredCandidates.filter((candidato) => {
+        return candidato.cargo.nombreCargo.toLowerCase() === this.filterText3.toLowerCase();
+      });
+    }
+  }
+}
+
+
+obtenerCargos() {
+  this.estadoService.obtenerCargos().subscribe(
+    (cargos: Cargos[]) => {
+      this.cargos = cargos;
+      console.log('Cargos recibidos:', cargos);
+    },
+    (error) => {
+      console.error('Error al obtener cargos:', error);
+    }
+  );
+}
+obtenerEstados() {
+  this.estadoService.obtenerEstados().subscribe(
+    (estados: Estados[]) => {
+      this.estados = estados;
+      console.log('Cargos recibidos:', estados);
+    },
+    (error) => {
+      console.error('Error al obtener estados:', error);
+    }
+  );
+}
 
 }

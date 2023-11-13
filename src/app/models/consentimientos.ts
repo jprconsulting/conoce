@@ -4,5 +4,6 @@ export interface Consentimiento {
     email: string;
     estado: boolean;
     fechadenvio: Date;
+    fechaaceptacion: Date;
     cuerpocorreo: string;
 }

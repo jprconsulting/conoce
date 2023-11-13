@@ -27,4 +27,17 @@ export class ComunidadService {
       catchError(this.handleErrorService.handleError)
     );
   }
+
+  eliminarComunidad(comunidadId: number): Observable<any> {
+    const url = `${this.apiUrl}/eliminar_comunidad/${comunidadId}`;
+    return this.http.delete(url).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
+  editarComunidad(comunidad: Comunidad): Observable<any> {
+    return this.http.put(`${this.apiUrl}/editar_comunidad`, comunidad).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }

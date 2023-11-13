@@ -11,7 +11,6 @@ import { ResizeModalDirective } from 'src/app/ResizeModalDirective';
 @NgModule({
   declarations: [
     MisCuestionariosComponent,
-    ResizeModalDirective
   ],
   imports: [
     CommonModule,
