@@ -36,6 +36,7 @@ export class SecurityService {
         localStorage.setItem('token', this.dataObject.token);
         localStorage.setItem('usuarioId', this.dataObject.usuarioId.toString());
         localStorage.setItem('formulariosAsignados', JSON.stringify(this.formulariosAsignados));
+        localStorage.setItem('nombre', this.dataObject.nombre);
       }),
       catchError(this.handleErrorService.handleError)
     );
@@ -46,6 +47,8 @@ export class SecurityService {
     localStorage.removeItem('token');
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('formulariosAsignados');
+    localStorage.removeItem('nombre');
+
   }
 
   hasClaim(cliamType: any, claimValue?: any) {
@@ -100,6 +103,9 @@ export class SecurityService {
   getUsuarioId(): number | null {
     const usuarioId = localStorage.getItem('usuarioId');
     return usuarioId ? parseInt(usuarioId, 10) : null;
+  }
+    getNombre(): string | null {
+    return localStorage.getItem ('nombre')
   }
 
   getFormulariosAsignados(): FormulariosAsignados[] | null {

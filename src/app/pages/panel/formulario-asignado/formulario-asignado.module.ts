@@ -11,7 +11,7 @@ import { ResizeModalDirective } from 'src/app/ResizeModalDirective';
 @NgModule({
   declarations: [
     FormularioAsignadoComponent,
-    ResizeModalDirective
+    
   ],
   imports: [
     CommonModule,
