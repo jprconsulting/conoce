@@ -139,7 +139,7 @@
                 </thead>
                 <tbody class="table-tbody">
                     <tr></tr>
-                    <tr *ngFor="let Consentimiento of Consentimientos; let i = index">
+                    <tr *ngFor="let Consentimiento of Consentimientos | paginate: { itemsPerPage: itemsPerPageTable1, currentPage: currentPageTable1 };let i = index">
                         <td>{{ Consentimiento.id }}</td>
                         <td>{{ Consentimiento.nombre }}</td>
                         <td>{{ Consentimiento.email }}</td>
@@ -148,7 +148,7 @@
                         <td>{{Consentimiento.estado}}</td>
                         <td>                   
                             <div class="d-flex justify-content-between">
-                                <button class="btn btn-success btn-icon btn-sm button" data-bs-toggle="modal" (click)="setDataModalUpdate(Consentimiento)" data-bs-target="#modal-report2">
+                                <button class="btn btn-success btn-icon btn-sm button" data-bs-toggle="modal" (click)="Optener(Consentimiento);setDataModalUpdate(Consentimiento)" data-bs-target="#modal-report2">
                                     <i class="ti ti-user-exclamation"></i>
                                 </button>
                                 
@@ -170,14 +170,14 @@
                                                 </div>
                                                 <div class="row">
                                                 <div class="mb-5" >        
-                                                    <label class="filtro">Busqueda por nombre o apellido*:</label>                                            
+                                                    <label class="filtro">Busqueda por nombre*:</label>                                            
                                                     <input type="text" class="form-control filtro" [(ngModel)]="filterText" (ngModelChange)="filterCandidates()" placeholder="Filtrar por nombre o apellido" style="width: 90%;"> 
                                                     <label class="filtro">Selecciona un Cargo*:</label>
-                                                      <select class="form-select filtro" [(ngModel)]="filterText3" (ngModelChange)="filterCandidates3()" style="width: 90%;">
+                                                      <select class="form-select filtro" [(ngModel)]="filterText3" style="width: 90%;">
                                                         <option *ngFor="let cargoItem of cargos" [value]="cargoItem.nombreCargo">{{ cargoItem.nombreCargo }}</option>
                                                       </select>
                                                       <label class="filtro">Selecciona un estado*:</label>
-                                                      <select class="form-select filtro" [(ngModel)]="filterText2" (ngModelChange)="filterCandidates2()" style="width: 90%;">
+                                                      <select class="form-select filtro" [(ngModel)]="filterText2" style="width: 90%;">
                                                         <option *ngFor="let estado of estados" [value]="estado.nombreEstado">{{ estado.nombreEstado }}</option>
                                                       </select>
                                                 </div> 
@@ -192,8 +192,8 @@
                                                                   <tr>
                                                                     <th>#</th>
                                                                     <th>Nombre</th>
-                                                                    <th>Cargo</th>
-                                                                    <th>Estado</th>
+                                                                    <th>Apat</th>
+                                                                    <th>Amat</th>
                                                                   </tr>
                                                                 </thead>
                                                                 <tbody>
@@ -203,8 +203,9 @@
                                                                             type="checkbox"
                                                                             class="form-check-input margin"
                                                                             formControlName="Emailuser"
-                                                                            [value]="candidato.candidato.email"
-                                                                            (change)="toggleSelection(candidato.candidato.email)"
+                                                                            [value]="candidato.email"
+                                                                            (change)="toggleSelection(candidato.email)"
+                                                                            (click)="toggleSelection2(candidato)"
                                                                           />
                                                                           <div *ngIf="ConsentimientoForm2.get('Emailuser')?.touched"class="error-message">
                                                                             <div *ngIf="ConsentimientoForm2.get('Emailuser')?.hasError('required')" class="text-danger">
@@ -212,9 +213,9 @@
                                                                             </div>
                                                                         </div>
                                                                         </td>
-                                                                        <td>{{ candidato.candidato.nombrePropietario }}</td>
-                                                                        <td>{{ candidato.cargo.nombreCargo }}</td>
-                                                                        <td>{{ candidato.estado.nombreEstado}}</td>
+                                                                        <td>{{ candidato.nombre }}</td>
+                                                                        <td>{{ candidato.apellidoPaterno }}</td>
+                                                                        <td>{{ candidato.apellidoMaterno}}</td>
                                                                       </tr>
                                                                 </tbody>
                                                               </table>
@@ -236,5 +237,60 @@
                     </tr>
                 </tbody>
             </table>
+            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                <div class="items-per-page">
+                    <label for="itemsPerPageTable1">Elementos por tabla:</label>
+                    <select id="itemsPerPageTable1" [(ngModel)]="itemsPerPageTable1" style="margin-left: 5px">
+                        <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                            {{ option }}
+                        </option>
+                    </select>
+                </div>
+                <div class="pagination-container">
+                    <pagination-controls (pageChange)="currentPageTable1 = $event"></pagination-controls>
+                </div>
+            </div>
         </div>
     </ng-container>
+<br>
+<br>
+<br>
+    <table class="table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Consentimiento</th>
+            <th>Fecha de envio</th>
+            <th>Fecha de aceptacion</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let Aceptacion of Aceptacion  | paginate: { itemsPerPage: itemsPerPageTable2, currentPage: currentPageTable2 }">
+                <td>{{ Aceptacion.id }}</td>
+                <td>{{ Aceptacion.nombre }}</td>
+                <td>{{ Aceptacion.apat }}</td>
+                <td>{{ Aceptacion.amat }}</td>
+                <td>{{ Aceptacion.nombreC }}</td>
+                <td>{{ Aceptacion.fechadenvio | date:'yyyy-MM-dd'}}</td>
+                <td>{{ Aceptacion.fechaaceptacion | date:'yyyy-MM-dd'}}</td>
+                
+              </tr>
+        </tbody>
+      </table>
+      <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+        <div class="items-per-page">
+            <label for="itemsPerPageTable2">Elementos por tabla:</label>
+            <select id="itemsPerPageTable2" [(ngModel)]="itemsPerPageTable2" style="margin-left: 5px">
+                <option *ngFor="let option of itemsPerPageOptions2" [value]="option">
+                    {{ option }}
+                </option>
+            </select>
+        </div>
+        <div class="pagination-container">
+            <pagination-controls (pageChange)="currentPageTable2 = $event"></pagination-controls>
+        </div>
+    </div>
+    

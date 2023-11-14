@@ -14,6 +14,8 @@ import { Cargos } from 'src/app/models/cargos';
 import { Candidaturas } from 'src/app/models/candidaturas';
 import { EstadoService } from 'src/app/core/services/estados.service';
 import { Estados } from 'src/app/models/estados';
+import { AceptacionService } from 'src/app/core/services/aceptacion.service';
+import { Aceptacion } from 'src/app/models/aceptacion';
 @Component({
   selector: 'app-consentimientos',
   templateUrl: './consentimientos.component.html',
@@ -24,10 +26,12 @@ export class ConsentimientosComponent  {
   ConsentimientoForm!: FormGroup;
   isModalAdd =  false;
   isLoadingConsentimiento = LoadingStates.neutro;
+  isLoadingAceptacion = LoadingStates.neutro;
   isLoadingcandidatoService = LoadingStates.neutro;
   Consentimientos: Consentimiento[] = [];
   consentimiento!: Consentimiento;
   ConsentimientosFilter: Consentimiento[] = [];
+  AceptacionFilter: Aceptacion[] = [];
   emails: Email[] = [];
   formData: any;
   email!: Email;
@@ -45,6 +49,15 @@ export class ConsentimientosComponent  {
   candidatoFilter: Candidato[] = [];
   estados: Estados[] = [];
   cargos: Cargos[] = [];
+  Aceptacion: Aceptacion[] = [];
+  itemsPerPageTable1: number = 5;
+  currentPageTable1: number = 1;
+  itemsPerPageOptions: number[] = [5, 10, 15];
+  itemsPerPageOptions2: number[] = [5, 10, 15];
+  itemsPerPageTable2: number = 10;
+  currentPageTable2: number = 1;
+
+  
   @ViewChild('cuerpocorreo', { static: false }) cuerpoCorreoElement?: ElementRef;
 
   ngOnInit(): void {
@@ -53,7 +66,9 @@ export class ConsentimientosComponent  {
     this.getListadocandidato();
     this.getEmails();
     this.obtenerCargos();
+    this.aceptacionService.refreshLisAceptacion.subscribe(() => this.getAceptacion());
     this.obtenerEstados();
+    this.getAceptacion();
 
     this.candidatoService.getCandidatos().subscribe(data => {
       this.candidatos = data; // Asigna los datos a la variable
@@ -74,12 +89,14 @@ export class ConsentimientosComponent  {
     private candidatoService: CandidatoService,
     private http: HttpClient,
     private estadoService: EstadoService,
+    private aceptacionService: AceptacionService
     
     ){
       this.creaFormulario();
       this.ConsentimientoService.refreshLisConsentimiento.subscribe(() => this.getConsentimientos());
       this.getConsentimientos();
       this.creaFormulario1();
+      this.getAceptacion();
   }
   creaFormulario1(){
     this.ConsentimientoForm2 = this.formBuilder.group({
@@ -277,6 +294,20 @@ getConsentimientos() {
     }
   });
 }
+getAceptacion() {
+  this.isLoadingAceptacion = LoadingStates.trueLoading;
+  this.aceptacionService.getAceptacion().subscribe({
+    next: (AceptacionFromApi) => {
+      this.Aceptacion = AceptacionFromApi;
+      this.AceptacionFilter = this.Aceptacion;
+      this.isLoadingAceptacion = LoadingStates.falseLoading;
+      console.log('aaa',this.Aceptacion);
+      
+    }, error: () => {
+      this.isLoadingAceptacion = LoadingStates.errorLoading;
+    }
+  });
+}
 getListadocandidato() {
   this.isLoadingcandidatoService = LoadingStates.trueLoading;
   this.candidatoService.getCandidatos().subscribe(
@@ -323,40 +354,40 @@ setDataModalUpdate(consentimiento: Consentimiento) {
 
 filterCandidates() {
   this.filteredCandidates = this.candidatos.filter((candidato) => {
-    return candidato.candidato.nombrePropietario.toLowerCase().includes(this.filterText.toLowerCase());
+   return candidato.nombre.toLowerCase().includes(this.filterText.toLowerCase());
   });
-
-  this.applyFilters2And3();
 }
+//   this.applyFilters2And3();
+// }
 
-filterCandidates2() {
-  this.applyFilters2And3();
-}
+// filterCandidates2() {
+//   this.applyFilters2And3();
+// }
 
-filterCandidates3() {
-  this.applyFilters2And3();
-}
+// filterCandidates3() {
+//   this.applyFilters2And3();
+// }
 
-applyFilters2And3() {
-  if (this.filterText2 === 'null' && this.filterText3 === 'null') {
-    // No se ha seleccionado ni estado ni cargo, mostrar todos los candidatos
-    this.filteredCandidates = this.candidatos;
-  } else {
-    // Aplicar filtro de estado si se ha seleccionado
-    if (this.filterText2 !== 'null') {
-      this.filteredCandidates = this.filteredCandidates.filter((candidato) => {
-        return candidato.estado.nombreEstado.toLowerCase() === this.filterText2.toLowerCase();
-      });
-    }
+// applyFilters2And3() {
+//   if (this.filterText2 === 'null' && this.filterText3 === 'null') {
+//     // No se ha seleccionado ni estado ni cargo, mostrar todos los candidatos
+//     this.filteredCandidates = this.candidatos;
+//   } else {
+//     // Aplicar filtro de estado si se ha seleccionado
+//     if (this.filterText2 !== 'null') {
+//       this.filteredCandidates = this.filteredCandidates.filter((candidato) => {
+//         return candidato.estado.nombreEstado.toLowerCase() === this.filterText2.toLowerCase();
+//       });
+//     }
 
-    // Aplicar filtro de cargo si se ha seleccionado
-    if (this.filterText3 !== 'null') {
-      this.filteredCandidates = this.filteredCandidates.filter((candidato) => {
-        return candidato.cargo.nombreCargo.toLowerCase() === this.filterText3.toLowerCase();
-      });
-    }
-  }
-}
+//     // Aplicar filtro de cargo si se ha seleccionado
+//     if (this.filterText3 !== 'null') {
+//       this.filteredCandidates = this.filteredCandidates.filter((candidato) => {
+//         return candidato.cargo.nombreCargo.toLowerCase() === this.filterText3.toLowerCase();
+//       });
+//     }
+//   }
+// }
 
 
 obtenerCargos() {
@@ -381,5 +412,46 @@ obtenerEstados() {
     }
   );
 }
+Optener(consentimiento: Consentimiento) {
+  this.consentimiento = {
+    id: consentimiento.id,
+    nombre: consentimiento.nombre,
+    cuerpocorreo: consentimiento.cuerpocorreo,
+    email: consentimiento.email,
+    estado: consentimiento.estado,
+    fechadenvio: consentimiento.fechadenvio,
+    fechaaceptacion: new Date()
+  };
+}
 
+
+toggleSelection2(candidato: any) {
+  this.consentimiento;
+  if (
+    candidato &&
+    candidato.nombre &&
+    candidato.apellidoPaterno &&
+    candidato.apellidoMaterno 
+    
+  ) {
+    console.log(candidato.nombre, candidato.apellidoPaterno, candidato.apellidoMaterno);
+
+    const consentimientoNombre = this.consentimiento.nombre;
+    this.ConsentimientoForm2.get('Nombre')?.setValue(consentimientoNombre);
+    const fechaActual = new Date();
+
+    // Crear el objeto Aceptacion con valores por defecto para las fechas
+    const Aceptacion = {
+      nombreC: consentimientoNombre,
+      nombre: candidato.nombre,
+      apat: candidato.apellidoPaterno,
+      amat: candidato.apellidoMaterno,
+      idCandidato: candidato.candidatoId,
+      fechadenvio: fechaActual, // Usar objeto Date en lugar de cadena
+      fechaaceptacion: undefined // Usar objeto Date en lugar de cadena
+    };
+    this.aceptacionService.postAceptacion(Aceptacion).subscribe({
+    });
+  }
+}
 }

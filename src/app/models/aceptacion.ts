@@ -1,9 +1,11 @@
 export interface Aceptacion {
     id?: number;
-    nombrec: string;
+    nombreC: string;
+    idCandidato: string;
     nombre: string;
-    estado: boolean;
+    apat: string;
+    amat: string;
     fechadenvio: Date;
-    fechaaceptacion: Date;
+    fechaaceptacion?: Date;
   }
   
