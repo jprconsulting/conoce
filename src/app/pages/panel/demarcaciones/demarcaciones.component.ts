@@ -9,6 +9,7 @@ import { Comunidad } from 'src/app/models/comunidad';
 import { Estados } from 'src/app/models/estados';
 import { EstadoService } from 'src/app/core/services/estados.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoadingStates } from 'src/app/global/globals';
 
 @Component({
   selector: 'app-demarcaciones',
@@ -18,7 +19,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 export class DemarcacionesComponent implements OnInit {
   @ViewChild('miFormulario') miFormulario!: NgForm;
   @ViewChild('closebutton') closebutton!: ElementRef;
-
+  isLoadingUsers = LoadingStates.neutro;
   distritoLocalForm: FormGroup;
   ayuntamientoForm: FormGroup;
   comunidadForm: FormGroup;
@@ -81,6 +82,20 @@ export class DemarcacionesComponent implements OnInit {
     this.cargarAyuntamientos();
     this.cargarComunidades();
     this.obtenerEstados();
+  }
+  subscribeToRefreshEvents() {
+    this.distritoLocalService.refreshListUsers.subscribe(() => {
+      console.log('Evento de actualización recibido para distritos locales');
+      this.cargarDistritosLocales(); // Usa la función original
+    });
+    this.ayuntamientoService.refreshListUsers.subscribe(() => {
+      console.log('Evento de actualización recibido para ayuntamientos');
+      this.cargarAyuntamientos();
+    });
+    this.comunidadService.refreshListUsers.subscribe(() => {
+      console.log('Evento de actualización recibido para comunidades');
+      this.cargarComunidades();
+    });
   }
 
   cargarDistritosLocales() {
@@ -264,7 +279,7 @@ export class DemarcacionesComponent implements OnInit {
     this.mensajeService.mensajeAdvertencia(
       `¿Estás seguro de eliminar el Distrito Local: ${nombreDistritoLocal}?`,
       () => {
-        this.distritoLocalService.eliminarDistritoLocal(distritoLocalId).subscribe({
+        this.distritoLocalService.deleteDistritoLocal(distritoLocalId).subscribe({
           next: () => {
             this.mensajeService.mensajeExito('Distrito Local eliminado correctamente');
           },
@@ -285,7 +300,7 @@ export class DemarcacionesComponent implements OnInit {
     this.mensajeService.mensajeAdvertencia(
       `¿Estás seguro de eliminar el Ayuntamiento: ${nombreAyuntamiento}?`,
       () => {
-        this.ayuntamientoService.eliminarAyuntamiento(ayuntamientoId).subscribe({
+        this.ayuntamientoService.deleteAyuntamiento(ayuntamientoId).subscribe({
           next: () => {
             this.mensajeService.mensajeExito('Ayuntamiento eliminado correctamente');
           },
@@ -315,7 +330,7 @@ export class DemarcacionesComponent implements OnInit {
   }
 
   actualizarUsuario() {
-    this.distritoLocalService.editarDistritoLocal(this.distritoLocal).subscribe({
+    this.distritoLocalService.putDistritoLocal(this.distritoLocal).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Distrito local actualizado con éxito");
         this.resetForm();
@@ -329,7 +344,7 @@ export class DemarcacionesComponent implements OnInit {
   }
 
   actualizarAyuntamiento() {
-    this.ayuntamientoService.editarAyuntamiento(this.ayuntamiento).subscribe({
+    this.ayuntamientoService.putAyuntamiento(this.ayuntamiento).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Ayuntamiento actualizado con éxito");
         this.resetFormAy();

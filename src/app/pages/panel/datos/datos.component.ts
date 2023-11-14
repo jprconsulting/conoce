@@ -28,7 +28,6 @@ export class DatosComponent {
   check: Date;
   textoSeguro!: SafeHtml;
   usuario!: Usuario;
-  Aceptacion: Aceptacion[] = [];
   constructor(
     private route: ActivatedRoute,
     private consentimientoService: ConsentimientoService,
@@ -36,8 +35,7 @@ export class DatosComponent {
     private mensajeService: MensajeService,
     private sanitizer: DomSanitizer,
     private securityService: SecurityService,
-    private usuarioService: UsuarioService,
-    private aceptacionService: AceptacionService
+    private usuarioService: UsuarioService
   ) {
     this.check = new Date();
     this.creaFormulario();
@@ -118,37 +116,6 @@ export class DatosComponent {
       }
     });
     
-  }
-  
-  aceptacion() {
-    if (this.consentimiento && this.usuario) {
-      this.obtenerUsuarioPorId();
-      console.log(this.consentimiento);
-      
-      const Aceptacion = {
-        
-        nombrec: this.consentimiento.nombre,
-        nombre: this.usuario.nombre,
-        estado: this.consentimiento.estado,
-        fechadenvio: this.consentimiento.fechadenvio,
-        fechaaceptacion: this.consentimiento.fechaaceptacion
-      };
-      
-      this.aceptacionService.postAceptacion(Aceptacion).subscribe({
-        next: () => {
-          this.mensajeService.mensajeExito('Aceptación enviada');
-          setTimeout(() => {
-            console.log(Aceptacion);
-            window.location.href = 'http://localhost:4200/login';
-          }, 3000);
-        },
-        error: (error) => {
-          this.mensajeService.mensajeError('Error al aceptar');
-          console.error(error);
-          console.log(Aceptacion);
-        }
-      });
-    }
   }
   creaFormulario(){
     this.ConsentimientoForm3 = this.formBuilder.group({
