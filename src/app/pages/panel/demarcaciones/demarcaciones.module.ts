@@ -4,6 +4,7 @@ import { DemarcacionesComponent } from './demarcaciones.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { DemarcacionesRoutingModule } from './demarcaciones-rouing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxPaginationModule } from 'ngx-pagination';
 
 
 @NgModule({
@@ -11,11 +12,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     DemarcacionesComponent
   ],
   imports: [
-    CommonModule, 
-    SharedModule, 
+    CommonModule,
+    SharedModule,
     DemarcacionesRoutingModule,
     ReactiveFormsModule,
     FormsModule,
+    NgxPaginationModule,
   ],
     exports: [
       DemarcacionesComponent

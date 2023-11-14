@@ -9,15 +9,23 @@ import { SecurityService } from 'src/app/core/services/security.service';
 })
 export class HeaderComponent {
 
+  nombre!: string|null;
+
   constructor(
     private securityService: SecurityService, 
     private router: Router
   ) {  }  
 
+  ngOnInit() {
+    this.nombre = this.securityService.getNombre();
+    console.log('Nombre:', this.nombre);
+  }
+
   logout() {
     this.securityService.logout();
     this.router.navigateByUrl('');
   }
+
 
 
 }
