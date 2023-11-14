@@ -4,6 +4,7 @@ import { CandidaturasService } from 'src/app/core/services/candidaturas.service'
 import { Partidos } from 'src/app/models/partidos';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Pipe, PipeTransform } from '@angular/core'; // Importa Pipe y PipeTransform
+import { LoadingStates } from 'src/app/global/globals';
 
 @Component({
   selector: 'app-partidos',
@@ -13,6 +14,7 @@ import { Pipe, PipeTransform } from '@angular/core'; // Importa Pipe y PipeTrans
 
 
 export class CandidaturasComponent {
+  isLoadingUsers = LoadingStates.neutro;
   previewImage: string | ArrayBuffer | null = null;
   partido!: Partidos;
   partidos: Partidos[] = [];

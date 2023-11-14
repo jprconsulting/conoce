@@ -94,6 +94,13 @@
                             </div>
 
                             <!-- Lista de Distritos Locales -->
+                            <ng-container [ngSwitch]="isLoadingUsers">
+                                <div class="progress" *ngSwitchCase="2">
+                                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                                </div>
+                
+                                <div *ngSwitchCase="3"> 
+                                       
                             <div class="table-responsive" *ngIf="distritosLocales.length > 0">
                                 <br>
                                 <div class="input-icon">
@@ -161,6 +168,9 @@
                             <div *ngIf="distritosLocales.length === 0">
                                 <p>No hay Distritos Locales agregados.</p>
                             </div>
+                        </div>
+                        <app-no-results *ngSwitchCase="4"></app-no-results>
+                    </ng-container>
                         </div>
                     </div>
                 </div>
@@ -243,6 +253,12 @@
                             <!-- FIN MODAL -->
                             <br>
                             <!-- Lista de Ayuntamientos -->
+                            <ng-container [ngSwitch]="isLoadingUsers">
+                                <div class="progress" *ngSwitchCase="2">
+                                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                                </div>
+                
+                                <div *ngSwitchCase="3"> 
                             <div class="table-responsive" *ngIf="ayuntamientos.length > 0">
                                 <br>
                                 <div class="input-icon">
@@ -309,6 +325,9 @@
                             <div *ngIf="ayuntamientos.length === 0">
                                 <p>No hay Ayuntamientos agregados.</p>
                             </div>
+                        </div>
+                        <app-no-results *ngSwitchCase="4"></app-no-results>
+                    </ng-container>
                         </div>
                     </div>
                 </div>
@@ -393,6 +412,12 @@
                             </div>
                             <!-- FIN MODAL -->
                             <!-- Lista de Comunidades -->
+                            <ng-container [ngSwitch]="isLoadingUsers">
+                                <div class="progress" *ngSwitchCase="2">
+                                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                                </div>
+                
+                                <div *ngSwitchCase="3"> 
                             <div class="table-responsive" *ngIf="comunidades.length > 0">
                                 <br>
                                 <div class="input-icon">
@@ -459,6 +484,9 @@
                             <div *ngIf="comunidades.length === 0">
                                 <p>No hay Comunidades agregadas.</p>
                             </div>
+                        </div>
+                        <app-no-results *ngSwitchCase="4"></app-no-results>
+                    </ng-container>
                         </div>
                     </div>
                 </div>

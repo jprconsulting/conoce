@@ -19,6 +19,12 @@
                 <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Candidatura Independiente')" [class.btn-success]="filtro === 'Candidatura Independiente'" [class.btn-secondary]="filtro !== 'Candidatura Independiente'">Candidatura Independiente</button>
                 <button type="button" class="btn btn-candidatura" (click)="mostrarTodasCandidaturas()" [class.btn-success]="filtro === ''" [class.btn-secondary]="filtro !== ''">Mostrar Todas</button>
             </div>
+            <ng-container [ngSwitch]="isLoadingUsers">
+                <div class="progress" *ngSwitchCase="2">
+                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                </div>
+
+                <div *ngSwitchCase="3"> 
 
             <div class="table-responsive">
                 <table class="table card-table table-vcenter text-nowrap datatable">
@@ -56,6 +62,9 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <app-no-results *ngSwitchCase="4"></app-no-results>
+    </ng-container>
         </div>
     </div>
 </div>
