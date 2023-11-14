@@ -27,7 +27,7 @@ export class CandidatosComponent implements OnInit {
 
   @ViewChild('closebutton') closebutton!: ElementRef;
 
-  respuestasGoogleFormulario: RespuestaGoogleFormulario[] = [];
+  respuestasGoogleFormulario: RespuestaGoogleFormulario = {} as RespuestaGoogleFormulario;
   candidatoId: number = 1;
   opcionSeleccionada: string = 'opcion1'; // Valor predeterminado del primer dropdown
   opcionSeleccionada2: string = ''; // Valor predeterminado del segundo dropdown
@@ -54,6 +54,8 @@ export class CandidatosComponent implements OnInit {
   candidatos: Candidato[] = [];
   configGoogleForms: ConfigGoogleForm[] = [];
   googleFormIds: string[] = [];
+  formularioSeleccionado: RespuestaGoogleFormulario | null = null;
+  respuestas: RespuestaGoogleFormulario[] = [];
 
   constructor(
     private candidatoService: CandidatoService,
@@ -66,6 +68,7 @@ export class CandidatosComponent implements OnInit {
     private http: HttpClient,
     private formularioService: FormularioService,
     private respuestasGoogleFormularioService : RespuestasGoogleService,
+
   ) {
     this.crearFormularioCandidato();
     //this.subscribeRolID();
@@ -102,6 +105,15 @@ export class CandidatosComponent implements OnInit {
     this.obtenerCargos();
     this.obtenerGeneros();
     this.getConfigGoogleForms();
+  }
+
+  calcularTieneRespuestas(candidato: Candidato, respuestas: RespuestaGoogleFormulario[] | undefined): boolean {
+    if (!respuestas) {
+      return false; // No hay respuestas, considerar como "Sin contestar"
+    }
+
+    const respuestasCandidato = respuestas.find(respuesta => respuesta.candidatoId === candidato.candidatoId);
+    return !!respuestasCandidato && respuestasCandidato.formularios.length > 0;
   }
 
   getListadocandidato() {
@@ -340,11 +352,15 @@ obtenerRespuestas(candidatoId: number) {
   this.respuestasGoogleFormularioService.obtenerRespuestasPorCandidatoId(candidatoId).subscribe(
     (respuestas) => {
       console.log('Respuestas:', respuestas);
+
+      // Asignar las respuestas obtenidas a la variable respuestasGoogleFormulario
+      this.respuestasGoogleFormulario = respuestas;
     },
     (error) => {
       console.error('Error al obtener respuestas:', error);
     }
   );
 }
+
 }
 
