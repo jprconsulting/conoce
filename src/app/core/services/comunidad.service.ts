@@ -5,6 +5,10 @@ import { catchError, tap } from 'rxjs/operators';
 import { HandleErrorService } from './handle-error.service';
 import { Comunidad } from 'src/app/models/comunidad';
 
+@Injectable({
+  providedIn: 'root',
+})
+
 export class ComunidadService {
   private apiUrl = 'https://localhost:7154/api/comunidad';
   private _isLoadingUsers = false;

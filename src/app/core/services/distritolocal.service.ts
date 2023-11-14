@@ -5,6 +5,10 @@ import { catchError, tap } from 'rxjs/operators';
 import { HandleErrorService } from './handle-error.service';
 import { DistritoLocal } from 'src/app/models/distritoLocal';
 
+@Injectable({
+  providedIn: 'root',
+})
+
 export class DistritoLocalService {
   private apiUrl = 'https://localhost:7154/api/distritolocal';
   private _isLoadingUsers = false;

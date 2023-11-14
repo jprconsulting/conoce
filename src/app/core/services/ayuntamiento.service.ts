@@ -5,6 +5,9 @@ import { catchError, tap } from 'rxjs/operators';
 import { HandleErrorService } from './handle-error.service';
 import { Ayuntamiento } from 'src/app/models/ayuntamiento';
 
+@Injectable({
+  providedIn: 'root',
+})
 
 export class AyuntamientoService {
   private apiUrl = 'https://localhost:7154/api/ayuntamiento';
