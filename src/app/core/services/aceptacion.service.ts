@@ -16,6 +16,7 @@ export class AceptacionService {
   route = `${environment.apiUrl}/aceptacion`;
   selectedEmails: any;
   enlaceEdicionUsuario2: string = '';
+  private _refreshLisAceptacion$ = new Subject<Aceptacion | null>();
 
   constructor(
     private http: HttpClient,
@@ -31,4 +32,13 @@ export class AceptacionService {
         
       );
   }
+  get refreshLisAceptacion() {
+    return this._refreshLisAceptacion$;
+  }
+  getAceptacion():Observable<Aceptacion[]> {
+    return this.http.get<Aceptacion[]>(`${this.route}/obtener_aceptacion`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+
 }
