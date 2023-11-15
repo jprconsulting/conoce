@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HandleErrorService } from './handle-error.service';
 import { Observable, Subject } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Formuser } from 'src/app/models/formuser';
 
 @Injectable({
@@ -11,15 +11,15 @@ import { Formuser } from 'src/app/models/formuser';
 })
 export class FormularioUserService {
   route = `${environment.apiUrl}/formulario-usuario`;
-  private _refreshLisUsers$ = new Subject<Formuser>();
+  private _refreshListUsers$ = new Subject<Formuser | null>();
 
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) { }
 
-  get refreshLisUsers() {
-    return this._refreshLisUsers$;
+  get refreshListUsers() {
+    return this._refreshListUsers$;
   }
 
   postFormulario(formuser: Formuser) {
@@ -32,7 +32,10 @@ export class FormularioUserService {
   getFormularios(): Observable<Formuser[]> {
     return this.http.get<Formuser[]>(`${this.route}/get-formulario-usuario`)
       .pipe(
-        catchError(this.handleErrorService.handleError)
+        catchError(this.handleErrorService.handleError),
+        tap(() => {
+          this._refreshListUsers$.next(null);
+        })
       );
   }
 
@@ -42,7 +45,7 @@ export class FormularioUserService {
     return this.http.delete(url)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next;
+          this._refreshListUsers$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );
@@ -52,20 +55,18 @@ export class FormularioUserService {
     return this.http.post<Formuser>(`${this.route}/editar_usuario`, data)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next;
+          this._refreshListUsers$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );
   }
 
-cargarUsuariosPorFormularioId(formularioId: number): Observable<Formuser[]> {
-  const url = `${this.route}/get-formulario-usuarios/${formularioId}`;
+  cargarUsuariosPorFormularioId(formularioId: number): Observable<Formuser[]> {
+    const url = `${this.route}/get-formulario-usuarios/${formularioId}`;
 
-  return this.http.get<Formuser[]>(url)
-    .pipe(
-      catchError(this.handleErrorService.handleError)
-    );
-}
-
-
+    return this.http.get<Formuser[]>(url)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 }

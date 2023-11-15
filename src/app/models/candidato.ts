@@ -24,6 +24,9 @@ export interface Candidato {
   cargo: any;
   estado: any;
   genero: any;
+
+  tieneRespuestas: boolean;
+
 }
 
 

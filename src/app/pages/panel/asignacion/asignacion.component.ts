@@ -8,6 +8,7 @@ import { ConfigGoogleForm } from 'src/app/models/googleForm';
 import {FormularioUserService} from 'src/app/core/services/formulariouser.service';
 import {Formuser} from 'src/app/models/formuser';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { LoadingStates } from 'src/app/global/globals';
 
 @Component({
   selector: 'app-asignacion',
@@ -17,7 +18,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 export class AsignacionComponent implements OnInit {
 
   @ViewChild('closebutton') closebutton!: ElementRef;
-
+  isLoadingUsers = LoadingStates.neutro;
   variableDeControl: number = 1;
   people$: Observable<any[]> = new Observable<any[]>();
   selectedPeople: any[] = [];
@@ -49,14 +50,10 @@ export class AsignacionComponent implements OnInit {
     }
 
     ngOnInit() {
+      this.obtenerFormularios();
       this.usuarioService.getUsuarios().subscribe((data: Usuario[]) => {
         console.log(data);
         this.usuario = data.filter(usuario => usuario.rol === 'Candidato' || usuario.rol === 'Gestor');
-      });
-
-      this.formularioUserService.getFormularios().subscribe((data: Formuser[]) => {
-        console.log(data);
-        this.formuser = data;
       });
 
       this.formularioService.getFormularios().subscribe(data => {
@@ -67,6 +64,21 @@ export class AsignacionComponent implements OnInit {
       this.formulariosUnicos = this.procesarDatos(this.formuser, this.formulario, this.usuario);
     }
 
+    obtenerFormularios() {
+      this.isLoadingUsers = LoadingStates.trueLoading;
+      this.formularioUserService.getFormularios().subscribe({
+        next: (formularios) => {
+          console.log('Respuesta de la API:', formularios);
+          this.formuser = formularios;
+          this.formulariosUnicos = this.procesarDatos(this.formuser, this.formulario, this.usuario);
+          this.isLoadingUsers = LoadingStates.falseLoading;
+        },
+        error: (error) => {
+          console.error('Error al obtener los formularios', error);
+          this.isLoadingUsers = LoadingStates.errorLoading;
+        }
+      });
+    }
 
   onFormularioSelect(event: any[]) {
     this.selectedFormularios = event
