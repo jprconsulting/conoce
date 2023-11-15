@@ -170,8 +170,8 @@
                                                 </div>
                                                 <div class="row">
                                                 <div class="mb-5" >        
-                                                    <label class="filtro">Busqueda por nombre*:</label>                                            
-                                                    <input type="text" class="form-control filtro" [(ngModel)]="filterText" (ngModelChange)="filterCandidates()" placeholder="Filtrar por nombre o apellido" style="width: 90%;"> 
+                                                    <label class="filtro">Busqueda por nombre o/y apellidos*:</label>                                            
+                                                    <input type="text" class="form-control filtro" [(ngModel)]="filterText" (ngModelChange)="filterCandidates()" placeholder="Filtrar por nombre y/o apellidos" style="width: 90%;"> 
                                                     <label class="filtro">Selecciona un Cargo*:</label>
                                                       <select class="form-select filtro" [(ngModel)]="filterText3" style="width: 90%;">
                                                         <option *ngFor="let cargoItem of cargos" [value]="cargoItem.nombreCargo">{{ cargoItem.nombreCargo }}</option>
@@ -265,6 +265,7 @@
             <th>Consentimiento</th>
             <th>Fecha de envio</th>
             <th>Fecha de aceptacion</th>
+            <th>Acción</th>
           </tr>
         </thead>
         <tbody>
@@ -276,7 +277,13 @@
                 <td>{{ Aceptacion.nombreC }}</td>
                 <td>{{ Aceptacion.fechadenvio | date:'yyyy-MM-dd'}}</td>
                 <td>{{ Aceptacion.fechaaceptacion | date:'yyyy-MM-dd'}}</td>
-                
+                <td>                   
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-danger btn-icon btn-sm button" (click)="Aceptacion.id && deleteAceptar(Aceptacion.id)">
+                            <i class="ti ti-trash"></i>
+                        </button>
+                    </div>
+                </td>
               </tr>
         </tbody>
       </table>
