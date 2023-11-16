@@ -40,5 +40,27 @@ export class AceptacionService {
       catchError(this.handleErrorService.handleError)
     );
   }
-
+  putAceptacion(aceptacion: Aceptacion): Observable<Aceptacion> {
+    return this.http.put<Aceptacion>(`${this.route}/editar_aceptacion`, aceptacion)
+      .pipe(
+        tap(() => {
+          this._refreshLisAceptacion$.next(null);
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }
+  deleteAceptacion(id: number) {
+    return this.http.delete(`${this.route}/eliminar_aceptacion/${id}`)
+      .pipe(
+        tap(() => {
+          this._refreshLisAceptacion$.next;
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }
+  getAceptacionPorEmail(email: string) {
+    return this.http.get<Aceptacion>(`${this.route}/obtener/${email}`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
 }
