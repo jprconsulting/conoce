@@ -17,3 +17,8 @@ export interface RespuestaGoogleFormulario {
   nombre: string;
   formularios: Formulario[];
 }
+
+export interface EstadoFormulario {
+  formulario: string;
+  estado: string;
+}

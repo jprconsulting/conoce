@@ -35,7 +35,7 @@
                             <th>Apellido paterno</th>
                             <th>Cargo</th>
                             <th>Agrupación política</th>
-                            <th>Estatus de formulario</th>
+                            <th>Estatus de los cuestionarios</th>
                             <th class="text-center" style="width: 7%">Acciones</th>
                         </tr>
                     </thead>
@@ -46,25 +46,24 @@
                             <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
                             <td class="justify-content-center">{{ getNombreCargo(candidato.cargoId) }}</td>
                             <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
-                            <td>
-                                <ng-container *ngIf="calcularTieneRespuestas(candidato, respuestas); else sinContestar">
-                                    <span class="badge bg-success me-1"></span>Contestado
-                                </ng-container>
-                                <ng-template #sinContestar>
-                                    <span class="badge bg-danger me-1"></span> Sin contestar
-                                </ng-template>
+                            <td class="justify-content-center">
+                                <div class="d-flex justify-content-between">
+                                    <button class="btn btn-primary btn-icon btn-sm" (click)="obtenerRespuestas(candidatoId)" (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal" data-bs-target="#modalRespuestas">
+                                <i class="ti ti-eye"></i>
+                              </button>
+                                </div>
                             </td>
                             <td class="justify-content-center">
                                 <div class="d-flex justify-content-between">
                                     <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="obtenerRespuestas(candidatoId)" style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
-                                      <i class="ti ti-eye"></i>
-                                    </button>
+                                    <i class="ti ti-eye"></i>
+                                  </button>
                                     <button class="btn btn-warning btn-icon btn-sm" title="Editar candidato">
-                                      <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
-                                    </button>
+                                    <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
+                                  </button>
                                     <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px" title="Borrar candidato">
-                                      <i class="ti ti-eraser"></i>
-                                    </button>
+                                    <i class="ti ti-eraser"></i>
+                                  </button>
                                 </div>
                             </td>
                         </tr>
@@ -393,24 +392,24 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title" id="exampleModalLabel">
-                    Respuestas del formulario
-                </h1>
+                <h1 class="modal-title" id="exampleModalLabel">Respuestas del formulario</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-              </button>
+          <span aria-hidden="true">&times;</span>
+        </button>
             </div>
-
             <div class="modal-body" style="background-color: #f6f8fb">
                 <div *ngIf="respuestasGoogleFormulario">
-                    <div class="row">
-                        <div *ngFor="let formulario of respuestasGoogleFormulario.formularios" class="col-md-6">
-                            <div class="card mb-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">
-                                        Nombre del formulario : {{ formulario.formName }}
-                                    </h5>
-                                    <hr>
+                    <div class="accordion" id="respuestasAcordeon">
+                        <div *ngFor="let formulario of respuestasGoogleFormulario.formularios" class="accordion-item">
+                            <h2 class="accordion-header" [attr.id]="'heading' + formulario.formularioId">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + formulario.formularioId" aria-expanded="true" [attr.aria-controls]="'collapse' + formulario.formularioId">
+                  <span [ngClass]="{'text-danger': formulario.preguntasRespuestas.length === 0, 'text-success': formulario.preguntasRespuestas.length > 0}">
+                    Nombre del formulario : {{ formulario.formName }}
+                  </span>
+                </button>
+                            </h2>
+                            <div [attr.id]="'collapse' + formulario.formularioId" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + formulario.formularioId" data-bs-parent="#respuestasAcordeon">
+                                <div class="accordion-body">
                                     <div *ngIf="formulario.preguntasRespuestas.length > 0 else sinRespuestas">
                                         <h5>Preguntas y Respuestas:</h5>
                                         <ul class="list-group">
@@ -425,6 +424,56 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL PARA VER EL ESTATUS -->
+<div class="modal fade" id="modalRespuestas" tabindex="-1" aria-labelledby="modalRespuestasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRespuestasLabel">Estado del formulario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <br>
+                    <div class="ms-auto text-muted">
+                        <div class="input-icon" style="margin-right: 10px;">
+                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <span class="input-icon-addon">
+                        <i class="ti ti-search"></i>
+                      </span>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>Formulario</th>
+                                    <th>Estatus</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let formulario of calcularEstadosFormularios()">
+                                    <ng-container *ngIf="formulario.nombre.toLowerCase().includes(filtro.toLowerCase())">
+                                        <td>{{ formulario.nombre }}</td>
+                                        <td>
+                                            <ng-container *ngIf="formulario.estado === 'Contestado'; else porContestar">
+                                                <span class="badge bg-success me-1"></span>Contestado
+                                            </ng-container>
+                                            <ng-template #porContestar>
+                                                <span class="badge bg-danger me-1"></span>Por contestar
+                                            </ng-template>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>

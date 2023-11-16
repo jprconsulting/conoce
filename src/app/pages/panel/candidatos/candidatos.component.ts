@@ -16,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormularioService } from 'src/app/core/services/formulario.service';
 import { ConfigGoogleForm } from 'src/app/models/googleForm';
 import { RespuestasGoogleService } from 'src/app/core/services/respuestasGoogle.service';
-import { RespuestaGoogleFormulario } from 'src/app/models/respuesta-google-formulario';
+import { EstadoFormulario, Formulario, RespuestaGoogleFormulario } from 'src/app/models/respuesta-google-formulario';
 
 @Component({
   selector: 'app-candidatos',
@@ -45,6 +45,7 @@ export class CandidatosComponent implements OnInit {
   candidaturas: Candidaturas[] = [];
   partidos: Partidos[] = [];
   filtro: string = '';
+  filtrado: string = '';
   itemsPerPage: number = 2;
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [2, 4, 6];
@@ -54,8 +55,13 @@ export class CandidatosComponent implements OnInit {
   candidatos: Candidato[] = [];
   configGoogleForms: ConfigGoogleForm[] = [];
   googleFormIds: string[] = [];
-  formularioSeleccionado: RespuestaGoogleFormulario | null = null;
   respuestas: RespuestaGoogleFormulario[] = [];
+  estadoRespuestaSeleccionado: 'todos' | 'contestado' | 'sinContestar' = 'todos';
+  estatusSeleccionado: string = '';
+  formulariosDisponibles: string[] = [];
+  candidatosFiltrados: Candidato[] = [];
+  formularioSeleccionado: Formulario | null = null;
+  estadosFormularios: EstadoFormulario[] = [];
 
   constructor(
     private candidatoService: CandidatoService,
@@ -105,15 +111,74 @@ export class CandidatosComponent implements OnInit {
     this.obtenerCargos();
     this.obtenerGeneros();
     this.getConfigGoogleForms();
+    // this.filtrarPorFormulario();
   }
 
-  calcularTieneRespuestas(candidato: Candidato, respuestas: RespuestaGoogleFormulario[] | undefined): boolean {
-    if (!respuestas) {
-      return false; // No hay respuestas, considerar como "Sin contestar"
-    }
+  cambiarEstadoRespuesta(estado: 'todos' | 'contestado' | 'sinContestar') {
+    this.estadoRespuestaSeleccionado = estado;
+  }
 
-    const respuestasCandidato = respuestas.find(respuesta => respuesta.candidatoId === candidato.candidatoId);
-    return !!respuestasCandidato && respuestasCandidato.formularios.length > 0;
+  seleccionarFormulario(formulario: Formulario) {
+    this.formularioSeleccionado = formulario;
+  }
+
+  verEstadosFormularios(candidato: Candidato) {
+    const respuestasCandidato = this.respuestas.find(r => r.candidatoId === candidato.candidatoId);
+    if (respuestasCandidato) {
+      console.log('Formularios del candidato:', respuestasCandidato.formularios);
+    } else {
+      console.log('Manejar caso: Candidato sin respuestas');
+    }
+  }
+
+
+  mostrarModalEstados(estadosFormularios: { nombre: string; estado: string }[]) {
+
+  }
+
+
+calcularEstadosFormularios(): { nombre: string; estado: string }[] {
+  const estadosFormularios: { nombre: string; estado: string }[] = [];
+
+  if (this.respuestasGoogleFormulario && this.respuestasGoogleFormulario.formularios) {
+    this.respuestasGoogleFormulario.formularios.forEach((formulario) => {
+      let estadoFormulario = 'Por contestar';
+
+      if (formulario.preguntasRespuestas && formulario.preguntasRespuestas.length > 0) {
+        estadoFormulario = 'Contestado';
+      }
+
+      estadosFormularios.push({ nombre: formulario.formName, estado: estadoFormulario });
+    });
+  }
+
+  return estadosFormularios;
+}
+
+
+  calcularTieneRespuestas(candidato: Candidato): { nombre: string; contestado: boolean }[] {
+    const respuestasCandidato = this.respuestas.find(r => r.candidatoId === candidato.candidatoId);
+
+    if (respuestasCandidato) {
+      return respuestasCandidato.formularios.map(formulario => ({
+        nombre: formulario.formName,
+        contestado: formulario.preguntasRespuestas.length > 0
+      }));
+    } else {
+      return [];
+    }
+  }
+
+
+  filtrarPorEstatus(): void {
+    if (this.estatusSeleccionado) {
+      this.candidatosFiltrados = this.candidatos.filter(candidato => {
+        const respuestasCandidato = this.respuestas.find(r => r.candidatoId === candidato.candidatoId);
+        return respuestasCandidato?.formularios.some(formulario => formulario.formName === this.estatusSeleccionado);
+      });
+    } else {
+      this.candidatosFiltrados = [...this.candidatos];
+    }
   }
 
   getListadocandidato() {
@@ -351,14 +416,24 @@ enviarGoogleFormIds() {
 obtenerRespuestas(candidatoId: number) {
   this.respuestasGoogleFormularioService.obtenerRespuestasPorCandidatoId(candidatoId).subscribe(
     (respuestas) => {
-      console.log('Respuestas:', respuestas);
+      console.log('Respuestas:', respuestas); // Verifica aquí qué datos obtienes
 
-      // Asignar las respuestas obtenidas a la variable respuestasGoogleFormulario
       this.respuestasGoogleFormulario = respuestas;
+
+      this.calcularEstadosFormularios();
     },
     (error) => {
       console.error('Error al obtener respuestas:', error);
     }
+  );
+}
+
+filtrarResultadosform() {
+  if (!this.filtro) {
+    return this.estadosFormularios;
+  }
+  return this.estadosFormularios.filter(formulario =>
+    formulario.formulario.toLowerCase().includes(this.filtro.toLowerCase())
   );
 }
 
