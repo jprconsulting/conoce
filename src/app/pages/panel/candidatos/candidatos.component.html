@@ -46,16 +46,21 @@
                             <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
                             <td class="justify-content-center">{{ getNombreCargo(candidato.cargoId) }}</td>
                             <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
-                            <td class="justify-content-center">
-                                <div class="d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-icon btn-sm" (click)="obtenerRespuestas(candidatoId)" (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal" data-bs-target="#modalRespuestas">
-                                <i class="ti ti-eye"></i>
-                              </button>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="progress">
+                                        <div class="progress-bar" [ngStyle]="{ 'width.%': porcentajeProgreso }" role="progressbar" [attr.aria-valuenow]="porcentajeProgreso" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="porcentajeProgreso + '% Complete'">
+                                            <span class="visually-hidden">{{ porcentajeProgreso }}% Complete</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-success btn-icon btn-sm" (click)="mostrarRespuestas(candidato.candidatoId)" title="Recargar estatus" style="margin-left: 5px; margin-right: 5px">
+                                  <i class="ti ti-reload"></i>
+                                </button>
                                 </div>
                             </td>
                             <td class="justify-content-center">
                                 <div class="d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="obtenerRespuestas(candidatoId)" style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="obtenerRespuestas(candidato.candidatoId)" style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
                                     <i class="ti ti-eye"></i>
                                   </button>
                                     <button class="btn btn-warning btn-icon btn-sm" title="Editar candidato">
@@ -63,6 +68,9 @@
                                   </button>
                                     <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px" title="Borrar candidato">
                                     <i class="ti ti-eraser"></i>
+                                  </button>
+                                    <button class="btn btn-info btn-icon btn-sm" (click)="obtenerRespuestas(candidato.candidatoId)" (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal" data-bs-target="#modalRespuestas" title="Ver estatus de los cuestionarios">
+                                    <i class="ti ti-clipboard-data"></i>
                                   </button>
                                 </div>
                             </td>

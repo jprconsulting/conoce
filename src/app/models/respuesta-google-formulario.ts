@@ -10,7 +10,9 @@ export interface Formulario {
   formName: string;
   googleFormId: string;
   preguntasRespuestas: PreguntaRespuesta[];
+  estado: string;
 }
+
 
 export interface RespuestaGoogleFormulario {
   candidatoId: number;

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
@@ -28,10 +28,9 @@ export class CandidatosComponent implements OnInit {
   @ViewChild('closebutton') closebutton!: ElementRef;
 
   respuestasGoogleFormulario: RespuestaGoogleFormulario = {} as RespuestaGoogleFormulario;
-  candidatoId: number = 1;
-  opcionSeleccionada: string = 'opcion1'; // Valor predeterminado del primer dropdown
-  opcionSeleccionada2: string = ''; // Valor predeterminado del segundo dropdown
-  mostrarSegundoDropdown: boolean = false; // Variable para mostrar/ocultar el segundo dropdown
+  opcionSeleccionada: string = 'opcion1';
+  opcionSeleccionada2: string = '';
+  mostrarSegundoDropdown: boolean = false;
   // Usuarios
   candidato: Candidato[] = [];
   isLoadingUsers: number = 0;
@@ -62,6 +61,9 @@ export class CandidatosComponent implements OnInit {
   candidatosFiltrados: Candidato[] = [];
   formularioSeleccionado: Formulario | null = null;
   estadosFormularios: EstadoFormulario[] = [];
+  formularios: Formulario[] = [];
+  porcentajeProgreso: number = 0;
+  selectedStatus: string | null = null;
 
   constructor(
     private candidatoService: CandidatoService,
@@ -74,6 +76,7 @@ export class CandidatosComponent implements OnInit {
     private http: HttpClient,
     private formularioService: FormularioService,
     private respuestasGoogleFormularioService : RespuestasGoogleService,
+    private changeDetectorRef: ChangeDetectorRef
 
   ) {
     this.crearFormularioCandidato();
@@ -170,7 +173,8 @@ calcularEstadosFormularios(): { nombre: string; estado: string }[] {
   }
 
 
-  filtrarPorEstatus(): void {
+  filtrarPorEstatus(event: Event): void {
+    const valorSeleccionado = (event.target as HTMLSelectElement).value;
     if (this.estatusSeleccionado) {
       this.candidatosFiltrados = this.candidatos.filter(candidato => {
         const respuestasCandidato = this.respuestas.find(r => r.candidatoId === candidato.candidatoId);
@@ -416,11 +420,11 @@ enviarGoogleFormIds() {
 obtenerRespuestas(candidatoId: number) {
   this.respuestasGoogleFormularioService.obtenerRespuestasPorCandidatoId(candidatoId).subscribe(
     (respuestas) => {
-      console.log('Respuestas:', respuestas); // Verifica aquí qué datos obtienes
-
       this.respuestasGoogleFormulario = respuestas;
-
       this.calcularEstadosFormularios();
+
+      // Llamar al método detectChanges para forzar la actualización de la vista
+      this.changeDetectorRef.detectChanges();
     },
     (error) => {
       console.error('Error al obtener respuestas:', error);
@@ -434,6 +438,35 @@ filtrarResultadosform() {
   }
   return this.estadosFormularios.filter(formulario =>
     formulario.formulario.toLowerCase().includes(this.filtro.toLowerCase())
+  );
+}
+
+calcularPorcentaje(formularios: Formulario[]): number {
+  if (!formularios || formularios.length === 0) {
+    return 0; // Si no hay formularios, el progreso es 0.
+  }
+  const formulariosConRespuestas = formularios.filter(formulario => formulario.preguntasRespuestas && formulario.preguntasRespuestas.length > 0);
+  const porcentaje = (formulariosConRespuestas.length / formularios.length) * 100;
+  console.log('Formularios con respuestas:', formulariosConRespuestas.length);
+  return porcentaje;
+}
+
+mostrarRespuestas(candidatoId: number) {
+  this.respuestasGoogleFormularioService.obtenerRespuestasPorCandidatoId(candidatoId).subscribe(
+    (respuestas) => {
+      // Obtener porcentaje
+      const porcentaje = this.calcularPorcentaje(respuestas.formularios);
+      console.log('Porcentaje de progreso:', porcentaje);
+
+      // Actualizar porcentaje
+      this.porcentajeProgreso = porcentaje;
+
+      // Forzar actualización de la vista
+      this.changeDetectorRef.detectChanges();
+    },
+    (error) => {
+      console.error('Error al obtener respuestas:', error);
+    }
   );
 }
 
