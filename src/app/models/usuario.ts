@@ -5,7 +5,7 @@ export interface Usuario {
     rol: string;
     email: string;
     password: string;
-    estatus: boolean;
+    estatus?: boolean;
     nombre: string;
     apellidos: string;
 }
