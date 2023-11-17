@@ -28,6 +28,7 @@ export class FormularioComponent implements OnInit {
   itemsPerPageOptions: number[] = [5, 10, 15];
   formularioSeleccionado: ConfigGoogleForm | null = null;
   isModalAdd = false;
+  userForm: any;
 
   constructor(
     private formularioService: FormularioService,
@@ -93,6 +94,7 @@ export class FormularioComponent implements OnInit {
       fileReader.readAsText(selectedFile);
     }
   }
+ 
 
   guardarUsuario() {
     console.log('El formulario es válido, enviando datos...');
@@ -124,7 +126,39 @@ export class FormularioComponent implements OnInit {
       }
     });
   }
+  agregarformulario() {
+    if (this.userForm.valid) {
+      const nuevoformulario = this.userForm.value;
+  
+      // Verificar si el nombre de formulario ya existe
+      const nombreformularioExistente = this.formulario.some(u => u.formularioId === nuevoformulario.nombre);
 
+      if (nombreformularioExistente) {
+        console.error('Ya existe un formulario con este nombre de formulario.');
+        this.mensajeService.mensajeError('Ya existe un formulario con este nombre de foemulario.');
+      } {
+        console.error('Ya existe un formulario con este correo electrónico.');
+        this.mensajeService.mensajeError('Ya existe un formulario con este nombre.');
+      }  {
+        this.formularioService.postFormulario(nuevoformulario).subscribe({
+          next: () => {
+            console.log('formulario agregado con éxito:', nuevoformulario);
+            this.mensajeService.mensajeExito('formulario agregado con éxito');
+            this.resetForm();
+            // También puedes agregar el nuevo formulario a la lista local
+            this.formulario.push(nuevoformulario);
+          },
+          error: (error) => {
+            console.error('Error al agregar formulario:', error);
+            this.mensajeService.mensajeError('Error al agregar formulario');
+          }
+        });
+      }
+    } else {
+      console.error('El formulario de usuario es inválido. No se puede enviar.');
+      this.mensajeService.mensajeError('Formulario de usuario inválido. Revise los campos.');
+    }
+  }
   filtrarResultados() {
     return this.formulario.filter(formulario =>
       formulario.formName.toLowerCase().includes(this.filtro.toLowerCase())

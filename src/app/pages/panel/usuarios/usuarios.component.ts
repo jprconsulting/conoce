@@ -59,7 +59,7 @@ export class UsuariosComponent implements OnInit {
       ],
       nombre: ['', Validators.required],
       apellidos: ['', Validators.required],
-      estatus: [true],
+      estatus: [false],
     });
   }
 
@@ -94,18 +94,43 @@ export class UsuariosComponent implements OnInit {
 
 
   agregarUsuario() {
-    this.usuarioService.postUsuario(this.usuario).subscribe({
-      next: () => {
-        this.mensajeService.mensajeExito("Usuario agregado con éxito");
-        this.resetForm();
-      },
-      error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar usuario");
-        console.error(error);
+    if (this.userForm.valid) {
+      const nuevoUsuario = this.userForm.value;
+  
+      // Verificar si el nombre de usuario ya existe
+      const nombreUsuarioExistente = this.usuarios.some(u => u.nombre === nuevoUsuario.nombre);
+      const apellidosUsuarioExistente = this.usuarios.some(u => u.apellidos === nuevoUsuario.apellidos);
+  
+      // Verificar si el correo electrónico ya existe
+      const correoExistente = this.usuarios.some(u => u.email === nuevoUsuario.email);
+  
+      if (nombreUsuarioExistente) {
+        console.error('Ya existe un usuario con este nombre de usuario.');
+        this.mensajeService.mensajeError('Ya existe un usuario con este nombre de usuario.');
+      } else if (correoExistente) {
+        console.error('Ya existe un usuario con este correo electrónico.');
+        this.mensajeService.mensajeError('Ya existe un usuario con este correo electrónico.');
+      } else {
+        this.usuarioService.postUsuario(nuevoUsuario).subscribe({
+          next: () => {
+            console.log('Usuario agregado con éxito:', nuevoUsuario);
+            this.mensajeService.mensajeExito('Usuario agregado con éxito');
+            this.resetForm();
+            // También puedes agregar el nuevo usuario a la lista local
+            this.usuarios.push(nuevoUsuario);
+          },
+          error: (error) => {
+            console.error('Error al agregar usuario:', error);
+            this.mensajeService.mensajeError('Error al agregar usuario');
+          }
+        });
       }
+    } else {
+      console.error('El formulario de usuario es inválido. No se puede enviar.');
+      this.mensajeService.mensajeError('Formulario de usuario inválido. Revise los campos.');
     }
-    );
   }
+  
 
   actualizarUsuario() {
     this.usuarioService.putUsuario(this.usuario).subscribe({
