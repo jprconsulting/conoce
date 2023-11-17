@@ -7,7 +7,7 @@
 
             <br>
             <input type="checkbox" [(ngModel)]="isChecked" (change)="onCheckboxChange()" formControlName="fechaaceptacion">
-            Apecto todos los terminos y condiciones
+            Acepto todos los terminos y condiciones
             <div *ngIf="ConsentimientoForm3.get('fechaaceptacion')?.touched"class="error-message">
                 <div *ngIf="ConsentimientoForm3.get('fechaaceptacion')?.hasError('required')" class="text-danger">
                   La aceptacion es requerida
@@ -15,7 +15,7 @@
             </div>
             <br><p></p>
             <div class="container">
-                <button type="submit" class="btn btn-primary" (click)="Aceptar()" [disabled]="!isChecked || !ConsentimientoForm3.valid">Siguiente</button>
+                <button type="submit" class="btn btn-primary" (click)="Aceptar();" [disabled]="!isChecked || !ConsentimientoForm3.valid">Siguiente</button>
             </div>
         </div>
     </div>

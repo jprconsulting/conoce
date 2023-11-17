@@ -40,8 +40,8 @@ export class AceptacionService {
       catchError(this.handleErrorService.handleError)
     );
   }
-  putAceptacion(aceptacion: Aceptacion): Observable<Aceptacion> {
-    return this.http.put<Aceptacion>(`${this.route}/editar_aceptacion`, aceptacion)
+  putAceptacion(result: Aceptacion): Observable<Aceptacion> {
+    return this.http.put<Aceptacion>(`${this.route}/editar_aceptacion`, result)
       .pipe(
         tap(() => {
           this._refreshLisAceptacion$.next(null);

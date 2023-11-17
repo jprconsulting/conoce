@@ -38,22 +38,25 @@ export class ConsentimientosComponent  {
   Candidatos: Candidato[] = [];
   candidaturas: Candidaturas[] = [];
   candidatos!: any[];
+  aceptacion!: any[];
   isLoadingEmails = LoadingStates.neutro;
   isLoadingUsers = LoadingStates.neutro;
   isLoadingCandidato = LoadingStates.neutro;
   selectedEmails: string[] = [];
   filterText: string = ''; 
+  filterText4: string = ''; 
   filterText2: string = ''; 
   filterText3: string = '';
   filteredCandidates: any[] = []; 
+  filteredCandidates2: any[] = []; 
   candidatoFilter: Candidato[] = [];
   estados: Estados[] = [];
   cargos: Cargos[] = [];
   Aceptacion: Aceptacion[] = [];
   itemsPerPageTable1: number = 5;
-  currentPageTable1: number = 1;
+    currentPageTable1: number = 1;
   itemsPerPageOptions: number[] = [5, 10, 15];
-  itemsPerPageOptions2: number[] = [5, 10, 15];
+  itemsPerPageOptions2: number[] = [10, 20, 30];
   itemsPerPageTable2: number = 10;
   currentPageTable2: number = 1;
 
@@ -65,9 +68,7 @@ export class ConsentimientosComponent  {
     this.getConsentimientos();
     this.getListadocandidato();
     this.getEmails();
-    this.obtenerCargos();
     this.aceptacionService.refreshLisAceptacion.subscribe(() => this.getAceptacion());
-    this.obtenerEstados();
     this.getAceptacion();
 
     this.candidatoService.getCandidatos().subscribe(data => {
@@ -362,6 +363,16 @@ filterCandidates() {
     return nombreCompleto.toLowerCase().includes(textoFiltrado);
   });
 }
+filterCandidates2() {
+  this.AceptacionFilter = this.Aceptacion.filter((aceptacion) => {
+    const nombreCompleto = `${aceptacion.nombre} ${aceptacion.apat} ${aceptacion.amat} ${aceptacion.nombreC} ${aceptacion.fechadenvio} ${aceptacion.fechaaceptacion} `;
+    const textoFiltrado2 = this.filterText4.trim().toLowerCase();
+
+    return nombreCompleto.toLowerCase().includes(textoFiltrado2);
+  });
+}
+
+
 
 //   this.applyFilters2And3();
 // }
@@ -396,28 +407,6 @@ filterCandidates() {
 // }
 
 
-obtenerCargos() {
-  this.estadoService.obtenerCargos().subscribe(
-    (cargos: Cargos[]) => {
-      this.cargos = cargos;
-      console.log('Cargos recibidos:', cargos);
-    },
-    (error) => {
-      console.error('Error al obtener cargos:', error);
-    }
-  );
-}
-obtenerEstados() {
-  this.estadoService.obtenerEstados().subscribe(
-    (estados: Estados[]) => {
-      this.estados = estados;
-      console.log('Cargos recibidos:', estados);
-    },
-    (error) => {
-      console.error('Error al obtener estados:', error);
-    }
-  );
-}
 Optener(consentimiento: Consentimiento) {
   this.consentimiento = {
     id: consentimiento.id,
@@ -440,8 +429,6 @@ toggleSelection2(candidato: any) {
     candidato.apellidoMaterno 
     
   ) {
-    console.log(candidato.nombre, candidato.apellidoPaterno, candidato.apellidoMaterno);
-
     const consentimientoNombre = this.consentimiento.nombre;
     this.ConsentimientoForm2.get('Nombre')?.setValue(consentimientoNombre);
     const fechaActual = new Date();
@@ -453,7 +440,7 @@ toggleSelection2(candidato: any) {
       apat: candidato.apellidoPaterno,
       amat: candidato.apellidoMaterno,
       email: candidato.email,
-      idCandidato: candidato.candidatoid,
+      idCandidato: candidato.candidatoId,
       fechadenvio: fechaActual, // Usar objeto Date en lugar de cadena
       fechaaceptacion: undefined // Usar objeto Date en lugar de cadena
     };
@@ -463,7 +450,7 @@ toggleSelection2(candidato: any) {
 }
 deleteAceptar(id: number) {
   this.mensajeService.mensajeAdvertencia(
-    `¿Estás seguro de eliminar a: ${id}?`,
+    `¿Estás seguro de eliminar: ${id}?`,
     () => {
       this.aceptacionService.deleteAceptacion(id).subscribe({
         next: () => {
