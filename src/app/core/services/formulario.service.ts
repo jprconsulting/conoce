@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HandleErrorService } from './handle-error.service';
 import { Observable, Subject } from 'rxjs';
-import { catchError, tap, map } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { ConfigGoogleForm } from 'src/app/models/googleForm';
 
 @Injectable({
@@ -11,15 +11,15 @@ import { ConfigGoogleForm } from 'src/app/models/googleForm';
 })
 export class FormularioService {
   route = `${environment.apiUrl}/config-google-form`;
-  private _refreshLisUsers$ = new Subject<ConfigGoogleForm>();
+  private _refreshListUsers$ = new Subject<ConfigGoogleForm>();
 
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) { }
 
-  get refreshLisUsers() {
-    return this._refreshLisUsers$;
+  get refreshListUsers() {
+    return this._refreshListUsers$;
   }
 
   postFormulario(formData: ConfigGoogleForm) {
@@ -40,7 +40,7 @@ export class FormularioService {
     return this.http.delete(`${this.route}/eliminar_formulario/${formularioId}`)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next;
+          this._refreshListUsers$;
         }),
         catchError(this.handleErrorService.handleError)
       );
@@ -50,7 +50,7 @@ export class FormularioService {
     return this.http.put<ConfigGoogleForm>(`${this.route}/actualizar-formulario`, configForm)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next;
+          this._refreshListUsers$;
         }),
         catchError(this.handleErrorService.handleError)
       );

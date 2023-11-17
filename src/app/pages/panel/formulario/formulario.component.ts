@@ -52,13 +52,16 @@ export class FormularioComponent implements OnInit {
   }
 
   obtenerFormularios() {
+    this.isLoadingUsers = LoadingStates.trueLoading;
     this.formularioService.getFormularios().subscribe(
       (formularios) => {
         this.formulario = formularios;
         console.log('Respuesta de la API:', formularios);
+        this.isLoadingUsers = LoadingStates.falseLoading;
       },
       (error) => {
         console.error('Error al obtener los formularios', error);
+        this.isLoadingUsers = LoadingStates.errorLoading;
       }
     );
   }

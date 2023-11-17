@@ -1,8 +1,8 @@
 <form [formGroup]="ConsentimientoForm3" >
 <div class="card">
     <div class="card-body">
-        <div class="margin" *ngIf="result && result.consentimiento">
-            <h2 class="h2">{{ result.consentimiento.nombre }}</h2>
+        <div class="margin" *ngIf="consentimiento && result.consentimiento">
+            <h2 class="h2">{{ consentimiento.nombre }}</h2>
             <div *ngIf="textoSeguro" [innerHTML]="textoSeguro"></div>
 
             <br>
@@ -15,7 +15,7 @@
             </div>
             <br><p></p>
             <div class="container">
-                <button type="submit" class="btn btn-primary" (click)="obtenerConsentimiento()" [disabled]="!isChecked || !ConsentimientoForm3.valid">Siguiente</button>
+                <button type="submit" class="btn btn-primary" (click)="Aceptar()" [disabled]="!isChecked || !ConsentimientoForm3.valid">Siguiente</button>
             </div>
         </div>
     </div>

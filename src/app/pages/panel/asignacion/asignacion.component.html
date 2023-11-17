@@ -13,8 +13,8 @@
                         <div class="input-icon">
                             <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
                             <span class="input-icon-addon">
-                <i class="ti ti-search"></i>
-              </span>
+<i class="ti ti-search"></i>
+</span>
                         </div>
                     </div>
                 </div>
@@ -25,50 +25,50 @@
                     <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                 </div>
 
-                <div *ngSwitchCase="3"> 
-            <div class="table-responsive">
-                <table class="table card-table table-vcenter text-nowrap datatable">
-                    <thead>
-                        <tr>
-                            <th>Nombre del formulario</th>
-                            <th>Usuario</th>
-                            <th class="text-center" style="width: 7%">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-tbody">
-                        <tr *ngFor="let asignacion of formuser | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index">
-                            <td>{{ obtenerNombreFormulario(asignacion.formularioId) }}</td>
-                            <td>{{ obtenerNombreUsuario(asignacion.usuarioIds) }}</td>
-                            <td>
-                                <div class="d-flex justify-content-between">
-                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(asignacion)">
+                <div *ngSwitchCase="3">
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>Nombre del formulario</th>
+                                    <th>Usuario</th>
+                                    <th class="text-center" style="width: 7%">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-tbody">
+                                <tr *ngFor="let asignacion of formuser | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index">
+                                    <td>{{ obtenerNombreFormulario(asignacion.formularioId) }}</td>
+                                    <td>{{ obtenerNombreUsuario(asignacion.usuarioIds) }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(asignacion)">
                                   <i class="ti ti-edit"></i>
                                 </button>
-                                    <button class="btn btn-danger btn-icon btn-sm" (click)="borrarFormulario(asignacion.formularioId, asignacion.usuarioIds[0])">
+                                            <button class="btn btn-danger btn-icon btn-sm" (click)="borrarFormulario(asignacion.formularioId, asignacion.usuarioIds[0])">
                                   <i class="ti ti-eraser"></i>
                             </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                <div class="items-per-page">
-                    <label for="itemsPerPage">Elementos por página:</label>
-                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                        <div class="items-per-page">
+                            <label for="itemsPerPage">Elementos por página:</label>
+                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
           <option *ngFor="let option of itemsPerPageOptions" [value]="option">
             {{ option }}
           </option>
         </select>
+                        </div>
+                        <div class="pagination-container">
+                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                        </div>
+                    </div>
                 </div>
-                <div class="pagination-container">
-                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
-                </div>
-            </div>
-        </div>
-        <app-no-results *ngSwitchCase="4"></app-no-results>
-    </ng-container>
+                <app-no-results *ngSwitchCase="4"></app-no-results>
+            </ng-container>
         </div>
     </div>
 </div>

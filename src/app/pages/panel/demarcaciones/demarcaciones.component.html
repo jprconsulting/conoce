@@ -98,79 +98,79 @@
                                 <div class="progress" *ngSwitchCase="2">
                                     <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                                 </div>
-                
-                                <div *ngSwitchCase="3"> 
-                                       
-                            <div class="table-responsive" *ngIf="distritosLocales.length > 0">
-                                <br>
-                                <div class="input-icon">
-                                    <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
-                                    <span class="input-icon-addon">
+
+                                <div *ngSwitchCase="3">
+
+                                    <div class="table-responsive" *ngIf="distritosLocales.length > 0">
+                                        <br>
+                                        <div class="input-icon">
+                                            <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
+                                            <span class="input-icon-addon">
                                       <i class="ti ti-search"></i>
                                     </span>
-                                </div>
-                                <br>
-                                <div class="card">
-                                    <table class="table card-table table-vcenter text-nowrap datatable">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Acrónimo</th>
-                                                <th>Ext-pet</th>
-                                                <th>Estatus</th>
-                                                <th>Estado</th>
-                                                <th class="text-center" style="width: 7%">Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-tbody">
-                                            <tr *ngFor="let distritoLocal of filtrarDistritoslocales()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
-                                                <td>{{ distritoLocal.nombreDistritoLocal }}</td>
-                                                <td>{{ distritoLocal.acronimo }}</td>
-                                                <td>{{ distritoLocal.extPet }}</td>
-                                                <td>
-                                                    <ng-container *ngIf="distritoLocal.estatus; else elseEST">
-                                                        <span class="badge bg-success me-1"></span>Activo
-                                                    </ng-container>
-                                                    <ng-template #elseEST>
-                                                        <span class="badge bg-danger me-1"></span> Inactivo
-                                                    </ng-template>
-                                                </td>
-                                                <td>{{ getNombreEstado(distritoLocal.estadoId) }}</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-distrito-local" (click)="setDataModalUpdate(distritoLocal)">
+                                        </div>
+                                        <br>
+                                        <div class="card">
+                                            <table class="table card-table table-vcenter text-nowrap datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Acrónimo</th>
+                                                        <th>Ext-pet</th>
+                                                        <th>Estatus</th>
+                                                        <th>Estado</th>
+                                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-tbody">
+                                                    <tr *ngFor="let distritoLocal of filtrarDistritoslocales()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
+                                                        <td>{{ distritoLocal.nombreDistritoLocal }}</td>
+                                                        <td>{{ distritoLocal.acronimo }}</td>
+                                                        <td>{{ distritoLocal.extPet }}</td>
+                                                        <td>
+                                                            <ng-container *ngIf="distritoLocal.estatus; else elseEST">
+                                                                <span class="badge bg-success me-1"></span>Activo
+                                                            </ng-container>
+                                                            <ng-template #elseEST>
+                                                                <span class="badge bg-danger me-1"></span> Inactivo
+                                                            </ng-template>
+                                                        </td>
+                                                        <td>{{ getNombreEstado(distritoLocal.estadoId) }}</td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-between">
+                                                                <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-distrito-local" (click)="setDataModalUpdate(distritoLocal)">
                                                   <i class="ti ti-edit"></i>
                                                 </button>
-                                                        <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarDistritoLocal(distritoLocal.distritoLocalId, distritoLocal.nombreDistritoLocal)">
+                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarDistritoLocal(distritoLocal.distritoLocalId, distritoLocal.nombreDistritoLocal)">
                                                   <i class="ti ti-trash"></i>
                                                 </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
 
-                                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                                        <div class="items-per-page">
-                                            <label for="itemsPerPage">Elementos por página:</label>
-                                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                                            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                                                <div class="items-per-page">
+                                                    <label for="itemsPerPage">Elementos por página:</label>
+                                                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
                               <option *ngFor="let option of itemsPerPageOptions" [value]="option">
                                 {{ option }}
                               </option>
                             </select>
-                                        </div>
-                                        <div class="pagination-container">
-                                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                                </div>
+                                                <div class="pagination-container">
+                                                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div *ngIf="distritosLocales.length === 0">
+                                        <p>No hay Distritos Locales agregados.</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div *ngIf="distritosLocales.length === 0">
-                                <p>No hay Distritos Locales agregados.</p>
-                            </div>
-                        </div>
-                        <app-no-results *ngSwitchCase="4"></app-no-results>
-                    </ng-container>
+                                <app-no-results *ngSwitchCase="4"></app-no-results>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
@@ -249,7 +249,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <!-- FIN MODAL -->
                             <br>
                             <!-- Lista de Ayuntamientos -->
@@ -257,77 +256,77 @@
                                 <div class="progress" *ngSwitchCase="2">
                                     <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                                 </div>
-                
-                                <div *ngSwitchCase="3"> 
-                            <div class="table-responsive" *ngIf="ayuntamientos.length > 0">
-                                <br>
-                                <div class="input-icon">
-                                    <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
-                                    <span class="input-icon-addon">
+
+                                <div *ngSwitchCase="3">
+                                    <div class="table-responsive" *ngIf="ayuntamientos.length > 0">
+                                        <br>
+                                        <div class="input-icon">
+                                            <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
+                                            <span class="input-icon-addon">
                                     <i class="ti ti-search"></i>
                                   </span>
-                                </div>
-                                <br>
-                                <div class="card">
-                                    <table class="table card-table table-vcenter text-nowrap datatable">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Acrónimo</th>
-                                                <th>Ext-pet</th>
-                                                <th>Estatus</th>
-                                                <th>Distrito local</th>
-                                                <th class="text-center" style="width: 7%">Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-tbody">
-                                            <tr *ngFor="let ayuntamiento of filtrarAyuntamientos()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
-                                                <td>{{ ayuntamiento.nombreAyuntamiento }}</td>
-                                                <td>{{ ayuntamiento.acronimo }}</td>
-                                                <td>{{ ayuntamiento.extPet }}</td>
-                                                <td>
-                                                    <ng-container *ngIf="ayuntamiento.estatus; else elseEST">
-                                                        <span class="badge bg-success me-1"></span>Activo
-                                                    </ng-container>
-                                                    <ng-template #elseEST>
-                                                        <span class="badge bg-danger me-1"></span> Inactivo
-                                                    </ng-template>
-                                                </td>
-                                                <td>{{ getNombreDistritoLocal(ayuntamiento.distritoLocalId) }}</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento" (click)="setDataModalUpdateAyuntamiento(ayuntamiento)">
+                                        </div>
+                                        <br>
+                                        <div class="card">
+                                            <table class="table card-table table-vcenter text-nowrap datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Acrónimo</th>
+                                                        <th>Ext-pet</th>
+                                                        <th>Estatus</th>
+                                                        <th>Distrito local</th>
+                                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-tbody">
+                                                    <tr *ngFor="let ayuntamiento of filtrarAyuntamientos()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
+                                                        <td>{{ ayuntamiento.nombreAyuntamiento }}</td>
+                                                        <td>{{ ayuntamiento.acronimo }}</td>
+                                                        <td>{{ ayuntamiento.extPet }}</td>
+                                                        <td>
+                                                            <ng-container *ngIf="ayuntamiento.estatus; else elseEST">
+                                                                <span class="badge bg-success me-1"></span>Activo
+                                                            </ng-container>
+                                                            <ng-template #elseEST>
+                                                                <span class="badge bg-danger me-1"></span> Inactivo
+                                                            </ng-template>
+                                                        </td>
+                                                        <td>{{ getNombreDistritoLocal(ayuntamiento.distritoLocalId) }}</td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-between">
+                                                                <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento" (click)="setDataModalUpdateAyuntamiento(ayuntamiento)">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
-                                                        <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.ayuntamientoId, ayuntamiento.nombreAyuntamiento)">
+                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.ayuntamientoId, ayuntamiento.nombreAyuntamiento)">
                                                       <i class="ti ti-trash"></i>
                                                     </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                                        <div class="items-per-page">
-                                            <label for="itemsPerPage">Elementos por página:</label>
-                                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                                                <div class="items-per-page">
+                                                    <label for="itemsPerPage">Elementos por página:</label>
+                                                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
                             <option *ngFor="let option of itemsPerPageOptions" [value]="option">
                               {{ option }}
                             </option>
                           </select>
-                                        </div>
-                                        <div class="pagination-container">
-                                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                                </div>
+                                                <div class="pagination-container">
+                                                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div *ngIf="ayuntamientos.length === 0">
+                                        <p>No hay Ayuntamientos agregados.</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div *ngIf="ayuntamientos.length === 0">
-                                <p>No hay Ayuntamientos agregados.</p>
-                            </div>
-                        </div>
-                        <app-no-results *ngSwitchCase="4"></app-no-results>
-                    </ng-container>
+                                <app-no-results *ngSwitchCase="4"></app-no-results>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
@@ -416,77 +415,77 @@
                                 <div class="progress" *ngSwitchCase="2">
                                     <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                                 </div>
-                
-                                <div *ngSwitchCase="3"> 
-                            <div class="table-responsive" *ngIf="comunidades.length > 0">
-                                <br>
-                                <div class="input-icon">
-                                    <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
-                                    <span class="input-icon-addon">
+
+                                <div *ngSwitchCase="3">
+                                    <div class="table-responsive" *ngIf="comunidades.length > 0">
+                                        <br>
+                                        <div class="input-icon">
+                                            <input type="text" [(ngModel)]="searchTerm" class="form-control form-control-rounded" placeholder="Buscar" />
+                                            <span class="input-icon-addon">
                                   <i class="ti ti-search"></i>
                                 </span>
-                                </div>
-                                <br>
-                                <div class="card">
-                                    <table class="table card-table table-vcenter text-nowrap datatable">
-                                        <thead>
-                                            <tr>
-                                                <th>Nombre</th>
-                                                <th>Acrónimo</th>
-                                                <th>Ext-pet</th>
-                                                <th>Estatus</th>
-                                                <th>Ayuntamiento</th>
-                                                <th class="text-center" style="width: 7%">Acciones</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="table-tbody">
-                                            <tr *ngFor="let comunidad of filtrarComunidades()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
-                                                <td>{{ comunidad.nombreComunidad }}</td>
-                                                <td>{{ comunidad.acronimo }}</td>
-                                                <td>{{ comunidad.extPet }}</td>
-                                                <td>
-                                                    <ng-container *ngIf="comunidad.estatus; else elseEST">
-                                                        <span class="badge bg-success me-1"></span>Activo
-                                                    </ng-container>
-                                                    <ng-template #elseEST>
-                                                        <span class="badge bg-danger me-1"></span> Inactivo
-                                                    </ng-template>
-                                                </td>
-                                                <td>{{ getNombreAyuntamiento(comunidad.ayuntamientoId) }}</td>
-                                                <td>
-                                                    <div class="d-flex justify-content-between">
-                                                        <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-comunidad" (click)="setDataModalUpdateComunidad(comunidad)">
+                                        </div>
+                                        <br>
+                                        <div class="card">
+                                            <table class="table card-table table-vcenter text-nowrap datatable">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Acrónimo</th>
+                                                        <th>Ext-pet</th>
+                                                        <th>Estatus</th>
+                                                        <th>Ayuntamiento</th>
+                                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="table-tbody">
+                                                    <tr *ngFor="let comunidad of filtrarComunidades()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
+                                                        <td>{{ comunidad.nombreComunidad }}</td>
+                                                        <td>{{ comunidad.acronimo }}</td>
+                                                        <td>{{ comunidad.extPet }}</td>
+                                                        <td>
+                                                            <ng-container *ngIf="comunidad.estatus; else elseEST">
+                                                                <span class="badge bg-success me-1"></span>Activo
+                                                            </ng-container>
+                                                            <ng-template #elseEST>
+                                                                <span class="badge bg-danger me-1"></span> Inactivo
+                                                            </ng-template>
+                                                        </td>
+                                                        <td>{{ getNombreAyuntamiento(comunidad.ayuntamientoId) }}</td>
+                                                        <td>
+                                                            <div class="d-flex justify-content-between">
+                                                                <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-comunidad" (click)="setDataModalUpdateComunidad(comunidad)">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
-                                                        <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarComunidad(comunidad.comunidadId, comunidad.nombreComunidad)">
+                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarComunidad(comunidad.comunidadId, comunidad.nombreComunidad)">
                                                       <i class="ti ti-trash"></i>
                                                     </button>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                                        <div class="items-per-page">
-                                            <label for="itemsPerPage">Elementos por página:</label>
-                                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                                                <div class="items-per-page">
+                                                    <label for="itemsPerPage">Elementos por página:</label>
+                                                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
                           <option *ngFor="let option of itemsPerPageOptions" [value]="option">
                             {{ option }}
                           </option>
                         </select>
-                                        </div>
-                                        <div class="pagination-container">
-                                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                                </div>
+                                                <div class="pagination-container">
+                                                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                    <div *ngIf="comunidades.length === 0">
+                                        <p>No hay Comunidades agregadas.</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div *ngIf="comunidades.length === 0">
-                                <p>No hay Comunidades agregadas.</p>
-                            </div>
-                        </div>
-                        <app-no-results *ngSwitchCase="4"></app-no-results>
-                    </ng-container>
+                                <app-no-results *ngSwitchCase="4"></app-no-results>
+                            </ng-container>
                         </div>
                     </div>
                 </div>

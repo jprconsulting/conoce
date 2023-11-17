@@ -27,6 +27,7 @@ export class UsuariosComponent implements OnInit {
   itemsPerPage: number = 5;
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [5, 10, 15];
+  filtro: string = '';
 
   constructor(
     private usuarioService: UsuarioService,
@@ -183,6 +184,16 @@ export class UsuariosComponent implements OnInit {
       apellidos: user.apellidos
     });
     console.log(this.userForm.value);
+  }
+
+  filtrarResultados() {
+    const filtroLowerCase = this.filtro.toLowerCase().trim();
+
+    return this.usuarios.filter(usuario =>
+      usuario.nombre.toLowerCase().includes(filtroLowerCase) ||
+      usuario.apellidos.toLowerCase().includes(filtroLowerCase) ||
+      usuario.email.toLowerCase().includes(filtroLowerCase)
+    );
   }
 
 }

@@ -24,10 +24,12 @@ export class DatosComponent {
   consentimientos!: Consentimiento;
   ConsentimientoForm3!: FormGroup;
   result: any; 
+  Result: any;
   isChecked: boolean = false;
   check: Date;
   textoSeguro!: SafeHtml;
   usuario!: Usuario;
+  Aceptacion!: Aceptacion;
   constructor(
     private route: ActivatedRoute,
     private consentimientoService: ConsentimientoService,
@@ -35,7 +37,8 @@ export class DatosComponent {
     private mensajeService: MensajeService,
     private sanitizer: DomSanitizer,
     private securityService: SecurityService,
-    private usuarioService: UsuarioService
+    private usuarioService: UsuarioService,
+    private aceptacionService: AceptacionService
   ) {
     this.check = new Date();
     this.creaFormulario();
@@ -46,33 +49,36 @@ export class DatosComponent {
     
     this.obtenerConsentimiento();
     this.obtenerUsuarioPorId();
+    this.obtener();
   }
   obtenerUsuarioPorId() {
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
       const id = this.securityService.getUsuarioId();
       console.log('id', id);
+  
       if (id) {
         const id2 = +id;
+  
         this.usuarioService.getPorId(id).subscribe(
           (result: Usuario) => {
-            this.result = result; // Asigna el objeto de usuario a la propiedad this.usuario
+            this.result = result;
             this.usuario = {
               usuarioId: this.result.usuario.usuarioId,
-              rolId:this.result.usuario.rolId,
+              rolId: this.result.usuario.rolId,
               rol: this.result.usuario.rol,
               email: this.result.usuario.email,
               password: this.result.usuario.password,
-              estatus:this.result.usuario.estatus,
+              estatus: this.result.usuario.estatus,
               nombre: this.result.usuario.nombre,
               apellidos: this.result.usuario.apellidoss,
-            }; 
-            console.log(this.result);
-            console.log('Nombre del usuario:', this.usuario.nombre);
-
+            };
+  
+            // Llamar a la otra función aquí después de obtener los datos
+            this.obtener();
           },
           error => {
-            console.error('Error al obtener el usuario por ID:', error);
+            console.error('Error al obtener usuario por ID:', error);
           }
         );
       } else {
@@ -90,8 +96,6 @@ export class DatosComponent {
         this.consentimientoService.getConsentimientoPorId(id).subscribe(
           (result: Consentimiento) => {
             this.result = result; // Asegúrate de que el objeto result tenga una propiedad "consentimiento".
-            console.log('Resultado:', this.result);
-  
             this.consentimiento = {
               id: this.result.consentimiento.id,
               nombre: this.result.consentimiento.nombre,
@@ -114,9 +118,88 @@ export class DatosComponent {
         console.log('ID parameter not found in the URL');
         this.isLoadingConsentimiento = LoadingStates.falseLoading;
       }
-    });
-    
+    }); 
   }
+  
+  obtener() {
+    this.result;
+    console.log(this.result);
+    console.log('Usuario email:', this.usuario.email);
+
+    const email = this.usuario.email;
+
+    this.aceptacionService.getAceptacionPorEmail(email).subscribe(
+      (Result: Aceptacion) => {
+        this.Aceptacion = {
+          id: Result.id,
+          nombreC: Result.nombreC,
+          idCandidato: Result.idCandidato,
+          nombre: Result.nombre,
+          apat: Result.apat,
+          amat: Result.amat,
+          email: Result.email,
+          fechadenvio: Result.fechadenvio,
+          fechaaceptacion: Result.fechaaceptacion,
+        };
+        console.log('f', Result);
+      },
+      error => {
+        console.error('Error al obtener aceptación:', error);
+      }
+    );
+  }
+
+  Aceptar() {
+    // Puedes acceder a this.Aceptacion y this.Result aquí
+    console.log(this.Result);
+    console.log('Usuario email:', this.usuario.email);
+  
+    const email = this.usuario.email;
+  
+    this.aceptacionService.getAceptacionPorEmail(email).subscribe(
+      (Result: Aceptacion) => {
+        this.Aceptacion = {
+          id: Result.id,
+          nombreC: Result.nombreC,
+          idCandidato: Result.idCandidato,
+          nombre: Result.nombre,
+          apat: Result.apat,
+          amat: Result.amat,
+          email: Result.email,
+          fechadenvio: Result.fechadenvio,
+          fechaaceptacion: Result.fechaaceptacion,
+        };
+        console.log('Datos de aceptación:', Result);
+  
+        // Modificar la fecha de aceptación
+        
+        this.Aceptacion.fechaaceptacion = new Date();
+        // Enviar la aceptación
+        this.aceptacionService.putAceptacion(Result).subscribe({
+
+          next: () => {
+            this.mensajeService.mensajeExito('Aceptación enviada');
+            setTimeout(() => {
+              console.log(this.Aceptacion);
+              window.location.href = 'http://localhost:4200/login';
+            }, 3000);
+          },
+          error: (error) => {
+            this.mensajeService.mensajeError('Error al aceptar');
+            console.error(error);
+            console.log(this.Aceptacion);
+          }
+        });
+        console.log('dcuhdci');
+      },
+      error => {
+        console.error('Error al obtener aceptación:', error);
+      }
+    );
+  }
+  
+    
+  
   creaFormulario(){
     this.ConsentimientoForm3 = this.formBuilder.group({
       fechaaceptacion: ['', [Validators.required]],

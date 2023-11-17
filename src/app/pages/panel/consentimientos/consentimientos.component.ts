@@ -242,12 +242,14 @@ enviarConsentimientos(email: string, id: number, selectedEmails: string[]) {
   this.ConsentimientoService.enviarConsentimientos(email2, id2, selectedEmails2).subscribe({
   next: () => {
     this.mensajeService.mensajeExito('Email enviado');
+    this.getAceptacion();
   },
   error: () => {
     this.isLoadingUsers = LoadingStates.errorLoading;
   }
 });
 this.mensajeService.mensajeExito('Email enviado');
+this.getAceptacion();
 }
 
 
@@ -354,9 +356,13 @@ setDataModalUpdate(consentimiento: Consentimiento) {
 
 filterCandidates() {
   this.filteredCandidates = this.candidatos.filter((candidato) => {
-   return candidato.nombre.toLowerCase().includes(this.filterText.toLowerCase());
+    const nombreCompleto = `${candidato.nombre} ${candidato.apellidoPaterno} ${candidato.apellidoMaterno}`;
+    const textoFiltrado = this.filterText.toLowerCase();
+
+    return nombreCompleto.toLowerCase().includes(textoFiltrado);
   });
 }
+
 //   this.applyFilters2And3();
 // }
 
@@ -446,7 +452,8 @@ toggleSelection2(candidato: any) {
       nombre: candidato.nombre,
       apat: candidato.apellidoPaterno,
       amat: candidato.apellidoMaterno,
-      idCandidato: candidato.candidatoId,
+      email: candidato.email,
+      idCandidato: candidato.candidatoid,
       fechadenvio: fechaActual, // Usar objeto Date en lugar de cadena
       fechaaceptacion: undefined // Usar objeto Date en lugar de cadena
     };
@@ -454,4 +461,19 @@ toggleSelection2(candidato: any) {
     });
   }
 }
+deleteAceptar(id: number) {
+  this.mensajeService.mensajeAdvertencia(
+    `¿Estás seguro de eliminar a: ${id}?`,
+    () => {
+      this.aceptacionService.deleteAceptacion(id).subscribe({
+        next: () => {
+          this.mensajeService.mensajeExito('Eliminado correctamente');
+          this.getAceptacion();
+        },
+        error: (error) => this.mensajeService.mensajeError(error)
+      });
+    }
+  );
+}
+
 }

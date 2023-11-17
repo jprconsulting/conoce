@@ -19,6 +19,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
     FormsModule,
     NgxPaginationModule,
   ],
+
     exports: [
       DemarcacionesComponent
     ]
