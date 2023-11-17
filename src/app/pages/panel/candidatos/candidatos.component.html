@@ -411,10 +411,20 @@
                         <div *ngFor="let formulario of respuestasGoogleFormulario.formularios" class="accordion-item">
                             <h2 class="accordion-header" [attr.id]="'heading' + formulario.formularioId">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + formulario.formularioId" aria-expanded="true" [attr.aria-controls]="'collapse' + formulario.formularioId">
-                  <span [ngClass]="{'text-danger': formulario.preguntasRespuestas.length === 0, 'text-success': formulario.preguntasRespuestas.length > 0}">
-                    Nombre del formulario : {{ formulario.formName }}
-                  </span>
-                </button>
+                                <span [ngClass]="{'text-danger': formulario.preguntasRespuestas.length === 0, 'text-success': formulario.preguntasRespuestas.length > 0}">
+                                    Nombre del formulario : {{ formulario.formName }}
+                                </span>
+                                <ng-container *ngIf="formulario.preguntasRespuestas.length > 0; else redRibbon">
+                                    <div class="ribbon ribbon-top bg-green" style="padding-bottom: 10px;">
+                                        <i class="ti ti-clipboard-check"></i>
+                                    </div>
+                                </ng-container>
+                                <ng-template #redRibbon>
+                                    <div class="ribbon ribbon-top bg-red" style="padding-bottom: 10px;">
+                                        <i class="ti ti-clipboard-x"></i>
+                                    </div>
+                                </ng-template>
+                            </button>
                             </h2>
                             <div [attr.id]="'collapse' + formulario.formularioId" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + formulario.formularioId" data-bs-parent="#respuestasAcordeon">
                                 <div class="accordion-body">
@@ -431,6 +441,7 @@
                                     </ng-template>
                                 </div>
                             </div>
+                            <br>
                         </div>
                     </div>
                 </div>
