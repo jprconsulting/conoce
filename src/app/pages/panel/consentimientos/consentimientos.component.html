@@ -9,14 +9,7 @@
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd();ResetForm()">
             <i class="ti ti-plus me-1"></i>Agregar
           </button>
-                    <div class="ms-auto text-muted">
-                        <div class="input-icon">
-                            <input type="text" value="" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                <i class="ti ti-search"></i>
-              </span>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -130,7 +123,6 @@
                         <th>Nombre</th>
                         <th>Email</th>
                         <th>Fecha de envio</th>
-                        <th>Fecha Aceptación</th>
                         <th>Propietario</th>
                         
                         <th class="text-center" style="width: 7%">Acciones</th>
@@ -144,7 +136,6 @@
                         <td>{{ Consentimiento.nombre }}</td>
                         <td>{{ Consentimiento.email }}</td>
                         <td>{{ Consentimiento.fechadenvio | date:'yyyy-MM-dd' }}</td> 
-                        <td>{{ Consentimiento.fechaaceptacion | date:'yyyy-MM-dd'  }}</td> 
                         <td>{{Consentimiento.estado}}</td>
                         <td>                   
                             <div class="d-flex justify-content-between">
@@ -169,9 +160,10 @@
                                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
                                                 </div>
                                                 <div class="row">
-                                                <div class="mb-5" >        
+                                                <div class="mb-5" >   
                                                     <label class="filtro">Busqueda por nombre o/y apellidos*:</label>                                            
                                                     <input type="text" class="form-control filtro" [(ngModel)]="filterText" (ngModelChange)="filterCandidates()" placeholder="Filtrar por nombre y/o apellidos" style="width: 90%;"> 
+                                                    
                                                     <label class="filtro">Selecciona un Cargo*:</label>
                                                       <select class="form-select filtro" [(ngModel)]="filterText3" style="width: 90%;">
                                                         <option *ngFor="let cargoItem of cargos" [value]="cargoItem.nombreCargo">{{ cargoItem.nombreCargo }}</option>
@@ -238,7 +230,8 @@
                 </tbody>
             </table>
             <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                <div class="items-per-page">
+                <!-- Items Per Page Dropdown -->
+                <div class="items-per-page1">
                     <label for="itemsPerPageTable1">Elementos por tabla:</label>
                     <select id="itemsPerPageTable1" [(ngModel)]="itemsPerPageTable1" style="margin-left: 5px">
                         <option *ngFor="let option of itemsPerPageOptions" [value]="option">
@@ -246,15 +239,26 @@
                         </option>
                     </select>
                 </div>
+                <!-- Pagination Controls -->
                 <div class="pagination-container">
                     <pagination-controls (pageChange)="currentPageTable1 = $event"></pagination-controls>
                 </div>
             </div>
         </div>
     </ng-container>
-<br>
-<br>
-<br>
+<p>
+
+<h1>Lista de consentimientos/Aviso de privacidad enviados a usuarios</h1>
+<ng-container>       
+    <div class="ms-auto text-muted">
+        <div class="input-icon">
+            <input type="text" value="" class="form-control form-control-rounded" placeholder="Busqueda por nombre o/y apellidos, Consentimiento/Avisos de privacidad, fechas:" [(ngModel)]="filterText4" (ngModelChange)="filterCandidates2()"/>
+            <span class="input-icon-addon">
+            <i class="ti ti-search"></i>
+            </span>
+        </div>
+    </div>                                   
+    <div>
     <table class="table">
         <thead>
           <tr>
@@ -269,7 +273,7 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let Aceptacion of Aceptacion  | paginate: { itemsPerPage: itemsPerPageTable2, currentPage: currentPageTable2 }">
+            <tr *ngFor="let Aceptacion of AceptacionFilter | paginate: { itemsPerPage: itemsPerPageTable2, currentPage: currentPageTable2 }">
                 <td>{{ Aceptacion.id }}</td>
                 <td>{{ Aceptacion.nombre }}</td>
                 <td>{{ Aceptacion.apat }}</td>
@@ -288,7 +292,8 @@
         </tbody>
       </table>
       <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-        <div class="items-per-page">
+        <!-- Items Per Page Dropdown -->
+        <div class="items-per-page2">
             <label for="itemsPerPageTable2">Elementos por tabla:</label>
             <select id="itemsPerPageTable2" [(ngModel)]="itemsPerPageTable2" style="margin-left: 5px">
                 <option *ngFor="let option of itemsPerPageOptions2" [value]="option">
@@ -296,8 +301,10 @@
                 </option>
             </select>
         </div>
-        <div class="pagination-container">
+        <!-- Pagination Controls -->
+        <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
             <pagination-controls (pageChange)="currentPageTable2 = $event"></pagination-controls>
         </div>
     </div>
-    
+</div>
+</ng-container>   

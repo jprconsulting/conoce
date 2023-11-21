@@ -23,13 +23,13 @@ export class DatosComponent {
   consentimiento: Consentimiento | null = null;
   consentimientos!: Consentimiento;
   ConsentimientoForm3!: FormGroup;
-  result: any; 
-  Result: any;
+  result: any;
+  Result: any; 
   isChecked: boolean = false;
   check: Date;
   textoSeguro!: SafeHtml;
   usuario!: Usuario;
-  Aceptacion!: Aceptacion;
+  aceptacion: Aceptacion | null = null;
   constructor(
     private route: ActivatedRoute,
     private consentimientoService: ConsentimientoService,
@@ -45,8 +45,7 @@ export class DatosComponent {
     
   }
   
-  ngOnInit() {
-    
+  ngOnInit() {    
     this.obtenerConsentimiento();
     this.obtenerUsuarioPorId();
     this.obtener();
@@ -121,88 +120,42 @@ export class DatosComponent {
     }); 
   }
   
-  obtener() {
-    this.result;
-    console.log(this.result);
-    console.log('Usuario email:', this.usuario.email);
-
-    const email = this.usuario.email;
-
-    this.aceptacionService.getAceptacionPorEmail(email).subscribe(
-      (Result: Aceptacion) => {
-        this.Aceptacion = {
-          id: Result.id,
-          nombreC: Result.nombreC,
-          idCandidato: Result.idCandidato,
-          nombre: Result.nombre,
-          apat: Result.apat,
-          amat: Result.amat,
-          email: Result.email,
-          fechadenvio: Result.fechadenvio,
-          fechaaceptacion: Result.fechaaceptacion,
-        };
-        console.log('f', Result);
-      },
-      error => {
-        console.error('Error al obtener aceptación:', error);
-      }
-    );
-  }
+  
+ 
 
   Aceptar() {
-    // Puedes acceder a this.Aceptacion y this.Result aquí
-    console.log(this.Result);
-    console.log('Usuario email:', this.usuario.email);
-  
-    const email = this.usuario.email;
-  
-    this.aceptacionService.getAceptacionPorEmail(email).subscribe(
-      (Result: Aceptacion) => {
-        this.Aceptacion = {
-          id: Result.id,
-          nombreC: Result.nombreC,
-          idCandidato: Result.idCandidato,
-          nombre: Result.nombre,
-          apat: Result.apat,
-          amat: Result.amat,
-          email: Result.email,
-          fechadenvio: Result.fechadenvio,
-          fechaaceptacion: Result.fechaaceptacion,
-        };
-        console.log('Datos de aceptación:', Result);
-  
-        // Modificar la fecha de aceptación
-        
-        this.Aceptacion.fechaaceptacion = new Date();
-        // Enviar la aceptación
-        this.aceptacionService.putAceptacion(Result).subscribe({
-
+    this.aceptacion;
+  if(this.aceptacion){
+    this.aceptacion.fechaaceptacion = new Date();
+        this.aceptacionService.putAceptacion(this.aceptacion).subscribe({
           next: () => {
-            this.mensajeService.mensajeExito('Aceptación enviada');
+            console.log('Datos de aceptación antes de la actualización:', this.aceptacion);
             setTimeout(() => {
-              console.log(this.Aceptacion);
+              console.log('Datos de aceptación después de la actualización:', this.aceptacion);
               window.location.href = 'http://localhost:4200/login';
-            }, 3000);
+            }, 9000);
           },
           error: (error) => {
             this.mensajeService.mensajeError('Error al aceptar');
             console.error(error);
-            console.log(this.Aceptacion);
           }
         });
         console.log('dcuhdci');
-      },
-      error => {
-        console.error('Error al obtener aceptación:', error);
       }
-    );
-  }
-  
     
+  }
   
   creaFormulario(){
     this.ConsentimientoForm3 = this.formBuilder.group({
       fechaaceptacion: ['', [Validators.required]],
+      id: [null],
+      nombreC: [null],
+      idCandidato:[null],
+      nombre: [null],
+      apat:[null],
+      amat: [null],
+      email: [null],
+      fechadenvio: [null],
     })
   }
   actualizarFechaAceptacion() {
@@ -234,7 +187,42 @@ export class DatosComponent {
         
       }
     }
-
+    obtener() {
+      console.log(this.result);
+      console.log('Usuario email:', this.usuario.email);
+      console.log('Usuario email2:', this.usuario.email);
+      const email = this.usuario.email;
+      this.route.paramMap.subscribe(params => {
+        if (email) {
+          console.log('Captured email:', email);
+          this.aceptacionService.getAceptacionPorEmail(email).subscribe(
+            (aceptacionResultado: Aceptacion) => {
+              // Cambia 'this.result' por otro nombre de variable, por ejemplo, 'aceptacionResultado'
+              this.Result = aceptacionResultado;
+              this.aceptacion = {
+                id: this.Result.aceptacion.id,
+                nombre: this.Result.aceptacion.nombre,
+                nombreC:  this.Result.aceptacion.nombreC,
+                idCandidato:  this.Result.aceptacion.idCandidato,
+                apat:  this.Result.aceptacion.apat,
+                amat:  this.Result.aceptacion.amat,
+                email: this.Result.aceptacion.email,
+                fechadenvio: this.Result.aceptacion.fechadenvio,
+                fechaaceptacion: new Date()
+              };
+              console.log('cudnc', this.aceptacion);
+              console.log('cudnc2', this.Result);
+            },
+            error => {
+              console.error('Error al obtener los datos:', error);
+            }
+          );
+        } else {
+          console.log('ID parameter not found in the URL');
+        }
+      }); 
+    }
+    
 
     
   }
