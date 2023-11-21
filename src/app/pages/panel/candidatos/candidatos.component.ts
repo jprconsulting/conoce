@@ -17,6 +17,12 @@ import { FormularioService } from 'src/app/core/services/formulario.service';
 import { ConfigGoogleForm } from 'src/app/models/googleForm';
 import { RespuestasGoogleService } from 'src/app/core/services/respuestasGoogle.service';
 import { EstadoFormulario, Formulario, RespuestaGoogleFormulario } from 'src/app/models/respuesta-google-formulario';
+import { DistritoLocalService } from 'src/app/core/services/distritolocal.service';
+import { AyuntamientoService } from 'src/app/core/services/ayuntamiento.service';
+import { ComunidadService } from 'src/app/core/services/comunidad.service';
+import { DistritoLocal } from 'src/app/models/distritoLocal';
+import { Ayuntamiento } from 'src/app/models/ayuntamiento';
+import { Comunidad } from 'src/app/models/comunidad';
 
 @Component({
   selector: 'app-candidatos',
@@ -64,6 +70,10 @@ export class CandidatosComponent implements OnInit {
   formularios: Formulario[] = [];
   porcentajeProgreso: number = 0;
   selectedStatus: string | null = null;
+  distritosLocales: DistritoLocal[] = [];
+  ayuntamientos: Ayuntamiento[] = [];
+  comunidades: Comunidad[] = [];
+  selectedDemarcacion: string = '';
 
   constructor(
     private candidatoService: CandidatoService,
@@ -76,7 +86,10 @@ export class CandidatosComponent implements OnInit {
     private http: HttpClient,
     private formularioService: FormularioService,
     private respuestasGoogleFormularioService : RespuestasGoogleService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private distritoLocalService: DistritoLocalService,
+    private ayuntamientoService: AyuntamientoService,
+    private comunidadService: ComunidadService,
 
   ) {
     this.crearFormularioCandidato();
@@ -87,6 +100,8 @@ export class CandidatosComponent implements OnInit {
     this.userForm = this.formBuilder.group({
       candidatoId: [null],
       nombrePropietario: ['', Validators.required],
+      apellidoPaterno: ['', Validators.required],
+      apellidoMaterno: ['', Validators.required],
       sobrenombrePropietario: ['', Validators.required],
       generoId: [null, Validators.required],
       nombreSuplente: ['', Validators.required],
@@ -114,9 +129,31 @@ export class CandidatosComponent implements OnInit {
     this.obtenerCargos();
     this.obtenerGeneros();
     this.getConfigGoogleForms();
+    this.cargarDistritosLocales();
+    this.cargarAyuntamientos();
+    this.cargarComunidades();
     // this.filtrarPorFormulario();
   }
+  cargarDistritosLocales() {
+    this.distritoLocalService.getDistritosLocales().subscribe((data: DistritoLocal[]) => {
+      this.distritosLocales = data;
+      console.log('Distritos Locales:', this.distritosLocales);
+    });
+  }
 
+  cargarAyuntamientos() {
+    this.ayuntamientoService.getAyuntamientos().subscribe((data: Ayuntamiento[]) => {
+      this.ayuntamientos = data;
+      console.log('Ayuntamientos:', this.ayuntamientos);
+    });
+  }
+
+  cargarComunidades() {
+    this.comunidadService.getComunidades().subscribe((data: Comunidad[]) => {
+      this.comunidades = data;
+      console.log('Comunidades:', this.comunidades);
+    });
+  }
   cambiarEstadoRespuesta(estado: 'todos' | 'contestado' | 'sinContestar') {
     this.estadoRespuestaSeleccionado = estado;
   }
@@ -139,6 +176,10 @@ export class CandidatosComponent implements OnInit {
 
   }
 
+  onChangeDemarcacion(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    this.selectedDemarcacion = selectedValue;
+  }
 
 calcularEstadosFormularios(): { nombre: string; estado: string }[] {
   const estadosFormularios: { nombre: string; estado: string }[] = [];
@@ -173,17 +214,9 @@ calcularEstadosFormularios(): { nombre: string; estado: string }[] {
   }
 
 
-  filtrarPorEstatus(event: Event): void {
-    const valorSeleccionado = (event.target as HTMLSelectElement).value;
-    if (this.estatusSeleccionado) {
-      this.candidatosFiltrados = this.candidatos.filter(candidato => {
-        const respuestasCandidato = this.respuestas.find(r => r.candidatoId === candidato.candidatoId);
-        return respuestasCandidato?.formularios.some(formulario => formulario.formName === this.estatusSeleccionado);
-      });
-    } else {
-      this.candidatosFiltrados = [...this.candidatos];
-    }
-  }
+  filtrarPorEstatus(estatus: string) {
+    this.estatusSeleccionado = estatus;
+}
 
   getListadocandidato() {
     this.isLoadingUsers = LoadingStates.trueLoading;
@@ -469,6 +502,7 @@ mostrarRespuestas(candidatoId: number) {
     }
   );
 }
+
 
 }
 

@@ -104,13 +104,35 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-12">
+                                <div class="col-lg-4">
                                     <div class="mb-3">
                                         <label class="form-label">Nombre</label>
                                         <input type="text" class="form-control" formControlName="nombrePropietario" />
                                         <div *ngIf="userForm.get('nombrePropietario')?.touched" class="error-message">
                                             <div *ngIf="userForm.get('nombrePropietario')?.hasError('required')">
                                                 El nombre es obligatorio
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Apellido paterno</label>
+                                        <input type="text" class="form-control" formControlName="apellidoPaterno" />
+                                        <div *ngIf="userForm.get('apellidoPaterno')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('apellidoPaterno')?.hasError('required')">
+                                                El apellido paterno es obligatorio
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Apellido materno</label>
+                                        <input type="text" class="form-control" formControlName="apellidoMaterno" />
+                                        <div *ngIf="userForm.get('apellidoMaterno')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('apellidoMaterno')?.hasError('required')">
+                                                El apellido materno es obligatorio
                                             </div>
                                         </div>
                                     </div>
@@ -243,9 +265,9 @@
                                     <div class="mb-3">
                                         <label class="form-label">Cargo</label>
                                         <select class="form-select" formControlName="cargoId">
-                              <option value="null">Selecciona un cargo...</option>
-                              <option *ngFor="let cargoItem of cargos" [value]="cargoItem.cargoId">{{ cargoItem.nombreCargo }}</option>
-                            </select>
+                                          <option value="null">Selecciona un cargo...</option>
+                                          <option *ngFor="let cargoItem of cargos" [value]="cargoItem.cargoId">{{ cargoItem.nombreCargo }}</option>
+                                        </select>
                                         <div *ngIf="userForm.get('cargoId')?.touched" class="error-message">
                                             <div *ngIf="userForm.get('cargoId')?.hasError('required')">
                                                 El cargo es obligatorio
@@ -256,26 +278,11 @@
 
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        <label class="form-label">Estado</label>
-                                        <select class="form-select" formControlName="estadoId">
-                              <option value="null">Selecciona un estado...</option>
-                              <option *ngFor="let estadoItem of estados" [value]="estadoItem.estadoId">{{ estadoItem.nombreEstado }}</option>
-                            </select>
-                                        <div *ngIf="userForm.get('estadoId')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('estadoId')?.hasError('required')">
-                                                El estado es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
                                         <label class="form-label">Organización Política</label>
                                         <select class="form-select" formControlName="candidaturaId">
-                              <option value="null">Selecciona una Organización...</option>
-                              <option *ngFor="let candidaturaItem of candidaturas" [value]="candidaturaItem.tipoCandidaturaId">{{ candidaturaItem.nombreTipoCandidatura }}</option>
-                            </select>
+                                        <option value="null">Selecciona una Organización...</option>
+                                        <option *ngFor="let candidaturaItem of candidaturas" [value]="candidaturaItem.tipoCandidaturaId">{{ candidaturaItem.nombreTipoCandidatura }}</option>
+                                      </select>
                                         <div *ngIf="userForm.get('candidaturaId')?.touched" class="error-message">
                                             <div *ngIf="userForm.get('candidaturaId')?.hasError('required')">
                                                 La organización es obligatoria
@@ -283,7 +290,61 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Demarcación</label>
+                                        <select class="form-select" formControlName="demarcacion" (change)="onChangeDemarcacion($event)">
+                                          <option value="null">Selecciona una demarcación...</option>
+                                          <option value="Estado">Estado</option>
+                                        <option value="Distrito Local">Distrito Local</option>
+                                        <option value="Ayuntamiento">Ayuntamiento</option>
+                                        <option value="Comunidad">Comunidad</option>
+                                    </select>
+                                        <div *ngIf="userForm.get('demarcacion')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('demarcacion')?.hasError('required')">
+                                                La demarcación es obligatoria
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+                            <!-- Opciones para Estado -->
+                            <div *ngIf="selectedDemarcacion === 'Estado'">
+                                <label class="form-label">Estados</label>
+                                <select class="form-select">
+                                  <option value="null">Selecciona un Estado...</option>
+                                  <option *ngFor="let estado of estados" [value]="estado.nombreEstado">{{ estado.nombreEstado }}</option>
+                              </select>
+                            </div>
+
+                            <!-- Opciones para Distrito Local -->
+                            <div *ngIf="selectedDemarcacion === 'Distrito Local'">
+                                <label class="form-label">Distritos Locales</label>
+                                <select class="form-select">
+                                  <option value="null">Selecciona un Distrito Local...</option>
+                                  <option *ngFor="let distrito of distritosLocales" [value]="distrito.nombreDistritoLocal">{{ distrito.nombreDistritoLocal }}</option>
+                              </select>
+                            </div>
+
+                            <!-- Opciones para Ayuntamiento -->
+                            <div *ngIf="selectedDemarcacion === 'Ayuntamiento'">
+                                <label class="form-label">Ayuntamientos</label>
+                                <select class="form-select">
+                                  <option value="null">Selecciona un Ayuntamiento...</option>
+                                  <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.nombreAyuntamiento">{{ ayuntamiento.nombreAyuntamiento }}</option>
+                              </select>
+                            </div>
+
+                            <!-- Opciones para Comunidad -->
+                            <div *ngIf="selectedDemarcacion === 'Comunidad'">
+                                <label class="form-label">Comunidades</label>
+                                <select class="form-select">
+                                  <option value="null">Selecciona una Comunidad...</option>
+                                  <option *ngFor="let comunidad of comunidades" [value]="comunidad.nombreComunidad">{{ comunidad.nombreComunidad }}</option>
+                              </select>
+                            </div>
+
                         </div>
                     </div>
                     <br> <br>
@@ -461,14 +522,32 @@
             <div class="modal-body">
                 <div class="card">
                     <br>
-                    <div class="ms-auto text-muted">
-                        <div class="input-icon" style="margin-right: 10px;">
-                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-                        <i class="ti ti-search"></i>
-                      </span>
+                    <!-- Filtrar por estatus y campo de búsqueda -->
+                    <div class="row mt-3">
+                        <div class="col-md-6">
+                            <div class="dropdown">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="border-left-width: 1px; margin-left: 10px;">
+                                  Filtrar por Estatus
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('')">Todos</a></li>
+                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('Contestado')">Contestado</a></li>
+                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('Por contestar')">Por contestar</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="ms-auto text-muted">
+                                <div class="input-icon" style="margin-right: 10px;">
+                                    <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <span class="input-icon-addon">
+                                        <i class="ti ti-search"></i>
+                                    </span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+                    <br>
                     <div class="table-responsive">
                         <table class="table card-table table-vcenter text-nowrap datatable">
                             <thead>
@@ -479,7 +558,7 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let formulario of calcularEstadosFormularios()">
-                                    <ng-container *ngIf="formulario.nombre.toLowerCase().includes(filtro.toLowerCase())">
+                                    <ng-container *ngIf="formulario.nombre.toLowerCase().includes(filtro.toLowerCase()) && (estatusSeleccionado === '' || formulario.estado === estatusSeleccionado)">
                                         <td>{{ formulario.nombre }}</td>
                                         <td>
                                             <ng-container *ngIf="formulario.estado === 'Contestado'; else porContestar">

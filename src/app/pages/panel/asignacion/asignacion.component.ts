@@ -162,13 +162,8 @@ obtenerNombreFormulario(formularioId: number): string {
   return formulario ? formulario.formName : 'Sin nombre';
 }
 
-obtenerNombreUsuario(usuarioIds: number | number[]): string {
-  const userIdsArray = Array.isArray(usuarioIds) ? usuarioIds : [usuarioIds];
-  const nombres = userIdsArray.map(usuarioId => {
-    const usuario = this.usuario.find(u => u.usuarioId === usuarioId);
-    return usuario ? usuario.nombre : 'Sin nombre';
-  });
-  return nombres.join(', ');
+filtrarAsignaciones() {
+  this.formuser = this.filtrarResultados();
 }
 
 borrarFormulario(formularioId: number, usuarioId: number) {
@@ -186,10 +181,26 @@ borrarFormulario(formularioId: number, usuarioId: number) {
 }
 
 filtrarResultados() {
-  return this.usuario.filter(usuario =>
+  const usuariosFiltrados = this.usuario.filter(usuario =>
     usuario.nombre.toLowerCase().includes(this.filtro.toLowerCase())
   );
+
+  const asignacionesFiltradas = this.formuser.filter(asignacion =>
+    asignacion.usuarioIds.some(id => usuariosFiltrados.some(usuario => usuario.usuarioId === id))
+  );
+
+  return asignacionesFiltradas;
 }
+
+obtenerNombreUsuario(usuarioIds: number | number[]): string {
+  const userIdsArray = Array.isArray(usuarioIds) ? usuarioIds : [usuarioIds];
+  const nombres = userIdsArray.map(usuarioId => {
+    const usuario = this.usuario.find(u => u.usuarioId === usuarioId);
+    return usuario ? usuario.nombre : 'Sin nombre';
+  });
+  return nombres.join(', ');
+}
+
 
 setDataModalUpdate(user: Formuser) {
   this.isModalAdd = false;
