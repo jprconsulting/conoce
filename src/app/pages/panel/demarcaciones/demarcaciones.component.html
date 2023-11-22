@@ -13,7 +13,7 @@
                     </h2>
                     <div id="collapse-1" class="accordion-collapse collapse show" data-bs-parent="#accordion-example">
                         <div class="accordion-body pt-0">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-distrito-local" (click)="handleChangeAdd()">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-distrito-local" (click)="handleChangeAdd('distrito-local')">
                               <i class="ti ti-plus me-1"></i>Agregar Distrito local
                             </button>
 
@@ -178,7 +178,7 @@
                 <!-- El segundo formulario también necesita la estructura de dos columnas -->
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="heading-2">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false" (click)="handleChangeAdd()">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-2" aria-expanded="false" (click)="handleChangeAdd('ayuntamiento')">
                           Ayuntamiento
                         </button>
                     </h2>
@@ -342,7 +342,7 @@
                     </h2>
                     <div id="collapse-3" class="accordion-collapse collapse" data-bs-parent="#accordion-example">
                         <div class="accordion-body pt-0">
-                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-comunidad" (click)="handleChangeAdd()">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-comunidad" (click)="handleChangeAdd('comunidad')">
                               <i class="ti ti-plus me-1"></i>Agregar Comunidad
                             </button>
                             <!-- MODAL AGREGAR COMUNIDAD -->
