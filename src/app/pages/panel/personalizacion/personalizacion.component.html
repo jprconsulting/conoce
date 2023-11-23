@@ -14,59 +14,92 @@
                                 <h3 class="card-title">Imágenes del sistema</h3>
                             </div>
                             <br><br>
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h3 class="card-title">LOGO INSTITUTO</h3>
-                                                <form class="dropzone" id="dropzone-default" action="./" autocomplete="off" novalidate>
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" />
-                                                    </div>
-                                                    <p>Arrastra archivos o haz clic aquí para cargarlos.</p>
-                                                    <i class="ti ti-photo-plus custom-icon"></i>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
+                            
 
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h3 class="card-title">LOGO APLICACIÓN</h3>
-                                                <form class="dropzone" id="dropzone-default-2" action="./" autocomplete="off" novalidate>
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" />
-                                                    </div>
-                                                    <p>Arrastra archivos o haz clic aquí para cargarlos.</p>
-                                                    <i class="ti ti-photo-plus custom-icon"></i>
-                                                </form>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h3 class="card-title">LOGO INSTITUTO</h3>
+                                            <div class="form-group">
+                                                <label for="imagen1" class="img-thumbnail" id="imagen-label1" *ngIf="!previewImage1">
+                                                    <br>
+                                                    <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
+                                                    <input type="file" class="form-control-file custom-file-input" id="imagen1" (change)="onImageChange1($event)" style="display: none;">
+                                                </label>
+                                                 <!-- Vista previa de la imagen -->
+                                                 <div *ngIf="previewImage1" class="mt-3">
+                                                    <img [src]="previewImage1" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
+                                                    <br>
+                                                    <label>Imagen seleccionada:</label>
+                                                    <br><br>
+                                                    <button class="btn btn-danger mt-2" *ngIf="previewImage1" (click)="eliminarImagen1()">Eliminar Imagen</button>
+                                                </div>
+                                            
                                             </div>
+                                            <br>
+                                            <!-- Texto para seleccionar imagen -->
+                                            <label class="form-label" *ngIf="!previewImage1">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
                                         </div>
                                     </div>
-
-                                    <div class="col-md-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <h3 class="card-title">IMAGEN DE BIENVENIDA</h3>
-                                                <form class="dropzone" id="dropzone-default-2" action="./" autocomplete="off" novalidate>
-                                                    <div class="fallback">
-                                                        <input name="file" type="file" />
-                                                    </div>
-                                                    <p>Arrastra archivos o haz clic aquí para cargarlos.</p>
-                                                    <i class="ti ti-photo-plus custom-icon"></i>
-                                                </form>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <br>
                                 </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h3 class="card-title">LOGO APLICACIÓN</h3>
+                                            <div class="form-group">
+                                                <label for="imagen2" class="img-thumbnail" id="imagen-label2" *ngIf="!previewImage2">
+                                                    <br>
+                                                    <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
+                                                    <input type="file" class="form-control-file custom-file-input" id="imagen2" (change)="onImageChange2($event)" style="display: none;">
+                                                </label>
+                                            </div>
+                                            <br>
+                                            <!-- Texto para seleccionar imagen -->
+                                            <label class="form-label" *ngIf="!previewImage2">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
+                                                                                <!-- Vista previa de la imagen -->
+                                                <div *ngIf="previewImage2" class="mt-3">
+                                                    <img [src]="previewImage2" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
+                                                    <br>
+                                                    <label>Imagen seleccionada:</label>
+                                                    <br><br>
+                                                    <button class="btn btn-danger mt-2" *ngIf="previewImage2" (click)="eliminarImagen2()">Eliminar Imagen</button>
+                                                </div>
+                                                                            
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="card-body">
+                                            <h3 class="card-title">BIENVENIDA</h3>
+                                            <div class="form-group">
+                                                <label for="imagen3" class="img-thumbnail" id="imagen-label3" *ngIf="!previewImage3">
+                                                    <br>
+                                                    <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
+                                                    <input type="file" class="form-control-file custom-file-input" id="imagen3" (change)="onImageChange3($event)" style="display: none;">
+                                                </label>
+                                            </div>
+                                            <br>
+                                            <!-- Texto para seleccionar imagen -->
+                                               <label class="form-label" *ngIf="!previewImage3">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
+                                             <!-- Vista previa de la imagen -->
+                                             <div *ngIf="previewImage3" class="mt-3">
+                                                <img [src]="previewImage3" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
+                                                <br>
+                                                <label>Imagen seleccionada:</label>
+                                                <br><br>
+                                                <button class="btn btn-danger mt-2" *ngIf="previewImage3" (click)="eliminarImagen3()">Eliminar Imagen</button>
+                                            </div>
+                                        
+                                            </div>
+                                    </div>
+                                </div>
+                                <br>
+                            </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
 
                 <br><br><br>
                 <!--SECCION REDES SOCIALES-->
