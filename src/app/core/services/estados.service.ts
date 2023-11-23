@@ -16,7 +16,7 @@ export class EstadoService {
   private estadosRoute = `${environment.apiUrl}/estado/obtener_estados`;
   private candidaturasRoute = `${environment.apiUrl}/tipo_candidatura/obtener_tipos_candidaturas`;
   private cargoRoute = `${environment.apiUrl}/cargo/obtener_cargos`;
-  private genRoute ='https://mocki.io/v1/ced770e1-5963-4f39-bcb3-5f92cddddfe7';
+  private genRoute ='https://localhost:7154/api/Genero/obtener_usuarios';
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
@@ -45,5 +45,5 @@ export class EstadoService {
       catchError(this.handleErrorService.handleError)
     );
   }
-  
+
 }

@@ -107,9 +107,9 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         <label class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" formControlName="nombrePropietario" />
-                                        <div *ngIf="userForm.get('nombrePropietario')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('nombrePropietario')?.hasError('required')">
+                                        <input type="text" class="form-control" formControlName="nombre" />
+                                        <div *ngIf="userForm.get('nombre')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('nombre')?.hasError('required')">
                                                 El nombre es obligatorio
                                             </div>
                                         </div>
@@ -215,9 +215,9 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Dirección de casa de campaña</label>
-                                        <input type="text" class="form-control" formControlName="direccionCasaCampaña" />
-                                        <div *ngIf="userForm.get('direccionCasaCampaña')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('direccionCasaCampaña')?.hasError('required')">
+                                        <input type="text" class="form-control" formControlName="direccionCasaCampania" />
+                                        <div *ngIf="userForm.get('direccionCasaCampania')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('direccionCasaCampania')?.hasError('required')">
                                                 La dirección es obligatoria
                                             </div>
                                         </div>
@@ -248,6 +248,17 @@
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="estadoActivo" class="form-label">Estatus</label>
+                                    <label class="form-check form-switch checkbox-verde">
+                                      <input class="form-check-input" type="checkbox" formControlName="estatus" />
+                                      <span class="form-check-label" [ngClass]="{'text-success': userForm.get('estatus')?.value === true,'text-danger': userForm.get('estatus')?.value === false}">
+                                        {{userForm.get("estatus")?.value ? "Activo" : "Inactivo"}}
+                                      </span>
+                                    </label>
                                 </div>
                             </div>
                         </div>
@@ -293,18 +304,13 @@
                                 <div class="col-lg-4">
                                     <div class="mb-3">
                                         <label class="form-label">Demarcación</label>
-                                        <select class="form-select" formControlName="demarcacion" (change)="onChangeDemarcacion($event)">
+                                        <select class="form-select" (change)="onChangeDemarcacion($event)">
                                           <option value="null">Selecciona una demarcación...</option>
                                           <option value="Estado">Estado</option>
                                         <option value="Distrito Local">Distrito Local</option>
                                         <option value="Ayuntamiento">Ayuntamiento</option>
                                         <option value="Comunidad">Comunidad</option>
                                     </select>
-                                        <div *ngIf="userForm.get('demarcacion')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('demarcacion')?.hasError('required')">
-                                                La demarcación es obligatoria
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -312,36 +318,36 @@
                             <!-- Opciones para Estado -->
                             <div *ngIf="selectedDemarcacion === 'Estado'">
                                 <label class="form-label">Estados</label>
-                                <select class="form-select">
+                                <select class="form-select" formControlName="estadoId">
                                   <option value="null">Selecciona un Estado...</option>
-                                  <option *ngFor="let estado of estados" [value]="estado.nombreEstado">{{ estado.nombreEstado }}</option>
+                                  <option *ngFor="let estado of estados" [value]="estado.estadoId">{{ estado.nombreEstado }}</option>
                               </select>
                             </div>
 
                             <!-- Opciones para Distrito Local -->
                             <div *ngIf="selectedDemarcacion === 'Distrito Local'">
                                 <label class="form-label">Distritos Locales</label>
-                                <select class="form-select">
+                                <select class="form-select" formControlName="distritoLocalId">
                                   <option value="null">Selecciona un Distrito Local...</option>
-                                  <option *ngFor="let distrito of distritosLocales" [value]="distrito.nombreDistritoLocal">{{ distrito.nombreDistritoLocal }}</option>
+                                  <option *ngFor="let distrito of distritosLocales" [value]="distrito.distritoLocalId">{{ distrito.nombreDistritoLocal }}</option>
                               </select>
                             </div>
 
                             <!-- Opciones para Ayuntamiento -->
                             <div *ngIf="selectedDemarcacion === 'Ayuntamiento'">
                                 <label class="form-label">Ayuntamientos</label>
-                                <select class="form-select">
+                                <select class="form-select" formControlName="ayuntamientoId">
                                   <option value="null">Selecciona un Ayuntamiento...</option>
-                                  <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.nombreAyuntamiento">{{ ayuntamiento.nombreAyuntamiento }}</option>
+                                  <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.ayuntamientoId">{{ ayuntamiento.nombreAyuntamiento }}</option>
                               </select>
                             </div>
 
                             <!-- Opciones para Comunidad -->
                             <div *ngIf="selectedDemarcacion === 'Comunidad'">
                                 <label class="form-label">Comunidades</label>
-                                <select class="form-select">
+                                <select class="form-select" formControlName="comunidadId">
                                   <option value="null">Selecciona una Comunidad...</option>
-                                  <option *ngFor="let comunidad of comunidades" [value]="comunidad.nombreComunidad">{{ comunidad.nombreComunidad }}</option>
+                                  <option *ngFor="let comunidad of comunidades" [value]="comunidad.comunidadId">{{ comunidad.nombreComunidad }}</option>
                               </select>
                             </div>
 
@@ -416,10 +422,9 @@
                             <h3 class="card-title">IMAGEN DEL CANDIDATO</h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="col-lg-12 d-flex align-items-center justify-content-center">
                                     <div class="mb-1 text-center">
-                                        <!-- Campo de Subir Imagen -->
                                         <div class="form-group">
                                             <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
                                         <br>
@@ -428,10 +433,8 @@
                                     </label>
                                         </div>
                                         <br>
-                                        <!-- Texto para seleccionar imagen -->
                                         <label class="form-label" *ngIf="!previewImage">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
 
-                                        <!-- Vista previa de la imagen -->
                                         <div *ngIf="previewImage" class="mt-3">
                                             <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
                                             <br>
@@ -440,6 +443,12 @@
                                             <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
                                         </div>
                                     </div>
+                                </div>
+                            </div> -->
+                            <div class="col-lg-4">
+                                <div class="mb-3">
+                                    <label class="form-label">IMAGEN PRUEBA</label>
+                                    <input type="text" class="form-control" formControlName="foto" />
                                 </div>
                             </div>
                         </div>
