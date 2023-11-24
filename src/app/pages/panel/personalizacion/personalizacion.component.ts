@@ -10,25 +10,11 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./personalizacion.component.css']
 })
 export class PersonalizacionComponent implements OnInit {
-  diseño: Diseño = {
-    logoInstFile: null,
-    logoAppFile: null,
-    imgBienvenFile: null,
-    telefono: 0,
-    direcccion: '',
-    urlFb: '',
-    urlIg: '',
-    urlTw: '',
-    urlYT: '',
-    colorPpal: '',
-    colorSec: ''
-  };
- 
+  diseño!: Diseño;
   previewImage1: string | ArrayBuffer | null = null;
   previewImage2: string | ArrayBuffer | null = null;
   previewImage3: string | ArrayBuffer | null = null;
-  userForm!: FormGroup;
-
+  userForm!: FormGroup
   constructor(
     private personalizacionService: PersonalizacionService,
     private mensajeService: MensajeService
@@ -43,15 +29,15 @@ export class PersonalizacionComponent implements OnInit {
 
   // Función para manejar la carga de archivos de imagen
   handleLogoInstFileInput(files: FileList) {
-    this.diseño.logoInstFile = files.item(0);
+    this.diseño.LogoIntitucional = files.item(0);
   }
 
   handleLogoAppFileInput(files: FileList) {
-    this.diseño.logoAppFile = files.item(0);
+    this.diseño.LogoAplicacion = files.item(0);
   }
 
   handleImgBienvenFileInput(files: FileList) {
-    this.diseño.imgBienvenFile = files.item(0);
+    this.diseño.ImagenBienvenida = files.item(0);
   }
 
   guardarConfiguracion() {

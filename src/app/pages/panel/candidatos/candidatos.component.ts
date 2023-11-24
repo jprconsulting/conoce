@@ -74,6 +74,11 @@ export class CandidatosComponent implements OnInit {
   ayuntamientos: Ayuntamiento[] = [];
   comunidades: Comunidad[] = [];
   selectedDemarcacion: string = '';
+  selectedTipo: string | undefined;
+  opcionesFiltradas: string[] = [];
+  partidosFiltrados: Partidos[] = [];
+  tipoSeleccionado: number | undefined;
+  opcionesDependientes: string[] = [];
 
   constructor(
     private candidatoService: CandidatoService,
@@ -99,27 +104,32 @@ export class CandidatosComponent implements OnInit {
   crearFormularioCandidato() {
     this.userForm = this.formBuilder.group({
       candidatoId: [null],
-      nombrePropietario: ['', Validators.required],
+      nombre: ['', Validators.required],
       apellidoPaterno: ['', Validators.required],
       apellidoMaterno: ['', Validators.required],
-      sobrenombrePropietario: ['', Validators.required],
+      sobrenombrePropietario: [''],
       generoId: [null, Validators.required],
       nombreSuplente: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       fechaNacimiento: ['', Validators.required],
-      direccionCasaCampaña: ['', Validators.required],
+      direccionCasaCampania: [''],
       telefonoPublico: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
-      paginaWeb: ['', Validators.required],
+      paginaWeb: [''],
+      facebook: ['', Validators.required],
+      twitter: ['', Validators.required],
+      instagram: ['', Validators.required],
+      tiktok: ['', Validators.required],
+      foto: [''],
+      estatus: [true],
       cargoId: [null, Validators.required],
-      estadoId: [null, Validators.required],
-      candidaturaId: [null, Validators.required],
-      facebook:['', Validators.required],
-      twitter:['', Validators.required],
-      instagram:['', Validators.required],
-      tiktok:['', Validators.required],
-      foto:['', Validators.required]
+      estadoId: [null],
+      distritoLocalId: [null],
+      ayuntamientoId: [null],
+      comunidadId: [null],
+      candidaturaId: [null, Validators.required]
     });
   }
+
 
   ngOnInit() {
     this.getListadocandidato();
@@ -302,6 +312,7 @@ getNombreAgrupacion(candidaturaId: number): string {
     );
   }
 
+
   // Método para abrir el modal y mostrar la información del usuario.
   abrirModal(candidato: Candidato) {
     this.usuarioSeleccionado = candidato;
@@ -322,11 +333,11 @@ getNombreAgrupacion(candidaturaId: number): string {
   agregarCandidato(candidatos: Candidato[]) {
     this.candidatoService.postCandidatos(candidatos).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Usuarios agregados con éxito");
+        this.mensajeService.mensajeExito("Candidato agregado con éxito");
         this.resetForm();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar usuarios");
+        this.mensajeService.mensajeError("Error al agregar al candidato");
         console.error(error);
       }
     });
@@ -335,11 +346,11 @@ getNombreAgrupacion(candidaturaId: number): string {
   actualizarUsuario(candidatos: Candidato[]) {
     this.candidatoService.putCandidatos(candidatos).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Usuarios actualizados con éxito");
+        this.mensajeService.mensajeExito("Candidato actualizado con éxito");
         this.resetForm();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al actualizar usuarios");
+        this.mensajeService.mensajeError("Error al actualizar al candidato");
         console.error(error);
       }
     });
@@ -392,11 +403,12 @@ getNombreAgrupacion(candidaturaId: number): string {
   }
 
   cargarGenero() {
-    this.genero = [
-      { generoId: 1, nombreGenero: 'Femenino' },
-      { generoId: 2, nombreGenero: 'Masculino' },
-    ];
-        this.userForm.get('generoId')?.enable();
+    this.http.get<Genero[]>('https://localhost:7154/api/Genero/obtener_usuarios')
+    .subscribe((data) => {
+      this.genero = data;
+      this.userForm.get('generoId')?.enable();
+    });
+    this.userForm.get('generoId')?.enable();
   }
 
   cargarEstados() {
@@ -503,6 +515,31 @@ mostrarRespuestas(candidatoId: number) {
   );
 }
 
+filtrarPartidos(): void {
+    if (this.tipoSeleccionado !== undefined) {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.tipoCandidaturaId === this.tipoSeleccionado);
+    } else {
+      this.partidosFiltrados = [];
+    }
+  }
+
+  filtrarPorNombreCandidatura(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    if (selectedValue === 'null') {
+      this.partidosFiltrados = []; // Otra acción en caso de valor nulo
+    } else {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.nombreCandidatura === selectedValue);
+    }
+  }
+
+  seleccionarCandidatura(event: any) {
+    const candidaturaSeleccionada = event.target.value;
+    if (candidaturaSeleccionada === 'null') {
+      this.partidosFiltrados = [];
+    } else {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.tipoCandidaturaId === parseInt(candidaturaSeleccionada, 10));
+    }
+  }
 
 }
 
