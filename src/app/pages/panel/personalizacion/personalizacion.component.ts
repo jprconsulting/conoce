@@ -68,35 +68,58 @@ export class PersonalizacionComponent implements OnInit {
   }
   onImageChange1(event: any) {
     const file = event.target.files[0];
+    const maxAllowedWidth = 500;
+    const maxAllowedHeight = 500;
     if (file) {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.previewImage1 = reader.result; // Actualiza la previsualización
-
-        const fotoControl = this.userForm.get('foto');
-        if (fotoControl) {
-          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
-        }
+      reader.onload = (e: any) => {
+        const img = new Image();
+        img.onload = () => {
+          if (img.width <= maxAllowedWidth && img.height <= maxAllowedHeight) {
+            // La imagen cumple con el tamaño permitido
+            this.previewImage1 = reader.result; // Actualiza la previsualización
+            const fotoControl = this.userForm.get('foto');
+            if (fotoControl) {
+              fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+            }
+          } else {
+            // La imagen excede las dimensiones permitidas
+            this.mensajeService.mensajeError("La imagen debe ser de 500px por 500px como máximo");
+          }
+        };
+        img.src = e.target.result;
       };
+      reader.readAsDataURL(file);
     }
+  
   }
   eliminarImagen1() {
     this.previewImage1 = null;
   }
   onImageChange2(event: any) {
     const file = event.target.files[0];
+    const maxAllowedWidth = 500;
+    const maxAllowedHeight = 500;
     if (file) {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.previewImage2 = reader.result; // Actualiza la previsualización
-
-        const fotoControl = this.userForm.get('foto');
-        if (fotoControl) {
-          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
-        }
+      reader.onload = (e: any) => {
+        const img = new Image();
+        img.onload = () => {
+          if (img.width <= maxAllowedWidth && img.height <= maxAllowedHeight) {
+            // La imagen cumple con el tamaño permitido
+            this.previewImage2 = reader.result; // Actualiza la previsualización
+            const fotoControl = this.userForm.get('foto');
+            if (fotoControl) {
+              fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+            }
+          } else {
+            // La imagen excede las dimensiones permitidas
+            this.mensajeService.mensajeError("La imagen debe ser de 500px por 500px como máximo");
+          }
+        };
+        img.src = e.target.result;
       };
+      reader.readAsDataURL(file);
     }
   }
   eliminarImagen2() {
@@ -104,20 +127,31 @@ export class PersonalizacionComponent implements OnInit {
   }
   onImageChange3(event: any) {
     const file = event.target.files[0];
+    const maxAllowedWidth = 500;
+    const maxAllowedHeight = 500;
     if (file) {
       const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        this.previewImage3 = reader.result; // Actualiza la previsualización
-
-        const fotoControl = this.userForm.get('foto');
-        if (fotoControl) {
-          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
-        }
+      reader.onload = (e: any) => {
+        const img = new Image();
+        img.onload = () => {
+          if (img.width <= maxAllowedWidth && img.height <= maxAllowedHeight) {
+            // La imagen cumple con el tamaño permitido
+            this.previewImage3 = reader.result; // Actualiza la previsualización
+            const fotoControl = this.userForm.get('foto');
+            if (fotoControl) {
+              fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+            }
+          } else {
+            // La imagen excede las dimensiones permitidas
+            this.mensajeService.mensajeError("La imagen debe ser de 500px por 500px como máximo");
+          }
+        };
+        img.src = e.target.result;
       };
+      reader.readAsDataURL(file);
     }
   }
   eliminarImagen3() {
-    this.previewImage3 = null;
+    this.previewImage2 = null;
   }
 }
