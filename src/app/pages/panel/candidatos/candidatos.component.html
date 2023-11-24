@@ -173,11 +173,11 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Nombre del suplente</label>
-                                        <input type="text" class="form-control" formControlName="nombreSuplente" />
-                                        <div *ngIf="userForm.get('nombreSuplente')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('nombreSuplente')?.hasError('required')">
-                                                El nombre es obligatorio
+                                        <label class="form-label">Télefono Público</label>
+                                        <input type="tel" class="form-control" formControlName="telefonoPublico" />
+                                        <div *ngIf="userForm.get('telefonoPublico')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('telefonoPublico')?.hasError('required')">
+                                                El número de télefono es requerido
                                             </div>
                                         </div>
                                     </div>
@@ -225,19 +225,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Télefono Público</label>
-                                        <input type="tel" class="form-control" formControlName="telefonoPublico" />
-                                        <div *ngIf="userForm.get('telefonoPublico')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('telefonoPublico')?.hasError('required')">
-                                                El número de télefono es requerido
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                            <div class="row">                        
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Página Web</label>
@@ -249,18 +237,72 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="estadoActivo" class="form-label">Estatus</label>
-                                    <label class="form-check form-switch checkbox-verde">
-                                      <input class="form-check-input" type="checkbox" formControlName="estatus" />
-                                      <span class="form-check-label" [ngClass]="{'text-success': userForm.get('estatus')?.value === true,'text-danger': userForm.get('estatus')?.value === false}">
-                                        {{userForm.get("estatus")?.value ? "Activo" : "Inactivo"}}
-                                      </span>
-                                    </label>
+                                <div class="col-lg-6">
+                                    <div class="mb-3">
+                                        <label for="estadoActivo" class="form-label">Estatus</label>
+                                        <label class="form-check form-switch checkbox-verde">
+                                          <input class="form-check-input" type="checkbox" formControlName="estatus" />
+                                          <span class="form-check-label" [ngClass]="{'text-success': userForm.get('estatus')?.value === true,'text-danger': userForm.get('estatus')?.value === false}">
+                                            {{userForm.get("estatus")?.value ? "Activo" : "Inactivo"}}
+                                          </span>
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="mb-3">
+                                        <label class="form-label">Nombre del suplente</label>
+                                        <input type="text" class="form-control" formControlName="nombreSuplente" />
+                                        <div *ngIf="userForm.get('nombreSuplente')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('nombreSuplente')?.hasError('required')">
+                                                El nombre es obligatorio
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                        </div>
+                    </div>
+                    <br> <br>
+                    <div class="card">
+                        <div class="ribbon ribbon-top bg-blue">
+                            <i class="ti ti-map-2"></i> </div>
+                        <div class="card-header">
+                            <h3 class="card-title">INFORMACIÓN REFERENTE AL CARGO</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Cargo</label>
+                                        <select class="form-select" formControlName="cargoId">
+                                          <option value="null">Selecciona un cargo...</option>
+                                          <option *ngFor="let cargoItem of cargos" [value]="cargoItem.cargoId">{{ cargoItem.nombreCargo }}</option>
+                                        </select>
+                                        <div *ngIf="userForm.get('cargoId')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('cargoId')?.hasError('required')">
+                                                El cargo es obligatorio
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4">
+                                    <div class="mb-3">
+                                        <label class="form-label">Organización Política</label>
+                                        <select class="form-select" formControlName="candidaturaId">
+                                        <option value="null">Selecciona una Organización...</option>
+                                        <option *ngFor="let candidaturaItem of candidaturas" [value]="candidaturaItem.tipoCandidaturaId">{{ candidaturaItem.nombreTipoCandidatura }}</option>
+                                      </select>
+                                        <div *ngIf="userForm.get('candidaturaId')?.touched" class="error-message">
+                                            <div *ngIf="userForm.get('candidaturaId')?.hasError('required')">
+                                                La organización es obligatoria
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                         
+                            </div>                           
                         </div>
                     </div>
                     <br> <br>
