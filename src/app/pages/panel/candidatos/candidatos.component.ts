@@ -74,6 +74,11 @@ export class CandidatosComponent implements OnInit {
   ayuntamientos: Ayuntamiento[] = [];
   comunidades: Comunidad[] = [];
   selectedDemarcacion: string = '';
+  selectedTipo: string | undefined;
+  opcionesFiltradas: string[] = [];
+  partidosFiltrados: Partidos[] = [];
+  tipoSeleccionado: number | undefined;
+  opcionesDependientes: string[] = [];
 
   constructor(
     private candidatoService: CandidatoService,
@@ -307,6 +312,7 @@ getNombreAgrupacion(candidaturaId: number): string {
     );
   }
 
+
   // Método para abrir el modal y mostrar la información del usuario.
   abrirModal(candidato: Candidato) {
     this.usuarioSeleccionado = candidato;
@@ -509,6 +515,31 @@ mostrarRespuestas(candidatoId: number) {
   );
 }
 
+filtrarPartidos(): void {
+    if (this.tipoSeleccionado !== undefined) {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.tipoCandidaturaId === this.tipoSeleccionado);
+    } else {
+      this.partidosFiltrados = [];
+    }
+  }
+
+  filtrarPorNombreCandidatura(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    if (selectedValue === 'null') {
+      this.partidosFiltrados = []; // Otra acción en caso de valor nulo
+    } else {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.nombreCandidatura === selectedValue);
+    }
+  }
+
+  seleccionarCandidatura(event: any) {
+    const candidaturaSeleccionada = event.target.value;
+    if (candidaturaSeleccionada === 'null') {
+      this.partidosFiltrados = [];
+    } else {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.tipoCandidaturaId === parseInt(candidaturaSeleccionada, 10));
+    }
+  }
 
 }
 
