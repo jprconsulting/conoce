@@ -9,19 +9,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
   styleUrls: ['./personalizacion.component.css']
 })
 export class PersonalizacionComponent implements OnInit {
-  diseño: Diseño = {
-    logoInstFile: null,
-    logoAppFile: null,
-    imgBienvenFile: null,
-    telefono: 0,
-    direcccion: '',
-    urlFb: '',
-    urlIg: '',
-    urlTw: '',
-    urlYT: '',
-    colorPpal: '',
-    colorSec: ''
-  };
+  diseño!: Diseño;
 
   constructor(
     private personalizacionService: PersonalizacionService,
@@ -37,15 +25,15 @@ export class PersonalizacionComponent implements OnInit {
 
   // Función para manejar la carga de archivos de imagen
   handleLogoInstFileInput(files: FileList) {
-    this.diseño.logoInstFile = files.item(0);
+    this.diseño.LogoIntitucional = files.item(0);
   }
 
   handleLogoAppFileInput(files: FileList) {
-    this.diseño.logoAppFile = files.item(0);
+    this.diseño.LogoAplicacion = files.item(0);
   }
 
   handleImgBienvenFileInput(files: FileList) {
-    this.diseño.imgBienvenFile = files.item(0);
+    this.diseño.ImagenBienvenida = files.item(0);
   }
 
   guardarConfiguracion() {

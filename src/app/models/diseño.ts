@@ -1,13 +1,14 @@
 export interface Diseño {
-  logoInstFile: File | null;
-  logoAppFile: File | null;
-  imgBienvenFile: File | null;
-  telefono: number;
-  direcccion: string;
-  urlFb: string;
-  urlIg: string;
-  urlTw: string;
-  urlYT: string;
-  colorPpal: string;
-  colorSec: string;
+  PersonalizacionId: number;
+  LogoIntitucional: File | null;
+  LogoAplicacion: File | null;
+  ImagenBienvenida: File | null;
+  NumeroTelefono: number;
+  Direccion: string;
+  URLFacebook: string;
+  URLInstagram: string;
+  URLTwitter: string;
+  URLYoutube: string;
+  Colorprimario: string;
+  Colorsecundario: string;
 }
