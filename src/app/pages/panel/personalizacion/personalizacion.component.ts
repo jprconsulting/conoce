@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Diseño } from 'src/app/models/diseño';
 import { PersonalizacionService } from 'src/app/core/services/personalizacion.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-personalizacion',
@@ -10,7 +11,10 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 })
 export class PersonalizacionComponent implements OnInit {
   diseño!: Diseño;
-
+  previewImage1: string | ArrayBuffer | null = null;
+  previewImage2: string | ArrayBuffer | null = null;
+  previewImage3: string | ArrayBuffer | null = null;
+  userForm!: FormGroup
   constructor(
     private personalizacionService: PersonalizacionService,
     private mensajeService: MensajeService
@@ -48,5 +52,58 @@ export class PersonalizacionComponent implements OnInit {
       }
     );
   }
+  onImageChange1(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.previewImage1 = reader.result; // Actualiza la previsualización
 
+        const fotoControl = this.userForm.get('foto');
+        if (fotoControl) {
+          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+        }
+      };
+    }
+  }
+  eliminarImagen1() {
+    this.previewImage1 = null;
+  }
+  onImageChange2(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.previewImage2 = reader.result; // Actualiza la previsualización
+
+        const fotoControl = this.userForm.get('foto');
+        if (fotoControl) {
+          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+        }
+      };
+    }
+  }
+  eliminarImagen2() {
+    this.previewImage2 = null;
+  }
+  onImageChange3(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        this.previewImage3 = reader.result; // Actualiza la previsualización
+
+        const fotoControl = this.userForm.get('foto');
+        if (fotoControl) {
+          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+        }
+      };
+    }
+  }
+  eliminarImagen3() {
+    this.previewImage3 = null;
+  }
 }

@@ -99,27 +99,32 @@ export class CandidatosComponent implements OnInit {
   crearFormularioCandidato() {
     this.userForm = this.formBuilder.group({
       candidatoId: [null],
-      nombrePropietario: ['', Validators.required],
+      nombre: ['', Validators.required],
       apellidoPaterno: ['', Validators.required],
       apellidoMaterno: ['', Validators.required],
-      sobrenombrePropietario: ['', Validators.required],
+      sobrenombrePropietario: [''],
       generoId: [null, Validators.required],
       nombreSuplente: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       fechaNacimiento: ['', Validators.required],
-      direccionCasaCampaña: ['', Validators.required],
+      direccionCasaCampania: [''],
       telefonoPublico: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
-      paginaWeb: ['', Validators.required],
+      paginaWeb: [''],
+      facebook: ['', Validators.required],
+      twitter: ['', Validators.required],
+      instagram: ['', Validators.required],
+      tiktok: ['', Validators.required],
+      foto: [''],
+      estatus: [true],
       cargoId: [null, Validators.required],
-      estadoId: [null, Validators.required],
-      candidaturaId: [null, Validators.required],
-      facebook:['', Validators.required],
-      twitter:['', Validators.required],
-      instagram:['', Validators.required],
-      tiktok:['', Validators.required],
-      foto:['', Validators.required]
+      estadoId: [null],
+      distritoLocalId: [null],
+      ayuntamientoId: [null],
+      comunidadId: [null],
+      candidaturaId: [null, Validators.required]
     });
   }
+
 
   ngOnInit() {
     this.getListadocandidato();
@@ -322,11 +327,11 @@ getNombreAgrupacion(candidaturaId: number): string {
   agregarCandidato(candidatos: Candidato[]) {
     this.candidatoService.postCandidatos(candidatos).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Usuarios agregados con éxito");
+        this.mensajeService.mensajeExito("Candidato agregado con éxito");
         this.resetForm();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar usuarios");
+        this.mensajeService.mensajeError("Error al agregar al candidato");
         console.error(error);
       }
     });
@@ -335,11 +340,11 @@ getNombreAgrupacion(candidaturaId: number): string {
   actualizarUsuario(candidatos: Candidato[]) {
     this.candidatoService.putCandidatos(candidatos).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Usuarios actualizados con éxito");
+        this.mensajeService.mensajeExito("Candidato actualizado con éxito");
         this.resetForm();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al actualizar usuarios");
+        this.mensajeService.mensajeError("Error al actualizar al candidato");
         console.error(error);
       }
     });
@@ -392,11 +397,12 @@ getNombreAgrupacion(candidaturaId: number): string {
   }
 
   cargarGenero() {
-    this.genero = [
-      { generoId: 1, nombreGenero: 'Femenino' },
-      { generoId: 2, nombreGenero: 'Masculino' },
-    ];
-        this.userForm.get('generoId')?.enable();
+    this.http.get<Genero[]>('https://localhost:7154/api/Genero/obtener_usuarios')
+    .subscribe((data) => {
+      this.genero = data;
+      this.userForm.get('generoId')?.enable();
+    });
+    this.userForm.get('generoId')?.enable();
   }
 
   cargarEstados() {
