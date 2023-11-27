@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Diseño } from 'src/app/models/diseño';
 import { PersonalizacionService } from 'src/app/core/services/personalizacion.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-personalizacion',
@@ -11,37 +11,44 @@ import { FormGroup } from '@angular/forms';
 })
 export class PersonalizacionComponent implements OnInit {
   diseño!: Diseño;
+  PersonalizacionForm!:FormGroup;
   previewImage1: string | ArrayBuffer | null = null;
   previewImage2: string | ArrayBuffer | null = null;
   previewImage3: string | ArrayBuffer | null = null;
   userForm!: FormGroup
+  
   constructor(
     private personalizacionService: PersonalizacionService,
-    private mensajeService: MensajeService
+    private mensajeService: MensajeService,
+    private formBuilder: FormBuilder,
 
   ) {}
 
   ngOnInit() {
+    this.crearFormulario();  // Initialize the form
     this.personalizacionService.obtenerConfiguracion().subscribe((config: Diseño) => {
       this.diseño = config;
     });
   }
+  
 
   // Función para manejar la carga de archivos de imagen
   handleLogoInstFileInput(files: FileList) {
-    this.diseño.LogoIntitucional = files.item(0);
+    this.diseño.logoIntitucional = files.item(0);
   }
 
   handleLogoAppFileInput(files: FileList) {
-    this.diseño.LogoAplicacion = files.item(0);
+    this.diseño.logoAplicacion = files.item(0);
   }
 
   handleImgBienvenFileInput(files: FileList) {
-    this.diseño.ImagenBienvenida = files.item(0);
+    this.diseño.imagenBienvenida = files.item(0);
   }
 
   guardarConfiguracion() {
-    this.personalizacionService.guardarConfiguracion(this.diseño).subscribe(
+    const diseño = { ...this.PersonalizacionForm.value };
+    console.log('Datos',diseño);
+    this.personalizacionService.guardarConfiguracion(diseño).subscribe(
       (config: Diseño) => {
         // Manejar la respuesta o mostrar un mensaje de éxito
         this.mensajeService.mensajeExito('Configuración guardada con éxito.');
@@ -70,6 +77,22 @@ export class PersonalizacionComponent implements OnInit {
   eliminarImagen1() {
     this.previewImage1 = null;
   }
+  crearFormulario() {
+    this.PersonalizacionForm = this.formBuilder.group({
+      numeroTelefono: ['' , [Validators.required, Validators.pattern('^[0-9]+$'),Validators.minLength(10), Validators.maxLength(10)]],
+      logoIntitucional:['' , [Validators.required]],
+      logoAplicacion: ['' , [Validators.required]],
+      imagenBienvenida: ['' , [Validators.required]],
+      direccion: ['' , [Validators.required,Validators.maxLength(50),,Validators.minLength(7)]],
+      uRLFacebook: ['' , [Validators.required,Validators.minLength(15)]],
+      uRLInstagram: ['' , [Validators.required,Validators.minLength(15)]],
+      uRLTwitter: ['' , [Validators.required,Validators.minLength(15)]],
+      uRLYoutube: ['' , [Validators.required,Validators.minLength(15)]],
+      colorprimario: ['' , [Validators.required]],
+      colorsecundario: ['' , [Validators.required]]
+    });
+  }
+  
   onImageChange2(event: any) {
     const file = event.target.files[0];
     if (file) {

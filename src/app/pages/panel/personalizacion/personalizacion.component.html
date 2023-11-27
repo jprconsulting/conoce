@@ -5,6 +5,7 @@
                 <h3 class="card-title">Personalización del Portal</h3>
             </div>
             <br><br>
+        <form [formGroup]="PersonalizacionForm" (ngSubmit)="guardarConfiguracion()">
             <div class="card">
                 <br><br>
                 <div class="col-12">
@@ -17,6 +18,7 @@
                             
 
                             <div class="row">
+                                
                                 <div class="col-md-4">
                                     <div class="card">
                                         <div class="card-body">
@@ -25,7 +27,12 @@
                                                 <label for="imagen1" class="img-thumbnail" id="imagen-label1" *ngIf="!previewImage1">
                                                     <br>
                                                     <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
-                                                    <input type="file" class="form-control-file custom-file-input" id="imagen1" (change)="onImageChange1($event)" style="display: none;">
+                                                    <input type="file" class="form-control-file custom-file-input"id="imagen1" formControlName="logoIntitucional" (change)="onImageChange1($event)" style="display: none;">
+                                                    <div *ngIf="PersonalizacionForm.get('logoIntitucional')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('logoIntitucional')?.hasError('required')" class="text-danger">
+                                                          El campo es requerido
+                                                        </div>
+                                                    </div>
                                                 </label>
                                                  <!-- Vista previa de la imagen -->
                                                  <div *ngIf="previewImage1" class="mt-3">
@@ -51,7 +58,12 @@
                                                 <label for="imagen2" class="img-thumbnail" id="imagen-label2" *ngIf="!previewImage2">
                                                     <br>
                                                     <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
-                                                    <input type="file" class="form-control-file custom-file-input" id="imagen2" (change)="onImageChange2($event)" style="display: none;">
+                                                    <input id="logoAplicacion" formControlName="logoAplicacion" type="file" class="form-control-file custom-file-input" id="imagen2" (change)="onImageChange2($event)" style="display: none;">
+                                                    <div *ngIf="PersonalizacionForm.get('logoAplicacion')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('logoAplicacion')?.hasError('required')" class="text-danger">
+                                                          El campo es requerido
+                                                        </div>
+                                                    </div>
                                                 </label>
                                             </div>
                                             <br>
@@ -77,7 +89,12 @@
                                                 <label for="imagen3" class="img-thumbnail" id="imagen-label3" *ngIf="!previewImage3">
                                                     <br>
                                                     <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
-                                                    <input type="file" class="form-control-file custom-file-input" id="imagen3" (change)="onImageChange3($event)" style="display: none;">
+                                                    <input id="imagenBienvenida" formControlName="imagenBienvenida" type="file" class="form-control-file custom-file-input" id="imagen3" (change)="onImageChange3($event)" style="display: none;">
+                                                    <div *ngIf="PersonalizacionForm.get('imagenBienvenida')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('imagenBienvenida')?.hasError('required')" class="text-danger">
+                                                          El campo es requerido
+                                                        </div>
+                                                    </div>
                                                 </label>
                                             </div>
                                             <br>
@@ -96,6 +113,7 @@
                                     </div>
                                 </div>
                                 <br>
+                           
                             </div>
                             </div>
                         </div>
@@ -121,7 +139,21 @@
                                                     <span class="input-group-text">
                                       <i class="ti ti-phone-call"></i>
                                   </span>
-                                                    <input type="text" class="form-control" placeholder="+52 000-000-0000" autocomplete="off">
+                                                    <input type="text" class="form-control" id="numeroTelefono" formControlName="numeroTelefono" placeholder="+52 000-000-0000" autocomplete="off">
+                                                    <div *ngIf="PersonalizacionForm.get('numeroTelefono')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('numeroTelefono')?.hasError('required')" class="text-danger">
+                                                          El campo numero de telefono es requerido
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('numeroTelefono')?.hasError('pattern')" class="text-danger">
+                                                            El campo numero de telefono solo tiene que tener numeros
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('numeroTelefono')?.hasError('minlength')" class="text-danger">
+                                                            El campo numero de telefono no puede tener menos de 10 caracteres
+                                                          </div>
+                                                          <div *ngIf="PersonalizacionForm.get('numeroTelefono')?.hasError('maxlength')" class="text-danger">
+                                                            El campo numero de telefono no puede tener más de 10 caracteres
+                                                          </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -135,7 +167,18 @@
                                                     <span class="input-group-text">
                                       <i class="ti ti-map-pin"></i>
                               </span>
-                                                    <input type="text" class="form-control" placeholder="Calle ..." autocomplete="off">
+                                                    <input type="text" class="form-control" formControlName="direccion" id="direccion" placeholder="Calle ..." autocomplete="off" max="50">
+                                                    <div *ngIf="PersonalizacionForm.get('direccion')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('direccion')?.hasError('required')" class="text-danger">
+                                                          La direccion es requerida
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('direccion')?.hasError('maxlength')" class="text-danger">
+                                                            El campo direccion no puede tener más de 50 caracteres
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('direccion')?.hasError('minlength')" class="text-danger">
+                                                            El campo direccion no puede tener menos de 7 caracteres
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -149,7 +192,15 @@
                                                     <span class="input-group-text">
                                                       <i class="ti ti-brand-facebook"></i>
                                                     </span>
-                                                    <input type="text" class="form-control" placeholder="https://facebook.com" autocomplete="off">
+                                                    <input type="text" class="form-control" formControlName="uRLFacebook" id="uRLFacebook" placeholder="https://facebook.com" autocomplete="off">
+                                                    <div *ngIf="PersonalizacionForm.get('uRLFacebook')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('uRLFacebook')?.hasError('required')" class="text-danger">
+                                                            La direccion url es requerida
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('uRLFacebook')?.hasError('minlength')" class="text-danger">
+                                                            La direccion url no puede tener menos de 15 caracteres
+                                                          </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -167,7 +218,15 @@
                                                     <span class="input-group-text">
                                                           <i class="ti ti-brand-instagram"></i>
                                                     </span>
-                                                    <input type="text" class="form-control" placeholder="https://instagram.com" autocomplete="off">
+                                                    <input type="text" class="form-control" formControlName="uRLInstagram" id="uRLInstagram" placeholder="https://instagram.com" autocomplete="off">
+                                                    <div *ngIf="PersonalizacionForm.get('uRLInstagram')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('uRLInstagram')?.hasError('required')" class="text-danger">
+                                                            La direccion url es requerida
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('uRLInstagram')?.hasError('minlength')" class="text-danger">
+                                                            La direccion url no puede tener menos de 15 caracteres
+                                                          </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -181,7 +240,15 @@
                                                     <span class="input-group-text">
                                                       <i class="ti ti-brand-twitter"></i>
                                                     </span>
-                                                    <input type="text" class="form-control" placeholder="https://twitter.com" autocomplete="off">
+                                                    <input type="text" class="form-control" formControlName="uRLTwitter" id="uRLTwitter" placeholder="https://twitter.com" autocomplete="off">
+                                                    <div *ngIf="PersonalizacionForm.get('uRLTwitter')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('uRLTwitter')?.hasError('required')" class="text-danger">
+                                                            La direccion url es requerida
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('uRLTwitter')?.hasError('minlength')" class="text-danger">
+                                                            La direccion url no puede tener menos de 15 caracteres
+                                                          </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -195,7 +262,15 @@
                                                     <span class="input-group-text">
                                       <i class="ti ti-brand-youtube"></i>
                             </span>
-                                                    <input type="text" class="form-control" placeholder="https://youtube.com" autocomplete="off">
+                                                    <input type="text" class="form-control" formControlName="uRLYoutube" id="uRLYoutube" placeholder="https://youtube.com" autocomplete="off">
+                                                    <div *ngIf="PersonalizacionForm.get('uRLYoutube')?.touched"class="error-message">
+                                                        <div *ngIf="PersonalizacionForm.get('uRLYoutube')?.hasError('required')" class="text-danger">
+                                                          La direccion url es requerida
+                                                        </div>
+                                                        <div *ngIf="PersonalizacionForm.get('uRLYoutube')?.hasError('minlength')" class="text-danger">
+                                                            La direccion url no puede tener menos de 15 caracteres
+                                                          </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -225,7 +300,12 @@
                                                 <div class="row g-2">
                                                     <h4>Selecciona tu color principal</h4>
                                                     <div class="col-auto">
-                                                        <input type="color" class="form-control form-control-color" value="#206bc4" title="Choose your color">
+                                                        <input type="color" formControlName="colorprimario" id="colorprimario" class="form-control  form-control-color" value="#206bc4" title="Choose your color">
+                                                        <div *ngIf="PersonalizacionForm.get('colorprimario')?.touched"class="error-message">
+                                                            <div *ngIf="PersonalizacionForm.get('colorprimario')?.hasError('required')" class="text-danger">
+                                                                El color primario es requerido
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -238,7 +318,12 @@
                                                 <div class="row g-2">
                                                     <h4>Selecciona tu color secundario</h4>
                                                     <div class="col-auto">
-                                                        <input type="color" class="form-control form-control-color" value="#C52020" title="Choose your color">
+                                                        <input type="color" formControlName="colorsecundario" id="colorsecundario" class="form-control form-control-color" value="#C52020" title="Choose your color">
+                                                        <div *ngIf="PersonalizacionForm.get('colorsecundario')?.touched"class="error-message">
+                                                            <div *ngIf="PersonalizacionForm.get('colorsecundario')?.hasError('required')" class="text-danger">
+                                                              El color secundario es requerido
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -252,11 +337,14 @@
                 </div>
                 <br>
                 <div class="col-md-12 py-3">
-                    <a class="btn btn-outline-success w-100" (click)="guardarConfiguracion()">
-                        <i class="ti ti-paint" style="padding-right: 10px;"></i> Guardar configuración
-                    </a>
-                </div>
+                    <button type="button" class="btn btn-outline-success w-100" [disabled]="!PersonalizacionForm.valid" (click)="guardarConfiguracion()">
+                      <i class="ti ti-paint" style="padding-right: 10px;"></i> Guardar configuración
+                    </button>
+                  </div>
+                  
+                  
             </div>
+        </form>
             <br>
             <h5><i class="ti ti-mood-confuzed" style="padding-right: 5px;"></i>¿Tienes dudas? </h5>
             <h5><a href="/panel/faq">Visita nuestra sección de FAQ <i class="ti ti-location"></i></a></h5>
