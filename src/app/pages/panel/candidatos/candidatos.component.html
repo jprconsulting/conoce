@@ -225,7 +225,7 @@
                                 </div>
                             </div>
 
-                            <div class="row">                        
+                            <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Página Web</label>
@@ -261,7 +261,7 @@
                                         </div>
                                     </div>
                                 </div>
-                        </div>
+                            </div>
                         </div>
                     </div>
                     <br> <br>
@@ -288,111 +288,60 @@
                                     </div>
                                 </div>
 
+                                <!-- Primer select -->
                                 <div class="col-lg-4">
                                     <div class="mb-3">
-                                        <label class="form-label">Organización Política</label>
-                                        <select class="form-select" formControlName="candidaturaId">
-                                        <option value="null">Selecciona una Organización...</option>
-                                        <option *ngFor="let candidaturaItem of candidaturas" [value]="candidaturaItem.tipoCandidaturaId">{{ candidaturaItem.nombreTipoCandidatura }}</option>
-                                      </select>
-                                        <div *ngIf="userForm.get('candidaturaId')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('candidaturaId')?.hasError('required')">
-                                                La organización es obligatoria
-                                            </div>
-                                        </div>
+                                        <label class="form-label">Candidaturas</label>
+                                        <select class="form-select" (change)="seleccionarCandidatura($event)">
+                                      <option value="null">Selecciona una Candidatura...</option>
+                                      <option *ngFor="let candidatura of candidaturas" [value]="candidatura.tipoCandidaturaId">{{ candidatura.nombreTipoCandidatura }}</option>
+                                    </select>
                                     </div>
-                                </div>                         
-                            </div>                           
+                                </div>
+                                <div class="col-lg-4" *ngIf="partidosFiltrados.length > 0">
+                                    <div class="mb-3">
+                                        <label class="form-label">Partidos Filtrados</label>
+                                        <select class="form-select" formControlName="candidaturaId">
+                                      <option value="null">Selecciona un Partido...</option>
+                                      <option *ngFor="let partido of partidosFiltrados" [value]="partido.candidaturaId">{{ partido.logo }}</option>
+                                    </select>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <br> <br>
                     <div class="card">
-                        <div class="ribbon ribbon-top bg-blue">
-                            <i class="ti ti-map-2"></i> </div>
                         <div class="card-header">
                             <h3 class="card-title">INFORMACIÓN REFERENTE A LA DEMARCACIÓN</h3>
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Cargo</label>
-                                        <select class="form-select" formControlName="cargoId">
-                                          <option value="null">Selecciona un cargo...</option>
-                                          <option *ngFor="let cargoItem of cargos" [value]="cargoItem.cargoId">{{ cargoItem.nombreCargo }}</option>
-                                        </select>
-                                        <div *ngIf="userForm.get('cargoId')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('cargoId')?.hasError('required')">
-                                                El cargo es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-3">
+                                    <select class="form-select" formControlName="estadoId" (change)="onEstadoChange($event)">
+                                <option value="0">Selecciona un estado...</option>
+                                <option *ngFor="let estado of estados" [value]="estado.estadoId">{{ estado.nombreEstado }}</option>
+                              </select>
                                 </div>
-
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Organización Política</label>
-                                        <select class="form-select" formControlName="candidaturaId">
-                                        <option value="null">Selecciona una Organización...</option>
-                                        <option *ngFor="let candidaturaItem of candidaturas" [value]="candidaturaItem.tipoCandidaturaId">{{ candidaturaItem.nombreTipoCandidatura }}</option>
-                                      </select>
-                                        <div *ngIf="userForm.get('candidaturaId')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('candidaturaId')?.hasError('required')">
-                                                La organización es obligatoria
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="col-md-3">
+                                    <select class="form-select" formControlName="distritoLocalId" (change)="onDistritoLocalChange($event)">
+                                <option value="0">Selecciona un distrito local...</option>
+                                <option *ngFor="let distrito of distritosLocales" [value]="distrito.distritoLocalId">{{ distrito.nombreDistritoLocal }}</option>
+                              </select>
                                 </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Demarcación</label>
-                                        <select class="form-select" (change)="onChangeDemarcacion($event)">
-                                          <option value="null">Selecciona una demarcación...</option>
-                                          <option value="Estado">Estado</option>
-                                        <option value="Distrito Local">Distrito Local</option>
-                                        <option value="Ayuntamiento">Ayuntamiento</option>
-                                        <option value="Comunidad">Comunidad</option>
-                                    </select>
-                                    </div>
+                                <div class="col-md-3">
+                                    <select class="form-select" formControlName="ayuntamientoId" (change)="onAyuntamientoChange($event)">
+                                <option value="0">Selecciona un ayuntamiento...</option>
+                                <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.ayuntamientoId">{{ ayuntamiento.nombreAyuntamiento }}</option>
+                              </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <select class="form-select" formControlName="comunidadId" (change)="onComunidadChange($event)">
+                                <option value="0">Selecciona una comunidad...</option>
+                                <option *ngFor="let comunidad of comunidades" [value]="comunidad.comunidadId">{{ comunidad.nombreComunidad }}</option>
+                              </select>
                                 </div>
                             </div>
-
-                            <!-- Opciones para Estado -->
-                            <div *ngIf="selectedDemarcacion === 'Estado'">
-                                <label class="form-label">Estados</label>
-                                <select class="form-select" formControlName="estadoId">
-                                  <option value="null">Selecciona un Estado...</option>
-                                  <option *ngFor="let estado of estados" [value]="estado.estadoId">{{ estado.nombreEstado }}</option>
-                              </select>
-                            </div>
-
-                            <!-- Opciones para Distrito Local -->
-                            <div *ngIf="selectedDemarcacion === 'Distrito Local'">
-                                <label class="form-label">Distritos Locales</label>
-                                <select class="form-select" formControlName="distritoLocalId">
-                                  <option value="null">Selecciona un Distrito Local...</option>
-                                  <option *ngFor="let distrito of distritosLocales" [value]="distrito.distritoLocalId">{{ distrito.nombreDistritoLocal }}</option>
-                              </select>
-                            </div>
-
-                            <!-- Opciones para Ayuntamiento -->
-                            <div *ngIf="selectedDemarcacion === 'Ayuntamiento'">
-                                <label class="form-label">Ayuntamientos</label>
-                                <select class="form-select" formControlName="ayuntamientoId">
-                                  <option value="null">Selecciona un Ayuntamiento...</option>
-                                  <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.ayuntamientoId">{{ ayuntamiento.nombreAyuntamiento }}</option>
-                              </select>
-                            </div>
-
-                            <!-- Opciones para Comunidad -->
-                            <div *ngIf="selectedDemarcacion === 'Comunidad'">
-                                <label class="form-label">Comunidades</label>
-                                <select class="form-select" formControlName="comunidadId">
-                                  <option value="null">Selecciona una Comunidad...</option>
-                                  <option *ngFor="let comunidad of comunidades" [value]="comunidad.comunidadId">{{ comunidad.nombreComunidad }}</option>
-                              </select>
-                            </div>
-
                         </div>
                     </div>
                     <br> <br>

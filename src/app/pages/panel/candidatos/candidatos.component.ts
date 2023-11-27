@@ -74,6 +74,17 @@ export class CandidatosComponent implements OnInit {
   ayuntamientos: Ayuntamiento[] = [];
   comunidades: Comunidad[] = [];
   selectedDemarcacion: string = '';
+  selectedTipo: string | undefined;
+  opcionesFiltradas: string[] = [];
+  partidosFiltrados: Partidos[] = [];
+  tipoSeleccionado: number | undefined;
+  opcionesDependientes: string[] = [];
+  filteredDistritosLocales: DistritoLocal[] = [];
+  filteredAyuntamientos: Ayuntamiento[] = [];
+  filteredComunidades: Comunidad[] = [];
+  selectedEstadoId: number | null = null;
+  selectedDistritoLocalId: number | null = null;
+  selectedAyuntamientoId: number | null = null;
 
   constructor(
     private candidatoService: CandidatoService,
@@ -124,7 +135,6 @@ export class CandidatosComponent implements OnInit {
       candidaturaId: [null, Validators.required]
     });
   }
-
 
   ngOnInit() {
     this.getListadocandidato();
@@ -306,6 +316,7 @@ getNombreAgrupacion(candidaturaId: number): string {
       }
     );
   }
+
 
   // Método para abrir el modal y mostrar la información del usuario.
   abrirModal(candidato: Candidato) {
@@ -509,6 +520,56 @@ mostrarRespuestas(candidatoId: number) {
   );
 }
 
+filtrarPartidos(): void {
+    if (this.tipoSeleccionado !== undefined) {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.tipoCandidaturaId === this.tipoSeleccionado);
+    } else {
+      this.partidosFiltrados = [];
+    }
+  }
 
+  filtrarPorNombreCandidatura(event: Event) {
+    const selectedValue = (event.target as HTMLSelectElement).value;
+    if (selectedValue === 'null') {
+      this.partidosFiltrados = []; // Otra acción en caso de valor nulo
+    } else {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.nombreCandidatura === selectedValue);
+    }
+  }
+
+  seleccionarCandidatura(event: any) {
+    const candidaturaSeleccionada = event.target.value;
+    if (candidaturaSeleccionada === 'null') {
+      this.partidosFiltrados = [];
+    } else {
+      this.partidosFiltrados = this.partidos.filter(partido => partido.tipoCandidaturaId === parseInt(candidaturaSeleccionada, 10));
+    }
+  }
+
+  onEstadoChange(event: any) {
+    const selectedEstadoId = +event.target.value;
+
+    // Filtrar distritos locales basados en el estado seleccionado
+    this.distritosLocales = this.distritosLocales.filter((distrito) => distrito.estadoId === selectedEstadoId);
+  }
+
+  onDistritoLocalChange(event: any) {
+    const selectedDistritoLocalId = +event.target.value;
+
+    // Filtrar ayuntamientos basados en el distrito local seleccionado
+    this.ayuntamientos = this.ayuntamientos.filter((ayuntamiento) => ayuntamiento.distritoLocalId === selectedDistritoLocalId);
+  }
+
+  onAyuntamientoChange(event: any) {
+    const selectedAyuntamientoId = +event.target.value;
+
+    // Filtrar comunidades basadas en el ayuntamiento seleccionado
+    this.comunidades = this.comunidades.filter((comunidad) => comunidad.ayuntamientoId === selectedAyuntamientoId);
+  }
+
+  onComunidadChange(event: Event): void {
+    const comunidadId = (event.target as HTMLSelectElement).value;
+    console.log('Comunidad seleccionada:', comunidadId);
+  }
 }
 
