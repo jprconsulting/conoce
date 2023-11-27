@@ -75,6 +75,7 @@ export class CandidaturasComponent {
 
   crearFormularioPartido() {
     this.partidoForm = this.formBuilder.group({
+      candidaturaId: [null],
       candidatura: ['', Validators.required],
       acronimo: [''],
       estatus: [true, Validators.required],

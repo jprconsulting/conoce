@@ -19,7 +19,7 @@ export class PersonalizacionService {
 
   // Función para guardar la configuración (imágenes, enlaces, colores)
   guardarConfiguracion(configuracion: Diseño): Observable<Diseño> {
-    const url = `${this.apiUrl}/guardar`;
+    const url = `${this.apiUrl}/agregar_personalizacion`;
     return this.http.post<Diseño>(url, configuracion).pipe(
       catchError(this.handleErrorService.handleError)
     );

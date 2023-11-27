@@ -1,4 +1,5 @@
 export interface Partidos {
+  candidaturaId? : number;
   tipoCandidaturaId: number;
   nombreCandidatura: string;
   nombreFoto: string;
