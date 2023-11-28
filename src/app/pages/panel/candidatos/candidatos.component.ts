@@ -51,9 +51,9 @@ export class CandidatosComponent implements OnInit {
   partidos: Partidos[] = [];
   filtro: string = '';
   filtrado: string = '';
-  itemsPerPage: number = 2;
+  itemsPerPage: number = 10;
   currentPage: number = 1;
-  itemsPerPageOptions: number[] = [2, 4, 6];
+  itemsPerPageOptions: number[] = [10, 20, 30];
   isModalAdd = false;
   cargos: Cargos[] = [];
   genero: Genero [] = [];
@@ -326,17 +326,18 @@ getNombreAgrupacion(candidaturaId: number): string {
   }
 
   submitUsuario() {
-    const candidatoToAddOrUpdate: Candidato[] = [this.userForm.value as Candidato];
+    const candidatoToAddOrUpdate: Candidato = this.userForm.value as Candidato;
     this.isModalAdd ? this.agregarCandidato(candidatoToAddOrUpdate) : this.actualizarUsuario(candidatoToAddOrUpdate);
   }
+
 
   cerrarModal() {
     this.usuarioSeleccionado = null;
     // Cierra el modal aquí.
   }
 
-  agregarCandidato(candidatos: Candidato[]) {
-    this.candidatoService.postCandidatos(candidatos).subscribe({
+  agregarCandidato(candidato: Candidato) {
+    this.candidatoService.postCandidato(candidato).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Candidato agregado con éxito");
         this.resetForm();
@@ -348,8 +349,9 @@ getNombreAgrupacion(candidaturaId: number): string {
     });
   }
 
-  actualizarUsuario(candidatos: Candidato[]) {
-    this.candidatoService.putCandidatos(candidatos).subscribe({
+
+  actualizarUsuario(candidato: Candidato) {
+    this.candidatoService.putCandidato(candidato).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Candidato actualizado con éxito");
         this.resetForm();
@@ -360,6 +362,7 @@ getNombreAgrupacion(candidaturaId: number): string {
       }
     });
   }
+
 
   resetForm() {
     this.closebutton.nativeElement.click();
@@ -570,6 +573,21 @@ filtrarPartidos(): void {
   onComunidadChange(event: Event): void {
     const comunidadId = (event.target as HTMLSelectElement).value;
     console.log('Comunidad seleccionada:', comunidadId);
+  }
+
+  borrarUsuario(id: number, nombre: string) {
+    this.mensajeService.mensajeAdvertencia(
+      `¿Estás seguro de eliminar el candidato: ${nombre}?`,
+      () => {
+        this.candidatoService.deleteCandidatos(id).subscribe({
+          next: () => {
+            this.mensajeService.mensajeExito('Usuario borrado correctamente');
+            //this.ConfigPaginator.currentPage = 1;
+          },
+          error: (error) => this.mensajeService.mensajeError(error)
+        });
+      }
+    );
   }
 }
 
