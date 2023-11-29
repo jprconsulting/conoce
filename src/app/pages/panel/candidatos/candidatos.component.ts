@@ -589,5 +589,15 @@ filtrarPartidos(): void {
       }
     );
   }
+
+  obtenerRutaImagen(nombreArchivo: string): string {
+    const rutaBaseApp = 'https://localhost:7154/';
+
+    if (nombreArchivo) {
+      return `${rutaBaseApp}images/${nombreArchivo}`;
+    }
+
+    return '/assets/images/';
+  }
 }
 

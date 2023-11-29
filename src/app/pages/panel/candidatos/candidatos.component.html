@@ -36,6 +36,7 @@
                         <table class="table card-table table-vcenter text-nowrap datatable">
                             <thead>
                                 <tr>
+                                    <th>Foto</th>
                                     <th>Nombre del (la) candidato (a)</th>
                                     <th>Apellido materno</th>
                                     <th>Apellido paterno</th>
@@ -47,6 +48,9 @@
                             </thead>
                             <tbody class="table-tbody">
                                 <tr *ngFor="let candidato of candidatos | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index" class="align-items-center">
+                                    <td class="justify-content-center">
+                                        <img [src]="obtenerRutaImagen(candidato.foto)" alt="Foto de {{ candidato.nombre }}" width="50" height="50" />
+                                    </td>
                                     <td class="justify-content-center">{{ candidato.nombre }}</td>
                                     <td class="justify-content-center">{{ candidato.apellidoPaterno }}</td>
                                     <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
