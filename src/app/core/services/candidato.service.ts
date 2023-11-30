@@ -28,8 +28,8 @@ export class CandidatoService {
     );
   }
 
-  postCandidatos(candidatos: Candidato[]): Observable<Candidato[]> {
-    return this.http.post<Candidato[]>(`${this.route}/agregar_candidato`, candidatos)
+  postCandidato(candidato: Candidato): Observable<Candidato> {
+    return this.http.post<Candidato>(`${this.route}/agregar_candidato`, candidato)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
@@ -39,7 +39,7 @@ export class CandidatoService {
   }
 
   deleteCandidatos(id: number) {
-    return this.http.delete(`${this.route}/eliminar_usuario/${id}`)
+    return this.http.delete(`${this.route}/eliminar_candidato/${id}`)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
@@ -48,8 +48,8 @@ export class CandidatoService {
       );
   }
 
-  putCandidatos(candidatos: Candidato[]): Observable<Candidato[]> {
-    return this.http.put<Candidato[]>(`${this.route}/editar_usuario`, candidatos)
+  putCandidato(candidato: Candidato): Observable<Candidato> {
+    return this.http.put<Candidato>(`${this.route}/actualizar_candidato/${candidato.candidatoId}`, candidato)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
@@ -57,4 +57,5 @@ export class CandidatoService {
         catchError(this.handleErrorService.handleError)
       );
   }
+
 }

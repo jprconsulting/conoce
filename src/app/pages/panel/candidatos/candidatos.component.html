@@ -26,58 +26,84 @@
                 </div>
             </div>
 
-            <div class="table-responsive">
-                <table class="table card-table table-vcenter text-nowrap datatable">
-                    <thead>
-                        <tr>
-                            <th>Nombre del (la) candidato (a)</th>
-                            <th>Apellido materno</th>
-                            <th>Apellido paterno</th>
-                            <th>Cargo</th>
-                            <th>Agrupación política</th>
-                            <th>Estatus de los cuestionarios</th>
-                            <th class="text-center" style="width: 7%">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-tbody">
-                        <tr *ngFor="let candidato of candidatos" class="align-items-center">
-                            <td class="justify-content-center">{{ candidato.nombre }}</td>
-                            <td class="justify-content-center">{{ candidato.apellidoPaterno }}</td>
-                            <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
-                            <td class="justify-content-center">{{ getNombreCargo(candidato.cargoId) }}</td>
-                            <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="progress">
-                                        <div class="progress-bar" [ngStyle]="{ 'width.%': porcentajeProgreso }" role="progressbar" [attr.aria-valuenow]="porcentajeProgreso" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="porcentajeProgreso + '% Complete'">
-                                            <span class="visually-hidden">{{ porcentajeProgreso }}% Complete</span>
+            <ng-container [ngSwitch]="isLoadingUsers">
+                <div class="progress" *ngSwitchCase="2">
+                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+                </div>
+
+                <div *ngSwitchCase="3">
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>Foto</th>
+                                    <th>Nombre del (la) candidato (a)</th>
+                                    <th>Apellido materno</th>
+                                    <th>Apellido paterno</th>
+                                    <th>Cargo</th>
+                                    <th>Agrupación política</th>
+                                    <th>Estatus de los cuestionarios</th>
+                                    <th class="text-center" style="width: 7%">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-tbody">
+                                <tr *ngFor="let candidato of candidatos | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index" class="align-items-center">
+                                    <td class="justify-content-center">
+                                        <img [src]="obtenerRutaImagen(candidato.foto)" alt="Foto de {{ candidato.nombre }}" width="50" height="50" />
+                                    </td>
+                                    <td class="justify-content-center">{{ candidato.nombre }}</td>
+                                    <td class="justify-content-center">{{ candidato.apellidoPaterno }}</td>
+                                    <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
+                                    <td class="justify-content-center">{{ getNombreCargo(candidato.cargoId) }}</td>
+                                    <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="progress">
+                                                <div class="progress-bar" [ngStyle]="{ 'width.%': porcentajeProgreso }" role="progressbar" [attr.aria-valuenow]="porcentajeProgreso" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="porcentajeProgreso + '% Complete'">
+                                                    <span class="visually-hidden">{{ porcentajeProgreso }}% Complete</span>
+                                                </div>
+                                            </div>
+                                            <button class="btn btn-success btn-icon btn-sm" (click)="mostrarRespuestas(candidato.candidatoId)" title="Recargar estatus" style="margin-left: 5px; margin-right: 5px">
+                                              <i class="ti ti-reload"></i>
+                                            </button>
                                         </div>
-                                    </div>
-                                    <button class="btn btn-success btn-icon btn-sm" (click)="mostrarRespuestas(candidato.candidatoId)" title="Recargar estatus" style="margin-left: 5px; margin-right: 5px">
-                                  <i class="ti ti-reload"></i>
-                                </button>
-                                </div>
-                            </td>
-                            <td class="justify-content-center">
-                                <div class="d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="obtenerRespuestas(candidato.candidatoId)" style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
-                                    <i class="ti ti-eye"></i>
-                                  </button>
-                                    <button class="btn btn-warning btn-icon btn-sm" title="Editar candidato">
-                                    <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
-                                  </button>
-                                    <button class="btn btn-danger btn-icon btn-sm" style="margin-left: 5px; margin-right: 5px" title="Borrar candidato">
-                                    <i class="ti ti-eraser"></i>
-                                  </button>
-                                    <button class="btn btn-info btn-icon btn-sm" (click)="obtenerRespuestas(candidato.candidatoId)" (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal" data-bs-target="#modalRespuestas" title="Ver estatus de los cuestionarios">
-                                    <i class="ti ti-clipboard-data"></i>
-                                  </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+                                    </td>
+                                    <td class="justify-content-center">
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="obtenerRespuestas(candidato.candidatoId)" style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
+                                              <i class="ti ti-eye"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-icon btn-sm" title="Editar candidato">
+                                              <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
+                                            </button>
+                                            <button class="btn btn-danger btn-icon btn-sm" (click)="borrarUsuario(candidato.candidatoId, candidato.nombre)" style="margin-left: 5px; margin-right: 5px" title="Borrar candidato">
+                                              <i class="ti ti-eraser"></i>
+                                            </button>
+                                            <button class="btn btn-info btn-icon btn-sm" (click)="obtenerRespuestas(candidato.candidatoId)" (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal" data-bs-target="#modalRespuestas" title="Ver estatus de los cuestionarios">
+                                              <i class="ti ti-clipboard-data"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                        <div class="items-per-page">
+                            <label for="itemsPerPage">Elementos por página:</label>
+                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
+                              <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                                {{ option }}
+                              </option>
+                            </select>
+                        </div>
+                        <div class="pagination-container">
+                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                        </div>
+                    </div>
+                </div>
+                <app-no-results *ngSwitchCase="4"></app-no-results>
+            </ng-container>
         </div>
     </div>
 </div>
