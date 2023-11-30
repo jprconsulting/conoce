@@ -11,300 +11,394 @@
           </button>
                     
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true" >
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        {{ isModalAdd ? "Crea " : "Actualizar  " }} Consentimiento/ Aviso de privacidad
-                        
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
-                </div>    
-                <form [formGroup]="ConsentimientoForm" (ngSubmit)="submitconsentimiento()">
-                    <div class="modal-body margen">
-                        <!-- Inicio del formulario -->
-                        <div class="row">
-                            <div class="mb-3">
-                                <label class="form-label spacio">Nombre*:</label>
-                                <input contentEditable="true"
-                                 type="text" class="form-control" formControlName="Nombre" />
-                                <div *ngIf="ConsentimientoForm.get('Nombre')?.touched"class="error-message">
-                                    <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('required')" class="text-danger">
-                                      El nombre es requerido
-                                    </div>
-                                    <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('pattern')" class="text-danger">
-                                        El nombre no puede contener numeros
-                                    </div>
-                                    <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('minlength')" class="text-danger">
-                                        El nombre no puede ser menor a 3 caracteres.
-                                      </div>
-                                </div> 
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="email" class="spacio">Seleccionar perfil de correo*</label>
-                                <select class="form-select" formControlName="email" id="email">
-                                    <option *ngFor="let email of emails" [value]="email.emailOrigen">{{ email.emailOrigen }}</option>
-                                </select>
-                                <div *ngIf="ConsentimientoForm.get('email')?.touched" class="error-message">
-                                    <div *ngIf="ConsentimientoForm.get('email')?.hasError('required')" class="text-danger">
-                                        El correo es requerido
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="row">
-                            <div class="mb-3">
-                                <label for="Estado" class="spacio">Estado*:</label>
-                                <select class="form-select" formControlName="Estado" id="Estado">                                  
-                                  <option value="Activo">Activo</option>
-                                  <option value="Inactivo">Inactivo</option>
-                                </select>
-                                <div *ngIf="ConsentimientoForm.get('Estado')?.touched"class="error-message">
-                                    <div *ngIf="ConsentimientoForm.get('Estado')?.hasError('required')" class="text-danger">
-                                      El estado es requerido
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <label for="formGroupExampleInput2" class="form-control-label line-spacing spacio">Fecha de envío *</label>
-                            <input type="date" class="form-control" id="Fechadenvio" formControlName="Fechadenvio" [max]="getCurrentDate()" [min]="getCurrentDate()">
-                            <div *ngIf="ConsentimientoForm.get('Fechadenvio')?.touched"class="error-message">
-                                <div *ngIf="ConsentimientoForm.get('Fechadenvio')?.hasError('required')" class="text-danger">
-                                  La fecha de envio es requerida
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="mb-3">
-                                <div class="rich-text-editor">
-                                    <!-- Botones para editar el texto -->
-                                    <button (click)="boldText($event) "><i class="ti ti-bold"></i></button>
-                                    <button (click)="italicText($event)"><i class="ti ti-italic"></i></button>
-                                    <button (click)="subrayarTexto($event)"><i class="ti ti-underline"></i></button>
-                                    <button (click)="alignTextLeft($event)"><i class="ti ti-align-justified"></i></button>
-                                    <button (click)="alignTextCenter($event)"><i class="ti ti-align-center"></i></button>
-                                    <button (click)="alignTextRight($event)"><i class="ti ti-align-right"></i></button>
-                                    <button (click)="justifyText($event)"><i class="ti ti-baseline-density-medium"></i></button>
-                                    <button (click)="insertBulletList($event)"><i class="ti ti-list"></i></button>
-                                    <div class="estilo"
-                                        contentEditable="true"
-                                        id="cuerpocorreoEditor"
-                                        style="overflow-y: auto; max-height: 300px;" 
-                                    ></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Fin del formulario -->
-                    </div>
-                    <h5 class="fin">Todos los campos marcados con * son requeridos. </h5>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" (click)="obtenerContenidoEditor()" [disabled]="!ConsentimientoForm.valid">{{ isModalAdd ? "Agregar" : "Actualizar" }}</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!--FIN MODAL-->
-    <ng-container>
-        <div class="table-responsive">
-            <table class="table card-table table-vcenter text-nowrap datatable">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Nombre</th>
-                        <th>Email</th>
-                        <th>Fecha de envio</th>
-                        <th>Propietario</th>
-                        
-                        <th class="text-center" style="width: 7%">Acciones</th>
-
-                    </tr>
-                </thead>
-                <tbody class="table-tbody">
-                    <tr></tr>
-                    <tr *ngFor="let Consentimiento of Consentimientos | paginate: { itemsPerPage: itemsPerPageTable1, currentPage: currentPageTable1 };let i = index">
-                        <td>{{ Consentimiento.id }}</td>
-                        <td>{{ Consentimiento.nombre }}</td>
-                        <td>{{ Consentimiento.email }}</td>
-                        <td>{{ Consentimiento.fechadenvio | date:'yyyy-MM-dd' }}</td> 
-                        <td>{{Consentimiento.estado}}</td>
-                        <td>                   
-                            <div class="d-flex justify-content-between">
-                                <button class="btn btn-success btn-icon btn-sm button" data-bs-toggle="modal" (click)="Optener(Consentimiento);setDataModalUpdate(Consentimiento)" data-bs-target="#modal-report2">
-                                    <i class="ti ti-user-exclamation"></i>
-                                </button>
-                                
-                                <button class="btn btn-danger btn-icon btn-sm button" (click)="deleteConsentimiento(Consentimiento.id, Consentimiento.nombre)">
-                                    <i class="ti ti-trash"></i>
-                                </button>
-                                <button class="btn btn-warning btn-icon btn-sm button" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(Consentimiento)">
-                                    <i class="ti ti-edit"></i>
-                                  </button>
-                                  <div class="row row-cards">
-                                    <div class="modal modal-blur " id="modal-report2" tabindex="-1" role="dialog" aria-hidden="true" >
-                                        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title">
-                                                       Lista de distribucion
-                                                    </h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
-                                                </div>
-                                                <div class="row">
-                                                <div class="mb-5" >   
-                                                    <label class="filtro">Busqueda por nombre o/y apellidos*:</label>                                            
-                                                    <input type="text" class="form-control filtro" [(ngModel)]="filterText" (ngModelChange)="filterCandidates()" placeholder="Filtrar por nombre y/o apellidos" style="width: 90%;"> 
-                                                    
-                                                    <label class="filtro">Selecciona un Cargo*:</label>
-                                                      <select class="form-select filtro" [(ngModel)]="filterText3" style="width: 90%;">
-                                                        <option *ngFor="let cargoItem of cargos" [value]="cargoItem.nombreCargo">{{ cargoItem.nombreCargo }}</option>
-                                                      </select>
-                                                      <label class="filtro">Selecciona un estado*:</label>
-                                                      <select class="form-select filtro" [(ngModel)]="filterText2" style="width: 90%;">
-                                                        <option *ngFor="let estado of estados" [value]="estado.nombreEstado">{{ estado.nombreEstado }}</option>
-                                                      </select>
-                                                </div> 
-                                                </div>                                                
-                                                <form [formGroup]="ConsentimientoForm2" >
-                                                    <div class="modal-body margen">
-                                                        <div class="scrollable-container">
-                                                          <div class="content">
-                                                            <div class="row">
-                                                              <table class="table">
-                                                                <thead>
-                                                                  <tr>
-                                                                    <th>#</th>
-                                                                    <th>Nombre</th>
-                                                                    <th>Apat</th>
-                                                                    <th>Amat</th>
-                                                                  </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                    <tr *ngFor="let candidato of filteredCandidates; let i = index">
-                                                                        <td>
-                                                                          <input
-                                                                            type="checkbox"
-                                                                            class="form-check-input margin"
-                                                                            formControlName="Emailuser"
-                                                                            [value]="candidato.email"
-                                                                            (change)="toggleSelection(candidato.email)"
-                                                                            (click)="toggleSelection2(candidato)"
-                                                                          />
-                                                                          <div *ngIf="ConsentimientoForm2.get('Emailuser')?.touched"class="error-message">
-                                                                            <div *ngIf="ConsentimientoForm2.get('Emailuser')?.hasError('required')" class="text-danger">
-                                                                              El campo es requerida
-                                                                            </div>
-                                                                        </div>
-                                                                        </td>
-                                                                        <td>{{ candidato.nombre }}</td>
-                                                                        <td>{{ candidato.apellidoPaterno }}</td>
-                                                                        <td>{{ candidato.apellidoMaterno}}</td>
-                                                                      </tr>
-                                                                </tbody>
-                                                              </table>
+                <br>
+                <ng-container>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Fecha de envio</th>
+                                    <th>Propietario</th>
+                                    
+                                    <th class="text-center" style="width: 7%">Acciones</th>
+            
+                                </tr>
+                            </thead>
+                            <tbody class="table-tbody">
+                                <tr></tr>
+                                <tr *ngFor="let Consentimiento of Consentimientos | paginate: { itemsPerPage: itemsPerPageTable1, currentPage: currentPageTable1 };let i = index">
+                                    <td>{{ Consentimiento.id }}</td>
+                                    <td>{{ Consentimiento.nombre }}</td>
+                                    <td>{{ Consentimiento.email }}</td>
+                                    <td>{{ Consentimiento.fechadenvio | date:'yyyy-MM-dd' }}</td> 
+                                    <td>{{Consentimiento.estado}}</td>
+                                    <td>                   
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-success btn-icon btn-sm button" data-bs-toggle="modal" (click)="Optener(Consentimiento);setDataModalUpdate(Consentimiento)" data-bs-target="#modal-report2">
+                                                <i class="ti ti-user-exclamation"></i>
+                                            </button>
+                                            
+                                            <button class="btn btn-danger btn-icon btn-sm button" (click)="deleteConsentimiento(Consentimiento.id, Consentimiento.nombre)">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-icon btn-sm button" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(Consentimiento)">
+                                                <i class="ti ti-edit"></i>
+                                              </button>
+                                              <div class="row row-cards">
+                                                <div class="modal modal-blur " id="modal-report2" tabindex="-1" role="dialog" aria-hidden="true" >
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">
+                                                                   Lista de distribucion
+                                                                </h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
                                                             </div>
-                                                          </div>
+                                                            <div class="row">
+                                                            <div class="mb-5" >   
+                                                                <label class="filtro">Busqueda por nombre o/y apellidos*:</label>                                            
+                                                                <input type="text" class="form-control filtro" [(ngModel)]="filterText" (ngModelChange)="filterCandidates()" placeholder="Filtrar por nombre y/o apellidos" style="width: 90%;"> 
+                                                                
+                                                                <label class="filtro">Selecciona un Cargo*:</label>
+                                                                  <select class="form-select filtro" [(ngModel)]="filterText3" style="width: 90%;">
+                                                                    <option *ngFor="let cargoItem of cargos" [value]="cargoItem.nombreCargo">{{ cargoItem.nombreCargo }}</option>
+                                                                  </select>
+                                                                  <label class="filtro">Selecciona un estado*:</label>
+                                                                  <select class="form-select filtro" [(ngModel)]="filterText2" style="width: 90%;">
+                                                                    <option *ngFor="let estado of estados" [value]="estado.nombreEstado">{{ estado.nombreEstado }}</option>
+                                                                  </select>
+                                                            </div> 
+                                                            </div>                                                
+                                                            <form [formGroup]="ConsentimientoForm2" >
+                                                                <div class="modal-body margen">
+                                                                    <div class="scrollable-container">
+                                                                      <div class="content">
+                                                                        <div class="row">
+                                                                          <table class="table">
+                                                                            <thead>
+                                                                              <tr>
+                                                                                <th>#</th>
+                                                                                <th>Nombre</th>
+                                                                                <th>Apat</th>
+                                                                                <th>Amat</th>
+                                                                              </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr *ngFor="let candidato of filteredCandidates; let i = index">
+                                                                                    <td>
+                                                                                      <input
+                                                                                        type="checkbox"
+                                                                                        class="form-check-input margin"
+                                                                                        formControlName="Emailuser"
+                                                                                        [value]="candidato.email"
+                                                                                        (change)="toggleSelection(candidato.email)"
+                                                                                        (click)="toggleSelection2(candidato)"
+                                                                                      />
+                                                                                      <div *ngIf="ConsentimientoForm2.get('Emailuser')?.touched"class="error-message">
+                                                                                        <div *ngIf="ConsentimientoForm2.get('Emailuser')?.hasError('required')" class="text-danger">
+                                                                                          El campo es requerida
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </td>
+                                                                                    <td>{{ candidato.nombre }}</td>
+                                                                                    <td>{{ candidato.apellidoPaterno }}</td>
+                                                                                    <td>{{ candidato.apellidoMaterno}}</td>
+                                                                                  </tr>
+                                                                            </tbody>
+                                                                          </table>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <div>
+                                                                      <h5 class="label1">Todos los campos marcados con * son requeridos.</h5>
+                                                                      <button class="btn btn-success enviar" (click)="enviarConsentimientos(Consentimiento.email, Consentimiento.id, selectedEmails);ResetForm()" [disabled]="!ConsentimientoForm2.valid"   >Enviar</button>
+                                                                    </div>
+                                                                  </div>
+                                                                </form>
                                                         </div>
-                                                        <div>
-                                                          <h5 class="label1">Todos los campos marcados con * son requeridos.</h5>
-                                                          <button class="btn btn-success enviar" (click)="enviarConsentimientos(Consentimiento.email, Consentimiento.id, selectedEmails);ResetForm()" [disabled]="!ConsentimientoForm2.valid"   >Enviar</button>
-                                                        </div>
-                                                      </div>
-                                                    </form>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                            <!-- Items Per Page Dropdown -->
+                            <div class="items-per-page1">
+                                <label for="itemsPerPageTable1">Elementos por tabla:</label>
+                                <select id="itemsPerPageTable1" [(ngModel)]="itemsPerPageTable1" style="margin-left: 5px">
+                                    <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                                        {{ option }}
+                                    </option>
+                                </select>
                             </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                <!-- Items Per Page Dropdown -->
-                <div class="items-per-page1">
-                    <label for="itemsPerPageTable1">Elementos por tabla:</label>
-                    <select id="itemsPerPageTable1" [(ngModel)]="itemsPerPageTable1" style="margin-left: 5px">
-                        <option *ngFor="let option of itemsPerPageOptions" [value]="option">
-                            {{ option }}
-                        </option>
-                    </select>
-                </div>
-                <!-- Pagination Controls -->
-                <div class="pagination-container">
-                    <pagination-controls (pageChange)="currentPageTable1 = $event"></pagination-controls>
-                </div>
-            </div>
-        </div>
-    </ng-container>
-<p>
-
-<h1>Lista de consentimientos/Aviso de privacidad enviados a usuarios</h1>
-<ng-container>       
-    <div class="ms-auto text-muted">
-        <div class="input-icon">
-            <input type="text" value="" class="form-control form-control-rounded" placeholder="Busqueda por nombre o/y apellidos, Consentimiento/Avisos de privacidad, fechas:" [(ngModel)]="filterText4" (ngModelChange)="filterCandidates2()"/>
-            <span class="input-icon-addon">
-            <i class="ti ti-search"></i>
-            </span>
-        </div>
-    </div>                                   
-    <div>
-    <table class="table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Nombre</th>
-            <th>Apellido Paterno</th>
-            <th>Apellido Materno</th>
-            <th>Consentimiento</th>
-            <th>Fecha de envio</th>
-            <th>Fecha de aceptacion</th>
-            <th>Acción</th>
-          </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let Aceptacion of AceptacionFilter | paginate: { itemsPerPage: itemsPerPageTable2, currentPage: currentPageTable2 }">
-                <td>{{ Aceptacion.id }}</td>
-                <td>{{ Aceptacion.nombre }}</td>
-                <td>{{ Aceptacion.apat }}</td>
-                <td>{{ Aceptacion.amat }}</td>
-                <td>{{ Aceptacion.nombreC }}</td>
-                <td>{{ Aceptacion.fechadenvio | date:'yyyy-MM-dd'}}</td>
-                <td>{{ Aceptacion.fechaaceptacion | date:'yyyy-MM-dd'}}</td>
-                <td>                   
-                    <div class="d-flex justify-content-between">
-                        <button class="btn btn-danger btn-icon btn-sm button" (click)="Aceptacion.id && deleteAceptar(Aceptacion.id)">
-                            <i class="ti ti-trash"></i>
-                        </button>
+                            <!-- Pagination Controls -->
+                            <div class="pagination-container">
+                                <pagination-controls (pageChange)="currentPageTable1 = $event"></pagination-controls>
+                            </div>
+                        </div>
                     </div>
-                </td>
-              </tr>
-        </tbody>
-      </table>
-      <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-        <!-- Items Per Page Dropdown -->
-        <div class="items-per-page2">
-            <label for="itemsPerPageTable2">Elementos por tabla:</label>
-            <select id="itemsPerPageTable2" [(ngModel)]="itemsPerPageTable2" style="margin-left: 5px">
-                <option *ngFor="let option of itemsPerPageOptions2" [value]="option">
-                    {{ option }}
-                </option>
-            </select>
-        </div>
-        <!-- Pagination Controls -->
-        <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-            <pagination-controls (pageChange)="currentPageTable2 = $event"></pagination-controls>
+                </ng-container>
+            </div>
         </div>
     </div>
 </div>
-</ng-container>   
+<br>
+<br>
+<br>
+<div class="row row-cards">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"> Lista de consentimientos/Aviso de privacidad enviados a usuarios</h3>
+            </div>
+            <div class="card-body border-bottom py-3">
+                <div class="ms-auto text-muted">
+                    <div class="input-icon">
+                        <input type="text" value="" class="form-control form-control-rounded" placeholder="Busqueda por nombre o/y apellidos, Consentimiento/Avisos de privacidad, fechas:" [(ngModel)]="filterText4" (ngModelChange)="filterCandidates2()"/>
+                        <span class="input-icon-addon">
+                        <i class="ti ti-search"></i>
+                        </span>
+                    </div>
+                </div> 
+                <br>
+                <ng-container>
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                  <th>#</th>
+                                  <th>Nombre</th>
+                                  <th>Apellido Paterno</th>
+                                  <th>Apellido Materno</th>
+                                  <th>Consentimiento</th>
+                                  <th>Fecha de envío</th>
+                                  <th>Fecha de aceptación</th>
+                                  <th>Acción</th>
+                                </tr>
+                              </thead>                           
+                            <tbody class="table-tbody">
+                                <tr></tr>
+                                <tr *ngFor="let Consentimiento of Consentimientos | paginate: { itemsPerPage: itemsPerPageTable1, currentPage: currentPageTable1 };let i = index">
+                                    <td>{{ Consentimiento.id }}</td>
+                                    <td>{{ Consentimiento.nombre }}</td>
+                                    <td>{{ Consentimiento.email }}</td>
+                                    <td>{{ Consentimiento.fechadenvio | date:'yyyy-MM-dd' }}</td> 
+                                    <td>{{Consentimiento.estado}}</td>
+                                    <td>                   
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-success btn-icon btn-sm button" data-bs-toggle="modal" (click)="Optener(Consentimiento);setDataModalUpdate(Consentimiento)" data-bs-target="#modal-report2">
+                                                <i class="ti ti-user-exclamation"></i>
+                                            </button>
+                                            
+                                            <button class="btn btn-danger btn-icon btn-sm button" (click)="deleteConsentimiento(Consentimiento.id, Consentimiento.nombre)">
+                                                <i class="ti ti-trash"></i>
+                                            </button>
+                                            <button class="btn btn-warning btn-icon btn-sm button" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(Consentimiento)">
+                                                <i class="ti ti-edit"></i>
+                                              </button>
+                                              <div class="row row-cards">
+                                                <div class="modal modal-blur " id="modal-report2" tabindex="-1" role="dialog" aria-hidden="true" >
+                                                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title">
+                                                                   Lista de distribucion
+                                                                </h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
+                                                            </div>
+                                                            <div class="row">
+                                                            <div class="mb-5" >   
+                                                                <label class="filtro">Busqueda por nombre o/y apellidos*:</label>                                            
+                                                                <input type="text" class="form-control filtro" [(ngModel)]="filterText" (ngModelChange)="filterCandidates()" placeholder="Filtrar por nombre y/o apellidos" style="width: 90%;"> 
+                                                                
+                                                                <label class="filtro">Selecciona un Cargo*:</label>
+                                                                  <select class="form-select filtro" [(ngModel)]="filterText3" style="width: 90%;">
+                                                                    <option *ngFor="let cargoItem of cargos" [value]="cargoItem.nombreCargo">{{ cargoItem.nombreCargo }}</option>
+                                                                  </select>
+                                                                  <label class="filtro">Selecciona un estado*:</label>
+                                                                  <select class="form-select filtro" [(ngModel)]="filterText2" style="width: 90%;">
+                                                                    <option *ngFor="let estado of estados" [value]="estado.nombreEstado">{{ estado.nombreEstado }}</option>
+                                                                  </select>
+                                                            </div> 
+                                                            </div>                                                
+                                                            <form [formGroup]="ConsentimientoForm2" >
+                                                                <div class="modal-body margen">
+                                                                    <div class="scrollable-container">
+                                                                      <div class="content">
+                                                                        <div class="row">
+                                                                          <table class="table">
+                                                                            <thead>
+                                                                              <tr>
+                                                                                <th>#</th>
+                                                                                <th>Nombre</th>
+                                                                                <th>Apat</th>
+                                                                                <th>Amat</th>
+                                                                              </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr *ngFor="let candidato of filteredCandidates; let i = index">
+                                                                                    <td>
+                                                                                      <input
+                                                                                        type="checkbox"
+                                                                                        class="form-check-input margin"
+                                                                                        formControlName="Emailuser"
+                                                                                        [value]="candidato.email"
+                                                                                        (change)="toggleSelection(candidato.email)"
+                                                                                        (click)="toggleSelection2(candidato)"
+                                                                                      />
+                                                                                      <div *ngIf="ConsentimientoForm2.get('Emailuser')?.touched"class="error-message">
+                                                                                        <div *ngIf="ConsentimientoForm2.get('Emailuser')?.hasError('required')" class="text-danger">
+                                                                                          El campo es requerida
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    </td>
+                                                                                    <td>{{ candidato.nombre }}</td>
+                                                                                    <td>{{ candidato.apellidoPaterno }}</td>
+                                                                                    <td>{{ candidato.apellidoMaterno}}</td>
+                                                                                  </tr>
+                                                                            </tbody>
+                                                                          </table>
+                                                                        </div>
+                                                                      </div>
+                                                                    </div>
+                                                                    <div>
+                                                                      <h5 class="label1">Todos los campos marcados con * son requeridos.</h5>
+                                                                      <button class="btn btn-success enviar" (click)="enviarConsentimientos(Consentimiento.email, Consentimiento.id, selectedEmails);ResetForm()" [disabled]="!ConsentimientoForm2.valid"   >Enviar</button>
+                                                                    </div>
+                                                                  </div>
+                                                                </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
+                            <!-- Items Per Page Dropdown -->
+                            <div class="items-per-page1">
+                                <label for="itemsPerPageTable1">Elementos por tabla:</label>
+                                <select id="itemsPerPageTable1" [(ngModel)]="itemsPerPageTable1" style="margin-left: 5px">
+                                    <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                                        {{ option }}
+                                    </option>
+                                </select>
+                            </div>
+                            <!-- Pagination Controls -->
+                            <div class="pagination-container">
+                                <pagination-controls (pageChange)="currentPageTable1 = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true" >
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{ isModalAdd ? "Crea " : "Actualizar  " }} Consentimiento/ Aviso de privacidad
+                    
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="ResetForm()"> </button>
+            </div>    
+            <form [formGroup]="ConsentimientoForm" (ngSubmit)="submitconsentimiento()">
+                <div class="modal-body margen">
+                    <!-- Inicio del formulario -->
+                    <div class="row">
+                        <div class="mb-3">
+                            <label class="form-label spacio">Nombre*:</label>
+                            <input contentEditable="true"
+                             type="text" class="form-control" formControlName="Nombre" />
+                            <div *ngIf="ConsentimientoForm.get('Nombre')?.touched"class="error-message">
+                                <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('required')" class="text-danger">
+                                  El nombre es requerido
+                                </div>
+                                <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('pattern')" class="text-danger">
+                                    El nombre no puede contener numeros
+                                </div>
+                                <div *ngIf="ConsentimientoForm.get('Nombre')?.hasError('minlength')" class="text-danger">
+                                    El nombre no puede ser menor a 3 caracteres.
+                                  </div>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="email" class="spacio">Seleccionar perfil de correo*</label>
+                            <select class="form-select" formControlName="email" id="email">
+                                <option *ngFor="let email of emails" [value]="email.emailOrigen">{{ email.emailOrigen }}</option>
+                            </select>
+                            <div *ngIf="ConsentimientoForm.get('email')?.touched" class="error-message">
+                                <div *ngIf="ConsentimientoForm.get('email')?.hasError('required')" class="text-danger">
+                                    El correo es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="mb-3">
+                            <label for="Estado" class="spacio">Estado*:</label>
+                            <select class="form-select" formControlName="Estado" id="Estado">                                  
+                              <option value="Activo">Activo</option>
+                              <option value="Inactivo">Inactivo</option>
+                            </select>
+                            <div *ngIf="ConsentimientoForm.get('Estado')?.touched"class="error-message">
+                                <div *ngIf="ConsentimientoForm.get('Estado')?.hasError('required')" class="text-danger">
+                                  El estado es requerido
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="formGroupExampleInput2" class="form-control-label line-spacing spacio">Fecha de envío *</label>
+                        <input type="date" class="form-control" id="Fechadenvio" formControlName="Fechadenvio" [max]="getCurrentDate()" [min]="getCurrentDate()">
+                        <div *ngIf="ConsentimientoForm.get('Fechadenvio')?.touched"class="error-message">
+                            <div *ngIf="ConsentimientoForm.get('Fechadenvio')?.hasError('required')" class="text-danger">
+                              La fecha de envio es requerida
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="mb-3">
+                            <div class="rich-text-editor">
+                                <!-- Botones para editar el texto -->
+                                <button (click)="boldText($event) "><i class="ti ti-bold"></i></button>
+                                <button (click)="italicText($event)"><i class="ti ti-italic"></i></button>
+                                <button (click)="subrayarTexto($event)"><i class="ti ti-underline"></i></button>
+                                <button (click)="alignTextLeft($event)"><i class="ti ti-align-justified"></i></button>
+                                <button (click)="alignTextCenter($event)"><i class="ti ti-align-center"></i></button>
+                                <button (click)="alignTextRight($event)"><i class="ti ti-align-right"></i></button>
+                                <button (click)="justifyText($event)"><i class="ti ti-baseline-density-medium"></i></button>
+                                <button (click)="insertBulletList($event)"><i class="ti ti-list"></i></button>
+                                <div class="estilo"
+                                    contentEditable="true"
+                                    id="cuerpocorreoEditor"
+                                    style="overflow-y: auto; max-height: 300px;" 
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Fin del formulario -->
+                </div>
+                <h5 class="fin">Todos los campos marcados con * son requeridos. </h5>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" (click)="obtenerContenidoEditor()" [disabled]="!ConsentimientoForm.valid">{{ isModalAdd ? "Agregar" : "Actualizar" }}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
