@@ -85,6 +85,7 @@ export class CandidatosComponent implements OnInit {
   selectedEstadoId: number | null = null;
   selectedDistritoLocalId: number | null = null;
   selectedAyuntamientoId: number | null = null;
+  fileCandidatura: File | undefined;
 
   constructor(
     private candidatoService: CandidatoService,
@@ -125,14 +126,15 @@ export class CandidatosComponent implements OnInit {
       twitter: ['', Validators.required],
       instagram: ['', Validators.required],
       tiktok: ['', Validators.required],
-      foto: [''],
+      foto: [null],
       estatus: [true],
       cargoId: [null, Validators.required],
       estadoId: [null],
       distritoLocalId: [null],
       ayuntamientoId: [null],
       comunidadId: [null],
-      candidaturaId: [null, Validators.required]
+      candidaturaId: [null, Validators.required],
+      fotoArchivo: [null, Validators.required]
     });
   }
 
@@ -149,6 +151,11 @@ export class CandidatosComponent implements OnInit {
     this.cargarComunidades();
     // this.filtrarPorFormulario();
   }
+
+  onFileSelectCand(event: any) {
+    this.fileCandidatura = event.target.files.item(0) as File;
+  }
+
   cargarDistritosLocales() {
     this.distritoLocalService.getDistritosLocales().subscribe((data: DistritoLocal[]) => {
       this.distritosLocales = data;
@@ -326,29 +333,72 @@ getNombreAgrupacion(candidaturaId: number): string {
   }
 
   submitUsuario() {
-    const candidatoToAddOrUpdate: Candidato = this.userForm.value as Candidato;
-    this.isModalAdd ? this.agregarCandidato(candidatoToAddOrUpdate) : this.actualizarUsuario(candidatoToAddOrUpdate);
+    if (this.isModalAdd) {
+      this.agregarCandidato();
+    } else {
+      const candidatoToAddOrUpdate: Candidato = this.userForm.value as Candidato;
+      this.actualizarUsuario(candidatoToAddOrUpdate);
+    }
   }
-
 
   cerrarModal() {
     this.usuarioSeleccionado = null;
     // Cierra el modal aquí.
   }
 
-  agregarCandidato(candidato: Candidato) {
-    this.candidatoService.postCandidato(candidato).subscribe({
-      next: () => {
-        this.mensajeService.mensajeExito("Candidato agregado con éxito");
-        this.resetForm();
-      },
-      error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar al candidato");
-        console.error(error);
-      }
-    });
+  agregarCandidato() {
+    const candidatoToAddOrUpdate: Candidato = this.userForm.value as Candidato;
+    const file: File | null = this.userForm.get('fotoArchivo')?.value as File;
+
+    if (file) {
+      const formData = new FormData();
+      formData.append('fotoArchivo', file);
+
+      formData.append('candidatoId', this.userForm.get('candidatoId')?.value ? this.userForm.get('candidatoId')?.value.toString() : '');
+      formData.append('nombre', this.userForm.get('nombre')?.value);
+      formData.append('apellidoPaterno', this.userForm.get('apellidoPaterno')?.value);
+      formData.append('apellidoMaterno', this.userForm.get('apellidoMaterno')?.value);
+      formData.append('sobrenombrePropietario', this.userForm.get('sobrenombrePropietario')?.value);
+      formData.append('generoId', this.userForm.get('generoId')?.value);
+      formData.append('nombreSuplente', this.userForm.get('nombreSuplente')?.value);
+      formData.append('fechaNacimiento', this.userForm.get('fechaNacimiento')?.value);
+      formData.append('direccionCasaCampania', this.userForm.get('direccionCasaCampania')?.value);
+      formData.append('telefonoPublico', this.userForm.get('telefonoPublico')?.value);
+      formData.append('email', this.userForm.get('email')?.value);
+      formData.append('paginaWeb', this.userForm.get('paginaWeb')?.value);
+      formData.append('facebook', this.userForm.get('facebook')?.value);
+      formData.append('twitter', this.userForm.get('twitter')?.value);
+      formData.append('instagram', this.userForm.get('instagram')?.value);
+      formData.append('tiktok', this.userForm.get('tiktok')?.value);
+      formData.append('estatus', this.userForm.get('estatus')?.value);
+      formData.append('cargoId', this.userForm.get('cargoId')?.value);
+      formData.append('estadoId', this.userForm.get('estadoId')?.value);
+      formData.append('distritoLocalId', this.userForm.get('distritoLocalId')?.value);
+      formData.append('ayuntamientoId', this.userForm.get('ayuntamientoId')?.value);
+      formData.append('comunidadId', this.userForm.get('comunidadId')?.value);
+      formData.append('candidaturaId', this.userForm.get('candidaturaId')?.value);
+
+      this.candidatoService.postCandidato(formData).subscribe({
+        next: () => {
+          console.log('Candidato agregado con éxito');
+        },
+        error: (error) => {
+          console.error('Error al agregar al candidato:', error);
+        }
+      });
+    } else {
+      console.error('Por favor, selecciona una foto.');
+    }
   }
 
+  onFileChange(event: any) {
+    const file = event?.target?.files?.[0];
+    if (file) {
+      const fileName = file.name;
+      console.log(fileName); // Esto mostrará el nombre del archivo en la consola
+      this.userForm.get('fotoArchivo')?.setValue(file);
+    }
+  }
 
   actualizarUsuario(candidato: Candidato) {
     this.candidatoService.putCandidato(candidato).subscribe({
@@ -362,7 +412,6 @@ getNombreAgrupacion(candidaturaId: number): string {
       }
     });
   }
-
 
   resetForm() {
     this.closebutton.nativeElement.click();
@@ -551,22 +600,16 @@ filtrarPartidos(): void {
 
   onEstadoChange(event: any) {
     const selectedEstadoId = +event.target.value;
-
-    // Filtrar distritos locales basados en el estado seleccionado
     this.distritosLocales = this.distritosLocales.filter((distrito) => distrito.estadoId === selectedEstadoId);
   }
 
   onDistritoLocalChange(event: any) {
     const selectedDistritoLocalId = +event.target.value;
-
-    // Filtrar ayuntamientos basados en el distrito local seleccionado
     this.ayuntamientos = this.ayuntamientos.filter((ayuntamiento) => ayuntamiento.distritoLocalId === selectedDistritoLocalId);
   }
 
   onAyuntamientoChange(event: any) {
     const selectedAyuntamientoId = +event.target.value;
-
-    // Filtrar comunidades basadas en el ayuntamiento seleccionado
     this.comunidades = this.comunidades.filter((comunidad) => comunidad.ayuntamientoId === selectedAyuntamientoId);
   }
 
@@ -582,7 +625,6 @@ filtrarPartidos(): void {
         this.candidatoService.deleteCandidatos(id).subscribe({
           next: () => {
             this.mensajeService.mensajeExito('Usuario borrado correctamente');
-            //this.ConfigPaginator.currentPage = 1;
           },
           error: (error) => this.mensajeService.mensajeError(error)
         });
@@ -596,8 +638,10 @@ filtrarPartidos(): void {
     if (nombreArchivo) {
       return `${rutaBaseApp}images/${nombreArchivo}`;
     }
-
     return '/assets/images/';
   }
+
+
+
 }
 

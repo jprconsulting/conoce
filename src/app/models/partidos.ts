@@ -4,7 +4,7 @@ export interface Partidos {
   nombreCandidatura: string;
   nombreFoto: string;
   acronimo: string;
-  // base64Logo: string;
   estatus: boolean;
   logo: string;
+  foto: string;
 }

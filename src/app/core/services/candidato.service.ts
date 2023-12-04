@@ -28,14 +28,8 @@ export class CandidatoService {
     );
   }
 
-  postCandidato(candidato: Candidato): Observable<Candidato> {
-    return this.http.post<Candidato>(`${this.route}/agregar_candidato`, candidato)
-      .pipe(
-        tap(() => {
-          this._refreshLisUsers$.next(null);
-        }),
-        catchError(this.handleErrorService.handleError)
-      );
+  postCandidato(formData: FormData): Observable<any> {
+    return this.http.post<any>(`${this.route}/agregar_candidato`, formData);
   }
 
   deleteCandidatos(id: number) {

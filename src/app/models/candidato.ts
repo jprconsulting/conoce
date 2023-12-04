@@ -18,6 +18,9 @@ export interface Candidato {
   estatus: boolean;
   cargoId: number;
   estadoId: number;
+  distritoLocalId: number;
+  ayuntamientoId: number;
+  comunidadId: number;
   generoId: number;
   candidaturaId: number;
   candidatura: any;

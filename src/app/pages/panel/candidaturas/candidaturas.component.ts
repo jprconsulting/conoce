@@ -177,6 +177,8 @@ agregarCargo() {
     const acronimo = this.partidoForm.get('acronimo')?.value || '';
     const estatus = this.partidoForm.get('estatus')?.value || '';
     const logo = this.partidoForm.get('logo')?.value || '';
+    const foto = this.partidoForm.get('foto')?.value || '';
+
 
     // Elimina el prefijo "data:image/png;base64," del valor de base64Logo
     const base64LogoControl = this.partidoForm.get('base64Logo');
@@ -196,6 +198,7 @@ agregarCargo() {
       // base64Logo, (si es necesario)
       nombreFoto,
       logo,
+      foto
     };
 
     // Agrega un console.log para verificar los datos a enviar
@@ -277,7 +280,15 @@ agregarCargo() {
     }
   }
 
+  obtenerRutaImagen(nombreArchivo: string): string {
+    const rutaBaseApp = 'https://localhost:7154/';
 
+    if (nombreArchivo) {
+      return `${rutaBaseApp}images/${nombreArchivo}`;
+    }
+
+    return '/assets/images/';
+  }
 }
 
 

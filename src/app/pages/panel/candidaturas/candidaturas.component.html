@@ -24,49 +24,53 @@
                     <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                 </div>
 
-                <div *ngSwitchCase="1"> 
+                <div *ngSwitchCase="1">
 
-            <div class="table-responsive">
-                <table class="table card-table table-vcenter text-nowrap datatable">
-                    <thead>
-                        <tr>
-                            <th>Tipo de agrupación</th>
-                            <th>Nombre</th>
-                            <th>Acronimo</th>
-                            <th>Estatus</th>
-                            <th class="text-center" style="width: 7%">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody class="table-tbody">
-                        <tr></tr>
-                        <tr *ngFor="let partido of datos | filterByTipoCandidatura:filtro">
-                            <td>{{ partido.nombreCandidatura }}</td>
-                            <td>{{ partido.logo }}</td>
-                            <td>{{ partido.acronimo }}</td>
-                            <td>
-                                <ng-container *ngIf="partido.estatus; else elseEST">
-                                    <span class="badge bg-success me-1"></span>Activo
-                                </ng-container>
-                                <ng-template #elseEST>
-                                    <span class="badge bg-danger me-1"></span> Inactivo
-                                </ng-template>
-                            </td>
-                            <td>
-                                <div class="d-flex justify-content-between">
-                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report">
+                    <div class="table-responsive">
+                        <table class="table card-table table-vcenter text-nowrap datatable">
+                            <thead>
+                                <tr>
+                                    <th>Logo</th>
+                                    <th>Tipo de agrupación</th>
+                                    <th>Nombre</th>
+                                    <th>Acronimo</th>
+                                    <th>Estatus</th>
+                                    <th class="text-center" style="width: 7%">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-tbody">
+                                <tr></tr>
+                                <tr *ngFor="let partido of datos | filterByTipoCandidatura:filtro">
+                                    <td class="justify-content-center">
+                                        <img [src]="obtenerRutaImagen(partido.foto)" alt="Foto de {{ partido.acronimo }}" width="50" height="50" />
+                                    </td>
+                                    <td>{{ partido.nombreCandidatura }}</td>
+                                    <td>{{ partido.logo }}</td>
+                                    <td>{{ partido.acronimo }}</td>
+                                    <td>
+                                        <ng-container *ngIf="partido.estatus; else elseEST">
+                                            <span class="badge bg-success me-1"></span>Activo
+                                        </ng-container>
+                                        <ng-template #elseEST>
+                                            <span class="badge bg-danger me-1"></span> Inactivo
+                                        </ng-template>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report">
               <i class="ti ti-edit"></i>
             </button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            
-        </div>
-       
-        <app-no-results *ngSwitchCase="4"></app-no-results>
-    </ng-container>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+                <app-no-results *ngSwitchCase="4"></app-no-results>
+            </ng-container>
         </div>
     </div>
 </div>

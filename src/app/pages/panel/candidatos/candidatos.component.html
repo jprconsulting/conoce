@@ -434,22 +434,21 @@
                     <br> <br>
                     <div class="card">
                         <div class="ribbon ribbon-top bg-purple">
-                            <i class="ti ti-camera-plus"></i> </div>
+                            <i class="ti ti-camera-plus"></i>
+                        </div>
                         <div class="card-header">
                             <h3 class="card-title">IMAGEN DEL CANDIDATO</h3>
                         </div>
                         <div class="card-body">
-                            <!-- <div class="row">
+                            <div class="row">
                                 <div class="col-lg-12 d-flex align-items-center justify-content-center">
                                     <div class="mb-1 text-center">
                                         <div class="form-group">
-                                            <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
-                                        <br>
-                                        <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
-                                        <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;">
-                                    </label>
+                                            <label for="fotoArchivo" class="img-thumbnail" id="fotoArchivo-label">
+                                    <img [src]="previewImage ? previewImage : 'assets/images/placeholderimage.png'" alt="Subir imagen" style="width: 200px;">
+                                    <input type="file" id="fotoArchivo" (change)="onFileChange($event)">
+                                  </label>
                                         </div>
-                                        <br>
                                         <label class="form-label" *ngIf="!previewImage">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
 
                                         <div *ngIf="previewImage" class="mt-3">
@@ -457,19 +456,14 @@
                                             <br>
                                             <label>Imagen seleccionada:</label>
                                             <br><br>
-                                            <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
+                                            <button class="btn btn-danger mt-2" (click)="eliminarImagen()">Eliminar Imagen</button>
                                         </div>
                                     </div>
-                                </div>
-                            </div> -->
-                            <div class="col-lg-4">
-                                <div class="mb-3">
-                                    <label class="form-label">IMAGEN PRUEBA</label>
-                                    <input type="text" class="form-control" formControlName="foto" />
                                 </div>
                             </div>
                         </div>
                     </div>
+
                     <!-- Fin del formulario -->
                 </div>
                 <div class="modal-footer">
