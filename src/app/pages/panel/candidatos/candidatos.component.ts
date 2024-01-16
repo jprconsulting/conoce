@@ -256,8 +256,8 @@ calcularEstadosFormularios(): { nombre: string; estado: string }[] {
     );
 }
 
-getNombreCargo(cargoId: number): string {
-  const cargo = this.cargos.find((e) => e.cargoId === cargoId);
+getNombreCargo(id: number): string {
+  const cargo = this.cargos.find((e) => e.id === id);
   return cargo ? cargo.nombreCargo : 'Desconocido';
 }
 

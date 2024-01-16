@@ -44,7 +44,7 @@ export class CargosComponent implements OnInit {
 
   crearFormularioUsuario() {
     this.userForm = this.formBuilder.group({
-      cargoId: [null],
+      id: [null],
       nombreCargo: ['', Validators.required],
     });
   }
@@ -94,7 +94,7 @@ export class CargosComponent implements OnInit {
   }
 
   actualizarUsuario() {
-    this.cargoService.putCargo(this.cargo).subscribe({
+    this.cargoService.put(this.idUpdate, this.cargo).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Usuario actualizado con éxito");
         this.resetForm();
@@ -116,7 +116,7 @@ export class CargosComponent implements OnInit {
     this.mensajeService.mensajeAdvertencia(
       `¿Estás seguro de eliminar el usuario: ${nombreUsuario}?`,
       () => {
-        this.cargoService.deleteCrago(id).subscribe({
+        this.cargoService.delete(id).subscribe({
           next: () => {
             this.mensajeService.mensajeExito('Usuario borrado correctamente');
             // this.ConfigPaginator.currentPage = 1; // Si necesitas realizar alguna acción adicional después de la eliminación
@@ -137,11 +137,14 @@ export class CargosComponent implements OnInit {
     this.isModalAdd = true;
   }
 
-  setDataModalUpdate(user: Cargos) {
+
+  idUpdate!: number;
+  setDataModalUpdate(dto: Cargos) {
     this.isModalAdd = false;
+    this.idUpdate = dto.id;
     this.userForm.patchValue({
-      cargoId: user.cargoId,
-      nombreCargo: user.nombreCargo,
+      id: dto.id,
+      nombreCargo: dto.nombreCargo,
     });
     console.log(this.userForm.value);
   }
