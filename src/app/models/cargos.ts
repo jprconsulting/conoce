@@ -1,4 +1,4 @@
 export interface Cargos{
-  cargoId:number;
+  id:number;
   nombreCargo:string;
 }

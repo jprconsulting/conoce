@@ -36,7 +36,7 @@ export class SecurityService {
         localStorage.setItem('token', this.dataObject.token);
         localStorage.setItem('usuarioId', this.dataObject.usuarioId.toString());
         localStorage.setItem('formulariosAsignados', JSON.stringify(this.formulariosAsignados));
-        localStorage.setItem('nombre', this.dataObject.nombre);
+        localStorage.setItem('nombreCompleto', this.dataObject.nombre);
       }),
       catchError(this.handleErrorService.handleError)
     );
@@ -47,7 +47,7 @@ export class SecurityService {
     localStorage.removeItem('token');
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('formulariosAsignados');
-    localStorage.removeItem('nombre');
+    localStorage.removeItem('nombreCompleto');
 
   }
 

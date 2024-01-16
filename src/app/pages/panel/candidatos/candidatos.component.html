@@ -54,7 +54,7 @@
                                     <td class="justify-content-center">{{ candidato.nombre }}</td>
                                     <td class="justify-content-center">{{ candidato.apellidoPaterno }}</td>
                                     <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
-                                    <td class="justify-content-center">{{ getNombreCargo(candidato.cargoId) }}</td>
+                                    <!-- <td class="justify-content-center">{{ getNombreCargo(candidato.cargo.id) }}</td> -->
                                     <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
@@ -304,7 +304,7 @@
                                         <label class="form-label">Cargo</label>
                                         <select class="form-select" formControlName="cargoId">
                                           <option value="null">Selecciona un cargo...</option>
-                                          <option *ngFor="let cargoItem of cargos" [value]="cargoItem.cargoId">{{ cargoItem.nombreCargo }}</option>
+                                          <option *ngFor="let cargoItem of cargos" [value]="cargoItem.id">{{ cargoItem.nombreCargo }}</option>
                                         </select>
                                         <div *ngIf="userForm.get('cargoId')?.touched" class="error-message">
                                             <div *ngIf="userForm.get('cargoId')?.hasError('required')">

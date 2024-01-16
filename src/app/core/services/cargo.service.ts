@@ -10,7 +10,7 @@ import { catchError, tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CargoService {
-  route = `${environment.apiUrl}/cargo`;
+  route = `${environment.apiUrl}/cargos`;
   private _refreshLisUsers$ = new Subject<Cargos | null>();
 
   constructor(
@@ -23,13 +23,13 @@ export class CargoService {
   }
 
   getCargos(): Observable<Cargos[]> {
-    return this.http.get<Cargos[]>(`${this.route}/obtener_cargos`).pipe(
+    return this.http.get<Cargos[]>(`${this.route}/obtener-todos`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
   postCargo(cargos: Cargos): Observable<Cargos> {
-    return this.http.post<Cargos>(`${this.route}/agregar_cargo`, cargos)
+    return this.http.post<Cargos>(`${this.route}/crear`, cargos)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
@@ -38,18 +38,8 @@ export class CargoService {
       );
   }
 
-  deleteCrago(id: number) {
-    return this.http.delete(`${this.route}/eliminar_cargo?id=${id}`)
-    .pipe(
-        tap(() => {
-          this._refreshLisUsers$.next;
-        }),
-        catchError(this.handleErrorService.handleError)
-      );
-  }
-
-  putCargo(cargos: Cargos): Observable<Cargos> {
-    return this.http.put<Cargos>(`${this.route}/editar_cargo`, cargos)
+  delete(id: number) {
+    return this.http.delete(`${this.route}/eliminar/${id}`)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
@@ -58,6 +48,13 @@ export class CargoService {
       );
   }
 
-
-
+  put(id: number, dto: Cargos) {
+    return this.http.put<Cargos>(`${this.route}/actualizar/${id}`, dto)
+      .pipe(
+        tap(() => {
+          this._refreshLisUsers$.next(null);
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }
 }
