@@ -53,7 +53,7 @@ export class AsignacionComponent implements OnInit {
       this.obtenerFormularios();
       this.usuarioService.getUsuarios().subscribe((data: Usuario[]) => {
         console.log(data);
-        this.usuario = data.filter(usuario => usuario.rol === 'Candidato' || usuario.rol === 'Gestor');
+        // this.usuario = data.filter(usuario => usuario.rol === 'Candidato' || usuario.rol === 'Gestor');
       });
 
       this.formularioService.getFormularios().subscribe(data => {
@@ -163,7 +163,7 @@ obtenerNombreFormulario(formularioId: number): string {
 }
 
 filtrarAsignaciones() {
-  this.formuser = this.filtrarResultados();
+  // this.formuser = this.filtrarResultados();
 }
 
 borrarFormulario(formularioId: number, usuarioId: number) {
@@ -181,22 +181,22 @@ borrarFormulario(formularioId: number, usuarioId: number) {
 }
 
 filtrarResultados() {
-  const usuariosFiltrados = this.usuario.filter(usuario =>
-    usuario.nombre.toLowerCase().includes(this.filtro.toLowerCase())
-  );
+  // const usuariosFiltrados = this.usuario.filter(usuario =>
+  //   usuario.nombre.toLowerCase().includes(this.filtro.toLowerCase())
+  // );
 
-  const asignacionesFiltradas = this.formuser.filter(asignacion =>
-    asignacion.usuarioIds.some(id => usuariosFiltrados.some(usuario => usuario.usuarioId === id))
-  );
+  // const asignacionesFiltradas = this.formuser.filter(asignacion =>
+  //   asignacion.usuarioIds.some(id => usuariosFiltrados.some(usuario => usuario.usuarioId === id))
+  // );
 
-  return asignacionesFiltradas;
+  // return asignacionesFiltradas;
 }
 
 obtenerNombreUsuario(usuarioIds: number | number[]): string {
   const userIdsArray = Array.isArray(usuarioIds) ? usuarioIds : [usuarioIds];
   const nombres = userIdsArray.map(usuarioId => {
-    const usuario = this.usuario.find(u => u.usuarioId === usuarioId);
-    return usuario ? usuario.nombre : 'Sin nombre';
+    const usuario = this.usuario.find(u => u.id === usuarioId);
+    return usuario ? usuario.nombres : 'Sin nombre';
   });
   return nombres.join(', ');
 }
@@ -218,7 +218,7 @@ procesarDatos(formuser: Formuser[], formularios: ConfigGoogleForm[], usuarios: U
     const asignacionesParaFormulario = formuser.filter((asignacion) => asignacion.formularioId === formulario.formularioId);
     const usuarioIdsUnicos = Array.from(new Set(asignacionesParaFormulario.map((asignacion) => asignacion.usuarioIds).flat()));
 
-    const usuariosAsociados = usuarios.filter((usuario) => usuarioIdsUnicos.includes(usuario.usuarioId));
+    const usuariosAsociados = usuarios.filter((usuario) => usuarioIdsUnicos.includes(usuario.id));
 
     formulariosUnicos.push({ formulario, usuarios: usuariosAsociados });
   });

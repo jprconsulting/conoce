@@ -46,9 +46,9 @@ export class UsuariosComponent implements OnInit {
 
   crearFormularioUsuario() {
     this.userForm = this.formBuilder.group({
-      usuarioId: [null],
-      rolId: [null, Validators.required],
-      email: ['', [Validators.required, Validators.email]],
+      Id: [null],
+      rol: [null, Validators.required],
+      correo: ['', [Validators.required, Validators.email]],
       password: [
         '',
         [
@@ -58,8 +58,9 @@ export class UsuariosComponent implements OnInit {
           Validators.pattern(/[0-9]/),
         ],
       ],
-      nombre: ['', Validators.required],
-      apellidos: ['', Validators.required],
+      nombres: ['', Validators.required],
+      apellidoPaterno: ['', Validators.required],
+      apellidoMaterno: ['', Validators.required],
       estatus: [false],
     });
   }
@@ -93,45 +94,51 @@ export class UsuariosComponent implements OnInit {
     this.userForm.reset();
   }
 
+agregarUsuario() {
+  if (this.userForm.valid) {
+    const nuevoUsuario = { ...this.userForm.value };
+    
+    delete nuevoUsuario.id;
+    this.usuario = this.userForm.value as Usuario;
+    const rolId = this.userForm.get('rol')?.value;
+    this.usuario.rol = { id: rolId } as Rol;
+    // Verificar si el nombre de usuario ya existe
+    const nombreUsuarioExistente = this.usuarios.some(u => u.nombres === nuevoUsuario.nombres);
+    const apellidosUsuarioExistente = this.usuarios.some(u => u.apellidoPaterno === nuevoUsuario.apellidoPaterno);
 
-  agregarUsuario() {
-    if (this.userForm.valid) {
-      const nuevoUsuario = this.userForm.value;
-  
-      // Verificar si el nombre de usuario ya existe
-      const nombreUsuarioExistente = this.usuarios.some(u => u.nombre === nuevoUsuario.nombre);
-      const apellidosUsuarioExistente = this.usuarios.some(u => u.apellidos === nuevoUsuario.apellidos);
-  
-      // Verificar si el correo electrónico ya existe
-      const correoExistente = this.usuarios.some(u => u.email === nuevoUsuario.email);
-  
-      if (nombreUsuarioExistente) {
-        console.error('Ya existe un usuario con este nombre de usuario.');
-        this.mensajeService.mensajeError('Ya existe un usuario con este nombre de usuario.');
-      } else if (correoExistente) {
-        console.error('Ya existe un usuario con este correo electrónico.');
-        this.mensajeService.mensajeError('Ya existe un usuario con este correo electrónico.');
-      } else {
-        this.usuarioService.postUsuario(nuevoUsuario).subscribe({
-          next: () => {
-            console.log('Usuario agregado con éxito:', nuevoUsuario);
-            this.mensajeService.mensajeExito('Usuario agregado con éxito');
-            this.resetForm();
-            // También puedes agregar el nuevo usuario a la lista local
-            this.usuarios.push(nuevoUsuario);
-          },
-          error: (error) => {
-            console.error('Error al agregar usuario:', error);
-            this.mensajeService.mensajeError('Error al agregar usuario');
-          }
-        });
-      }
+    
+    this.usuario.rol = { id: rolId } as Rol;
+    
+    // Verificar si el correo electrónico ya existe
+    const correoExistente = this.usuarios.some(u => u.correo === nuevoUsuario.correo);
+    console.log(this.userForm.value);
+    if (nombreUsuarioExistente) {
+      console.error('Ya existe un usuario con este nombre de usuario.');
+      this.mensajeService.mensajeError('Ya existe un usuario con este nombre de usuario.');
+    } else if (correoExistente) {
+      console.error('Ya existe un usuario con este correo electrónico.');
+      this.mensajeService.mensajeError('Ya existe un usuario con este correo electrónico.');
     } else {
-      console.error('El formulario de usuario es inválido. No se puede enviar.');
-      this.mensajeService.mensajeError('Formulario de usuario inválido. Revise los campos.');
+      this.usuarioService.postUsuario(this.usuario).subscribe({
+        next: () => {
+          console.log('Usuario agregado con éxito:', nuevoUsuario);
+          this.mensajeService.mensajeExito('Usuario agregado con éxito');
+          this.resetForm();
+          // También puedes agregar el nuevo usuario a la lista local
+          this.usuarios.push(nuevoUsuario);
+        },
+        error: (error) => {
+          console.error('Error al agregar usuario:', error);
+          this.mensajeService.mensajeError('Error al agregar usuario');
+        }
+      });
     }
+  } else {
+    console.error('El formulario de usuario es inválido. No se puede enviar.');
+    this.mensajeService.mensajeError('Formulario de usuario inválido. Revise los campos.');
   }
-  
+}
+
 
   actualizarUsuario() {
     this.usuarioService.putUsuario(this.usuario).subscribe({
@@ -175,13 +182,13 @@ export class UsuariosComponent implements OnInit {
   setDataModalUpdate(user: Usuario) {
     this.isModalAdd = false;
     this.userForm.patchValue({
-      usuarioId: user.usuarioId,
-      rolId: user.rolId,
-      email: user.email,
+      usuarioId: user.id,
+      rolId: user.rol,
+      email: user.correo,
       password: user.password,
       estatus: user.estatus,
-      nombre: user.nombre,
-      apellidos: user.apellidos
+      nombre: user.nombres,
+      apellidos: user.apellidoPaterno
     });
     console.log(this.userForm.value);
   }
@@ -190,9 +197,9 @@ export class UsuariosComponent implements OnInit {
     const filtroLowerCase = this.filtro.toLowerCase().trim();
 
     return this.usuarios.filter(usuario =>
-      usuario.nombre.toLowerCase().includes(filtroLowerCase) ||
-      usuario.apellidos.toLowerCase().includes(filtroLowerCase) ||
-      usuario.email.toLowerCase().includes(filtroLowerCase)
+      usuario.nombres.toLowerCase().includes(filtroLowerCase) ||
+      usuario.apellidoPaterno.toLowerCase().includes(filtroLowerCase) ||
+      usuario.correo.toLowerCase().includes(filtroLowerCase)
     );
   }
 

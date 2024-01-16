@@ -62,16 +62,16 @@ export class DatosComponent {
         this.usuarioService.getPorId(id).subscribe(
           (result: Usuario) => {
             this.result = result;
-            this.usuario = {
-              usuarioId: this.result.usuario.usuarioId,
-              rolId: this.result.usuario.rolId,
-              rol: this.result.usuario.rol,
-              email: this.result.usuario.email,
-              password: this.result.usuario.password,
-              estatus: this.result.usuario.estatus,
-              nombre: this.result.usuario.nombre,
-              apellidos: this.result.usuario.apellidoss,
-            };
+            // this.usuario = {
+            //   // id: this.result.usuario.usuarioId,
+            //   // rolId: this.result.usuario.rolId,
+            //   // rol: this.result.usuario.rol,
+            //   // email: this.result.usuario.email,
+            //   // password: this.result.usuario.password,
+            //   // estatus: this.result.usuario.estatus,
+            //   // nombre: this.result.usuario.nombre,
+            //   // apellidos: this.result.usuario.apellidoss,
+            // };
   
             // Llamar a la otra función aquí después de obtener los datos
             this.obtener();
@@ -189,9 +189,9 @@ export class DatosComponent {
     }
     obtener() {
       console.log(this.result);
-      console.log('Usuario email:', this.usuario.email);
-      console.log('Usuario email2:', this.usuario.email);
-      const email = this.usuario.email;
+      console.log('Usuario email:', this.usuario.correo);
+      console.log('Usuario email2:', this.usuario.correo);
+      const email = this.usuario.correo;
       this.route.paramMap.subscribe(params => {
         if (email) {
           console.log('Captured email:', email);

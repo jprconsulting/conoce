@@ -1,11 +1,12 @@
+import { Rol } from "./Rol";
 
 export interface Usuario {
-    usuarioId: number;
-    rolId: number;
-    rol: string;
-    email: string;
+    id: number;
+    nombres: string;
+    apellidoPaterno: string;
+    apellidoMaterno: string;
+    correo: string;
     password: string;
-    estatus?: boolean;
-    nombre: string;
-    apellidos: string;
+    estatus: boolean;
+    rol:Rol;
 }

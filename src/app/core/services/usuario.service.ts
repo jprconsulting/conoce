@@ -11,7 +11,7 @@ import { Rol } from 'src/app/models/Rol';
   providedIn: 'root'
 })
 export class UsuarioService {
-  route = `${environment.apiUrl}/usuario`;
+  route = `${environment.apiUrl}/usuarios`;
   private apiUrl = 'https://localhost:7154/api';
   private _refreshLisUsers$ = new Subject<Usuario | null>();
 
@@ -25,19 +25,19 @@ export class UsuarioService {
   }
 
   getUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(`${this.route}/obtener_usuarios`).pipe(
+    return this.http.get<Usuario[]>(`${this.route}/obtener-todos`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
   getRoles(): Observable<Rol[]> {
-    return this.http.get<Rol[]>(`${environment.apiUrl}/roles/obtener_roles`).pipe(
+    return this.http.get<Rol[]>(`${environment.apiUrl}/rols/obtener-todos`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
 
   postUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.post<Usuario>(`${this.route}/agregar_usuario`, usuario)
+    return this.http.post<Usuario>(`${this.route}/crear`, usuario)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);

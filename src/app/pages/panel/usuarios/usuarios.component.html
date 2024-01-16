@@ -43,11 +43,11 @@
                             <tbody class="table-tbody">
                                 <tr></tr>
                                 <tr *ngFor="let usuario of filtrarResultados()  | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index">
-                                    <td>{{ usuario.usuarioId }}</td>
-                                    <td>{{ usuario.nombre }}</td>
-                                    <td>{{ usuario.apellidos }}</td>
-                                    <td>{{ usuario.rol }}</td>
-                                    <td>{{ usuario.email }}</td>
+                                    <td>{{ usuario.id }}</td>
+                                    <td>{{ usuario.nombres }}</td>
+                                    <td>{{ usuario.apellidoPaterno }}</td>
+                                    <td>{{ usuario.rol.nombreRol }}</td>
+                                    <td>{{ usuario.correo }}</td>
                                     <td>
                                         <ng-container *ngIf="usuario.estatus; else elseEST">
                                             <span class="badge bg-success me-1"></span>Activo
@@ -62,7 +62,7 @@
                         <i class="ti ti-edit"></i>
                       </button>
                                             <button class="btn btn-danger btn-icon btn-sm" (click)="
-                          borrarUsuario(usuario.usuarioId, usuario.nombre)
+                          borrarUsuario(usuario.id, usuario.nombres)
                         ">
                         <i class="ti ti-eraser"></i>
                       </button>
@@ -110,9 +110,9 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" formControlName="nombre" />
-                                    <div *ngIf="userForm.get('nombre')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('nombre')?.hasError('required')">
+                                    <input type="text" class="form-control" formControlName="nombres" />
+                                    <div *ngIf="userForm.get('nombres')?.touched" class="error-message">
+                                        <div *ngIf="userForm.get('nombres')?.hasError('required')">
                                             El nombre es obligatorio
                                         </div>
                                     </div>
@@ -121,27 +121,39 @@
 
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Apellidos</label>
-                                    <input type="text" class="form-control" formControlName="apellidos" />
-                                    <div *ngIf="userForm.get('apellidos')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('apellidos')?.hasError('required')">
+                                    <label class="form-label">Apellido Paterno</label>
+                                    <input type="text" class="form-control" formControlName="apellidoPaterno" />
+                                    <div *ngIf="userForm.get('apellidoPaterno')?.touched" class="error-message">
+                                        <div *ngIf="userForm.get('apellidoPaterno')?.hasError('required')">
                                             Los apellidos son requeridos
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
 
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
+                                    <label class="form-label">Apellido Materno</label>
+                                    <input type="text" class="form-control" formControlName="apellidoMaterno" />
+                                    <div *ngIf="userForm.get('apellidoMaterno')?.touched" class="error-message">
+                                        <div *ngIf="userForm.get('apellidoMaterno')?.hasError('required')">
+                                            Los apellidos son requeridos
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
                                     <label class="form-label">Correo Electrónico</label>
-                                    <input type="text" class="form-control" formControlName="email" />
-                                    <div *ngIf="userForm.get('email')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('email')?.hasError('required')">
+                                    <input type="text" class="form-control" formControlName="correo" />
+                                    <div *ngIf="userForm.get('correo')?.touched" class="error-message">
+                                        <div *ngIf="userForm.get('correo')?.hasError('required')">
                                             El correo electrónico es requerido
                                         </div>
-                                        <div *ngIf="userForm.get('email')?.hasError('email')">
+                                        <div *ngIf="userForm.get('correo')?.hasError('correo')">
                                             Ingresa una dirección de correo electrónico válida
                                         </div>
                                     </div>
@@ -172,14 +184,14 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">Rol</label>
-                                    <ng-select placeholder="Elegir" [items]="roles" bindLabel="nombre" bindValue="rolId" [searchable]="false" [clearable]="false" formControlName="rolId">
+                                    <ng-select placeholder="Elegir" [items]="roles" bindLabel="nombreRol" bindValue="id" [searchable]="false" [clearable]="false" formControlName="rol">
                                         <ng-template ng-option-tmp let-item="item">
-                                            {{ item.nombre }}
+                                            {{ item.nombreRol }}
                                         </ng-template>
                                     </ng-select>
 
-                                    <div *ngIf="userForm.get('rolId')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('rolId')?.hasError('required')">
+                                    <div *ngIf="userForm.get('rol')?.touched" class="error-message">
+                                        <div *ngIf="userForm.get('rol')?.hasError('required')">
                                             El rol es requerido
                                         </div>
                                     </div>
