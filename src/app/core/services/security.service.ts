@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class SecurityService {
-  route = `${environment.apiUrl}/security`;
+  route = `${environment.apiUrl}/auth`;
   private apiUrl = 'https://localhost:7154/api';
 
   dataObject!: AppUserAuth;
