@@ -21,6 +21,7 @@ import { FaqRoutingModule } from './pages/panel/faq/faq-routing.module';
     PanelModule,
     LoginModule,
     FaqRoutingModule,
+
   ],
   providers: [],
   bootstrap: [AppComponent]
