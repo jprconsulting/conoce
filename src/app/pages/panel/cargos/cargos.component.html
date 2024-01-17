@@ -28,10 +28,10 @@
                 </div>
 
                 <div *ngSwitchCase="3" class="table-responsive">
-                    <table class="table table-vcenter card-table table-striped">
+                    <table class="table table-vcenter card-table table-striped text-center">
                         <thead>
                             <tr>
-                                <th style="text-transform: none; font-size: inherit" class="text-center">
+                                <th style="text-transform: none; font-size: inherit">
                                     #
                                 </th>
                                 <th style="text-transform: none; font-size: inherit">
@@ -43,21 +43,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr *ngFor="
-                  let cargo of usuariosFilter | paginate : configPaginator;
-                  let pointIndex = index
-                ">
-                                <td class="text-center">
+                            <tr *ngFor="let cargo of usuariosFilter | paginate : configPaginator; let pointIndex = index">
+                                <td>
                                     {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
                                 </td>
                                 <td>{{ cargo.nombreCargo }}</td>
                                 <td>
-                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(cargo)">
-                      <i class="ti ti-edit"></i>
-                    </button>
+                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(cargo)" style="margin-right: 10px;">
+                                    <i class="ti ti-edit"></i>
+                                </button>
                                     <button class="btn btn-danger btn-icon btn-sm" (click)="borrarUsuario(cargo.id, cargo.nombreCargo)">
-                      <i class="ti ti-eraser"></i>
-                    </button>
+                                    <i class="ti ti-eraser"></i>
+                                </button>
                                 </td>
                             </tr>
                         </tbody>
