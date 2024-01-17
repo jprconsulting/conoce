@@ -1,112 +1,120 @@
-<div class="row row-cards">
+<div class="row">
     <div class="col-12">
         <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Cargos</h3>
-            </div>
             <div class="card-body border-bottom py-3">
-                <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
-            <i class="ti ti-plus me-1"></i>Agregar Cargo
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
+            <i class="ti ti-plus me-1"></i>Agregar
           </button>
-                    <div class="ms-auto text-muted">
+                    <div class="ms-auto d-flex align-items-center">
                         <div class="input-icon">
-                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <input #searchItem type="text" class="form-control form-control-rounded" placeholder="Buscar" (input)="handleChangeSearch($event)" />
                             <span class="input-icon-addon">
                 <i class="ti ti-search"></i>
               </span>
                         </div>
+                        <a class="btn w-30 btn-icon" aria-label="Dribbble" (click)="exportarDatosAExcel()" title="Descargar excel de usuarios" style="margin-left: 8px; padding-top: 4px; padding-bottom: 4px">
+                            <i class="ti ti-cloud-down text-muted" style="font-size: 28px"></i>
+                        </a>
                     </div>
                 </div>
             </div>
 
-            <ng-container [ngSwitch]="isLoadingUsers">
-                <div class="progress" *ngSwitchCase="2">
-                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-                </div>
-
-                <div *ngSwitchCase="3">
-                    <div class="table-responsive">
-                        <table class="table card-table table-vcenter text-nowrap datatable">
-                            <thead>
-                                <tr>
-                                    <th>Nombre del cargo</th>
-                                    <th class="text-center" style="width: 7%">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-tbody">
-                                <tr *ngFor="let cargo of filtrarResultados() | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
-                                    <td>{{ cargo.nombreCargo }}</td>
-                                    <td>
-                                        <div class="d-flex justify-content-between">
-                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(cargo)">
-                                  <i class="ti ti-edit"></i>
-                                </button>
-                                            <button class="btn btn-danger btn-icon btn-sm" (click)="borrarUsuario(cargo.id, cargo.nombreCargo)">
-                                  <i class="ti ti-eraser"></i>
-                                </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-
-                    </div>
-                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px;">
-                        <div class="items-per-page">
-                            <label for="itemsPerPage">Elementos por página:</label>
-                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px;">
-                        <option *ngFor="let option of itemsPerPageOptions" [value]="option">{{ option }}</option>
-                      </select>
-                        </div>
-
-                        <div class="pagination-container">
-                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
-                        </div>
+            <ng-container [ngSwitch]="isLoading">
+                <div style="height: 300px" *ngSwitchCase="2">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                     </div>
                 </div>
+
+                <div *ngSwitchCase="3" class="table-responsive">
+                    <table class="table table-vcenter card-table table-striped">
+                        <thead>
+                            <tr>
+                                <th style="text-transform: none; font-size: inherit" class="text-center">
+                                    #
+                                </th>
+                                <th style="text-transform: none; font-size: inherit">
+                                    Nombre del cargo
+                                </th>
+                                <th style="text-transform: none; font-size: inherit">
+                                    Acciones
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="
+                  let cargo of usuariosFilter | paginate : configPaginator;
+                  let pointIndex = index
+                ">
+                                <td class="text-center">
+                                    {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
+                                </td>
+                                <td>{{ cargo.nombreCargo }}</td>
+                                <td>
+                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(cargo)">
+                      <i class="ti ti-edit"></i>
+                    </button>
+                                    <button class="btn btn-danger btn-icon btn-sm" (click)="borrarUsuario(cargo.id, cargo.nombreCargo)">
+                      <i class="ti ti-eraser"></i>
+                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
                 <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
+            <!-- Fin *ngSwitchCase-->
+
+            <div class="card-footer d-flex align-items-center">
+                <p class="m-0 text-muted">
+                    Total de registros: <b>{{ usuariosFilter.length }}</b>
+                </p>
+                <div class="m-0 ms-auto">
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                    </pagination-controls>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 
-    <!--MODAL AGREGAR USUARIO-->
-    <div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">
-                        {{ isModalAdd ? "Agregar" : "Actualizar" }} Cargo
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
-                </div>
+<div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Cargo
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+            </div>
 
-                <form [formGroup]="userForm" (ngSubmit)="submitUsuario()">
-                    <div class="modal-body">
-                        <!-- Inicio del formulario -->
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Nombre</label>
-                                    <input type="text" class="form-control" formControlName="nombreCargo" />
-                                    <div *ngIf="userForm.get('nombreCargo')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('nombreCargo')?.hasError('required')">
-                                            El nombre es obligatorio
-                                        </div>
+            <form [formGroup]="userForm" (ngSubmit)="submitUsuario()">
+                <div class="modal-body">
+                    <!-- Inicio del formulario -->
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="mb-3">
+                                <label class="form-label">Nombre</label>
+                                <input type="text" class="form-control" formControlName="nombreCargo" />
+                                <div *ngIf="userForm.get('nombreCargo')?.touched" class="error-message">
+                                    <div *ngIf="userForm.get('nombreCargo')?.hasError('required')">
+                                        El nombre es obligatorio
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Fin del formulario -->
                     </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
+                    <!-- Fin del formulario -->
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
               {{ isModalAdd ? "Agregar" : "Actualizar" }}
             </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
-    <!--FIN MODAL-->
 </div>

@@ -1,10 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { CargoService } from 'src/app/core/services/cargo.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { Cargos } from 'src/app/models/cargos';
+import { PaginationInstance } from 'ngx-pagination';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-cargos',
@@ -18,7 +20,7 @@ export class CargosComponent implements OnInit {
   // Usuarios
   cargo!: Cargos;
   cargos: Cargos[] = [];
-  isLoadingUsers = LoadingStates.neutro;
+  isLoading = LoadingStates.neutro;
   usuariosFilter: Cargos[] = [];
   userForm!: FormGroup;
   isModalAdd = false;
@@ -29,6 +31,7 @@ export class CargosComponent implements OnInit {
   itemsPerPageOptions: number[] = [3, 6, 9];
 
   constructor(
+    @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
     private cargoService: CargoService,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
@@ -50,14 +53,14 @@ export class CargosComponent implements OnInit {
   }
 
   getListadoUsuarios() {
-    this.isLoadingUsers = LoadingStates.trueLoading;
+    this.isLoading = LoadingStates.trueLoading;
     this.cargoService.getCargos().subscribe({
       next: (usuariosFromApi) => {
         this.cargos = usuariosFromApi;
         this.usuariosFilter = this.cargos;
-        this.isLoadingUsers = LoadingStates.falseLoading;
+        this.isLoading = LoadingStates.falseLoading;
       }, error: () => {
-        this.isLoadingUsers = LoadingStates.errorLoading;
+        this.isLoading = LoadingStates.errorLoading;
       }
     });
   }
@@ -131,6 +134,9 @@ export class CargosComponent implements OnInit {
     );
   }
 
+  onPageChange(number: number) {
+    this.configPaginator.currentPage = number;
+  }
 
   handleChangeAdd() {
     this.userForm.reset();
@@ -149,10 +155,42 @@ export class CargosComponent implements OnInit {
     console.log(this.userForm.value);
   }
 
-  filtrarResultados() {
-    return this.cargos.filter(cargo =>
-      cargo.nombreCargo.toLowerCase().includes(this.filtro.toLowerCase())
+  handleChangeSearch(event: any) {
+    const inputValue = event.target.value;
+    const valueSearch = inputValue.toLowerCase();
+    this.usuariosFilter = this.cargos.filter(cargos =>
+      cargos.nombreCargo.toLowerCase().includes(valueSearch)
     );
+    this.configPaginator.currentPage = 1;
   }
 
+  exportarDatosAExcel() {
+    if (this.cargos.length === 0) {
+      console.warn('La lista de usuarios está vacía. No se puede exportar.');
+      return;
+    }
+
+    const datosParaExportar = this.cargos.map(cargo => {
+      return {
+        'Id': cargo.id,
+        'Nombre': cargo.nombreCargo,
+      };
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosParaExportar);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    this.guardarArchivoExcel(excelBuffer, 'cargos.xlsx');
+  }
+
+  guardarArchivoExcel(buffer: any, nombreArchivo: string) {
+    const data: Blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url: string = window.URL.createObjectURL(data);
+    const a: HTMLAnchorElement = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 }
