@@ -5,6 +5,7 @@ import { Partidos } from 'src/app/models/partidos';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Pipe, PipeTransform } from '@angular/core'; // Importa Pipe y PipeTransform
 import { LoadingStates } from 'src/app/global/globals';
+import { TipoCandidatura } from 'src/app/models/tipocandidatura';
 
 @Component({
   selector: 'app-partidos',
@@ -18,6 +19,7 @@ export class CandidaturasComponent {
   previewImage: string | ArrayBuffer | null = null;
   partido!: Partidos;
   partidos: Partidos[] = [];
+  TipoCandidaturas: TipoCandidatura [] =[];
   selectedPartidos: any[] = [];
   partidosSeleccionados: any[] = [];
   partidoForm!: FormGroup;
@@ -46,6 +48,7 @@ export class CandidaturasComponent {
     ) {
     this.crearFormularioPartido();
     this.agruparDatosPorTipoCandidatura();
+    this.getTipo();
   }
 
   ngOnInit() {
@@ -67,7 +70,16 @@ export class CandidaturasComponent {
     console.log('Datos agrupados para Candidatura Independiente:', this.datosAgrupados['Candidatura Independiente']);
   }
 
-
+  getTipo() {
+    this.candidaturaService.gettipos().subscribe({
+      next: (tipoFromAPI) => {
+        this.TipoCandidaturas = tipoFromAPI; console.log('hui',this.TipoCandidaturas)
+      },
+      error: (error) => {
+        console.log('error al obtener los roles', error);
+      }
+    });
+  }
   // Método para abrir el modal
   openModal() {
     this.previewImage = null;
@@ -162,8 +174,14 @@ onImageChange(event: any) {
   }
 
 agregarCargo() {
-  const candidaturaControl = this.partidoForm.get('candidatura');
+  const form = { ...this.partidoForm.value };
+    
+    delete form.Id;
 
+  const candidaturaControl = this.partidoForm.get('candidatura');
+  const candidatura = this.partidoForm.get('candidatura')?.value;
+  form.candidatura = { id: candidatura } as TipoCandidatura;
+console.log('idcj',form);
   if (candidaturaControl && candidaturaControl.value !== null && this.partidoForm.valid) {
     const tipoAgrupacionId = candidaturaControl.value;
     const tipoAgrupacionTexto = this.getTipoAgrupacionNombre(tipoAgrupacionId);

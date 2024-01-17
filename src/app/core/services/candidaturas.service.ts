@@ -5,6 +5,7 @@ import { HandleErrorService } from './handle-error.service';
 import { Partidos } from 'src/app/models/partidos';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { TipoCandidatura } from 'src/app/models/tipocandidatura';
 
 @Injectable({
   providedIn: 'root'
@@ -35,6 +36,11 @@ export class CandidaturasService {
         }),
         catchError(this.handleErrorService.handleError)
       );
+  }
+  gettipos(): Observable<TipoCandidatura[]> {
+    return this.http.get<TipoCandidatura[]>(`${environment.apiUrl}/tipos-organizaciones-politicas/obtener-todos`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
   }
 
   putCandidatura(partidos: Partidos): Observable<Partidos> {

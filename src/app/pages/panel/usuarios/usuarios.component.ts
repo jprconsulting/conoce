@@ -98,18 +98,12 @@ agregarUsuario() {
   if (this.userForm.valid) {
     const nuevoUsuario = { ...this.userForm.value };
     
-    delete nuevoUsuario.id;
+    delete nuevoUsuario.Id;
     this.usuario = this.userForm.value as Usuario;
-    const rolId = this.userForm.get('rol')?.value;
-    this.usuario.rol = { id: rolId } as Rol;
-    // Verificar si el nombre de usuario ya existe
+    const rol = this.userForm.get('rol')?.value;
+    nuevoUsuario.rol = { id: rol } as Rol;
     const nombreUsuarioExistente = this.usuarios.some(u => u.nombres === nuevoUsuario.nombres);
     const apellidosUsuarioExistente = this.usuarios.some(u => u.apellidoPaterno === nuevoUsuario.apellidoPaterno);
-
-    
-    this.usuario.rol = { id: rolId } as Rol;
-    
-    // Verificar si el correo electrónico ya existe
     const correoExistente = this.usuarios.some(u => u.correo === nuevoUsuario.correo);
     console.log(this.userForm.value);
     if (nombreUsuarioExistente) {
@@ -119,7 +113,7 @@ agregarUsuario() {
       console.error('Ya existe un usuario con este correo electrónico.');
       this.mensajeService.mensajeError('Ya existe un usuario con este correo electrónico.');
     } else {
-      this.usuarioService.postUsuario(this.usuario).subscribe({
+      this.usuarioService.postUsuario(nuevoUsuario).subscribe({
         next: () => {
           console.log('Usuario agregado con éxito:', nuevoUsuario);
           this.mensajeService.mensajeExito('Usuario agregado con éxito');

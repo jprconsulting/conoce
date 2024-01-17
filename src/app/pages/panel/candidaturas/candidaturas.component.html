@@ -93,12 +93,12 @@
                         <div class="mb-1">
                             <div class="form-group">
                                 <label for="candidatura" style="margin-bottom: 5px;">Tipo de Agrupación *</label>
-                                <select class="form-select" formControlName="candidatura" id="candidatura">                                  <option value="">Selecciona una opción...</option>
-                                  <option value="1">Partido político</option>
-                                  <option value="2">Candidatura común</option>
-                                  <option value="3">Coalición</option>
-                                  <option value="4">Candidatura independiente</option>
-                                </select>
+                                <ng-select placeholder="Elegir" [items]="TipoCandidaturas" bindLabel="tipoOrganizacion" bindValue="id" [searchable]="false" [clearable]="false" formControlName="candidatura">
+                                    <ng-template ng-option-tmp let-item="item">
+                                        {{ item.tipoOrganizacion
+                                        }}
+                                    </ng-template>
+                                </ng-select>
                             </div>
                         </div>
                     </div>
