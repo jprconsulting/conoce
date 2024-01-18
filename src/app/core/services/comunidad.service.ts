@@ -10,7 +10,7 @@ import { Comunidad } from 'src/app/models/comunidad';
 })
 
 export class ComunidadService {
-  private apiUrl = 'https://localhost:7154/api/comunidad';
+  private apiUrl = 'https://localhost:7224/api/comunidades';
   private _isLoadingUsers = false;
   private _refreshListUsers$ = new Subject<Comunidad | null>();
   constructor(
@@ -28,7 +28,7 @@ export class ComunidadService {
   }
   getComunidades(): Observable<Comunidad[]> {
     this.isLoadingUsers = true;
-    return this.http.get<Comunidad[]>(`${this.apiUrl}/obtener_comunidades`).pipe(
+    return this.http.get<Comunidad[]>(`${this.apiUrl}/obtener-todos`).pipe(
       catchError((error) => {
         this.isLoadingUsers = false;
         return this.handleErrorService.handleError(error);

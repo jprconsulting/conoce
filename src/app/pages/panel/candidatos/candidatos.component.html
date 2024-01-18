@@ -346,27 +346,27 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <select class="form-select" formControlName="estadoId" (change)="onEstadoChange($event)">
+                                    <select class="form-select" formControlName="estadoId">
                                 <option value="0">Selecciona un estado...</option>
                                 <option *ngFor="let estado of estados" [value]="estado.estadoId">{{ estado.nombreEstado }}</option>
                               </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-select" formControlName="distritoLocalId" (change)="onDistritoLocalChange($event)">
+                                    <select class="form-select" formControlName="distritoLocalId">
                                 <option value="0">Selecciona un distrito local...</option>
-                                <option *ngFor="let distrito of distritosLocales" [value]="distrito.distritoLocalId">{{ distrito.nombreDistritoLocal }}</option>
+                                <option *ngFor="let distrito of distritosLocales" [value]="distrito.id">{{ distrito.nombre }}</option>
                               </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-select" formControlName="ayuntamientoId" (change)="onAyuntamientoChange($event)">
+                                    <select class="form-select" formControlName="ayuntamientoId">
                                 <option value="0">Selecciona un ayuntamiento...</option>
-                                <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.ayuntamientoId">{{ ayuntamiento.nombreAyuntamiento }}</option>
+                                <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.id">{{ ayuntamiento.nombre }}</option>
                               </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select class="form-select" formControlName="comunidadId" (change)="onComunidadChange($event)">
                                 <option value="0">Selecciona una comunidad...</option>
-                                <option *ngFor="let comunidad of comunidades" [value]="comunidad.comunidadId">{{ comunidad.nombreComunidad }}</option>
+                                <option *ngFor="let comunidad of comunidades" [value]="comunidad.id">{{ comunidad.nombre }}</option>
                               </select>
                                 </div>
                             </div>

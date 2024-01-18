@@ -1,8 +1,10 @@
+import { DistritoLocal } from "./distritoLocal";
+
 export interface Ayuntamiento {
-  ayuntamientoId: number;
-  nombreAyuntamiento: string;
+  id: number;
+  nombre: string;
   acronimo: string;
   estatus: boolean;
-  extPet: string;
-  distritoLocalId: number;
+  peticion: string;
+  distritoLocal: DistritoLocal;
 }
