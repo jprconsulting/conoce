@@ -39,7 +39,7 @@ export class DistritoLocalService {
     );
   }
   postDistritoLocal(distritoLocal: DistritoLocal): Observable<DistritoLocal> {
-    return this.http.post<DistritoLocal>(`${this.apiUrl}/agregar_distrito`, distritoLocal).pipe(
+    return this.http.post<DistritoLocal>(`${this.apiUrl}/crear`, distritoLocal).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

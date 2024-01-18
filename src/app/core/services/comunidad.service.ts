@@ -39,7 +39,7 @@ export class ComunidadService {
     );
   }
   agregarComunidad(comunidad: Comunidad): Observable<Comunidad> {
-    return this.http.post<Comunidad>(`${this.apiUrl}/agregar_comunidad`, comunidad).pipe(
+    return this.http.post<Comunidad>(`${this.apiUrl}/crear`, comunidad).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);
