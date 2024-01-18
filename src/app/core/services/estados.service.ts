@@ -13,10 +13,10 @@ import {Genero} from 'src/app/models/genero';
   providedIn: 'root'
 })
 export class EstadoService {
-  private estadosRoute = `${environment.apiUrl}/estado/obtener_estados`;
-  private candidaturasRoute = `${environment.apiUrl}/tipo_candidatura/obtener_tipos_candidaturas`;
-  private cargoRoute = `${environment.apiUrl}/cargo/obtener_cargos`;
-  private genRoute ='https://localhost:7154/api/Genero/obtener_usuarios';
+  private estadosRoute = `${environment.apiUrl}/estados/obtener-todos`;
+  private candidaturasRoute = `${environment.apiUrl}/tipos-organizaciones-politicas/obtener-todos`;
+  private cargoRoute = `${environment.apiUrl}/cargos/obtener-todos`;
+  private genRoute = `${environment.apiUrl}/generos/obtener-todos`;
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
