@@ -48,13 +48,13 @@
                                                 <div class="row mb-3">
                                                     <div class="col-lg-8">
                                                         <div class="mb-3">
-                                                            <label for="estadoId" class="form-label">Estado:</label>
-                                                            <select class="form-select" formControlName="estadoId">
+                                                            <label for="estado" class="form-label">Estado:</label>
+                                                            <select class="form-select" formControlName="estado">
                                                         <option value="null">Selecciona un estado...</option>
                                                         <option *ngFor="let estadoItem of estados" [value]="estadoItem.estadoId">{{ estadoItem.nombreEstado }}</option>
                                                       </select>
-                                                            <div *ngIf="distritoLocalForm.get('estadoId')?.touched" class="error-message">
-                                                                <div *ngIf="distritoLocalForm.get('estadoId')?.hasError('required')">
+                                                            <div *ngIf="distritoLocalForm.get('estado')?.touched" class="error-message">
+                                                                <div *ngIf="distritoLocalForm.get('estado')?.hasError('required')">
                                                                     El estado es requerido
                                                                 </div>
                                                             </div>

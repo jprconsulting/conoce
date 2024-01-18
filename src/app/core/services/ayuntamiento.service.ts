@@ -39,7 +39,7 @@ export class AyuntamientoService {
     );
   }
   postAyuntamiento(ayuntamiento: Ayuntamiento): Observable<Ayuntamiento> {
-    return this.http.post<Ayuntamiento>(`${this.apiUrl}/agregar_ayuntamiento`, ayuntamiento).pipe(
+    return this.http.post<Ayuntamiento>(`${this.apiUrl}/crear`, ayuntamiento).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

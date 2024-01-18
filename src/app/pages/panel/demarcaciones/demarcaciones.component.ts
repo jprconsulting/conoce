@@ -53,7 +53,7 @@ export class DemarcacionesComponent implements OnInit {
       acronimo: ['', [Validators.required]],
       estatus: [true],
       extPet: ['', [Validators.required]],
-      estadoId: [null, Validators.required],
+      estado: [null, Validators.required],
     });
     this.ayuntamientoForm = this.formBuilder.group({
       ayuntamientoId: [null],
@@ -149,10 +149,6 @@ export class DemarcacionesComponent implements OnInit {
         console.error('Error al obtener estados:', error);
       }
     );
-  }
-  getNombreEstado(estadoId: number): string {
-    const estado = this.estados.find((e) => e.estadoId === estadoId);
-    return estado ? estado.nombreEstado : 'Desconocido';
   }
 
   enviarFormulario() {
