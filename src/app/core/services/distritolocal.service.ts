@@ -10,7 +10,7 @@ import { DistritoLocal } from 'src/app/models/distritoLocal';
 })
 
 export class DistritoLocalService {
-  private apiUrl = 'https://localhost:7154/api/distritolocal';
+  private apiUrl = 'https://localhost:7224/api/distritos';
   private _isLoadingUsers = false;
   private _refreshListUsers$ = new Subject<DistritoLocal | null>();
   constructor(
@@ -28,7 +28,7 @@ export class DistritoLocalService {
   }
   getDistritosLocales(): Observable<DistritoLocal[]> {
     this.isLoadingUsers = true;
-    return this.http.get<DistritoLocal[]>(`${this.apiUrl}/obtener_distritos`).pipe(
+    return this.http.get<DistritoLocal[]>(`${this.apiUrl}/obtener-todos`).pipe(
       catchError((error) => {
         this.isLoadingUsers = false;
         return this.handleErrorService.handleError(error);

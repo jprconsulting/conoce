@@ -1,8 +1,10 @@
+import { Ayuntamiento } from "./ayuntamiento";
+
 export interface Comunidad {
-  comunidadId: number;
-  nombreComunidad: string;
+  id: number;
+  nombre: string;
   acronimo: string;
   estatus: boolean;
-  extPet: string;
-  ayuntamientoId: number;
+  peticion: string;
+  ayuntamiento: Ayuntamiento;
 }

@@ -1,8 +1,7 @@
+<app-page-header headerTitle="Demarcaciones"></app-page-header>
+
 <div class="container-xl">
     <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Demarcaciones</h3>
-        </div>
         <div class="card-body">
             <div class="accordion" id="accordion-example">
                 <div class="accordion-item">
@@ -117,16 +116,17 @@
                                                         <th>Nombre</th>
                                                         <th>Acrónimo</th>
                                                         <th>Ext-pet</th>
-                                                        <th>Estatus</th>
                                                         <th>Estado</th>
+                                                        <th>Estatus</th>
                                                         <th class="text-center" style="width: 7%">Acciones</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-tbody">
                                                     <tr *ngFor="let distritoLocal of filtrarDistritoslocales()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
-                                                        <td>{{ distritoLocal.nombreDistritoLocal }}</td>
+                                                        <td>{{ distritoLocal.nombre }}</td>
                                                         <td>{{ distritoLocal.acronimo }}</td>
-                                                        <td>{{ distritoLocal.extPet }}</td>
+                                                        <td>{{ distritoLocal.peticion }}</td>
+                                                        <td>{{ distritoLocal.estado.nombreEstado }}</td>
                                                         <td>
                                                             <ng-container *ngIf="distritoLocal.estatus; else elseEST">
                                                                 <span class="badge bg-success me-1"></span>Activo
@@ -135,13 +135,12 @@
                                                                 <span class="badge bg-danger me-1"></span> Inactivo
                                                             </ng-template>
                                                         </td>
-                                                        <td>{{ getNombreEstado(distritoLocal.estadoId) }}</td>
                                                         <td>
                                                             <div class="d-flex justify-content-between">
                                                                 <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-distrito-local" (click)="setDataModalUpdate(distritoLocal)">
                                                   <i class="ti ti-edit"></i>
                                                 </button>
-                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarDistritoLocal(distritoLocal.distritoLocalId, distritoLocal.nombreDistritoLocal)">
+                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarDistritoLocal(distritoLocal.id, distritoLocal.nombre)">
                                                   <i class="ti ti-trash"></i>
                                                 </button>
                                                             </div>
@@ -217,7 +216,7 @@
                                                             <label for="distritoLocalId" class="form-label">Distrito local:</label>
                                                             <select class="form-select" formControlName="distritoLocalId">
                                                       <option value="null">Selecciona un distrito...</option>
-                                                      <option *ngFor="let distritosLocalesItem of distritosLocales" [value]="distritosLocalesItem.distritoLocalId">{{ distritosLocalesItem.nombreDistritoLocal }}</option>
+                                                      <option *ngFor="let distritosLocalesItem of distritosLocales" [value]="distritosLocalesItem.id">{{ distritosLocalesItem.nombre }}</option>
                                                     </select>
                                                         </div>
                                                     </div>
@@ -281,9 +280,10 @@
                                                 </thead>
                                                 <tbody class="table-tbody">
                                                     <tr *ngFor="let ayuntamiento of filtrarAyuntamientos()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
-                                                        <td>{{ ayuntamiento.nombreAyuntamiento }}</td>
+                                                        <td>{{ ayuntamiento.nombre }}</td>
                                                         <td>{{ ayuntamiento.acronimo }}</td>
-                                                        <td>{{ ayuntamiento.extPet }}</td>
+                                                        <td>{{ ayuntamiento.peticion }}</td>
+                                                        <td>{{ ayuntamiento.distritoLocal.nombre }}</td>
                                                         <td>
                                                             <ng-container *ngIf="ayuntamiento.estatus; else elseEST">
                                                                 <span class="badge bg-success me-1"></span>Activo
@@ -292,13 +292,12 @@
                                                                 <span class="badge bg-danger me-1"></span> Inactivo
                                                             </ng-template>
                                                         </td>
-                                                        <td>{{ getNombreDistritoLocal(ayuntamiento.distritoLocalId) }}</td>
                                                         <td>
                                                             <div class="d-flex justify-content-between">
                                                                 <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento" (click)="setDataModalUpdateAyuntamiento(ayuntamiento)">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
-                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.ayuntamientoId, ayuntamiento.nombreAyuntamiento)">
+                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.id, ayuntamiento.nombre)">
                                                       <i class="ti ti-trash"></i>
                                                     </button>
                                                             </div>
@@ -377,7 +376,7 @@
                                                             <label for="ayuntamientoId" class="form-label">Ayuntamiento:</label>
                                                             <select class="form-select" formControlName="ayuntamientoId">
                                                     <option value="null">Selecciona un ayuntamiento...</option>
-                                                    <option *ngFor="let ayuntamientoItem of ayuntamientos" [value]="ayuntamientoItem.ayuntamientoId">{{ ayuntamientoItem.nombreAyuntamiento }}</option>
+                                                    <option *ngFor="let ayuntamientoItem of ayuntamientos" [value]="ayuntamientoItem.id">{{ ayuntamientoItem.nombre }}</option>
                                                   </select>
                                                         </div>
                                                     </div>
@@ -440,9 +439,10 @@
                                                 </thead>
                                                 <tbody class="table-tbody">
                                                     <tr *ngFor="let comunidad of filtrarComunidades()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
-                                                        <td>{{ comunidad.nombreComunidad }}</td>
+                                                        <td>{{ comunidad.nombre }}</td>
                                                         <td>{{ comunidad.acronimo }}</td>
-                                                        <td>{{ comunidad.extPet }}</td>
+                                                        <td>{{ comunidad.peticion }}</td>
+                                                        <td>{{ comunidad.ayuntamiento.nombre }}</td>
                                                         <td>
                                                             <ng-container *ngIf="comunidad.estatus; else elseEST">
                                                                 <span class="badge bg-success me-1"></span>Activo
@@ -451,13 +451,12 @@
                                                                 <span class="badge bg-danger me-1"></span> Inactivo
                                                             </ng-template>
                                                         </td>
-                                                        <td>{{ getNombreAyuntamiento(comunidad.ayuntamientoId) }}</td>
                                                         <td>
                                                             <div class="d-flex justify-content-between">
                                                                 <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-comunidad" (click)="setDataModalUpdateComunidad(comunidad)">
                                                       <i class="ti ti-edit"></i>
                                                     </button>
-                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarComunidad(comunidad.comunidadId, comunidad.nombreComunidad)">
+                                                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarComunidad(comunidad.id, comunidad.nombre)">
                                                       <i class="ti ti-trash"></i>
                                                     </button>
                                                             </div>

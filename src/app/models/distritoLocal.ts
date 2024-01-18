@@ -1,8 +1,13 @@
 export interface DistritoLocal {
-  distritoLocalId: number;
-  nombreDistritoLocal: string;
+  id: number;
+  nombre: string;
   acronimo: string;
   estatus: boolean;
-  extPet: string;
-  estadoId: number;
+  peticion: string;
+  estado: Estados;
+}
+
+export interface Estados{
+  id:number;
+  nombreEstado:string;
 }

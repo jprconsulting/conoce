@@ -84,7 +84,7 @@ export class DemarcacionesComponent implements OnInit {
         console.warn(`Valor inesperado para currentTab: ${this.currentTab}. Estableciendo a 'distrito-local' por defecto.`);
         this.currentTab = 'distrito-local';
     }  }
-  
+
   getListadoDistritosLocales() {
     this.isLoadingUsers = LoadingStates.trueLoading;
     this.distritoLocalService.getDistritosLocales().subscribe({
@@ -101,45 +101,45 @@ export class DemarcacionesComponent implements OnInit {
     this.currentTabClicked = elementType;
     setTimeout(() => {
         this.currentTabClicked = null;
-    }, 2); 
+    }, 2);
 }
-  
+
   cargarDistritosLocales() {
     this.distritoLocalService.getDistritosLocales().subscribe((data: DistritoLocal[]) => {
       this.distritosLocales = data;
     });
   }
-  
+
   cargarAyuntamientos() {
     this.ayuntamientoService.getAyuntamientos().subscribe((data: Ayuntamiento[]) => {
       this.ayuntamientos = data;
     });
   }
-  
+
   cargarComunidades() {
     this.comunidadService.getComunidades().subscribe((data: Comunidad[]) => {
       this.comunidades = data;
     });
   }
-  
+
   subscribeToRefreshEvents() {
     this.distritoLocalService.refreshListUsers.subscribe(() => {
       console.log('Evento de actualización recibido para distritos locales');
       this.getListadoDistritosLocales(); // Usa la función original
     });
-  
+
     this.ayuntamientoService.refreshListUsers.subscribe(() => {
       console.log('Evento de actualización recibido para ayuntamientos');
       this.cargarAyuntamientos();
     });
-  
+
     this.comunidadService.refreshListUsers.subscribe(() => {
       console.log('Evento de actualización recibido para comunidades');
       this.cargarComunidades();
     });
   }
-  
-  
+
+
   obtenerEstados() {
     this.estadoService.obtenerEstados().subscribe(
       (estados: Estados[]) => {
@@ -154,18 +154,11 @@ export class DemarcacionesComponent implements OnInit {
     const estado = this.estados.find((e) => e.estadoId === estadoId);
     return estado ? estado.nombreEstado : 'Desconocido';
   }
-  getNombreDistritoLocal(distritoLocalId: number): string {
-    const distritoLocal = this.distritosLocales.find((dl) => dl.distritoLocalId === distritoLocalId);
-    return distritoLocal ? distritoLocal.nombreDistritoLocal : 'Desconocido';
-  }
-  getNombreAyuntamiento(ayuntamientoId: number): string {
-    const ayuntamiento = this.ayuntamientos.find((a) => a.ayuntamientoId === ayuntamientoId);
-    return ayuntamiento ? ayuntamiento.nombreAyuntamiento : 'Desconocido';
-  }
+
   enviarFormulario() {
     if (this.distritoLocalForm.valid) {
       const nuevoDistritoLocal = this.distritoLocalForm.value;
-      const nombreExistente = this.distritosLocales.some(dl => dl.nombreDistritoLocal === nuevoDistritoLocal.nombreDistritoLocal);
+      const nombreExistente = this.distritosLocales.some(dl => dl.nombre === nuevoDistritoLocal.nombreDistritoLocal);
       const acronimoExistente = this.distritosLocales.some(dl => dl.acronimo === nuevoDistritoLocal.acronimo);
       if (nombreExistente) {
         console.error('Ya existe un Distrito Local con este nombre.');
@@ -196,7 +189,7 @@ export class DemarcacionesComponent implements OnInit {
   enviarAyuntamiento() {
     if (this.ayuntamientoForm.valid) {
       const ayuntamientoData: Ayuntamiento = this.ayuntamientoForm.value;
-      const nombreExistente = this.ayuntamientos.some(a => a.nombreAyuntamiento === ayuntamientoData.nombreAyuntamiento);
+      const nombreExistente = this.ayuntamientos.some(a => a.nombre === ayuntamientoData.nombre);
       const acronimoExistente = this.ayuntamientos.some(a => a.acronimo === ayuntamientoData.acronimo);
       if (nombreExistente) {
         this.mensajeService.mensajeError('Ya existe un Ayuntamiento con este nombre.');
@@ -219,7 +212,7 @@ export class DemarcacionesComponent implements OnInit {
   agregarComunidad(): void {
     if (this.comunidadForm.valid) {
       const nuevaComunidadData = this.comunidadForm.value;
-      const nombreExistente = this.comunidades.some(c => c.nombreComunidad === nuevaComunidadData.nombreComunidad);
+      const nombreExistente = this.comunidades.some(c => c.nombre === nuevaComunidadData.nombreComunidad);
       const acronimoExistente = this.comunidades.some(c => c.acronimo === nuevaComunidadData.acronimo);
       if (nombreExistente) {
         this.mensajeService.mensajeError('Ya existe una Comunidad con este nombre.');
@@ -386,36 +379,36 @@ export class DemarcacionesComponent implements OnInit {
   setDataModalUpdateComunidad(user: Comunidad) {
     this.isModalAdd = false;
     this.comunidadForm.patchValue({
-      comunidadId: user.comunidadId,
-      nombreComunidad: user.nombreComunidad,
+      id: user.id,
+      nombre: user.nombre,
       acronimo: user.acronimo,
       estatus: user.estatus,
-      extPet: user.extPet,
-      ayuntamientoId: user.ayuntamientoId
+      peticion: user.peticion,
+      ayuntamientoId: user.ayuntamiento
     });
     console.log(this.comunidadForm.value);
   }
   setDataModalUpdateAyuntamiento(user: Ayuntamiento) {
     this.isModalAdd = false;
     this.ayuntamientoForm.patchValue({
-      ayuntamientoId: user.ayuntamientoId,
-      nombreAyuntamiento: user.nombreAyuntamiento,
+      ayuntamientoId: user.id,
+      nombreAyuntamiento: user.nombre,
       acronimo: user.acronimo,
       estatus: user.estatus,
-      extPet: user.extPet,
-      distritoLocalId: user.distritoLocalId
+      peticion: user.peticion,
+      distritoLocalId: user.distritoLocal
     });
     console.log(this.ayuntamientoForm.value);
   }
   setDataModalUpdate(user: DistritoLocal) {
     this.isModalAdd = false;
     this.distritoLocalForm.patchValue({
-      distritoLocalId: user.distritoLocalId,
-      nombreDistritoLocal: user.nombreDistritoLocal,
+      id: user.id,
+      nombre: user.nombre,
       acronimo: user.acronimo,
       estatus: user.estatus,
-      extPet: user.extPet,
-      estadoId: user.estadoId
+      peticion: user.peticion,
+      estado: user.estado
     });
     console.log(this.distritoLocalForm.value);
   }
@@ -427,7 +420,7 @@ export class DemarcacionesComponent implements OnInit {
     return this.distritosLocales.filter(distritoLocal => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        distritoLocal.nombreDistritoLocal.toLowerCase().includes(searchTermLower) ||
+        distritoLocal.nombre.toLowerCase().includes(searchTermLower) ||
         distritoLocal.acronimo.toLowerCase().includes(searchTermLower)
       );
     });
@@ -436,7 +429,7 @@ export class DemarcacionesComponent implements OnInit {
     return this.ayuntamientos.filter(ayuntamientos => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        ayuntamientos.nombreAyuntamiento.toLowerCase().includes(searchTermLower) ||
+        ayuntamientos.nombre.toLowerCase().includes(searchTermLower) ||
         ayuntamientos.acronimo.toLowerCase().includes(searchTermLower)
       );
     });
@@ -445,7 +438,7 @@ export class DemarcacionesComponent implements OnInit {
     return this.comunidades.filter(comunidades => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        comunidades.nombreComunidad.toLowerCase().includes(searchTermLower) ||
+        comunidades.nombre.toLowerCase().includes(searchTermLower) ||
         comunidades.acronimo.toLowerCase().includes(searchTermLower)
       );
     });

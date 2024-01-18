@@ -10,7 +10,7 @@ import { Ayuntamiento } from 'src/app/models/ayuntamiento';
 })
 
 export class AyuntamientoService {
-  private apiUrl = 'https://localhost:7154/api/ayuntamiento';
+  private apiUrl = 'https://localhost:7224/api/Ayuntamientos';
   private _isLoadingUsers = false;
   private _refreshListUsers$ = new Subject<Ayuntamiento | null>();
   constructor(
@@ -28,7 +28,7 @@ export class AyuntamientoService {
   }
   getAyuntamientos(): Observable<Ayuntamiento[]> {
     this.isLoadingUsers = true;
-    return this.http.get<Ayuntamiento[]>(`${this.apiUrl}/obtener_ayuntamientos`).pipe(
+    return this.http.get<Ayuntamiento[]>(`${this.apiUrl}/obtener-todos`).pipe(
       catchError((error) => {
         this.isLoadingUsers = false;
         return this.handleErrorService.handleError(error);
