@@ -31,9 +31,9 @@
                                             <div class="modal-body">
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
-                                                        <label for="nombreDistritoLocal" class="form-label">Nombre de Distrito Local:</label>
-                                                        <input type="text" id="nombreDistritoLocal" class="form-control" formControlName="nombreDistritoLocal">
-                                                        <div *ngIf="distritoLocalForm.get('nombreDistritoLocal')?.hasError('required')">
+                                                        <label for="nombre" class="form-label">Nombre de Distrito Local:</label>
+                                                        <input type="text" id="nombre" class="form-control" formControlName="nombre">
+                                                        <div *ngIf="distritoLocalForm.get('nombre')?.hasError('required')">
                                                             El nombre es requerido
                                                         </div>
                                                     </div>
@@ -49,10 +49,14 @@
                                                     <div class="col-lg-8">
                                                         <div class="mb-3">
                                                             <label for="estado" class="form-label">Estado:</label>
-                                                            <select class="form-select" formControlName="estado">
-                                                        <option value="null">Selecciona un estado...</option>
-                                                        <option *ngFor="let estadoItem of estados" [value]="estadoItem.estadoId">{{ estadoItem.nombreEstado }}</option>
-                                                      </select>
+                                                            <ng-select formControlName="estado" #selectEstado [searchable]="false" [items]="estados" bindLabel="nombreEstado" bindValue="estado" placeholder="Elegir" [clearable]="false">
+                                                                <ng-template ng-header-tmp>
+                                                                    <input class="form-control" type="text" (input)="selectEstado.filter($any($event.target).value)" />
+                                                                </ng-template>
+                                                                <ng-template ng-option-tmp let-item="item" let-index="index">
+                                                                    {{ item.nombreEstado }}
+                                                                </ng-template>
+                                                            </ng-select>
                                                             <div *ngIf="distritoLocalForm.get('estado')?.touched" class="error-message">
                                                                 <div *ngIf="distritoLocalForm.get('estado')?.hasError('required')">
                                                                     El estado es requerido
@@ -60,6 +64,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-lg-4">
                                                         <div class="mb-3">
                                                             <label for="estadoActivo" class="form-label">Estatus</label>
@@ -75,9 +80,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="extPet" class="form-label">Ext-pet:</label>
-                                                    <input type="text" id="extPet" class="form-control" formControlName="extPet">
-                                                    <div *ngIf="distritoLocalForm.get('extPet')?.hasError('required')">
+                                                    <label for="peticion" class="form-label">Ext-pet:</label>
+                                                    <input type="text" id="peticion" class="form-control" formControlName="peticion">
+                                                    <div *ngIf="distritoLocalForm.get('peticion')?.hasError('required')">
                                                         La petición externa es requerida
                                                     </div>
                                                 </div>

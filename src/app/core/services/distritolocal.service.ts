@@ -47,7 +47,7 @@ export class DistritoLocalService {
     );
   }
   deleteDistritoLocal(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/eliminar_distrito/${id}`).pipe(
+    return this.http.delete(`${this.apiUrl}/eliminar/${id}`).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

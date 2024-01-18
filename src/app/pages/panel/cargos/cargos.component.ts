@@ -48,7 +48,14 @@ export class CargosComponent implements OnInit {
   crearFormularioUsuario() {
     this.userForm = this.formBuilder.group({
       id: [null],
-      nombreCargo: ['', Validators.required],
+      nombreCargo: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(/^[a-zA-Z]+$/),
+          Validators.pattern(/^[^\s]+$/),
+        ],
+      ],
     });
   }
 
@@ -99,11 +106,11 @@ export class CargosComponent implements OnInit {
   actualizarUsuario() {
     this.cargoService.put(this.idUpdate, this.cargo).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Usuario actualizado con éxito");
+        this.mensajeService.mensajeExito("Cargo actualizado con éxito");
         this.resetForm();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al actualizar usuario");
+        this.mensajeService.mensajeError("Error al actualizar cargo");
         console.error(error);
       }
     }
@@ -117,17 +124,17 @@ export class CargosComponent implements OnInit {
 
   borrarUsuario(id: number, nombreUsuario: string) {
     this.mensajeService.mensajeAdvertencia(
-      `¿Estás seguro de eliminar el usuario: ${nombreUsuario}?`,
+      `¿Estás seguro de eliminar el cargo: ${nombreUsuario}?`,
       () => {
         this.cargoService.delete(id).subscribe({
           next: () => {
-            this.mensajeService.mensajeExito('Usuario borrado correctamente');
+            this.mensajeService.mensajeExito('Cargo borrado correctamente');
             // this.ConfigPaginator.currentPage = 1; // Si necesitas realizar alguna acción adicional después de la eliminación
           },
           error: (error) => {
-            const errorMessage = typeof error === 'string' ? error : 'Error al borrar usuario';
+            const errorMessage = typeof error === 'string' ? error : 'Error al borrar cargo';
             this.mensajeService.mensajeError(errorMessage);
-            console.error('Error al borrar usuario:', error); // Para depuración, puedes mostrar el error en la consola
+            console.error('Error al borrar cargo:', error); // Para depuración, puedes mostrar el error en la consola
           }
         });
       }

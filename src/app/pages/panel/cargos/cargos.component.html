@@ -85,7 +85,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Cargo
+                    {{ isModalAdd ? "Agregar" : "Actualizar" }} cargo
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
             </div>
@@ -101,6 +101,9 @@
                                 <div *ngIf="userForm.get('nombreCargo')?.touched" class="error-message">
                                     <div *ngIf="userForm.get('nombreCargo')?.hasError('required')">
                                         El nombre es obligatorio
+                                    </div>
+                                    <div *ngIf="userForm.get('nombreCargo')?.hasError('pattern')">
+                                        El nombre no debe contener espacios, caracteres especiales ni números
                                     </div>
                                 </div>
                             </div>

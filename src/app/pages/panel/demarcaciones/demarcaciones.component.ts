@@ -49,10 +49,10 @@ export class DemarcacionesComponent implements OnInit {
   ) {
     this.distritoLocalForm = this.formBuilder.group({
       distritoLocalId: [null],
-      nombreDistritoLocal: ['', [Validators.required]],
+      nombre: ['', [Validators.required]],
       acronimo: ['', [Validators.required]],
       estatus: [true],
-      extPet: ['', [Validators.required]],
+      peticion: ['', [Validators.required]],
       estado: [null, Validators.required],
     });
     this.ayuntamientoForm = this.formBuilder.group({
@@ -153,9 +153,19 @@ export class DemarcacionesComponent implements OnInit {
 
   enviarFormulario() {
     if (this.distritoLocalForm.valid) {
+      this.distritoLocal = this.distritoLocalForm.value as DistritoLocal;
+
+      const estadoValue = this.distritoLocalForm.get('estado')?.value as Estados;
+
+      // Ajusta tu objeto Estados proporcionando todas las propiedades requeridas por la interfaz
+      const estado: Estados = { estadoId: estadoValue.estadoId, nombreEstado: estadoValue.nombreEstado };
+
+      this.distritoLocalForm.get('estado')?.setValue(estado);
+
       const nuevoDistritoLocal = this.distritoLocalForm.value;
-      const nombreExistente = this.distritosLocales.some(dl => dl.nombre === nuevoDistritoLocal.nombreDistritoLocal);
+      const nombreExistente = this.distritosLocales.some(dl => dl.nombre === nuevoDistritoLocal.nombre);
       const acronimoExistente = this.distritosLocales.some(dl => dl.acronimo === nuevoDistritoLocal.acronimo);
+
       if (nombreExistente) {
         console.error('Ya existe un Distrito Local con este nombre.');
         this.mensajeService.mensajeError('Ya existe un Distrito Local con este nombre.');
@@ -182,6 +192,7 @@ export class DemarcacionesComponent implements OnInit {
       this.mensajeService.mensajeError("Formulario inválido. Revise los campos.");
     }
   }
+
   enviarAyuntamiento() {
     if (this.ayuntamientoForm.valid) {
       const ayuntamientoData: Ayuntamiento = this.ayuntamientoForm.value;
