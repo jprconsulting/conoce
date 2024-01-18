@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators  } from '@angular/forms';
 import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { Observable } from 'rxjs';
@@ -9,6 +9,7 @@ import {FormularioUserService} from 'src/app/core/services/formulariouser.servic
 import {Formuser} from 'src/app/models/formuser';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoadingStates } from 'src/app/global/globals';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-asignacion',
@@ -25,6 +26,7 @@ export class AsignacionComponent implements OnInit {
   usuario: Usuario[] = [];
   selectedCandidatos: any[] = [];
   formulario: ConfigGoogleForm[] = [];
+  usuariosFilter: Usuario[] = [];
   userForm!: FormGroup;
   selectedFormularios: (number | null)[] = [];
   selectedFormulario: number = 0;
@@ -39,6 +41,7 @@ export class AsignacionComponent implements OnInit {
   itemsPerPageOptions: number[] = [5, 10, 15];
 
   constructor(
+    @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
     private usuarioService : UsuarioService,
     private formularioService: FormularioService,
     private formBuilder: FormBuilder,
@@ -78,6 +81,9 @@ export class AsignacionComponent implements OnInit {
           this.isLoadingUsers = LoadingStates.errorLoading;
         }
       });
+    }
+    onPageChange(number: number) {
+      this.configPaginator.currentPage = number;
     }
 
   onFormularioSelect(event: any[]) {

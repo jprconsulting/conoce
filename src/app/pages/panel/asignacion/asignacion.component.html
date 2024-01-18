@@ -69,6 +69,15 @@
                 </div>
                 <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
+            <div class="card-footer d-flex align-items-center">
+                <p class="m-0 text-muted">
+                    Total de registros: <b>{{ usuariosFilter.length }}</b>
+                </p>
+                <div class="m-0 ms-auto">
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                    </pagination-controls>
+                </div>
+            </div>
         </div>
     </div>
 </div>

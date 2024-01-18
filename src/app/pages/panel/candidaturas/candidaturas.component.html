@@ -30,18 +30,18 @@
                         <table class="table card-table table-vcenter text-nowrap datatable">
                             <thead>
                                 <tr>
-                                    <th>Logo</th>
-                                    <th>Tipo de agrupación</th>
-                                    <th>Nombre</th>
-                                    <th>Acronimo</th>
-                                    <th>Estatus</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Logo</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Tipo de agrupación</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Nombre</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Acronimo</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Estatus</th>
                                     <th class="text-center" style="width: 7%">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
                                 <tr></tr>
                                 <tr *ngFor="let partido of datos | filterByTipoCandidatura:filtro">
-                                    <td class="justify-content-center">
+                                    <td class="table table-vcenter card-table table-striped">
                                         <img [src]="obtenerRutaImagen(partido.foto)" alt="Foto de {{ partido.acronimo }}" width="50" height="50" />
                                     </td>
                                     <td>{{ partido.nombreCandidatura }}</td>
@@ -71,6 +71,15 @@
 
                 <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
+            <div class="card-footer d-flex align-items-center">
+                <p class="m-0 text-muted">
+                    Total de registros: <b>{{ usuariosFilter.length }}</b>
+                </p>
+                <div class="m-0 ms-auto">
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                    </pagination-controls>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -123,7 +132,7 @@
                                 <div class="form-group">
                                     <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
                               <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
-                              <input type="file" class="form-control-file custom-file-input" id="imagen" (change)="onImageChange($event)" style="display: none;" accept="image/*" [formControl]="imagenControl">
+                              <input type="file" class="form-control-file custom-file-input" id="imagen" formControlName="imagenBase64" (change)="onImageChange($event)"  style="display: none;" accept="image/*" formControlName="imagenBase64">
                             </label>
                                 </div>
                                 <br>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { CandidaturasService } from 'src/app/core/services/candidaturas.service';
 import { Partidos } from 'src/app/models/partidos';
@@ -6,6 +6,8 @@ import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms'
 import { Pipe, PipeTransform } from '@angular/core'; // Importa Pipe y PipeTransform
 import { LoadingStates } from 'src/app/global/globals';
 import { TipoCandidatura } from 'src/app/models/tipocandidatura';
+import { PaginationInstance } from 'ngx-pagination';
+import { Candidaturas } from 'src/app/models/candidaturas';
 
 @Component({
   selector: 'app-partidos',
@@ -18,6 +20,7 @@ export class CandidaturasComponent {
   isLoadingUsers = LoadingStates.neutro;
   previewImage: string | ArrayBuffer | null = null;
   partido!: Partidos;
+  candidaturas!:Candidaturas;
   partidos: Partidos[] = [];
   TipoCandidaturas: TipoCandidatura [] =[];
   selectedPartidos: any[] = [];
@@ -28,6 +31,7 @@ export class CandidaturasComponent {
   nombreCanInd = '';
   logo = '';
   candidatura = false;
+  usuariosFilter: Partidos[] = [];
   filtro: string = '';
   itemsPerPage: number = 2;
   currentPage: number = 1;
@@ -41,13 +45,14 @@ export class CandidaturasComponent {
   @ViewChild('closebutton') closebutton!: ElementRef;
 
   constructor(
+    @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
     private candidaturaService: CandidaturasService,
     private formBuilder: FormBuilder,
     private mensajeService: MensajeService,
 
     ) {
     this.crearFormularioPartido();
-    this.agruparDatosPorTipoCandidatura();
+    //this.agruparDatosPorTipoCandidatura();
     this.getTipo();
   }
 
@@ -55,20 +60,20 @@ export class CandidaturasComponent {
     console.log('En ngOnInit, antes de obtener los partidos');
     this.obtenerPartidos();
     console.log('En ngOnInit, después de obtener los partidos');
-    this.agruparDatosPorTipoCandidatura();
+    //this.agruparDatosPorTipoCandidatura();
   }
 
-  private agruparDatosPorTipoCandidatura() {
-    console.log('Dentro de agruparDatosPorTipoCandidatura, antes de filtrar');
-    this.datosAgrupados['Partido Politico'] = this.datos.filter(partido => partido.tipoCandidaturaId === 1);
-    console.log('Datos agrupados para Partido Politico:', this.datosAgrupados['Partido Politico']);
-    this.datosAgrupados['Candidatura Común'] = this.datos.filter(partido => partido.tipoCandidaturaId === 2);
-    console.log('Datos agrupados para Candidatura Común:', this.datosAgrupados['Candidatura Común']);
-    this.datosAgrupados['Coalición'] = this.datos.filter(partido => partido.tipoCandidaturaId === 3);
-    console.log('Datos agrupados para Coalición:', this.datosAgrupados['Coalición']);
-    this.datosAgrupados['Candidatura Independiente'] = this.datos.filter(partido => partido.tipoCandidaturaId === 4);
-    console.log('Datos agrupados para Candidatura Independiente:', this.datosAgrupados['Candidatura Independiente']);
-  }
+  // private agruparDatosPorTipoCandidatura() {
+  //   console.log('Dentro de agruparDatosPorTipoCandidatura, antes de filtrar');
+  //   this.datosAgrupados['Partido Politico'] = this.datos.filter(partido => partido.tipoCandidaturaId === 1);
+  //   console.log('Datos agrupados para Partido Politico:', this.datosAgrupados['Partido Politico']);
+  //   this.datosAgrupados['Candidatura Común'] = this.datos.filter(partido => partido.tipoCandidaturaId === 2);
+  //   console.log('Datos agrupados para Candidatura Común:', this.datosAgrupados['Candidatura Común']);
+  //   this.datosAgrupados['Coalición'] = this.datos.filter(partido => partido.tipoCandidaturaId === 3);
+  //   console.log('Datos agrupados para Coalición:', this.datosAgrupados['Coalición']);
+  //   this.datosAgrupados['Candidatura Independiente'] = this.datos.filter(partido => partido.tipoCandidaturaId === 4);
+  //   console.log('Datos agrupados para Candidatura Independiente:', this.datosAgrupados['Candidatura Independiente']);
+  // }
 
   getTipo() {
     this.candidaturaService.gettipos().subscribe({
@@ -84,14 +89,18 @@ export class CandidaturasComponent {
   openModal() {
     this.previewImage = null;
   }
-
+  onPageChange(number: number) {
+    this.configPaginator.currentPage = number;
+  }
   crearFormularioPartido() {
     this.partidoForm = this.formBuilder.group({
-      candidaturaId: [null],
+      id: [null],
+      tipoOrganizacion:[''],
       candidatura: ['', Validators.required],
       acronimo: [''],
       estatus: [true, Validators.required],
-      logo: ['']
+      logo: [''],
+      imagenBase64: ['']
       // base64Logo: [''],
       // nombreFoto: ['', Validators.required],
     });
@@ -136,9 +145,9 @@ onImageChange(event: any) {
       console.log(base64WithoutPrefix); // Verifica que la cadena no incluya el prefijo
 
       // Asigna la cadena Base64 sin el prefijo al control del formulario base64Logo
-      const base64LogoControl = this.partidoForm.get('base64Logo');
-      if (base64LogoControl instanceof FormControl) {
-        base64LogoControl.setValue(base64WithoutPrefix);
+      const imagenBase64Control = this.partidoForm.get('imagenBase64');
+      if (imagenBase64Control instanceof FormControl) {
+        imagenBase64Control.setValue(base64WithoutPrefix);
       }
 
       this.previewImage = base64String; // Actualiza la previsualización
@@ -174,56 +183,27 @@ onImageChange(event: any) {
   }
 
 agregarCargo() {
-  const form = { ...this.partidoForm.value };
-    
-    delete form.Id;
-
-  const candidaturaControl = this.partidoForm.get('candidatura');
-  const candidatura = this.partidoForm.get('candidatura')?.value;
-  form.candidatura = { id: candidatura } as TipoCandidatura;
-console.log('idcj',form);
-  if (candidaturaControl && candidaturaControl.value !== null && this.partidoForm.valid) {
-    const tipoAgrupacionId = candidaturaControl.value;
-    const tipoAgrupacionTexto = this.getTipoAgrupacionNombre(tipoAgrupacionId);
-
-    // Obtén el elemento <select> del HTML
-    const selectElement = document.getElementById('candidatura') as HTMLSelectElement;
-
-    // Obtén el texto de la opción seleccionada directamente
-    const selectedOptionText = selectElement.options[selectElement.selectedIndex].text;
+  const tipoOrganizacionPoliticaValue = this.partidoForm.get('candidatura')?.value;
+const tipoOrganizacionPolitica = { id: tipoOrganizacionPoliticaValue } as TipoCandidatura;
+console.log('Tipo Organizacion Politica:', tipoOrganizacionPolitica);
 
     const acronimo = this.partidoForm.get('acronimo')?.value || '';
     const estatus = this.partidoForm.get('estatus')?.value || '';
-    const logo = this.partidoForm.get('logo')?.value || '';
-    const foto = this.partidoForm.get('foto')?.value || '';
-
-
-    // Elimina el prefijo "data:image/png;base64," del valor de base64Logo
-    const base64LogoControl = this.partidoForm.get('base64Logo');
-    let base64Logo = base64LogoControl?.value || '';
-    if (base64Logo.startsWith('data:image/png;base64,')) {
-      base64Logo = base64Logo.replace('data:image/png;base64,', ''); // Elimina el prefijo
-    }
-
-    const nombreFoto = this.partidoForm.get('nombreFoto')?.value || '';
-
-    // Crea el objeto partido con los valores
-    const partido = {
-      tipoCandidaturaId: tipoAgrupacionId,
-      nombreCandidatura: selectedOptionText, // Utiliza el texto directamente
+    const nombreOrganizacion = this.partidoForm.get('logo')?.value || '';
+    const imagenBase64 = this.partidoForm.get('imagenBase64')?.value;
+ 
+    const candidaturas = {
+      nombreOrganizacion,
       acronimo,
+      imagenBase64,
       estatus,
-      // base64Logo, (si es necesario)
-      nombreFoto,
-      logo,
-      foto
+      tipoOrganizacionPolitica, 
     };
 
-    // Agrega un console.log para verificar los datos a enviar
-    console.log('Datos a enviar:', partido);
+    console.log('Datos a enviar:', candidaturas);
 
     // Envía el objeto partido al servicio
-    this.candidaturaService.postCandidaturas(partido).subscribe({
+    this.candidaturaService.postCandidaturas(this.candidaturas).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Agrupación agregada con éxito");
         this.resetForm();
@@ -233,11 +213,7 @@ console.log('idcj',form);
         console.error(error);
       }
     });
-  } else {
-    console.log('El formulario no es válido o candidaturaControl es nulo. No se enviarán datos.');
-  }
 }
-
 
   getDatosAgrupados() {
     const datosAgrupados: { [key: string]: Partidos[] } = {};
@@ -261,42 +237,6 @@ console.log('idcj',form);
     this.filtro = '';
   }
 
-  getPartidosPorTipoCandidatura(tipoCandidatura: string): Partidos[] {
-    return this.datos.filter(partido => partido.tipoCandidaturaId === this.getTipoCandidaturaId(tipoCandidatura));
-  }
-
-  getTipoCandidaturaId(nombreCandidatura: string): number {
-    // Mapea los nombres de candidatura a sus respectivos IDs
-    switch (nombreCandidatura.toLowerCase()) {
-      case 'partido politico':
-        return 1;
-      case 'candidatura comun':
-        return 2;
-      case 'coalicion':
-        return 3;
-      case 'candidatura independiente':
-        return 4;
-      default:
-        return 0; // Puedes usar 0 para representar un valor desconocido o no válido
-    }
-  }
-
-  getTipoAgrupacionNombre(valor: number): string {
-    console.log('getTipoAgrupacionNombre recibió valor:', valor);
-
-    switch (valor) {
-      case 1:
-        return "Partido político";
-      case 2:
-        return "Candidatura común";
-      case 3:
-        return "Coalición";
-      case 4:
-        return "Candidatura independiente";
-      default:
-        return "";
-    }
-  }
 
   obtenerRutaImagen(nombreArchivo: string): string {
     const rutaBaseApp = 'https://localhost:7154/';

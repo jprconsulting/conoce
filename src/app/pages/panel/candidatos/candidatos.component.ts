@@ -262,8 +262,8 @@ getNombreCargo(id: number): string {
 }
 
 getNombreAgrupacion(candidaturaId: number): string {
-  const candidaturas = this.candidaturas.find((e) => e.tipoCandidaturaId === candidaturaId);
-  return candidaturas ? candidaturas.nombreTipoCandidatura : 'Desconocido';
+  const candidaturas = this.candidaturas.find((e) => e.id === candidaturaId);
+  return candidaturas ? candidaturas.nombreOrganizacion : 'Desconocido';
 }
   obtenerCargos() {
     this.estadoService.obtenerCargos().subscribe(

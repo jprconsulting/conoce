@@ -6,12 +6,13 @@ import { Partidos } from 'src/app/models/partidos';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { TipoCandidatura } from 'src/app/models/tipocandidatura';
+import { Candidaturas } from 'src/app/models/candidaturas';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CandidaturasService {
-  route = `${environment.apiUrl}/candidatura`;
+  route = `${environment.apiUrl}/agrupaciones-politicas`;
   private _refreshLisUsers$ = new Subject<Partidos | null>();
 
   constructor(
@@ -28,8 +29,8 @@ export class CandidaturasService {
       catchError(this.handleErrorService.handleError)
     );
   }
-  postCandidaturas(partidos: Partidos): Observable<Partidos> {
-    return this.http.post<Partidos>(`${this.route}/agregar_candidatura`, partidos)
+  postCandidaturas(candidaturas: Candidaturas): Observable<Candidaturas> {
+    return this.http.post<Candidaturas>(`${this.route}/crear`, candidaturas)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
