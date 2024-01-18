@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
@@ -6,6 +6,7 @@ import { UsuarioService } from 'src/app/core/services/usuario.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { Usuario } from 'src/app/models/usuario';
 import { Rol } from 'src/app/models/Rol';
+import { PaginationInstance } from 'ngx-pagination';
 
 @Component({
   selector: 'app-usuarios',
@@ -30,6 +31,7 @@ export class UsuariosComponent implements OnInit {
   filtro: string = '';
 
   constructor(
+    @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
     private usuarioService: UsuarioService,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
@@ -151,6 +153,9 @@ agregarUsuario() {
   submitUsuario() {
     this.usuario = this.userForm.value as Usuario;
     this.isModalAdd ? this.agregarUsuario() : this.actualizarUsuario();
+  }
+  onPageChange(number: number) {
+    this.configPaginator.currentPage = number;
   }
 
   borrarUsuario(id: number, nombreUsuario: string) {
