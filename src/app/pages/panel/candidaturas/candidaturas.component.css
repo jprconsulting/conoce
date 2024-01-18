@@ -27,3 +27,6 @@
 h4 {
     text-align: center;
 }
+.error-message {
+    color: red;
+}

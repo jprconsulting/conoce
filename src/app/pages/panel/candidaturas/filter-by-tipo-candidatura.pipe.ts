@@ -9,6 +9,6 @@ export class FilterByTipoCandidaturaPipe implements PipeTransform {
       return items;
     }
 
-    return items.filter(item => item.nombreCandidatura === filtro);
+    return items.filter(item => item.tipoOrganizacionPolitica.tipoOrganizacion === filtro);
   }
 }
