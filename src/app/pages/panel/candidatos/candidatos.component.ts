@@ -598,21 +598,6 @@ filtrarPartidos(): void {
     }
   }
 
-  onEstadoChange(event: any) {
-    const selectedEstadoId = +event.target.value;
-    this.distritosLocales = this.distritosLocales.filter((distrito) => distrito.estadoId === selectedEstadoId);
-  }
-
-  onDistritoLocalChange(event: any) {
-    const selectedDistritoLocalId = +event.target.value;
-    this.ayuntamientos = this.ayuntamientos.filter((ayuntamiento) => ayuntamiento.distritoLocalId === selectedDistritoLocalId);
-  }
-
-  onAyuntamientoChange(event: any) {
-    const selectedAyuntamientoId = +event.target.value;
-    this.comunidades = this.comunidades.filter((comunidad) => comunidad.ayuntamientoId === selectedAyuntamientoId);
-  }
-
   onComunidadChange(event: Event): void {
     const comunidadId = (event.target as HTMLSelectElement).value;
     console.log('Comunidad seleccionada:', comunidadId);
