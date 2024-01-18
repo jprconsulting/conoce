@@ -25,7 +25,12 @@ export class CandidaturasService {
   }
 
   getCandidaturas(): Observable<Partidos[]> {
-    return this.http.get<Partidos[]>(`${this.route}/obtener_candidaturas`).pipe(
+    return this.http.get<Partidos[]>(`${this.route}/obtener-todos`).pipe(
+      catchError(this.handleErrorService.handleError)
+    );
+  }
+  getCandidaturas2(): Observable<Candidaturas[]> {
+    return this.http.get<Candidaturas[]>(`${this.route}/obtener-todos`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
@@ -44,8 +49,8 @@ export class CandidaturasService {
     );
   }
 
-  putCandidatura(partidos: Partidos): Observable<Partidos> {
-    return this.http.put<Partidos>(`${this.route}/editar_candidatura`, partidos)
+  putCandidatura(id:number,candidaturas: Candidaturas): Observable<Candidaturas> {
+    return this.http.put<Candidaturas>(`${this.route}/actualizar/${id}`, candidaturas)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
@@ -53,4 +58,14 @@ export class CandidaturasService {
         catchError(this.handleErrorService.handleError)
       );
   }
+
+  delete(id: number) {
+    return this.http.delete(`${this.route}/eliminar/${id}`)
+      .pipe(
+        tap(() => {
+          this._refreshLisUsers$.next(null);
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }  
 }
