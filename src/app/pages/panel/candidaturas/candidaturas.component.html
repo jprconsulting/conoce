@@ -13,7 +13,7 @@
             </div>
             <br>
             <div class="btn-group mb-3" role="group">
-                <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Partido Politico')" [class.btn-success]="filtro === 'Partido Politico'" [class.btn-secondary]="filtro !== 'Partido Politico'">Partido Politico</button>
+                <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Partido Político')" [class.btn-success]="filtro === 'Partido Político'" [class.btn-secondary]="filtro !== 'Partido Politico'">Partido Politico</button>
                 <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Candidatura Común')" [class.btn-success]="filtro === 'Candidatura Común'" [class.btn-secondary]="filtro !== 'Candidatura Común'">Candidatura Común</button>
                 <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Coalición')" [class.btn-success]="filtro === 'Coalición'" [class.btn-secondary]="filtro !== 'Coalición'">Coalición</button>
                 <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Candidatura Independiente')" [class.btn-success]="filtro === 'Candidatura Independiente'" [class.btn-secondary]="filtro !== 'Candidatura Independiente'">Candidatura Independiente</button>
@@ -40,7 +40,7 @@
                             </thead>
                             <tbody class="table-tbody">
                                 <tr></tr>
-                                <tr *ngFor="let candidaturalist of datos2 | filterByTipoCandidatura:filtro">
+                                <tr *ngFor="let candidaturalist of datos2 | filterByTipoCandidatura:filtro| paginate : configPaginator; let pointIndex = index">
                                     <td class="table table-vcenter card-table table-striped" style="text-align: center" >
                                         <img
                                         [src]="obtenerRutaImagen(candidaturalist.logo)"
@@ -52,6 +52,7 @@
                                         "
                                       />
                                     </td>
+                                    
                                     <td>{{ candidaturalist.tipoOrganizacionPolitica.tipoOrganizacion }}</td>
                                     <td>{{ candidaturalist.nombreOrganizacion }}</td>
                                     <td>{{ candidaturalist.acronimo }}</td>
@@ -68,6 +69,12 @@
                                             <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-partido-politico" (click)="setDataModalUpdate(candidaturalist)">
               <i class="ti ti-edit"></i>
             </button>
+            <button
+            class="btn btn-danger btn-icon btn-sm"
+            (click)="deleteItem(candidaturalist.id, candidaturalist.nombreOrganizacion)"
+          >
+            <i class="ti ti-eraser"></i>
+          </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -100,7 +107,7 @@
                 <h5 class="modal-title">
                     {{ isModalAdd ? "Agregar" : "Actualizar" }} Agrupación Política
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton (click)="eliminarImagen($event);mostrar();"></button>
             </div>
 
             <form [formGroup]="partidoForm" (ngSubmit)="submit()">
@@ -116,6 +123,13 @@
                                         }}
                                     </ng-template>
                                 </ng-select>
+                                <div *ngIf="partidoForm.get('candidatura')?.touched" class="error-message">
+                                    <div *ngIf="
+                      partidoForm.get('candidatura')?.hasError('required')
+                    ">
+                                        El tipo de agrupacion es requerido
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -124,11 +138,41 @@
                     <div class="form-group">
                         <label for="nombreCandidatura">Nombre de la agrupación:</label>
                         <input type="text" class="form-control" id="logo" formControlName="nombreOrganizacion">
+                        <div *ngIf="partidoForm.get('nombreOrganizacion')?.touched" class="error-message">
+                            <div *ngIf="
+              partidoForm.get('nombreOrganizacion')?.hasError('required')
+            ">
+                                El nombre de la agrupacion es requerido
+                            </div>
+                            <div *ngIf="
+              partidoForm.get('nombreOrganizacion')?.hasError('minlength')
+            ">
+                                El nombre de la agrupacion debe tener al menos 3 caracteres
+                            </div>
+                            <div *ngIf="partidoForm.get('nombreOrganizacion')?.hasError('pattern')">
+                                El nombre de la agrupacion no puede tener números  ni signos
+                            </div>
+                        </div>
                     </div>
                     <br>
                     <div class="form-group">
                         <label for="acronimo">Acrónimo de la agrupación:</label>
                         <input type="text" class="form-control" id="acronimo" formControlName="acronimo">
+                        <div *ngIf="partidoForm.get('acronimo')?.touched" class="error-message">
+                            <div *ngIf="
+              partidoForm.get('acronimo')?.hasError('required')
+            ">
+                                El acronimo es requerido
+                            </div>
+                            <div *ngIf="
+              partidoForm.get('acronimo')?.hasError('minlength')
+            ">
+                                El acronimmo debe tener al menos 3 caracteres
+                            </div>
+                            <div *ngIf="partidoForm.get('acronimo')?.hasError('pattern')">
+                                El acronimo no puede tener números ni signos
+                            </div>
+                        </div>
                     </div>
                     <br>
                     <!-- Campo de Subir Imagen -->
@@ -140,25 +184,26 @@
                                 <div class="form-group">
                                     <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
                               <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
-                              <input type="file" class="form-control-file custom-file-input" id="imagen" formControlName="logo" (change)="onImageChange($event)"  style="display: none;" accept="image/*" [formControl]="imagenControl">
+                              <input type="file" class="form-control-file custom-file-input" id="imagen" formControlName="logo" (change)="onImageChange($event);mostrar();"  style="display: none;" accept="image/*" [formControl]="imagenControl">
                             </label>
                                 </div>
                                 <br>
                                 <label>Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
                                 <!-- Vista previa de la imagen -->
-                                <div *ngIf="partidoForm.get('imagenBase64')?.value; else previewSection" class="mt-3">
+                                <div *ngIf="partidoForm.get('imagenBase64')?.value && showImage; else previewSection" class="mt-3">
                                     <img class="img" [src]="'data:image/jpeg;base64,' + partidoForm.get('imagenBase64')?.value" width="100%" height="100%" alt="Vista previa de la imagen" />
-                                    <button class="btn btn-danger mt-2" (click)="eliminarImagen()">Eliminar Imagen</button>
-                                </div>
-                                
-                                <ng-template #previewSection>
-                                    <div *ngIf="previewImage" class="mt-3">
-                                        <label>Imagen seleccionada:</label>
-                                        <br><br><br>
-                                        <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
-                                        <br><br>
+                                    <button type="button" class="btn btn-danger mt-2" (click)="eliminarImagen($event)">Eliminar Imagen</button>
+                                  </div>
+                                  
+                                  <ng-template #previewSection>
+                                    <div *ngIf="previewImage && showImage" class="mt-3">
+                                      <label>Imagen seleccionada:</label>
+                                      <br><br><br>
+                                      <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
+                                      <br><br>
                                     </div>
-                                </ng-template>
+                                  </ng-template>
+                                  
                                 
                             </div>
                         </div>
@@ -184,14 +229,22 @@
                     partidoForm.get("estatus")?.value ? "Activo" : "Inactivo"
                   }}
                 </span>
+                <div *ngIf="partidoForm.get('estatus')?.touched" class="error-message">
+                    <div *ngIf="
+      partidoForm.get('nombres')?.hasError('estatus')
+    ">
+                        El estatus es requerido
+                    </div>
+                </div>
               </label>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">
-            {{ isModalAdd ? "Agregar" : "Actualizar" }}
-          </button>
+                    <button type="submit" class="btn btn-primary" [disabled]="!partidoForm.valid" (click)="submit()">
+                        {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                     </button>
+                     
                 </div>
             </form>
         </div>
