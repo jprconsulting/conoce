@@ -41,7 +41,7 @@
                             <tbody class="table-tbody">
                                 <tr></tr>
                                 <tr *ngFor="let candidaturalist of datos2 | filterByTipoCandidatura:filtro| paginate : configPaginator; let pointIndex = index">
-                                    <td class="table table-vcenter card-table table-striped" style="text-align: center" >
+                                    <td style="margin-left: 100px; margin-right: 100px; text-align: center" >
                                         <img
                                         [src]="obtenerRutaImagen(candidaturalist.logo)"
                                         alt="Foto de {{ candidaturalist.logo }}"
