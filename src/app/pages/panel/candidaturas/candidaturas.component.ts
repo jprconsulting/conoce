@@ -21,6 +21,7 @@ export class CandidaturasComponent {
   previewImage: string | ArrayBuffer | null = null;
   partido!: Partidos;
   candidaturas!:Candidaturas;
+  candidaturalist: Candidaturas[] = [];
   partidos: Partidos[] = [];
   TipoCandidaturas: TipoCandidatura [] =[];
   selectedPartidos: any[] = [];
@@ -36,11 +37,14 @@ export class CandidaturasComponent {
   itemsPerPage: number = 2;
   currentPage: number = 1;
   mostrarCampoPartidos  = false;
+  imagenAmpliada: string | null = null;
   itemsPerPageOptions: number[] = [2, 4, 6];
   isModalAdd = false;
   datos: Partidos[] = [];
+  datos2: Candidaturas[] = [];
   datosAgrupados: { [key: string]: Partidos[] } = {};
-
+  isLoading = LoadingStates.neutro;
+  tipoSelect!: TipoCandidatura | undefined;
   @ViewChild('imagenInput') imagenInput!: ElementRef;
   @ViewChild('closebutton') closebutton!: ElementRef;
 
@@ -60,6 +64,7 @@ export class CandidaturasComponent {
     console.log('En ngOnInit, antes de obtener los partidos');
     this.obtenerPartidos();
     console.log('En ngOnInit, después de obtener los partidos');
+    this.obtenerCandidaturas()
     //this.agruparDatosPorTipoCandidatura();
   }
 
@@ -94,8 +99,10 @@ export class CandidaturasComponent {
   }
   crearFormularioPartido() {
     this.partidoForm = this.formBuilder.group({
+     
+
       id: [null],
-      tipoOrganizacion:[''],
+      nombreOrganizacion:[''],
       candidatura: ['', Validators.required],
       acronimo: [''],
       estatus: [true, Validators.required],
@@ -107,7 +114,14 @@ export class CandidaturasComponent {
   }
 
 
-
+  cerrarModal() {
+    this.imagenAmpliada = null;
+    const modal = document.getElementById('modal-imagen-ampliada');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+    }
+  }
 
   get imagenControl(): FormControl {
     return this.partidoForm.get('imagen') as FormControl;
@@ -159,7 +173,6 @@ onImageChange(event: any) {
   guardarPartido() {
     this.closeModal();
   }
-
   obtenerPartidos() {
     this.candidaturaService.getCandidaturas().subscribe(
       (partidos: Partidos[]) => {
@@ -172,6 +185,28 @@ onImageChange(event: any) {
       }
     );
   }
+  mostrarImagenAmpliada(rutaImagen: string) {
+    this.imagenAmpliada = rutaImagen;
+    const modal = document.getElementById('modal-imagen-ampliada');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+    }
+  }
+  obtenerCandidaturas() {
+    this.isLoading = LoadingStates.trueLoading;
+    this.candidaturaService.getCandidaturas2().subscribe(
+      (candidaturalist: Candidaturas[]) => {
+        this.candidaturalist = candidaturalist;
+        this.datos2 = candidaturalist;
+        console.log('Candidaturas obtenidas:', this.candidaturalist);
+      },
+      (error) => {
+        console.error('Error al obtener las candidaturas:', error);
+      }
+    );
+  }
+
 
   eliminarImagen() {
     this.previewImage = null;
@@ -181,28 +216,25 @@ onImageChange(event: any) {
     this.closebutton.nativeElement.click();
     this.partidoForm.reset();
   }
+  submit() {
+    if (this.isModalAdd === false) {
+
+      this.actualizarVisita();
+    } else {
+      this.agregarCargo();
+
+    }
+  }
+
+  actualizarVisita(){
+  }
 
 agregarCargo() {
-  const tipoOrganizacionPoliticaValue = this.partidoForm.get('candidatura')?.value;
-const tipoOrganizacionPolitica = { id: tipoOrganizacionPoliticaValue } as TipoCandidatura;
-console.log('Tipo Organizacion Politica:', tipoOrganizacionPolitica);
-
-    const acronimo = this.partidoForm.get('acronimo')?.value || '';
-    const estatus = this.partidoForm.get('estatus')?.value || '';
-    const nombreOrganizacion = this.partidoForm.get('logo')?.value || '';
+    this.candidaturas = this.partidoForm.value as Candidaturas;
+    const tipoOrganizacionPoliticaValue = this.partidoForm.get('candidatura')?.value;
+    this.candidaturas.tipoOrganizacionPolitica = { id: tipoOrganizacionPoliticaValue } as TipoCandidatura;
     const imagenBase64 = this.partidoForm.get('imagenBase64')?.value;
- 
-    const candidaturas = {
-      nombreOrganizacion,
-      acronimo,
-      imagenBase64,
-      estatus,
-      tipoOrganizacionPolitica, 
-    };
-
-    console.log('Datos a enviar:', candidaturas);
-
-    // Envía el objeto partido al servicio
+      const formData = { ...this.candidaturas, imagenBase64 };
     this.candidaturaService.postCandidaturas(this.candidaturas).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Agrupación agregada con éxito");
@@ -239,13 +271,35 @@ console.log('Tipo Organizacion Politica:', tipoOrganizacionPolitica);
 
 
   obtenerRutaImagen(nombreArchivo: string): string {
-    const rutaBaseApp = 'https://localhost:7154/';
+    const rutaBaseApp = 'https://localhost:7224/';
 
     if (nombreArchivo) {
       return `${rutaBaseApp}images/${nombreArchivo}`;
     }
 
     return '/assets/images/';
+  }
+
+  onSelectBeneficiario(id: number) {
+    if (id) {
+      this.tipoSelect = this.TipoCandidaturas.find(b => b.id === id);
+    }
+  }
+
+  setDataModalUpdate(dto: Candidaturas) {
+    const idtipo = dto.tipoOrganizacionPolitica.id;
+    this.onSelectBeneficiario(idtipo);
+    this.isModalAdd = false;
+
+    this.partidoForm.patchValue({
+      id: dto.id,
+      nombreOrganizacion: dto.nombreOrganizacion,
+      acronimo: dto.acronimo,
+      imagenBase64: dto.imagenBase64,
+      estatus: dto.estatus,
+      candidatura: idtipo,
+    });
+    console.log(this.partidoForm.value);
   }
 }
 

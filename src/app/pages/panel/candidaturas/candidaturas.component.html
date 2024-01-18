@@ -40,15 +40,23 @@
                             </thead>
                             <tbody class="table-tbody">
                                 <tr></tr>
-                                <tr *ngFor="let partido of datos | filterByTipoCandidatura:filtro">
-                                    <td class="table table-vcenter card-table table-striped">
-                                        <img [src]="obtenerRutaImagen(partido.foto)" alt="Foto de {{ partido.acronimo }}" width="50" height="50" />
+                                <tr *ngFor="let candidaturalist of datos2 | filterByTipoCandidatura:filtro">
+                                    <td class="table table-vcenter card-table table-striped" style="text-align: center" >
+                                        <img
+                                        [src]="obtenerRutaImagen(candidaturalist.logo)"
+                                        alt="Foto de {{ candidaturalist.logo }}"
+                                        width="50"
+                                        height="50"
+                                        (click)="
+                                          mostrarImagenAmpliada(obtenerRutaImagen(candidaturalist.logo))
+                                        "
+                                      />
                                     </td>
-                                    <td>{{ partido.nombreCandidatura }}</td>
-                                    <td>{{ partido.logo }}</td>
-                                    <td>{{ partido.acronimo }}</td>
+                                    <td>{{ candidaturalist.tipoOrganizacionPolitica.tipoOrganizacion }}</td>
+                                    <td>{{ candidaturalist.nombreOrganizacion }}</td>
+                                    <td>{{ candidaturalist.acronimo }}</td>
                                     <td>
-                                        <ng-container *ngIf="partido.estatus; else elseEST">
+                                        <ng-container *ngIf="candidaturalist.estatus; else elseEST">
                                             <span class="badge bg-success me-1"></span>Activo
                                         </ng-container>
                                         <ng-template #elseEST>
@@ -57,7 +65,7 @@
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-between">
-                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report">
+                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-partido-politico" (click)="setDataModalUpdate(candidaturalist)">
               <i class="ti ti-edit"></i>
             </button>
                                         </div>
@@ -95,7 +103,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
             </div>
 
-            <form [formGroup]="partidoForm" (ngSubmit)="agregarCargo()">
+            <form [formGroup]="partidoForm" (ngSubmit)="submit()">
                 <div class="modal-body">
                     <!-- Tipo de Agrupación -->
                     <div class="col-lg-12">
@@ -115,7 +123,7 @@
                     <!-- Campo de Nombre del partido -->
                     <div class="form-group">
                         <label for="nombreCandidatura">Nombre de la agrupación:</label>
-                        <input type="text" class="form-control" id="logo" formControlName="logo">
+                        <input type="text" class="form-control" id="logo" formControlName="nombreOrganizacion">
                     </div>
                     <br>
                     <div class="form-group">
@@ -132,19 +140,26 @@
                                 <div class="form-group">
                                     <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
                               <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px;">
-                              <input type="file" class="form-control-file custom-file-input" id="imagen" formControlName="imagenBase64" (change)="onImageChange($event)"  style="display: none;" accept="image/*" formControlName="imagenBase64">
+                              <input type="file" class="form-control-file custom-file-input" id="imagen" formControlName="logo" (change)="onImageChange($event)"  style="display: none;" accept="image/*" [formControl]="imagenControl">
                             </label>
                                 </div>
                                 <br>
                                 <label>Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
                                 <!-- Vista previa de la imagen -->
-                                <div *ngIf="previewImage" class="mt-3">
-                                    <label>Imagen seleccionada:</label>
-                                    <br><br><br>
-                                    <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
-                                    <br><br>
-                                    <button class="btn btn-danger mt-2" *ngIf="previewImage" (click)="eliminarImagen()">Eliminar Imagen</button>
+                                <div *ngIf="partidoForm.get('imagenBase64')?.value; else previewSection" class="mt-3">
+                                    <img class="img" [src]="'data:image/jpeg;base64,' + partidoForm.get('imagenBase64')?.value" width="100%" height="100%" alt="Vista previa de la imagen" />
+                                    <button class="btn btn-danger mt-2" (click)="eliminarImagen()">Eliminar Imagen</button>
                                 </div>
+                                
+                                <ng-template #previewSection>
+                                    <div *ngIf="previewImage" class="mt-3">
+                                        <label>Imagen seleccionada:</label>
+                                        <br><br><br>
+                                        <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
+                                        <br><br>
+                                    </div>
+                                </ng-template>
+                                
                             </div>
                         </div>
                     </div>
@@ -182,3 +197,17 @@
         </div>
     </div>
 </div>
+
+<div class="modal modal-highlight" id="modal-imagen-ampliada" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.5);">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" aria-label="Close" (click)="cerrarModal()"></button>
+            </div>
+            <div class="modal-body">
+                <img *ngIf="imagenAmpliada" [src]="imagenAmpliada" alt="Imagen Ampliada" class="w-100" />
+            </div>
+        </div>
+    </div>
+  </div>
+  
