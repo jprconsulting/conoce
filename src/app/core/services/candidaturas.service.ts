@@ -13,7 +13,7 @@ import { Candidaturas } from 'src/app/models/candidaturas';
 })
 export class CandidaturasService {
   route = `${environment.apiUrl}/agrupaciones-politicas`;
-  private _refreshLisUsers$ = new Subject<Partidos | null>();
+  private _refreshLisUsers$ = new Subject<Candidaturas | null>();
 
   constructor(
     private http: HttpClient,

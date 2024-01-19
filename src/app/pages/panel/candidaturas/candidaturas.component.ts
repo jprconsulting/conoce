@@ -167,6 +167,7 @@ setEstatus() {
       },
       (error) => {
         console.error('Error al obtener las candidaturas:', error);
+ 
       }
     );
   }
@@ -261,6 +262,7 @@ agregarCargo() {
         });
       }
     );
+    this.obtenerCandidaturas();
   }
 
   obtenerRutaImagen(nombreArchivo: string): string {
