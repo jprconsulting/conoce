@@ -158,20 +158,21 @@ setEstatus() {
   }
   obtenerCandidaturas() {
     this.isLoading = LoadingStates.trueLoading;
-    this.candidaturaService.getCandidaturas2().subscribe(
-      (candidaturalist: Candidaturas[]) => {
+    this.candidaturaService.getCandidaturas2().subscribe({
+      next: (candidaturalist: Candidaturas[]) => {
         this.candidaturalist = candidaturalist;
         this.datos2 = candidaturalist;
         this.usuariosFilter = this.candidaturalist;
         console.log('Candidaturas obtenidas:', this.candidaturalist);
+        this.isLoading = LoadingStates.falseLoading; // Indica que la carga ha finalizado con éxito
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al obtener las candidaturas:', error);
- 
+        this.isLoading = LoadingStates.errorLoading; // Indica que hubo un error en la carga
       }
-    );
+    });
   }
-
+  
   mostrar(){
     this.showImage = true;
   }
