@@ -25,6 +25,10 @@ export class CandidaturasComponent {
   partidoForm!: FormGroup;
   candidatura = false;
   usuariosFilter: Candidaturas[] = [];
+  verdadero = "Activo";
+  falso = "Inactivo";
+  estatusBtn = true;
+  estatusTag = this.verdadero;
   filtro: string = '';
   itemsPerPage: number = 2;
   currentPage: number = 1;
@@ -69,6 +73,7 @@ export class CandidaturasComponent {
   // Método para abrir el modal
   openModal() {
     this.previewImage = null;
+    this.estatusBtn = true;
   }
   onPageChange(number: number) {
     this.configPaginator.currentPage = number;
@@ -81,7 +86,7 @@ export class CandidaturasComponent {
       nombreOrganizacion:['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
       candidatura: ['', Validators.required],
       acronimo: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
-      estatus: [true, Validators.required],
+      estatus: [this.estatusBtn],
       logo: [''],
       imagenBase64: ['']
       // base64Logo: [''],
@@ -104,8 +109,14 @@ export class CandidaturasComponent {
   }
 
   handleChangeAdd() {
-    this.partidoForm.reset();
-    this.isModalAdd = true;
+    if (this.partidoForm) {
+      this.partidoForm.reset();
+      const estatusControl = this.partidoForm.get('estatus');
+      if (estatusControl) {
+        estatusControl.setValue(true);
+      }
+      this.isModalAdd = true;
+    }
   }
 
 // Método para manejar el cambio de la imagen
@@ -133,6 +144,9 @@ onImageChange(event: any) {
     };
   }
 }
+setEstatus() {
+  this.estatusTag = this.estatusBtn ? this.verdadero : this.falso;
+}
 
   mostrarImagenAmpliada(rutaImagen: string) {
     this.imagenAmpliada = rutaImagen;
@@ -144,19 +158,21 @@ onImageChange(event: any) {
   }
   obtenerCandidaturas() {
     this.isLoading = LoadingStates.trueLoading;
-    this.candidaturaService.getCandidaturas2().subscribe(
-      (candidaturalist: Candidaturas[]) => {
+    this.candidaturaService.getCandidaturas2().subscribe({
+      next: (candidaturalist: Candidaturas[]) => {
         this.candidaturalist = candidaturalist;
         this.datos2 = candidaturalist;
         this.usuariosFilter = this.candidaturalist;
         console.log('Candidaturas obtenidas:', this.candidaturalist);
+        this.isLoading = LoadingStates.falseLoading; // Indica que la carga ha finalizado con éxito
       },
-      (error) => {
+      error: (error) => {
         console.error('Error al obtener las candidaturas:', error);
+        this.isLoading = LoadingStates.errorLoading; // Indica que hubo un error en la carga
       }
-    );
+    });
   }
-
+  
   mostrar(){
     this.showImage = true;
   }
@@ -247,6 +263,7 @@ agregarCargo() {
         });
       }
     );
+    this.obtenerCandidaturas();
   }
 
   obtenerRutaImagen(nombreArchivo: string): string {

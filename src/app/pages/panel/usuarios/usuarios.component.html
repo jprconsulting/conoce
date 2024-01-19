@@ -7,16 +7,20 @@
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
-            <i class="ti ti-plus me-1"></i>Agregar Usuario
+            <i class="ti ti-plus me-1"></i>Agregar usuario
           </button>
-                    <div class="ms-auto text-muted">
-                        <div class="input-icon">
-                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
-    <i class="ti ti-search"></i>
-  </span>
-                        </div>
-                    </div>
+          <div class="ms-auto d-flex align-items-center">
+            <div class="input-icon">
+                <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
+                <span class="input-icon-addon">
+<i class="ti ti-search"></i>
+</span>
+            </div>
+            <a class="btn w-30 btn-icon" aria-label="Dribbble" (click)="exportarDatosAExcel()" title="Descargar excel de usuarios" style="margin-left: 8px; padding-top: 4px; padding-bottom: 4px">
+                <i class="ti ti-cloud-down text-muted" style="font-size: 28px"></i>
+            </a>
+        </div>
+
                 </div>
             </div>
 
@@ -31,21 +35,21 @@
                         <table class="table card-table table-vcenter text-nowrap datatable">
                             <thead>
                                 <tr>
-                                    <th class="w-1">#</th>
-                                    <th>Nombre(s)</th>
-                                    <th>Apellido(s)</th>
-                                    <th>Rol</th>
-                                    <th>Correo</th>
-                                    <th>Estatus</th>
-                                    <th class="text-center" style="width: 7%">Acciones</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center;w-1">#</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Nombre(s)</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Apellido(s)</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Rol</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Correo</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Estatus</th>
+                                    <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
                                 <tr></tr>
-                                <tr *ngFor="let usuario of filtrarResultados()  | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index">
+                                <tr *ngFor="let usuario of filtrarResultados()  | paginate : configPaginator; let pointIndex = index">
                                     <td>{{ usuario.id }}</td>
                                     <td>{{ usuario.nombres }}</td>
-                                    <td>{{ usuario.apellidoPaterno }}</td>
+                                    <td>{{ usuario.apellidoPaterno }} {{ usuario.apellidoMaterno }}</td>
                                     <td>{{ usuario.rol.nombreRol }}</td>
                                     <td>{{ usuario.correo }}</td>
                                     <td>
@@ -73,19 +77,7 @@
                         </table>
                     </div>
 
-                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                        <div class="items-per-page">
-                            <label for="itemsPerPage">Elementos por página:</label>
-                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
-                <option *ngFor="let option of itemsPerPageOptions" [value]="option">
-                  {{ option }}
-                </option>
-              </select>
-                        </div>
-                        <div class="pagination-container">
-                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
-                        </div>
-                    </div>
+                   
                 </div>
                 <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
@@ -107,7 +99,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">
-                        {{ isModalAdd ? "Agregar" : "Actualizar" }} Usuario
+                        {{ isModalAdd ? "Agregar" : "Actualizar" }} usuario
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
                 </div>
@@ -118,11 +110,21 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Nombre</label>
+                                    <label class="form-label">Nombre*:</label>
                                     <input type="text" class="form-control" formControlName="nombres" />
                                     <div *ngIf="userForm.get('nombres')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('nombres')?.hasError('required')">
-                                            El nombre es obligatorio
+                                        <div *ngIf="
+                          userForm.get('nombres')?.hasError('required')
+                        ">
+                                            El nombre es requerido
+                                        </div>
+                                        <div *ngIf="
+                          userForm.get('nombres')?.hasError('minlength')
+                        ">
+                                            El nombre debe tener al menos 3 caracteres
+                                        </div>
+                                        <div *ngIf="userForm.get('nombres')?.hasError('pattern')">
+                                            El nombre no puede tener números  ni signos
                                         </div>
                                     </div>
                                 </div>
@@ -130,11 +132,21 @@
 
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Apellido Paterno</label>
+                                    <label class="form-label">Apellido paterno*:</label>
                                     <input type="text" class="form-control" formControlName="apellidoPaterno" />
                                     <div *ngIf="userForm.get('apellidoPaterno')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('apellidoPaterno')?.hasError('required')">
-                                            Los apellidos son requeridos
+                                        <div *ngIf="
+                          userForm.get('apellidoPaterno')?.hasError('required')
+                        ">
+                                            El apellido paterno es requerido
+                                        </div>
+                                        <div *ngIf="
+                          userForm.get('apellidoPaterno')?.hasError('minlength')
+                        ">
+                                            El apellido paterno debe tener al menos 3 caracteres
+                                        </div>
+                                        <div *ngIf="userForm.get('apellidoPaterno')?.hasError('pattern')">
+                                            El apellido paterno no puede tener números  ni signos
                                         </div>
                                     </div>
                                 </div>
@@ -145,33 +157,45 @@
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Apellido Materno</label>
+                                    <label class="form-label">Apellido materno*:</label>
                                     <input type="text" class="form-control" formControlName="apellidoMaterno" />
                                     <div *ngIf="userForm.get('apellidoMaterno')?.touched" class="error-message">
-                                        <div *ngIf="userForm.get('apellidoMaterno')?.hasError('required')">
-                                            Los apellidos son requeridos
+                                        <div *ngIf="
+                          userForm.get('apellidoMaterno')?.hasError('required')
+                        ">
+                                            El apellido materno es requerido
+                                        </div>
+                                        <div *ngIf="
+                          userForm.get('apellidoMaterno')?.hasError('minlength')
+                        ">
+                                            El apellido materno debe tener al menos 3 caracteres
+                                        </div>
+                                        <div *ngIf="userForm.get('apellidoMaterno')?.hasError('pattern')">
+                                            El apellido materno no puede tener números  ni signos
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Correo Electrónico</label>
+                                    <label class="form-label">Correo electrónico*:</label>
                                     <input type="text" class="form-control" formControlName="correo" />
                                     <div *ngIf="userForm.get('correo')?.touched" class="error-message">
                                         <div *ngIf="userForm.get('correo')?.hasError('required')">
                                             El correo electrónico es requerido
                                         </div>
-                                        <div *ngIf="userForm.get('correo')?.hasError('correo')">
+                                        <div *ngIf="userForm.get('correo')?.hasError('email')">
                                             Ingresa una dirección de correo electrónico válida
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Contraseña</label>
+                                    <label class="form-label">Contraseña*:</label>
                                     <input type="password" class="form-control" formControlName="password" />
 
                                     <div *ngIf="userForm.get('password')?.touched" class="error-message">
@@ -187,12 +211,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
                             <div class="col-lg-6">
                                 <div class="mb-3">
-                                    <label class="form-label">Rol</label>
+                                    <label class="form-label">Rol*:</label>
                                     <ng-select placeholder="Elegir" [items]="roles" bindLabel="nombreRol" bindValue="id" [searchable]="false" [clearable]="false" formControlName="rol">
                                         <ng-template ng-option-tmp let-item="item">
                                             {{ item.nombreRol }}
@@ -207,24 +228,27 @@
                                 </div>
                             </div>
 
-                            <div class="col-lg-6">
-                                <div class="mb-3">
-                                    <label for="estadoActivo" class="form-label">Estatus</label>
-                                    <label class="form-check form-switch checkbox-verde">
-                    <input class="form-check-input" type="checkbox" formControlName="estatus" />
-                    <span class="form-check-label" [ngClass]="{
-                        'text-success': userForm.get('estatus')?.value === true,
-                        'text-danger': userForm.get('estatus')?.value === false
-                      }">
-                      {{
-                      userForm.get("estatus")?.value ? "Activo" : "Inactivo"
-                      }}
-                    </span>
-                  </label>
+                            <div class="col">
+                                <label>Estatus: </label><br />
+                                <div class="form-group">
+                                    <div class="form-check form-switch mt-1 ml-2 custom-green-switch">
+                                        <input class="form-check-input" type="checkbox" (change)="setEstatus()" ng ser name="estatusBtn" formControlName="estatus" />
+                                        <span class="form-check-label" [ngClass]="
+                          userForm.get('estatus')?.value
+                            ? 'text-success'
+                            : 'text-danger'
+                        ">
+                        {{
+                          userForm.get("estatus")?.value
+                            ? "Activo"
+                            : "Inactivo"
+                        }}
+                      </span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <!-- Fin del formulario -->
+                        <p class="form-label"style="margin-left: 30px;color: red;font-weight: bold;margin-top: 30px;">Todos los campos marcados con * son requeridos</p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">

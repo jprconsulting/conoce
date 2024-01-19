@@ -13,7 +13,7 @@
             </div>
             <br>
             <div class="btn-group mb-3" role="group">
-                <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Partido Político')" [class.btn-success]="filtro === 'Partido Político'" [class.btn-secondary]="filtro !== 'Partido Politico'">Partido politico</button>
+                <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Partido Político')" [class.btn-success]="filtro === 'Partido Político'" [class.btn-secondary]="filtro !== 'Partido Politico'">Partido político</button>
                 <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Candidatura Común')" [class.btn-success]="filtro === 'Candidatura Común'" [class.btn-secondary]="filtro !== 'Candidatura Común'">Candidatura común</button>
                 <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Coalición')" [class.btn-success]="filtro === 'Coalición'" [class.btn-secondary]="filtro !== 'Coalición'">Coalición</button>
                 <button type="button" class="btn btn-candidatura" (click)="filtrarCandidaturas('Candidatura Independiente')" [class.btn-success]="filtro === 'Candidatura Independiente'" [class.btn-secondary]="filtro !== 'Candidatura Independiente'">Candidatura independiente</button>
@@ -33,9 +33,9 @@
                                     <th style="text-transform: none; font-size: inherit" class="text-center">Logo</th>
                                     <th style="text-transform: none; font-size: inherit" class="text-center">Tipo de agrupación</th>
                                     <th style="text-transform: none; font-size: inherit" class="text-center">Nombre</th>
-                                    <th style="text-transform: none; font-size: inherit" class="text-center">Acronimo</th>
+                                    <th style="text-transform: none; font-size: inherit" class="text-center">Acrónimo</th>
                                     <th style="text-transform: none; font-size: inherit" class="text-center">Estatus</th>
-                                    <th style="text-transform: none; font-size: inherit" class="text-center" style="width: 7%">Acciones</th>
+                                    <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
@@ -127,7 +127,7 @@
                                     <div *ngIf="
                       partidoForm.get('candidatura')?.hasError('required')
                     ">
-                                        El tipo de agrupacion es requerido
+                                        El tipo de agrupación es requerido
                                     </div>
                                 </div>
                             </div>
@@ -142,15 +142,15 @@
                             <div *ngIf="
               partidoForm.get('nombreOrganizacion')?.hasError('required')
             ">
-                                El nombre de la agrupacion es requerido
+                                El nombre de la agrupación es requerido
                             </div>
                             <div *ngIf="
               partidoForm.get('nombreOrganizacion')?.hasError('minlength')
             ">
-                                El nombre de la agrupacion debe tener al menos 3 caracteres
+                                El nombre de la agrupación debe tener al menos 3 caracteres
                             </div>
                             <div *ngIf="partidoForm.get('nombreOrganizacion')?.hasError('pattern')">
-                                El nombre de la agrupacion no puede tener números  ni signos
+                                El nombre de la agrupación no puede tener números  ni signos
                             </div>
                         </div>
                     </div>
@@ -162,15 +162,15 @@
                             <div *ngIf="
               partidoForm.get('acronimo')?.hasError('required')
             ">
-                                El acronimo es requerido
+                                El acrónimo es requerido
                             </div>
                             <div *ngIf="
               partidoForm.get('acronimo')?.hasError('minlength')
             ">
-                                El acronimmo debe tener al menos 3 caracteres
+                                El acrónimo debe tener al menos 3 caracteres
                             </div>
                             <div *ngIf="partidoForm.get('acronimo')?.hasError('pattern')">
-                                El acronimo no puede tener números ni signos
+                                El acrónimo no puede tener números ni signos
                             </div>
                         </div>
                     </div>
@@ -209,34 +209,23 @@
                         </div>
                     </div>
                     <br>
-                    <div class="col-lg-6">
-                        <div class="mb-3">
-                            <label for="estadoActivo" class="form-label">Estatus*:</label>
-                            <label class="form-check form-switch checkbox-verde">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  formControlName="estatus"
-                />
-                <span
-                  class="form-check-label"
-                  [ngClass]="{
-                    'text-success': partidoForm.get('estatus')?.value === true,
-                    'text-danger': partidoForm.get('estatus')?.value === false
-                  }"
-                >
-                  {{
-                    partidoForm.get("estatus")?.value ? "Activo" : "Inactivo"
-                  }}
-                </span>
-                <div *ngIf="partidoForm.get('estatus')?.touched" class="error-message">
-                    <div *ngIf="
-      partidoForm.get('nombres')?.hasError('estatus')
-    ">
-                        El estatus es requerido
-                    </div>
-                </div>
-              </label>
+                    <div class="col">
+                        <label>Estatus: </label><br />
+                        <div class="form-group">
+                            <div class="form-check form-switch mt-1 ml-2 custom-green-switch">
+                                <input class="form-check-input" type="checkbox" (change)="setEstatus()" ng ser name="estatusBtn" formControlName="estatus" />
+                                <span class="form-check-label" [ngClass]="
+                  partidoForm.get('estatus')?.value
+                    ? 'text-success'
+                    : 'text-danger'
+                ">
+                {{
+                  partidoForm.get("estatus")?.value
+                    ? "Activo"
+                    : "Inactivo"
+                }}
+              </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -246,7 +235,7 @@
         font-weight: bold;
     ">Todos los campos marcados con * son requeridos</p>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" [disabled]="!partidoForm.valid" (click)="submit()">
+                    <button type="submit" class="btn btn-primary" [disabled]="!partidoForm.valid">
                         {{ isModalAdd ? "Agregar" : "Actualizar" }}
                      </button>
                      

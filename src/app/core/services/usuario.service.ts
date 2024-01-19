@@ -47,17 +47,17 @@ export class UsuarioService {
   }
 
   deleteUsuario(id: number) {
-    return this.http.delete(`${this.route}/eliminar_usuario/${id}`)
+    return this.http.delete(`${this.route}/eliminar/${id}`)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next;
+          this._refreshLisUsers$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );
   }
 
-  putUsuario(usuario: Usuario): Observable<Usuario> {
-    return this.http.put<Usuario>(`${this.route}/editar_usuario`, usuario)
+  putUsuario(id:number,usuario: Usuario): Observable<Usuario> {
+    return this.http.put<Usuario>(`${this.route}/actualizar/${id}`, usuario)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);

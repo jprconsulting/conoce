@@ -7,7 +7,7 @@ import { LoadingStates } from 'src/app/global/globals';
 import { Usuario } from 'src/app/models/usuario';
 import { Rol } from 'src/app/models/Rol';
 import { PaginationInstance } from 'ngx-pagination';
-
+import * as XLSX from 'xlsx';
 @Component({
   selector: 'app-usuarios',
   templateUrl: './usuarios.component.html',
@@ -23,12 +23,17 @@ export class UsuariosComponent implements OnInit {
   isLoadingUsers = LoadingStates.neutro;
   usuariosFilter: Usuario[] = [];
   userForm!: FormGroup;
+  id!: number;
   roles: Rol[] = [];
   isModalAdd = false;
-  itemsPerPage: number = 5;
+  itemsPerPage: number = 2;
   currentPage: number = 1;
-  itemsPerPageOptions: number[] = [5, 10, 15];
+  itemsPerPageOptions: number[] = [2, 3, 6];
   filtro: string = '';
+  verdadero = "Activo";
+  falso = "Inactivo";
+  estatusBtn = true;
+  estatusTag = this.verdadero;
 
   constructor(
     @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
@@ -60,10 +65,10 @@ export class UsuariosComponent implements OnInit {
           Validators.pattern(/[0-9]/),
         ],
       ],
-      nombres: ['', Validators.required],
-      apellidoPaterno: ['', Validators.required],
-      apellidoMaterno: ['', Validators.required],
-      estatus: [false],
+      nombres: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      apellidoPaterno: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      apellidoMaterno: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      estatus: [this.estatusBtn],
     });
   }
 
@@ -90,7 +95,10 @@ export class UsuariosComponent implements OnInit {
       }
     });
   }
-
+  setEstatus() {
+    this.estatusTag = this.estatusBtn ? this.verdadero : this.falso;
+  }
+  
   resetForm() {
     this.closebutton.nativeElement.click();
     this.userForm.reset();
@@ -120,7 +128,7 @@ agregarUsuario() {
           console.log('Usuario agregado con éxito:', nuevoUsuario);
           this.mensajeService.mensajeExito('Usuario agregado con éxito');
           this.resetForm();
-          // También puedes agregar el nuevo usuario a la lista local
+          this.getListadoUsuarios();
           this.usuarios.push(nuevoUsuario);
         },
         error: (error) => {
@@ -137,9 +145,13 @@ agregarUsuario() {
 
 
   actualizarUsuario() {
-    this.usuarioService.putUsuario(this.usuario).subscribe({
+    this.usuario = this.userForm.value as Usuario;
+    const rol = this.userForm.get('rol')?.value;
+    this.usuario.rol = { id: rol } as Rol;
+    this.usuarioService.putUsuario(this.id,this.usuario).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Usuario actualizado con éxito");
+        this.getListadoUsuarios();
         this.resetForm();
       },
       error: (error) => {
@@ -165,29 +177,40 @@ agregarUsuario() {
         this.usuarioService.deleteUsuario(id).subscribe({
           next: () => {
             this.mensajeService.mensajeExito('Usuario borrado correctamente');
+            this.configPaginator.currentPage = 1;
+            this.getListadoUsuarios();
             //this.ConfigPaginator.currentPage = 1;
           },
           error: (error) => this.mensajeService.mensajeError(error)
         });
       }
     );
+    this.getListadoUsuarios();
   }
 
   handleChangeAdd() {
-    this.userForm.reset();
-    this.isModalAdd = true;
+    if (this.userForm) {
+      this.userForm.reset();
+      const estatusControl = this.userForm.get('estatus');
+      if (estatusControl) {
+        estatusControl.setValue(true);
+      }
+      this.isModalAdd = true;
+    }
   }
 
   setDataModalUpdate(user: Usuario) {
+    this.id = user.id;
     this.isModalAdd = false;
     this.userForm.patchValue({
-      usuarioId: user.id,
-      rolId: user.rol,
-      email: user.correo,
+      Id: user.id,
+      rol: user.rol.id,
+      correo: user.correo,
       password: user.password,
+      nombres: user.nombres,
+      apellidoPaterno: user.apellidoPaterno,
+      apellidoMaterno: user.apellidoMaterno,
       estatus: user.estatus,
-      nombre: user.nombres,
-      apellidos: user.apellidoPaterno
     });
     console.log(this.userForm.value);
   }
@@ -198,8 +221,43 @@ agregarUsuario() {
     return this.usuarios.filter(usuario =>
       usuario.nombres.toLowerCase().includes(filtroLowerCase) ||
       usuario.apellidoPaterno.toLowerCase().includes(filtroLowerCase) ||
-      usuario.correo.toLowerCase().includes(filtroLowerCase)
+      usuario.apellidoMaterno.toLowerCase().includes(filtroLowerCase) ||
+      usuario.correo.toLowerCase().includes(filtroLowerCase) ||
+      usuario.rol.nombreRol.toLowerCase().includes(filtroLowerCase)
     );
   }
+  exportarDatosAExcel() {
+    if (this.usuarios.length === 0) {
+      console.warn('La lista de usuarios está vacía. No se puede exportar.');
+      return;
+    }
 
+    const datosParaExportar = this.usuarios.map(usuario => {
+      const estatus = usuario.estatus ? 'Activo' : 'Inactivo';
+      return {
+        'Id': usuario.id,
+        'Nombre': usuario.nombres,
+        'Apellido paterno': usuario.apellidoMaterno,
+        'Apellido materno': usuario.apellidoMaterno,
+        'Correo': usuario.correo,
+        'Rol': usuario.rol.nombreRol,
+        'Estatus': estatus,
+      };
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosParaExportar);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    this.guardarArchivoExcel(excelBuffer, 'usuarios.xlsx');
+  }
+  guardarArchivoExcel(buffer: any, nombreArchivo: string) {
+    const data: Blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url: string = window.URL.createObjectURL(data);
+    const a: HTMLAnchorElement = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
 }
