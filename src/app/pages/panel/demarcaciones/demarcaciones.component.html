@@ -33,15 +33,19 @@
                                                     <div class="col-md-6">
                                                         <label for="nombre" class="form-label">Nombre de Distrito Local:</label>
                                                         <input type="text" id="nombre" class="form-control" formControlName="nombre">
-                                                        <div *ngIf="distritoLocalForm.get('nombre')?.hasError('required')">
-                                                            El nombre es requerido
+                                                        <div *ngIf="distritoLocalForm.get('nombre')?.touched" class="error-message">
+                                                            <div *ngIf="distritoLocalForm.get('nombre')?.hasError('required')">
+                                                                El nombre es requerido
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <label for="acronimo" class="form-label">Acrónimo:</label>
                                                         <input type="text" id="acronimo" class="form-control" formControlName="acronimo">
-                                                        <div *ngIf="distritoLocalForm.get('acronimo')?.hasError('required')">
-                                                            El acronimo es requerido
+                                                        <div *ngIf="distritoLocalForm.get('acronimo')?.touched" class="error-message">
+                                                            <div *ngIf="distritoLocalForm.get('acronimo')?.hasError('required')">
+                                                                El acrónimo es requerido
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -49,14 +53,10 @@
                                                     <div class="col-lg-8">
                                                         <div class="mb-3">
                                                             <label for="estado" class="form-label">Estado:</label>
-                                                            <ng-select formControlName="estado" #selectEstado [searchable]="false" [items]="estados" bindLabel="nombreEstado" bindValue="estado" placeholder="Elegir" [clearable]="false">
-                                                                <ng-template ng-header-tmp>
-                                                                    <input class="form-control" type="text" (input)="selectEstado.filter($any($event.target).value)" />
-                                                                </ng-template>
-                                                                <ng-template ng-option-tmp let-item="item" let-index="index">
-                                                                    {{ item.nombreEstado }}
-                                                                </ng-template>
-                                                            </ng-select>
+                                                            <select class="form-select" formControlName="estado">
+                                                      <option value="null">Selecciona un estado...</option>
+                                                      <option *ngFor="let estadoItem of estados" [value]="estadoItem.id">{{ estadoItem.nombreEstado }}</option>
+                                                    </select>
                                                             <div *ngIf="distritoLocalForm.get('estado')?.touched" class="error-message">
                                                                 <div *ngIf="distritoLocalForm.get('estado')?.hasError('required')">
                                                                     El estado es requerido
@@ -82,8 +82,10 @@
                                                 <div class="mb-3">
                                                     <label for="peticion" class="form-label">Ext-pet:</label>
                                                     <input type="text" id="peticion" class="form-control" formControlName="peticion">
-                                                    <div *ngIf="distritoLocalForm.get('peticion')?.hasError('required')">
-                                                        La petición externa es requerida
+                                                    <div *ngIf="distritoLocalForm.get('peticion')?.touched" class="error-message">
+                                                        <div *ngIf="distritoLocalForm.get('peticion')?.hasError('required')">
+                                                            La petición es requerida
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -115,19 +117,37 @@
                                         </div>
                                         <br>
                                         <div class="card">
-                                            <table class="table card-table table-vcenter text-nowrap datatable">
+                                            <table class="table table-vcenter card-table table-striped text-center">
                                                 <thead>
                                                     <tr>
-                                                        <th>Nombre</th>
-                                                        <th>Acrónimo</th>
-                                                        <th>Ext-pet</th>
-                                                        <th>Estado</th>
-                                                        <th>Estatus</th>
-                                                        <th class="text-center" style="width: 7%">Acciones</th>
+                                                        <th style="text-transform: none; font-size: inherit">
+                                                            #
+                                                        </th>
+                                                        <th style="text-transform: none; font-size: inherit">
+                                                            Nombre
+                                                        </th>
+                                                        <th style="text-transform: none; font-size: inherit">
+                                                            Acrónio
+                                                        </th>
+                                                        <th style="text-transform: none; font-size: inherit">
+                                                            Petición
+                                                        </th>
+                                                        <th style="text-transform: none; font-size: inherit">
+                                                            Estado
+                                                        </th>
+                                                        <th style="text-transform: none; font-size: inherit">
+                                                            Acrónimo
+                                                        </th>
+                                                        <th style="text-transform: none; font-size: inherit">
+                                                            Acciones
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody class="table-tbody">
-                                                    <tr *ngFor="let distritoLocal of filtrarDistritoslocales()| paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }; let i = index">
+                                                    <tr *ngFor="let distritoLocal of filtrarDistritoslocales()| paginate : configPaginator; let pointIndex = index">
+                                                        <td>
+                                                            {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
+                                                        </td>
                                                         <td>{{ distritoLocal.nombre }}</td>
                                                         <td>{{ distritoLocal.acronimo }}</td>
                                                         <td>{{ distritoLocal.peticion }}</td>
@@ -153,20 +173,6 @@
                                                     </tr>
                                                 </tbody>
                                             </table>
-
-                                            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                                                <div class="items-per-page">
-                                                    <label for="itemsPerPage">Elementos por página:</label>
-                                                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
-                              <option *ngFor="let option of itemsPerPageOptions" [value]="option">
-                                {{ option }}
-                              </option>
-                            </select>
-                                                </div>
-                                                <div class="pagination-container">
-                                                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                     <div *ngIf="distritosLocales.length === 0">
@@ -175,6 +181,15 @@
                                 </div>
                                 <app-no-results *ngSwitchCase="4"></app-no-results>
                             </ng-container>
+                            <div class="card-footer d-flex align-items-center">
+                                <p class="m-0 text-muted">
+                                    Total de registros: <b>{{ usuariosFilter.length }}</b>
+                                </p>
+                                <div class="m-0 ms-auto">
+                                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                                    </pagination-controls>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -205,24 +220,39 @@
                                             <form [formGroup]="ayuntamientoForm" (ngSubmit)="submitAyuntamientos()">
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
-                                                        <label for="nombreAyuntamiento" class="form-label">Nombre de Ayuntamiento:</label>
-                                                        <input type="text" id="nombreAyuntamiento" class="form-control" formControlName="nombreAyuntamiento">
+                                                        <label for="nombre" class="form-label">Nombre de Ayuntamiento:</label>
+                                                        <input type="text" id="nombre" class="form-control" formControlName="nombre">
+                                                        <div *ngIf="ayuntamientoForm.get('nombre')?.touched" class="error-message">
+                                                            <div *ngIf="ayuntamientoForm.get('nombre')?.hasError('required')">
+                                                                El nombre es requerido
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="mb-3">
                                                             <label for="acronimo" class="form-label">Acrónimo:</label>
                                                             <input type="text" id="acronimo" class="form-control" formControlName="acronimo">
+                                                            <div *ngIf="ayuntamientoForm.get('acronimo')?.touched" class="error-message">
+                                                                <div *ngIf="ayuntamientoForm.get('acronimo')?.hasError('required')">
+                                                                    El acronimo es requerido
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row mb-3">
                                                     <div class="col-lg-8">
                                                         <div class="mb-3">
-                                                            <label for="distritoLocalId" class="form-label">Distrito local:</label>
-                                                            <select class="form-select" formControlName="distritoLocalId">
+                                                            <label for="distritoLocal" class="form-label">Distrito local:</label>
+                                                            <select class="form-select" formControlName="distritoLocal">
                                                       <option value="null">Selecciona un distrito...</option>
                                                       <option *ngFor="let distritosLocalesItem of distritosLocales" [value]="distritosLocalesItem.id">{{ distritosLocalesItem.nombre }}</option>
                                                     </select>
+                                                            <div *ngIf="ayuntamientoForm.get('distritoLocal')?.touched" class="error-message">
+                                                                <div *ngIf="ayuntamientoForm.get('distritoLocal')?.hasError('required')">
+                                                                    El distrito local es requerido
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-4">
@@ -240,8 +270,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="extPet" class="form-label">Ext-pet:</label>
-                                                    <input type="text" id="extPet" class="form-control" formControlName="extPet">
+                                                    <label for="peticion" class="form-label">Ext-pet:</label>
+                                                    <input type="text" id="peticion" class="form-control" formControlName="peticion">
+                                                    <div *ngIf="ayuntamientoForm.get('peticion')?.touched" class="error-message">
+                                                        <div *ngIf="ayuntamientoForm.get('peticion')?.hasError('required')">
+                                                            La peticion es requerida
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary" [disabled]="!ayuntamientoForm.valid" data-bs-dismiss="modal">
@@ -364,8 +399,8 @@
                                             <form [formGroup]="comunidadForm" (ngSubmit)="submitComunidades()">
                                                 <div class="row mb-3">
                                                     <div class="col-md-6">
-                                                        <label for="nombreComunidad" class="form-label">Nombre de Comunidad:</label>
-                                                        <input type="text" id="nombreComunidad" class="form-control" formControlName="nombreComunidad">
+                                                        <label for="nombre" class="form-label">Nombre de Comunidad:</label>
+                                                        <input type="text" id="nombre" class="form-control" formControlName="nombre">
                                                     </div>
 
                                                     <div class="col-md-6">
@@ -378,8 +413,8 @@
                                                 <div class="row mb-3">
                                                     <div class="col-lg-8">
                                                         <div class="mb-3">
-                                                            <label for="ayuntamientoId" class="form-label">Ayuntamiento:</label>
-                                                            <select class="form-select" formControlName="ayuntamientoId">
+                                                            <label for="ayuntamiento" class="form-label">Ayuntamiento:</label>
+                                                            <select class="form-select" formControlName="ayuntamiento">
                                                     <option value="null">Selecciona un ayuntamiento...</option>
                                                     <option *ngFor="let ayuntamientoItem of ayuntamientos" [value]="ayuntamientoItem.id">{{ ayuntamientoItem.nombre }}</option>
                                                   </select>
@@ -400,8 +435,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="extPet" class="form-label">Ext-pet:</label>
-                                                    <input type="text" id="extPet" class="form-control" formControlName="extPet">
+                                                    <label for="peticion" class="form-label">Ext-pet:</label>
+                                                    <input type="text" id="peticion" class="form-control" formControlName="peticion">
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="submit" class="btn btn-primary" [disabled]="!comunidadForm.valid" data-bs-dismiss="modal">

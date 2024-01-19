@@ -52,7 +52,7 @@ export class CargosComponent implements OnInit {
         '',
         [
           Validators.required,
-          Validators.pattern(/^[a-zA-Z]+$/),
+          Validators.pattern(/^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ]+$/),
           Validators.pattern(/^[^\s]+$/),
         ],
       ],
@@ -82,7 +82,6 @@ export class CargosComponent implements OnInit {
     const cargoIdControl = this.userForm.get('cargoId');
     const cargoIdValue = cargoIdControl ? cargoIdControl.value : undefined;
 
-    // Crear un nuevo objeto de datos sin cargoId si está vacío o nulo
     let cargoData: any;
     if (cargoIdValue !== null && cargoIdValue !== undefined) {
       cargoData = { ...this.cargo, cargoId: cargoIdValue };
@@ -91,6 +90,14 @@ export class CargosComponent implements OnInit {
       delete cargoData.cargoId;
     }
 
+    const nuevoCargo = this.userForm.value;
+    const cargoExistente = this.cargos.some(dl => dl.nombreCargo === nuevoCargo.nombre);
+
+    if (cargoExistente) {
+      console.error('Ya existe un cargo con este nombre.');
+      this.mensajeService.mensajeError('Ya existe un cargo con este nombre.');
+    }
+    else {
     this.cargoService.postCargo(cargoData).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Cargo agregado con éxito");
@@ -101,7 +108,7 @@ export class CargosComponent implements OnInit {
         console.error(error);
       }
     });
-  }
+  }}
 
   actualizarUsuario() {
     this.cargoService.put(this.idUpdate, this.cargo).subscribe({
