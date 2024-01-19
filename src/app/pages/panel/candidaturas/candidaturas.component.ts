@@ -73,6 +73,7 @@ export class CandidaturasComponent {
   // Método para abrir el modal
   openModal() {
     this.previewImage = null;
+    this.estatusBtn = true;
   }
   onPageChange(number: number) {
     this.configPaginator.currentPage = number;
@@ -108,8 +109,14 @@ export class CandidaturasComponent {
   }
 
   handleChangeAdd() {
-    this.partidoForm.reset();
-    this.isModalAdd = true;
+    if (this.partidoForm) {
+      this.partidoForm.reset();
+      const estatusControl = this.partidoForm.get('estatus');
+      if (estatusControl) {
+        estatusControl.setValue(true);
+      }
+      this.isModalAdd = true;
+    }
   }
 
 // Método para manejar el cambio de la imagen
