@@ -25,6 +25,10 @@ export class CandidaturasComponent {
   partidoForm!: FormGroup;
   candidatura = false;
   usuariosFilter: Candidaturas[] = [];
+  verdadero = "Activo";
+  falso = "Inactivo";
+  estatusBtn = true;
+  estatusTag = this.verdadero;
   filtro: string = '';
   itemsPerPage: number = 2;
   currentPage: number = 1;
@@ -81,7 +85,7 @@ export class CandidaturasComponent {
       nombreOrganizacion:['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
       candidatura: ['', Validators.required],
       acronimo: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
-      estatus: [true, Validators.required],
+      estatus: [this.estatusBtn],
       logo: [''],
       imagenBase64: ['']
       // base64Logo: [''],
@@ -132,6 +136,9 @@ onImageChange(event: any) {
       this.previewImage = base64String; // Actualiza la previsualización
     };
   }
+}
+setEstatus() {
+  this.estatusTag = this.estatusBtn ? this.verdadero : this.falso;
 }
 
   mostrarImagenAmpliada(rutaImagen: string) {
