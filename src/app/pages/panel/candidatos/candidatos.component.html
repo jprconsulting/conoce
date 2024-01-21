@@ -14,15 +14,17 @@
 
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
-                      <i class="ti ti-plus me-1"></i>Agregar Candidato
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report"
+                        (click)="handleChangeAdd()">
+                        <i class="ti ti-plus me-1"></i>Agregar Candidato
                     </button>
                     <div class="ms-auto text-muted">
                         <div class="input-icon">
-                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
+                            <input #busquedaInput type="text" [(ngModel)]="filtro"
+                                class="form-control form-control-rounded" placeholder="Buscar" />
                             <span class="input-icon-addon">
-                <i class="ti ti-search"></i>
-              </span>
+                                <i class="ti ti-search"></i>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -49,40 +51,59 @@
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
-                                <tr *ngFor="let candidato of candidatos | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index" class="align-items-center">
+                                <tr *ngFor="let candidato of candidatos | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index"
+                                    class="align-items-center">
                                     <td class="justify-content-center">
-                                        <img [src]="obtenerRutaImagen(candidato.foto)" alt="Foto de {{ candidato.nombre }}" width="50" height="50" />
+                                        <img [src]="obtenerRutaImagen(candidato.foto)"
+                                            alt="Foto de {{ candidato.nombre }}" width="50" height="50" />
                                     </td>
                                     <td class="justify-content-center">{{ candidato.nombre }}</td>
                                     <td class="justify-content-center">{{ candidato.apellidoPaterno }}</td>
                                     <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
                                     <!-- <td class="justify-content-center">{{ getNombreCargo(candidato.cargo.id) }}</td> -->
-                                    <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
+                                    <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId)
+                                        }}</td>
                                     <td>
                                         <div class="d-flex align-items-center">
                                             <div class="progress">
-                                                <div class="progress-bar" [ngStyle]="{ 'width.%': porcentajeProgreso }" role="progressbar" [attr.aria-valuenow]="porcentajeProgreso" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="porcentajeProgreso + '% Complete'">
-                                                    <span class="visually-hidden">{{ porcentajeProgreso }}% Complete</span>
+                                                <div class="progress-bar" [ngStyle]="{ 'width.%': porcentajeProgreso }"
+                                                    role="progressbar" [attr.aria-valuenow]="porcentajeProgreso"
+                                                    aria-valuemin="0" aria-valuemax="100"
+                                                    [attr.aria-label]="porcentajeProgreso + '% Complete'">
+                                                    <span class="visually-hidden">{{ porcentajeProgreso }}%
+                                                        Complete</span>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-success btn-icon btn-sm" (click)="mostrarRespuestas(candidato.candidatoId)" title="Recargar estatus" style="margin-left: 5px; margin-right: 5px">
-                                              <i class="ti ti-reload"></i>
+                                            <button class="btn btn-success btn-icon btn-sm"
+                                                (click)="mostrarRespuestas(candidato.candidatoId)"
+                                                title="Recargar estatus" style="margin-left: 5px; margin-right: 5px">
+                                                <i class="ti ti-reload"></i>
                                             </button>
                                         </div>
                                     </td>
                                     <td class="justify-content-center">
                                         <div class="d-flex justify-content-between">
-                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="obtenerRespuestas(candidato.candidatoId)" style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
-                                              <i class="ti ti-eye"></i>
+                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modal-info"
+                                                (click)="obtenerRespuestas(candidato.candidatoId)"
+                                                style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
+                                                <i class="ti ti-eye"></i>
                                             </button>
                                             <button class="btn btn-warning btn-icon btn-sm" title="Editar candidato">
-                                              <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
+                                                <i class="ti ti-edit" data-bs-toggle="modal"
+                                                    data-bs-target="#modal-report"></i>
                                             </button>
-                                            <button class="btn btn-danger btn-icon btn-sm" (click)="borrarUsuario(candidato.candidatoId, candidato.nombre)" style="margin-left: 5px; margin-right: 5px" title="Borrar candidato">
-                                              <i class="ti ti-eraser"></i>
+                                            <button class="btn btn-danger btn-icon btn-sm"
+                                                (click)="borrarUsuario(candidato.candidatoId, candidato.nombre)"
+                                                style="margin-left: 5px; margin-right: 5px" title="Borrar candidato">
+                                                <i class="ti ti-eraser"></i>
                                             </button>
-                                            <button class="btn btn-info btn-icon btn-sm" (click)="obtenerRespuestas(candidato.candidatoId)" (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal" data-bs-target="#modalRespuestas" title="Ver estatus de los cuestionarios">
-                                              <i class="ti ti-clipboard-data"></i>
+                                            <button class="btn btn-info btn-icon btn-sm"
+                                                (click)="obtenerRespuestas(candidato.candidatoId)"
+                                                (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal"
+                                                data-bs-target="#modalRespuestas"
+                                                title="Ver estatus de los cuestionarios">
+                                                <i class="ti ti-clipboard-data"></i>
                                             </button>
                                         </div>
                                     </td>
@@ -94,9 +115,9 @@
                         <div class="items-per-page">
                             <label for="itemsPerPage">Elementos por página:</label>
                             <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
-                              <option *ngFor="let option of itemsPerPageOptions" [value]="option">
-                                {{ option }}
-                              </option>
+                                <option *ngFor="let option of itemsPerPageOptions" [value]="option">
+                                    {{ option }}
+                                </option>
                             </select>
                         </div>
                         <div class="pagination-container">
@@ -118,7 +139,8 @@
                 <h5 class="modal-title">
                     {{ isModalAdd ? "Agregar" : "Actualizar" }} Candidato
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closebutton></button>
             </div>
 
             <form [formGroup]="userForm" (ngSubmit)="submitUsuario()">
@@ -126,7 +148,8 @@
                     <!-- Inicio del formulario -->
                     <div class="card">
                         <div class="ribbon ribbon-top bg-green">
-                            <i class="ti ti-man"></i> </div>
+                            <i class="ti ti-man"></i>
+                        </div>
                         <div class="card-header">
                             <h3 class="card-title">INFORMACIÓN GENERAL</h3>
                         </div>
@@ -171,8 +194,10 @@
                                 <div class="col-lg-6">
                                     <div class="mb-4">
                                         <label class="form-label">Sobrenombre</label>
-                                        <input type="text" class="form-control" formControlName="sobrenombrePropietario" />
-                                        <div *ngIf="userForm.get('sobrenombrePropietario')?.touched" class="error-message">
+                                        <input type="text" class="form-control"
+                                            formControlName="sobrenombrePropietario" />
+                                        <div *ngIf="userForm.get('sobrenombrePropietario')?.touched"
+                                            class="error-message">
                                             <div *ngIf="userForm.get('sobrenombrePropietario')?.hasError('required')">
                                                 El sobrenombre es obligatorio
                                             </div>
@@ -185,9 +210,10 @@
                                         <label class="form-label">Género</label>
                                         <div>
                                             <label *ngFor="let generoItem of genero" class="form-check">
-                                        <input class="form-check-input" type="radio" [value]="generoItem.generoId" formControlName="generoId">
-                                        <span class="form-check-label">{{ generoItem.nombreGenero }}</span>
-                                      </label>
+                                                <input class="form-check-input" type="radio"
+                                                    [value]="generoItem.generoId" formControlName="generoId">
+                                                <span class="form-check-label">{{ generoItem.nombreGenero }}</span>
+                                            </label>
                                         </div>
                                         <div *ngIf="userForm.get('generoId')?.touched" class="error-message">
                                             <div *ngIf="userForm.get('generoId')?.hasError('required')">
@@ -243,8 +269,10 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Dirección de casa de campaña</label>
-                                        <input type="text" class="form-control" formControlName="direccionCasaCampania" />
-                                        <div *ngIf="userForm.get('direccionCasaCampania')?.touched" class="error-message">
+                                        <input type="text" class="form-control"
+                                            formControlName="direccionCasaCampania" />
+                                        <div *ngIf="userForm.get('direccionCasaCampania')?.touched"
+                                            class="error-message">
                                             <div *ngIf="userForm.get('direccionCasaCampania')?.hasError('required')">
                                                 La dirección es obligatoria
                                             </div>
@@ -269,10 +297,11 @@
                                     <div class="mb-3">
                                         <label for="estadoActivo" class="form-label">Estatus</label>
                                         <label class="form-check form-switch checkbox-verde">
-                                          <input class="form-check-input" type="checkbox" formControlName="estatus" />
-                                          <span class="form-check-label" [ngClass]="{'text-success': userForm.get('estatus')?.value === true,'text-danger': userForm.get('estatus')?.value === false}">
-                                            {{userForm.get("estatus")?.value ? "Activo" : "Inactivo"}}
-                                          </span>
+                                            <input class="form-check-input" type="checkbox" formControlName="estatus" />
+                                            <span class="form-check-label"
+                                                [ngClass]="{'text-success': userForm.get('estatus')?.value === true,'text-danger': userForm.get('estatus')?.value === false}">
+                                                {{userForm.get("estatus")?.value ? "Activo" : "Inactivo"}}
+                                            </span>
                                         </label>
                                     </div>
                                 </div>
@@ -295,7 +324,8 @@
                     <br> <br>
                     <div class="card">
                         <div class="ribbon ribbon-top bg-blue">
-                            <i class="ti ti-map-2"></i> </div>
+                            <i class="ti ti-map-2"></i>
+                        </div>
                         <div class="card-header">
                             <h3 class="card-title">INFORMACIÓN REFERENTE AL CARGO</h3>
                         </div>
@@ -305,8 +335,9 @@
                                     <div class="mb-3">
                                         <label class="form-label">Cargo</label>
                                         <select class="form-select" formControlName="cargoId">
-                                          <option value="null">Selecciona un cargo...</option>
-                                          <option *ngFor="let cargoItem of cargos" [value]="cargoItem.id">{{ cargoItem.nombreCargo }}</option>
+                                            <option value="null">Selecciona un cargo...</option>
+                                            <option *ngFor="let cargoItem of cargos" [value]="cargoItem.id">{{
+                                                cargoItem.nombreCargo }}</option>
                                         </select>
                                         <div *ngIf="userForm.get('cargoId')?.touched" class="error-message">
                                             <div *ngIf="userForm.get('cargoId')?.hasError('required')">
@@ -321,18 +352,19 @@
                                     <div class="mb-3">
                                         <label class="form-label">Candidaturas</label>
                                         <select class="form-select" (change)="seleccionarCandidatura($event)">
-                                      <option value="null">Selecciona una Candidatura...</option>
-                                      <!-- <option *ngFor="let candidatura of candidaturas" [value]="candidatura.tipoCandidaturaId">{{ candidatura.nombreTipoCandidatura }}</option> -->
-                                    </select>
+                                            <option value="null">Selecciona una Candidatura...</option>
+                                            <!-- <option *ngFor="let candidatura of candidaturas" [value]="candidatura.tipoCandidaturaId">{{ candidatura.nombreTipoCandidatura }}</option> -->
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-lg-4" *ngIf="partidosFiltrados.length > 0">
                                     <div class="mb-3">
                                         <label class="form-label">Partidos Filtrados</label>
                                         <select class="form-select" formControlName="candidaturaId">
-                                      <option value="null">Selecciona un Partido...</option>
-                                      <option *ngFor="let partido of partidosFiltrados" [value]="partido.candidaturaId">{{ partido.logo }}</option>
-                                    </select>
+                                            <option value="null">Selecciona un Partido...</option>
+                                            <option *ngFor="let partido of partidosFiltrados"
+                                                [value]="partido.candidaturaId">{{ partido.logo }}</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -347,27 +379,32 @@
                             <div class="row">
                                 <div class="col-md-3">
                                     <select class="form-select" formControlName="estadoId">
-                                <option value="0">Selecciona un estado...</option>
-                                <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nombreEstado }}</option>
-                              </select>
+                                        <option value="0">Selecciona un estado...</option>
+                                        <option *ngFor="let estado of estados" [value]="estado.id">{{
+                                            estado.nombreEstado }}</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select class="form-select" formControlName="distritoLocalId">
-                                <option value="0">Selecciona un distrito local...</option>
-                                <option *ngFor="let distrito of distritosLocales" [value]="distrito.id">{{ distrito.nombre }}</option>
-                              </select>
+                                        <option value="0">Selecciona un distrito local...</option>
+                                        <option *ngFor="let distrito of distritosLocales" [value]="distrito.id">{{
+                                            distrito.nombre }}</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
                                     <select class="form-select" formControlName="ayuntamientoId">
-                                <option value="0">Selecciona un ayuntamiento...</option>
-                                <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.id">{{ ayuntamiento.nombre }}</option>
-                              </select>
+                                        <option value="0">Selecciona un ayuntamiento...</option>
+                                        <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.id">{{
+                                            ayuntamiento.nombre }}</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-3">
-                                    <select class="form-select" formControlName="comunidadId" (change)="onComunidadChange($event)">
-                                <option value="0">Selecciona una comunidad...</option>
-                                <option *ngFor="let comunidad of comunidades" [value]="comunidad.id">{{ comunidad.nombre }}</option>
-                              </select>
+                                    <select class="form-select" formControlName="comunidadId"
+                                        (change)="onComunidadChange($event)">
+                                        <option value="0">Selecciona una comunidad...</option>
+                                        <option *ngFor="let comunidad of comunidades" [value]="comunidad.id">{{
+                                            comunidad.nombre }}</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -375,7 +412,8 @@
                     <br> <br>
                     <div class="card">
                         <div class="ribbon ribbon-top bg-red">
-                            <i class="ti ti-brand-facebook"></i> </div>
+                            <i class="ti ti-brand-facebook"></i>
+                        </div>
                         <div class="card-header">
                             <h3 class="card-title">REDES SOCIALES</h3>
                         </div>
@@ -447,18 +485,22 @@
                                     <div class="mb-1 text-center">
                                         <div class="form-group">
                                             <label for="fotoArchivo" class="img-thumbnail" id="fotoArchivo-label">
-                                    <img [src]="previewImage ? previewImage : 'assets/images/placeholderimage.png'" alt="Subir imagen" style="width: 200px;">
-                                    <input type="file" id="fotoArchivo" (change)="onFileChange($event)">
-                                  </label>
+                                                <img [src]="previewImage ? previewImage : 'assets/images/placeholderimage.png'"
+                                                    alt="Subir imagen" style="width: 200px;">
+                                                <input type="file" id="fotoArchivo" (change)="onFileChange($event)">
+                                            </label>
                                         </div>
-                                        <label class="form-label" *ngIf="!previewImage">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
+                                        <label class="form-label" *ngIf="!previewImage">Haz clic aquí para seleccionar
+                                            una imagen desde tu dispositivo</label>
 
                                         <div *ngIf="previewImage" class="mt-3">
-                                            <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
+                                            <img [src]="previewImage" class="img-thumbnail"
+                                                alt="Vista previa de la imagen" style="width: 200px;">
                                             <br>
                                             <label>Imagen seleccionada:</label>
                                             <br><br>
-                                            <button class="btn btn-danger mt-2" (click)="eliminarImagen()">Eliminar Imagen</button>
+                                            <button class="btn btn-danger mt-2" (click)="eliminarImagen()">Eliminar
+                                                Imagen</button>
                                         </div>
                                     </div>
                                 </div>
@@ -470,8 +512,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
-              {{ isModalAdd ? "Agregar" : "Actualizar" }}
-            </button>
+                        {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                    </button>
                 </div>
             </form>
         </div>
@@ -479,55 +521,74 @@
 </div>
 
 <!-- MODAL PARA VER LAS RESPUESTAS -->
-<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title" id="exampleModalLabel">Respuestas del formulario</h1>
+                <h1 class="modal-title" id="exampleModalLabel">Respuestas de formularios</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body" style="background-color: #f6f8fb">
                 <div *ngIf="respuestasGoogleFormulario">
-                    <div class="accordion" id="respuestasAcordeon">
-                        <div *ngFor="let formulario of respuestasGoogleFormulario.formularios" class="accordion-item">
-                            <h2 class="accordion-header" [attr.id]="'heading' + formulario.formularioId">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + formulario.formularioId" aria-expanded="true" [attr.aria-controls]="'collapse' + formulario.formularioId">
-                                <span [ngClass]="{'text-danger': formulario.preguntasRespuestas.length === 0, 'text-success': formulario.preguntasRespuestas.length > 0}">
-                                    Nombre del formulario : {{ formulario.formName }}
-                                </span>
-                                <ng-container *ngIf="formulario.preguntasRespuestas.length > 0; else redRibbon">
-                                    <div class="ribbon ribbon-top bg-green" style="padding-bottom: 10px;">
-                                        <i class="ti ti-clipboard-check"></i>
-                                    </div>
-                                </ng-container>
-                                <ng-template #redRibbon>
-                                    <div class="ribbon ribbon-top bg-red" style="padding-bottom: 10px;">
-                                        <i class="ti ti-clipboard-x"></i>
-                                    </div>
-                                </ng-template>
-                            </button>
-                            </h2>
-                            <div [attr.id]="'collapse' + formulario.formularioId" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + formulario.formularioId" data-bs-parent="#respuestasAcordeon">
-                                <div class="accordion-body">
-                                    <div *ngIf="formulario.preguntasRespuestas.length > 0 else sinRespuestas">
-                                        <h5>Preguntas y Respuestas:</h5>
-                                        <ul class="list-group">
-                                            <li *ngFor="let preguntaRespuesta of formulario.preguntasRespuestas" class="list-group-item">
-                                                <strong>{{ preguntaRespuesta.pregunta }}:</strong> {{ preguntaRespuesta.respuesta }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <ng-template #sinRespuestas>
-                                        <p>No hay respuestas para este formulario.</p>
-                                    </ng-template>
-                                </div>
+                    <div class="accordion" id="respuestasAcordeon" *ngIf="respuestasGoogleFormulario.formularios.length > 0; else sinFormularios">
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+                                    <li class="nav-item"
+                                        *ngFor="let formulario of respuestasGoogleFormulario.formularios; let isFirst = first; let i = index">
+                                        <a [attr.href]="'#tabs-' + formulario.googleFormId" class="nav-link"
+                                            [ngClass]="{ 'active' : isFirst }" data-bs-toggle="tab">{{
+                                            formulario.formName }}</a>
+                                    </li>
+                                </ul>
                             </div>
-                            <br>
+
+                            <div class="card-body">
+
+                                <div class="tab-content">
+
+                                    <div class="tab-pane show" [ngClass]="{ 'active' : isFirst }"
+                                        [attr.id]="'tabs-' + formulario.googleFormId"
+                                        *ngFor="let formulario of respuestasGoogleFormulario.formularios; let isFirst = first">
+                                        <div class="table-responsive">
+                                            <table class="table table-vcenter table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><strong>Pregunta</strong></th>
+                                                        <th scope="col"><strong>Respuesta</strong></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr *ngFor="let data of formulario.preguntasRespuestas" class="text-secondary">
+                                                        <th>{{ data.pregunta}}</th>
+                                                        <td>{{ data.respuesta}}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
                         </div>
+
                     </div>
+
                 </div>
+
+                <ng-template #sinFormularios>
+                    <div class="accordion">
+                        <h5>Aun no hay formularios.</h5>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>
@@ -548,20 +609,25 @@
                     <div class="row mt-3">
                         <div class="col-md-6">
                             <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="border-left-width: 1px; margin-left: 10px;">
-                                  Filtrar por Estatus
+                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                                    data-bs-toggle="dropdown" aria-expanded="false"
+                                    style="border-left-width: 1px; margin-left: 10px;">
+                                    Filtrar por Estatus
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <li><a class="dropdown-item" (click)="filtrarPorEstatus('')">Todos</a></li>
-                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('Contestado')">Contestado</a></li>
-                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('Por contestar')">Por contestar</a></li>
+                                    <li><a class="dropdown-item"
+                                            (click)="filtrarPorEstatus('Contestado')">Contestado</a></li>
+                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('Por contestar')">Por
+                                            contestar</a></li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="ms-auto text-muted">
                                 <div class="input-icon" style="margin-right: 10px;">
-                                    <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
+                                    <input #busquedaInput type="text" [(ngModel)]="filtro"
+                                        class="form-control form-control-rounded" placeholder="Buscar" />
                                     <span class="input-icon-addon">
                                         <i class="ti ti-search"></i>
                                     </span>
@@ -580,7 +646,8 @@
                             </thead>
                             <tbody>
                                 <tr *ngFor="let formulario of calcularEstadosFormularios()">
-                                    <ng-container *ngIf="formulario.nombre.toLowerCase().includes(filtro.toLowerCase()) && (estatusSeleccionado === '' || formulario.estado === estatusSeleccionado)">
+                                    <ng-container
+                                        *ngIf="formulario.nombre.toLowerCase().includes(filtro.toLowerCase()) && (estatusSeleccionado === '' || formulario.estado === estatusSeleccionado)">
                                         <td>{{ formulario.nombre }}</td>
                                         <td>
                                             <ng-container *ngIf="formulario.estado === 'Contestado'; else porContestar">
