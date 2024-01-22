@@ -47,15 +47,15 @@ export class MunicipioService {
     );
   }
   deleteAyuntamiento(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/eliminar_ayuntamiento/${id}`).pipe(
+    return this.http.delete(`${this.apiUrl}/eliminar/${id}`).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);
       })
     );
   }
-  putAyuntamiento(ayuntamiento: Municipio): Observable<Municipio> {
-    return this.http.put<Municipio>(`${this.apiUrl}/editar_ayuntamiento`, ayuntamiento).pipe(
+  putAyuntamiento(id: number,ayuntamiento: Municipio): Observable<Municipio> {
+    return this.http.put<Municipio>(`${this.apiUrl}/actualizar/${id}`, ayuntamiento).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

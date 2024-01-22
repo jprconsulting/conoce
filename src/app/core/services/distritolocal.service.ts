@@ -54,8 +54,8 @@ export class DistritoLocalService {
       })
     );
   }
-  putDistritoLocal(distritoLocal: DistritoLocal): Observable<DistritoLocal> {
-    return this.http.put<DistritoLocal>(`${this.apiUrl}/editar_distrito`, distritoLocal).pipe(
+  putDistritoLocal(id: number,distritoLocal: DistritoLocal): Observable<DistritoLocal> {
+    return this.http.put<DistritoLocal>(`${this.apiUrl}/actualizar/${id}`, distritoLocal).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

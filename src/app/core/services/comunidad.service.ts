@@ -47,15 +47,15 @@ export class ComunidadService {
     );
   }
   eliminarComunidad(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/eliminar_comunidad/${id}`).pipe(
+    return this.http.delete(`${this.apiUrl}/eliminar/${id}`).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);
       })
     );
   }
-  editarComunidad(comunidad: Comunidad): Observable<Comunidad> {
-    return this.http.put<Comunidad>(`${this.apiUrl}/editar_comunidad`, comunidad).pipe(
+  editarComunidad(id: number,comunidad: Comunidad): Observable<Comunidad> {
+    return this.http.put<Comunidad>(`${this.apiUrl}/actualizar/${id}`, comunidad).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

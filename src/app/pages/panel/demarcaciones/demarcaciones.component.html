@@ -65,149 +65,92 @@
                       <div class="modal-body">
                         <div class="row mb-3">
                           <div class="col-md-6">
-                            <label for="nombre" class="form-label"
+                            <label for="nombreDistritoLocal" class="form-label"
                               >Nombre de Distrito Local:</label
                             >
                             <input
                               type="text"
-                              id="nombre"
+                              id="nombreDistritoLocal"
                               class="form-control"
-                              formControlName="nombre"
+                              formControlName="nombreDistritoLocal"
                             />
                             <div
-                              *ngIf="distritoLocalForm.get('nombre')?.touched"
+                              *ngIf="distritoLocalForm.get('nombreDistritoLocal')?.touched"
                               class="error-message"
                             >
                               <div
                                 *ngIf="
                                   distritoLocalForm
-                                    .get('nombre')
+                                    .get('nombreDistritoLocal')
                                     ?.hasError('required')
                                 "
                               >
-                                El nombre es requerido
+                                El nombre del distrito es requerido
                               </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <label for="acronimo" class="form-label"
-                              >Acrónimo:</label
-                            >
-                            <input
-                              type="text"
-                              id="acronimo"
-                              class="form-control"
-                              formControlName="acronimo"
-                            />
-                            <div
-                              *ngIf="distritoLocalForm.get('acronimo')?.touched"
-                              class="error-message"
-                            >
+                              <div *ngIf="
+                          distritoLocalForm.get('nombreDistritoLocal')?.hasError('minlength')
+                        ">
+                                             El nombre del distrito debe contener almenos 3 caracteres
+                                        </div>
                               <div
-                                *ngIf="
-                                  distritoLocalForm
-                                    .get('acronimo')
-                                    ?.hasError('required')
-                                "
-                              >
-                                El acrónimo es requerido
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <div class="col-lg-8">
-                            <div class="mb-3">
-                              <label for="estado" class="form-label"
-                                >Estado:</label
-                              >
-                              <select
-                                class="form-select"
-                                formControlName="estado"
-                              >
-                                <option value="null">
-                                  Selecciona un estado...
-                                </option>
-                                <option
-                                  *ngFor="let estadoItem of estados"
-                                  [value]="estadoItem.id"
-                                >
-                                  {{ estadoItem.nombreEstado }}
-                                </option>
-                              </select>
-                              <div
-                                *ngIf="distritoLocalForm.get('estado')?.touched"
-                                class="error-message"
-                              >
-                                <div
-                                  *ngIf="
-                                    distritoLocalForm
-                                      .get('estado')
-                                      ?.hasError('required')
-                                  "
-                                >
-                                  El estado es requerido
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label for="estadoActivo" class="form-label"
-                                >Estatus</label
-                              >
-                              <label
-                                class="form-check form-switch checkbox-verde"
-                              >
-                                <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  formControlName="estatus"
-                                />
-                                <span
-                                  class="form-check-label"
-                                  [ngClass]="{
-                                    'text-success':
-                                      distritoLocalForm.get('estatus')
-                                        ?.value === true,
-                                    'text-danger':
-                                      distritoLocalForm.get('estatus')
-                                        ?.value === false
-                                  }"
-                                >
-                                  {{
-                                    distritoLocalForm.get("estatus")?.value
-                                      ? "Activo"
-                                      : "Inactivo"
-                                  }}
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="mb-3">
-                          <label for="peticion" class="form-label"
-                            >Ext-pet:</label
-                          >
-                          <input
-                            type="text"
-                            id="peticion"
-                            class="form-control"
-                            formControlName="peticion"
-                          />
-                          <div
-                            *ngIf="distritoLocalForm.get('peticion')?.touched"
-                            class="error-message"
-                          >
-                            <div
                               *ngIf="
                                 distritoLocalForm
-                                  .get('peticion')
-                                  ?.hasError('required')
+                                  .get('nombreDistritoLocal')
+                                  ?.hasError('pattern')
                               "
                             >
-                              La petición es requerida
+                              El nombre del distrito no puede tener numero ni caracteres
+                            </div>
+                             
+                            </div>
+                          </div>
+                          <div class="col-lg-6">
+                            <div class="mb-3">
+                              <div class="mb-3">
+                                <label class="form-label">Estado</label>
+                                <ng-select
+                                  formControlName="estado"
+                                  #selectEstado
+                                  [searchable]="false"
+                                  [items]="estados"
+                                  bindLabel="nombreEstado"
+                                  bindValue="id"
+                                  placeholder="Elegir"
+                                  [clearable]="false"
+                                >
+                                  <ng-template ng-header-tmp>
+                                    <input
+                                      class="form-control"
+                                      type="text"
+                                      (input)="
+                                        selectEstado.filter($any($event.target).value)
+                                      "
+                                    />
+                                  </ng-template>
+                                  <ng-template
+                                    ng-option-tmp
+                                    let-item="item"
+                                    let-index="index"
+                                  >
+                                    {{ item.nombreEstado }}
+                                  </ng-template>
+                                </ng-select>
+                                <div
+                              *ngIf="distritoLocalForm.get('estado')?.touched"
+                              class="error-message"
+                            >
+                              <div
+                                *ngIf="
+                                  distritoLocalForm
+                                    .get('estado')
+                                    ?.hasError('required')
+                                "
+                              >
+                                El estado es requerido
+                              </div>
+                            </div>
+                              </div>
+                              
                             </div>
                           </div>
                         </div>
@@ -252,81 +195,41 @@
                       </span>
                     </div>
                     <br />
-                    <div class="card">
+                    <div class="table-responsive card">
                       <table
-                        class="table table-vcenter card-table table-striped text-center"
+                      class="table card-table table-vcenter text-nowrap datatable"
                       >
-                        <thead>
+                        <thead >
                           <tr>
-                            <th
-                              style="text-transform: none; font-size: inherit"
-                            >
+                            <th style="text-transform: none; font-size: inherit">
                               #
-                            </th>
+                          </th>
                             <th
-                              style="text-transform: none; font-size: inherit"
+                            style="text-transform: none; font-size: inherit" class="text-center"
                             >
                               Nombre
                             </th>
+                            
                             <th
-                              style="text-transform: none; font-size: inherit"
-                            >
-                              Acrónio
-                            </th>
-                            <th
-                              style="text-transform: none; font-size: inherit"
-                            >
-                              Petición
-                            </th>
-                            <th
-                              style="text-transform: none; font-size: inherit"
+                            style="text-transform: none; font-size: inherit" class="text-center"
                             >
                               Estado
                             </th>
+                           
                             <th
-                              style="text-transform: none; font-size: inherit"
-                            >
-                              Acrónimo
-                            </th>
-                            <th
-                              style="text-transform: none; font-size: inherit"
+                            style="text-transform: none; font-size: inherit;width: 7%" class="text-center"
                             >
                               Acciones
                             </th>
                           </tr>
                         </thead>
                         <tbody class="table-tbody">
-                          <tr
-                            *ngFor="
-                              let distritoLocal of filtrarDistritoslocales()
-                                | paginate : configPaginator;
-                              let pointIndex = index
-                            "
-                          >
+                          <tr *ngFor="let distritoLocal of filtrarDistritoslocales() | paginate : configPaginator; let pointIndex = index">
                             <td>
-                              {{
-                                configPaginator.itemsPerPage *
-                                  (configPaginator.currentPage - 1) +
-                                  pointIndex +
-                                  1
-                              }}
-                            </td>
+                              {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
+                          </td>
                             <td>{{ distritoLocal.nombreDistritoLocal }}</td>
-                            <td>{{ distritoLocal.acronimo }}</td>
-                            <td>{{ distritoLocal.peticion }}</td>
                             <td>{{ distritoLocal.estado.nombreEstado }}</td>
-                            <td>
-                              <ng-container
-                                *ngIf="distritoLocal.estatus; else elseEST"
-                              >
-                                <span class="badge bg-success me-1"></span
-                                >Activo
-                              </ng-container>
-                              <ng-template #elseEST>
-                                <span class="badge bg-danger me-1"></span>
-                                Inactivo
-                              </ng-template>
-                            </td>
                             <td>
                               <div class="d-flex justify-content-between">
                                 <button
@@ -389,7 +292,7 @@
               aria-expanded="false"
               (click)="handleChangeAdd('ayuntamiento')"
             >
-              Ayuntamiento
+              Municipios
             </button>
           </h2>
           <div
@@ -403,9 +306,8 @@
                 data-bs-toggle="modal"
                 data-bs-target="#modal-ayuntamiento"
               >
-                <i class="ti ti-plus me-1"></i>Agregar Ayuntamiento
+                <i class="ti ti-plus me-1"></i>Agregar municipios
               </button>
-              <!-- MODAL AGREGAR AYUNTAMIENTO -->
               <div
                 class="modal modal-blur fade"
                 id="modal-ayuntamiento"
@@ -420,7 +322,7 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title">
-                        {{ isModalAdd ? "Agregar" : "Actualizar" }} ayuntamiento
+                        {{ isModalAdd ? "Agregar" : "Actualizar" }} municipio 
                       </h5>
                       <button
                         type="button"
@@ -431,96 +333,91 @@
                     </div>
                     <div class="modal-body">
                       <form
-                        [formGroup]="ayuntamientoForm"
+                        [formGroup]="municipioForm"
                         (ngSubmit)="submitAyuntamientos()"
                       >
-                        <div class="row mb-3">
-                          <div class="col-md-6">
-                            <label for="nombre" class="form-label"
-                              >Nombre de Ayuntamiento:</label
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <label for="nombre" class="form-label"
+                              >Nombre de municipio :</label
                             >
                             <input
                               type="text"
                               id="nombre"
                               class="form-control"
-                              formControlName="nombre"
+                              formControlName="nombreMunicipio"
                             />
                             <div
-                              *ngIf="ayuntamientoForm.get('nombre')?.touched"
+                              *ngIf="municipioForm.get('nombreMunicipio')?.touched"
                               class="error-message"
                             >
                               <div
                                 *ngIf="
-                                  ayuntamientoForm
-                                    .get('nombre')
+                                  municipioForm
+                                    .get('nombreMunicipio')
                                     ?.hasError('required')
                                 "
                               >
-                                El nombre es requerido
+                                El nombre del municipio es requerido
                               </div>
-                            </div>
-                          </div>
-                          <div class="col-md-6">
-                            <div class="mb-3">
-                              <label for="acronimo" class="form-label"
-                                >Acrónimo:</label
-                              >
-                              <input
-                                type="text"
-                                id="acronimo"
-                                class="form-control"
-                                formControlName="acronimo"
-                              />
-                              <div
-                                *ngIf="
-                                  ayuntamientoForm.get('acronimo')?.touched
-                                "
-                                class="error-message"
-                              >
-                                <div
+                              <div *ngIf="
+                              municipioForm.get('nombreMunicipio')?.hasError('minlength')
+                            ">
+                                                 El nombre del municipio debe contener almenos 3 caracteres
+                                            </div>
+                                  <div
                                   *ngIf="
-                                    ayuntamientoForm
-                                      .get('acronimo')
-                                      ?.hasError('required')
+                                    municipioForm
+                                      .get('nombreMunicipio')
+                                      ?.hasError('pattern')
                                   "
                                 >
-                                  El acronimo es requerido
+                                  El nombre del municipio no puede tener numero ni caracteres
                                 </div>
-                              </div>
                             </div>
-                          </div>
                         </div>
-                        <div class="row mb-3">
-                          <div class="col-lg-8">
-                            <div class="mb-3">
-                              <label for="distritoLocal" class="form-label"
+
+                        <div class="col-md-6">
+                          <div class="mb-3">
+                            <label for="distritoLocal" class="form-label"
                                 >Distrito local:</label
                               >
-                              <select
-                                class="form-select"
-                                formControlName="distritoLocal"
-                              >
-                                <option value="null">
-                                  Selecciona un distrito...
-                                </option>
-                                <option
-                                  *ngFor="
-                                    let distritosLocalesItem of distritosLocales
+                              <ng-select
+                              formControlName="distritoLocal"
+                              #selectEstado
+                              [searchable]="false"
+                              [items]="distritosLocales"
+                              bindLabel="nombreDistritoLocal"
+                              bindValue="id"
+                              placeholder="Elegir"
+                              [clearable]="false"
+                            >
+                              <ng-template ng-header-tmp>
+                                <input
+                                  class="form-control"
+                                  type="text"
+                                  (input)="
+                                    selectEstado.filter($any($event.target).value)
                                   "
-                                  [value]="distritosLocalesItem.id"
-                                >
-                                  {{ distritosLocalesItem.nombreDistritoLocal }}
-                                </option>
-                              </select>
+                                />
+                              </ng-template>
+                              <ng-template
+                                ng-option-tmp
+                                let-item="item"
+                                let-index="index"
+                              >
+                                {{ item.nombreDistritoLocal }}
+                              </ng-template>
+                            </ng-select>
                               <div
                                 *ngIf="
-                                  ayuntamientoForm.get('distritoLocal')?.touched
+                                  municipioForm.get('distritoLocal')?.touched
                                 "
                                 class="error-message"
                               >
                                 <div
                                   *ngIf="
-                                    ayuntamientoForm
+                                    municipioForm
                                       .get('distritoLocal')
                                       ?.hasError('required')
                                   "
@@ -528,72 +425,14 @@
                                   El distrito local es requerido
                                 </div>
                               </div>
-                            </div>
-                          </div>
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label for="estadoActivo" class="form-label"
-                                >Estatus</label
-                              >
-                              <label
-                                class="form-check form-switch checkbox-verde"
-                              >
-                                <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  formControlName="estatus"
-                                />
-                                <span
-                                  class="form-check-label"
-                                  [ngClass]="{
-                                    'text-success':
-                                      distritoLocalForm.get('estatus')
-                                        ?.value === true,
-                                    'text-danger':
-                                      distritoLocalForm.get('estatus')
-                                        ?.value === false
-                                  }"
-                                >
-                                  {{
-                                    ayuntamientoForm.get("estatus")?.value
-                                      ? "Activo"
-                                      : "Inactivo"
-                                  }}
-                                </span>
-                              </label>
-                            </div>
                           </div>
                         </div>
-                        <div class="mb-3">
-                          <label for="peticion" class="form-label"
-                            >Ext-pet:</label
-                          >
-                          <input
-                            type="text"
-                            id="peticion"
-                            class="form-control"
-                            formControlName="peticion"
-                          />
-                          <div
-                            *ngIf="ayuntamientoForm.get('peticion')?.touched"
-                            class="error-message"
-                          >
-                            <div
-                              *ngIf="
-                                ayuntamientoForm
-                                  .get('peticion')
-                                  ?.hasError('required')
-                              "
-                            >
-                              La peticion es requerida
-                            </div>
-                          </div>
-                        </div>
+                      </div>
                         <div class="modal-footer">
                           <button
                             type="submit"
                             class="btn btn-primary"
-                            [disabled]="!ayuntamientoForm.valid"
+                            [disabled]="!municipioForm.valid"
                             data-bs-dismiss="modal"
                           >
                             {{ isModalAdd ? "Agregar" : "Actualizar" }}
@@ -632,117 +471,65 @@
                       </span>
                     </div>
                     <br />
-                    <div class="card">
+                    <div class="table-responsive card">
                       <table
-                        class="table card-table table-vcenter text-nowrap datatable"
+                      class="table card-table table-vcenter text-nowrap datatable"
                       >
                         <thead>
                           <tr>
-                            <th>Nombre</th>
-                            <th>Acrónimo</th>
-                            <th>Ext-pet</th>
-                            <th>Estatus</th>
-                            <th>Distrito local</th>
-                            <th class="text-center" style="width: 7%">
+                            <th style="text-transform: none; font-size: inherit">
+                              #
+                          </th>
+                            <th style="text-transform: none; font-size: inherit" class="text-center">Nombre</th>
+                            <th style="text-transform: none; font-size: inherit" class="text-center">Distrito local</th>
+                            <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">
                               Acciones
                             </th>
                           </tr>
                         </thead>
                         <tbody class="table-tbody">
-                          <tr
-                            *ngFor="
-                              let ayuntamiento of filtrarAyuntamientos()
-                                | paginate
-                                  : {
-                                      itemsPerPage: itemsPerPage,
-                                      currentPage: currentPage
-                                    };
-                              let i = index
-                            "
-                          >
+                          <tr *ngFor="let ayuntamiento of filtrarAyuntamientos() | paginate : configPaginator; let pointIndex = index">
+                            <td>
+                              {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
+                          </td>
                             <td>{{ ayuntamiento.nombreMunicipio }}</td>
-                            <td>{{ ayuntamiento.acronimo }}</td>
-                            <td>{{ ayuntamiento.peticion }}</td>
-                            <td>
-                              {{
-                                ayuntamiento.distritoLocal.nombreDistritoLocal
-                              }}
-                            </td>
-                            <td>
-                              <ng-container
-                                *ngIf="ayuntamiento.estatus; else elseEST"
-                              >
-                                <span class="badge bg-success me-1"></span
-                                >Activo
-                              </ng-container>
-                              <ng-template #elseEST>
-                                <span class="badge bg-danger me-1"></span>
-                                Inactivo
-                              </ng-template>
-                            </td>
+                            <td>{{ ayuntamiento.distritoLocal.nombreDistritoLocal }}</td>
+                            
                             <td>
                               <div class="d-flex justify-content-between">
-                                <button
-                                  class="btn btn-warning btn-icon btn-sm"
-                                  data-bs-toggle="modal"
-                                  data-bs-target="#modal-ayuntamiento"
-                                  (click)="
-                                    setDataModalUpdateAyuntamiento(ayuntamiento)
-                                  "
-                                >
+                                <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento" (click)="setDataModalUpdateAyuntamiento(ayuntamiento)">
                                   <i class="ti ti-edit"></i>
                                 </button>
-                                <button
-                                  class="btn btn-danger btn-icon btn-sm"
-                                  (click)="
-                                    eliminarAyuntamiento(
-                                      ayuntamiento.id,
-                                      ayuntamiento.nombreMunicipio
-                                    )
-                                  "
-                                >
+                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.id, ayuntamiento.nombreMunicipio)">
                                   <i class="ti ti-trash"></i>
                                 </button>
                               </div>
                             </td>
                           </tr>
+                          
                         </tbody>
                       </table>
-                      <div
-                        class="pagination-and-items-per-page"
-                        style="margin-bottom: 0px"
-                      >
-                        <div class="items-per-page">
-                          <label for="itemsPerPage"
-                            >Elementos por página:</label
-                          >
-                          <select
-                            id="itemsPerPage"
-                            [(ngModel)]="itemsPerPage"
-                            style="margin-left: 5px"
-                          >
-                            <option
-                              *ngFor="let option of itemsPerPageOptions"
-                              [value]="option"
-                            >
-                              {{ option }}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="pagination-container">
-                          <pagination-controls
-                            (pageChange)="currentPage = $event"
-                          ></pagination-controls>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <div *ngIf="ayuntamientos.length === 0">
-                    <p>No hay Ayuntamientos agregados.</p>
+                    <p>No hay Municipios agregados.</p>
                   </div>
                 </div>
                 <app-no-results *ngSwitchCase="4"></app-no-results>
               </ng-container>
+              <div class="card-footer d-flex align-items-center">
+                <p class="m-0 text-muted">
+                  Total de registros: <b>{{ municipiosFilter.length }}</b>
+                </p>
+                <div class="m-0 ms-auto">
+                  <pagination-controls
+                    (pageChange)="onPageChange2($event)"
+                    previousLabel=""
+                    nextLabel=""
+                  >
+                  </pagination-controls>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -807,98 +594,100 @@
                       >
                         <div class="row mb-3">
                           <div class="col-md-6">
-                            <label for="nombre" class="form-label"
+                            <label for="nombreComunidad" class="form-label"
                               >Nombre de Comunidad:</label
                             >
                             <input
                               type="text"
-                              id="nombre"
+                              id="nombreComunidad"
                               class="form-control"
-                              formControlName="nombre"
+                              formControlName="nombreComunidad"
                             />
+                            <div
+                              *ngIf="comunidadForm.get('nombreComunidad')?.touched"
+                              class="error-message"
+                            >
+                              <div
+                                *ngIf="
+                                  comunidadForm
+                                    .get('nombreComunidad')
+                                    ?.hasError('required')
+                                "
+                              >
+                                El nombre de la comunidad es requerido
+                              </div>
+                              <div *ngIf="
+                              comunidadForm.get('nombreComunidad')?.hasError('minlength')
+                            ">
+                                                 El nombre de la comunidad debe contener almenos 3 caracteres
+                                            </div>
+                                  <div
+                                  *ngIf="
+                                    comunidadForm
+                                      .get('nombreComunidad')
+                                      ?.hasError('pattern')
+                                  "
+                                >
+                                  El nombre de la comunidad no puede tener numero ni caracteres
+                                </div>
+                            </div>
                           </div>
 
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="acronimo" class="form-label"
-                                >Acrónimo:</label
-                              >
-                              <input
-                                type="text"
-                                id="acronimo"
-                                class="form-control"
-                                formControlName="acronimo"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                        <div class="row mb-3">
-                          <div class="col-lg-8">
-                            <div class="mb-3">
                               <label for="ayuntamiento" class="form-label"
                                 >Ayuntamiento:</label
                               >
-                              <select
-                                class="form-select"
-                                formControlName="ayuntamiento"
+                              <label for="distritoLocal" class="form-label"
+                                >Distrito local:</label
                               >
-                                <option value="null">
-                                  Selecciona un ayuntamiento...
-                                </option>
-                                <option
-                                  *ngFor="let ayuntamientoItem of ayuntamientos"
-                                  [value]="ayuntamientoItem.id"
-                                >
-                                  {{ ayuntamientoItem.nombreMunicipio }}
-                                </option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-lg-4">
-                            <div class="mb-3">
-                              <label for="estadoActivo" class="form-label"
-                                >Estatus</label
-                              >
-                              <label
-                                class="form-check form-switch checkbox-verde"
-                              >
+                              <ng-select
+                              formControlName="municipio"
+                              #selectEstado
+                              [searchable]="false"
+                              [items]="ayuntamientos"
+                              bindLabel="nombreMunicipio"
+                              bindValue="id"
+                              placeholder="Elegir"
+                              [clearable]="false"
+                            >
+                              <ng-template ng-header-tmp>
                                 <input
-                                  class="form-check-input"
-                                  type="checkbox"
-                                  formControlName="estatus"
+                                  class="form-control"
+                                  type="text"
+                                  (input)="
+                                    selectEstado.filter($any($event.target).value)
+                                  "
                                 />
-                                <span
-                                  class="form-check-label"
-                                  [ngClass]="{
-                                    'text-success':
-                                      distritoLocalForm.get('estatus')
-                                        ?.value === true,
-                                    'text-danger':
-                                      distritoLocalForm.get('estatus')
-                                        ?.value === false
-                                  }"
-                                >
-                                  {{
-                                    comunidadForm.get("estatus")?.value
-                                      ? "Activo"
-                                      : "Inactivo"
-                                  }}
-                                </span>
-                              </label>
+                              </ng-template>
+                              <ng-template
+                                ng-option-tmp
+                                let-item="item"
+                                let-index="index"
+                              >
+                                {{ item.nombreMunicipio }}
+                              </ng-template>
+                            </ng-select>
+                            <div
+                            *ngIf="
+                              comunidadForm.get('municipio')?.touched
+                            "
+                            class="error-message"
+                          >
+                            <div
+                              *ngIf="
+                                comunidadForm
+                                  .get('municipio')
+                                  ?.hasError('required')
+                              "
+                            >
+                              El distrito local es requerido
+                            </div>
+                          </div>
                             </div>
                           </div>
                         </div>
-                        <div class="mb-3">
-                          <label for="peticion" class="form-label"
-                            >Ext-pet:</label
-                          >
-                          <input
-                            type="text"
-                            id="peticion"
-                            class="form-control"
-                            formControlName="peticion"
-                          />
-                        </div>
+                       
                         <div class="modal-footer">
                           <button
                             type="submit"
@@ -944,12 +733,12 @@
                       >
                         <thead>
                           <tr>
-                            <th>Nombre</th>
-                            <th>Acrónimo</th>
-                            <th>Ext-pet</th>
-                            <th>Estatus</th>
-                            <th>Ayuntamiento</th>
-                            <th class="text-center" style="width: 7%">
+                            <th style="text-transform: none; font-size: inherit">
+                              #
+                          </th>
+                            <th tyle="text-transform: none; font-size: inherit" class="text-center">Nombre</th>
+                            <th tyle="text-transform: none; font-size: inherit" class="text-center">Ayuntamiento</th>
+                            <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">
                               Acciones
                             </th>
                           </tr>
@@ -958,30 +747,14 @@
                           <tr
                             *ngFor="
                               let comunidad of filtrarComunidades()
-                                | paginate
-                                  : {
-                                      itemsPerPage: itemsPerPage,
-                                      currentPage: currentPage
-                                    };
-                              let i = index
+                              | paginate : configPaginator; let pointIndex = index
                             "
                           >
-                            <td>{{ comunidad.nombre }}</td>
-                            <td>{{ comunidad.acronimo }}</td>
-                            <td>{{ comunidad.peticion }}</td>
+                          <td>
+                            {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
+                        </td>
+                            <td>{{ comunidad.nombreComunidad }}</td>
                             <td>{{ comunidad.municipio.nombreMunicipio }}</td>
-                            <td>
-                              <ng-container
-                                *ngIf="comunidad.estatus; else elseEST"
-                              >
-                                <span class="badge bg-success me-1"></span
-                                >Activo
-                              </ng-container>
-                              <ng-template #elseEST>
-                                <span class="badge bg-danger me-1"></span>
-                                Inactivo
-                              </ng-template>
-                            </td>
                             <td>
                               <div class="d-flex justify-content-between">
                                 <button
@@ -999,7 +772,7 @@
                                   (click)="
                                     eliminarComunidad(
                                       comunidad.id,
-                                      comunidad.nombre
+                                      comunidad.nombreComunidad
                                     )
                                   "
                                 >
@@ -1010,33 +783,6 @@
                           </tr>
                         </tbody>
                       </table>
-                      <div
-                        class="pagination-and-items-per-page"
-                        style="margin-bottom: 0px"
-                      >
-                        <div class="items-per-page">
-                          <label for="itemsPerPage"
-                            >Elementos por página:</label
-                          >
-                          <select
-                            id="itemsPerPage"
-                            [(ngModel)]="itemsPerPage"
-                            style="margin-left: 5px"
-                          >
-                            <option
-                              *ngFor="let option of itemsPerPageOptions"
-                              [value]="option"
-                            >
-                              {{ option }}
-                            </option>
-                          </select>
-                        </div>
-                        <div class="pagination-container">
-                          <pagination-controls
-                            (pageChange)="currentPage = $event"
-                          ></pagination-controls>
-                        </div>
-                      </div>
                     </div>
                   </div>
                   <div *ngIf="comunidades.length === 0">
@@ -1045,6 +791,15 @@
                 </div>
                 <app-no-results *ngSwitchCase="4"></app-no-results>
               </ng-container>
+              <div class="card-footer d-flex align-items-center">
+                <p class="m-0 text-muted">
+                    Total de registros: <b>{{ comunidadFilter.length }}</b>
+                </p>
+                <div class="m-0 ms-auto">
+                    <pagination-controls (pageChange)="onPageChange3($event)" previousLabel="" nextLabel="">
+                    </pagination-controls>
+                </div>
+            </div>
             </div>
           </div>
         </div>
