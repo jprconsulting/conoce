@@ -2,9 +2,6 @@ import { Municipio } from "./municipio";
 
 export interface Comunidad {
   id: number;
-  nombre: string;
-  acronimo: string;
-  estatus: boolean;
-  peticion: string;
+  nombreComunidad: string;
   municipio: Municipio;
 }

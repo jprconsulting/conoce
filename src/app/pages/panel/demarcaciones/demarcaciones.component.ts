@@ -16,17 +16,19 @@ import { PaginationInstance } from 'ngx-pagination';
   templateUrl: './demarcaciones.component.html',
   styleUrls: ['./demarcaciones.component.css']
 })
-export class DemarcacionesComponent implements OnInit {
+export class DemarcacionesComponent {
   @ViewChild('miFormulario') miFormulario!: NgForm;
   @ViewChild('closebutton') closebutton!: ElementRef;
   distritoLocalForm: FormGroup;
-  ayuntamientoForm: FormGroup;
+  municipioForm: FormGroup;
   comunidadForm: FormGroup;
   distritoLocal!: DistritoLocal;
-  ayuntamiento!: Municipio;
+  Ayuntamiento!: Municipio;
+  municipiosFilter: Municipio [] =[];
   comunidad!: Comunidad;
   distritosLocales: DistritoLocal[] = [];
   usuariosFilter: DistritoLocal[] = [];
+  comunidadFilter: Comunidad[] = [];
   ayuntamientos: Municipio[] = [];
   comunidades: Comunidad[] = [];
   estados: Estado[] = [];
@@ -39,6 +41,7 @@ export class DemarcacionesComponent implements OnInit {
   filteredDistritosLocales: DistritoLocal[] = [];
   filteredAyuntamientos: Municipio[] = [];
   filteredComunidades: Comunidad[] = [];
+  id!: number;
   currentTab: string = 'distrito-local';
   currentTabClicked: string | null = null;
   constructor(
@@ -51,28 +54,19 @@ export class DemarcacionesComponent implements OnInit {
     private mensajeService: MensajeService,
   ) {
     this.distritoLocalForm = this.formBuilder.group({
-      distritoLocalId: [null],
-      nombre: ['', [Validators.required]],
-      acronimo: ['', [Validators.required]],
-      estatus: [true],
-      peticion: ['', [Validators.required]],
-      estado: [[null, Validators.required],],
+      id: [null],
+      nombreDistritoLocal: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      estado: ['',[Validators.required]]
     });
-    this.ayuntamientoForm = this.formBuilder.group({
-      ayuntamientoId: [null],
-      nombre: ['', [Validators.required]],
-      acronimo: ['', [Validators.required]],
-      estatus: [true],
-      peticion: ['', [Validators.required]],
+    this.municipioForm = this.formBuilder.group({
+      id: [null],
+      nombreMunicipio: ['',  [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
       distritoLocal: [null, Validators.required],
     });
     this.comunidadForm = this.formBuilder.group({
-      comunidadId: [null],
-      nombre: ['', [Validators.required]],
-      acronimo: ['', [Validators.required]],
-      estatus: [true],
-      peticion: ['', [Validators.required]],
-      ayuntamiento: [null, Validators.required],
+      id: [null],
+      nombreComunidad: ['',  [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      municipio: ['', Validators.required],
     });
   }
   ngOnInit(): void {
@@ -93,7 +87,7 @@ export class DemarcacionesComponent implements OnInit {
     this.distritoLocalService.getDistritosLocales().subscribe({
       next: (distritosFromApi) => {
         this.distritosLocales = distritosFromApi;
-        this.usuariosFilter = this.distritosLocales;
+        this.usuariosFilter = this.distritosLocales; console.log('huifrruih',this.distritosLocales)
         this.isLoadingUsers = LoadingStates.falseLoading;
       },
       error: () => {
@@ -117,12 +111,16 @@ export class DemarcacionesComponent implements OnInit {
   cargarAyuntamientos() {
     this.municipioService.getMunicipios().subscribe((data: Municipio[]) => {
       this.ayuntamientos = data;
+      console.log('Ayuntamientos cargados:', this.ayuntamientos);
+      this.municipiosFilter = this.ayuntamientos;
+      this.filtrarAyuntamientos();
     });
   }
 
   cargarComunidades() {
     this.comunidadService.getComunidades().subscribe((data: Comunidad[]) => {
       this.comunidades = data;
+      this.comunidadFilter = this.comunidades;
     });
   }
 
@@ -145,22 +143,25 @@ export class DemarcacionesComponent implements OnInit {
 
 
   obtenerEstados() {
-    // this.estadoService.obtenerEstados().subscribe(
-    //   (estados: Estados[]) => {
-    //     this.estados = estados;
-    //     console.log('Estados', estados)
-    //   },
-    //   (error) => {
-    //     console.error('Error al obtener estados:', error);
-    //   }
-    // );
+     this.estadoService.getEstados().subscribe(
+       (estados: Estado[]) => {
+         this.estados = estados;
+         console.log('Estados', estados)
+      },
+      (error) => {
+        console.error('Error al obtener estados:', error);
+       }
+     );
   }
 
   enviarFormulario() {
-    this.distritoLocal = this.distritoLocalForm.value as DistritoLocal;
-    const tipoOrganizacionPoliticaValue = this.distritoLocalForm.get('estado')?.value;
-    this.distritoLocal.estado = { id: tipoOrganizacionPoliticaValue } as Estado;
-    this.distritoLocalService.postDistritoLocal(this.distritoLocal).subscribe({
+    const nuevodistrito = { ...this.distritoLocalForm.value };
+    delete nuevodistrito.id;
+    
+    this.distritoLocal.estado = this.distritoLocalForm.value as Estado;
+    const estado = this.distritoLocalForm.get('estado')?.value;
+    nuevodistrito.estado = { id: estado } as Estado;
+    this.distritoLocalService.postDistritoLocal(nuevodistrito).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Distrito local agregada con éxito");
         this.resetForm();
@@ -171,30 +172,35 @@ export class DemarcacionesComponent implements OnInit {
         console.error(error);
       }
     });
-}
+  }
+  
 
   enviarAyuntamiento() {
-    this.ayuntamiento = this.ayuntamientoForm.value as Municipio;
-    const tipoOrganizacionPoliticaValue = this.ayuntamientoForm.get('distritoLocal')?.value;
-    this.ayuntamiento.distritoLocal = { id: tipoOrganizacionPoliticaValue } as DistritoLocal;
-    this.municipioService.postAyuntamiento(this.ayuntamiento).subscribe({
+    const nuevomunicipio = { ...this.municipioForm.value };
+    delete nuevomunicipio.id;
+
+    const distrito = this.municipioForm.get('distritoLocal')?.value;
+    nuevomunicipio.distritoLocal = { id: distrito } as DistritoLocal;
+
+    this.municipioService.postAyuntamiento(nuevomunicipio).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Ayuntamiento agregado con éxito");
+        this.mensajeService.mensajeExito("Municipio agregado con éxito");
         this.resetForm();
         this.cargarAyuntamientos();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar el ayuntamiento");
+        this.mensajeService.mensajeError("Error al agregar el municipio");
         console.error(error);
       }
     });
 }
 
   agregarComunidad() {
-    this.comunidad = this.comunidadForm.value as Comunidad;
-    const tipoOrganizacionPoliticaValue = this.ayuntamientoForm.get('ayuntamiento')?.value;
-    this.comunidad.municipio = { id: tipoOrganizacionPoliticaValue } as Municipio;
-    this.comunidadService.agregarComunidad(this.comunidad).subscribe({
+    const nuevocomunidad = { ...this.comunidadForm.value };
+    delete nuevocomunidad.id;
+    const municipio = this.comunidadForm.get('municipio')?.value;
+    nuevocomunidad.municipio = { id: municipio } as Municipio;
+    this.comunidadService.agregarComunidad(nuevocomunidad).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Comunidad agregada con éxito");
         this.resetForm();
@@ -216,10 +222,10 @@ export class DemarcacionesComponent implements OnInit {
     if (this.isModalAdd) {
       this.closebutton.nativeElement.click();
     }
-    this.ayuntamientoForm.reset();
+    this.municipioForm.reset();
   }
   submitAyuntamientos() {
-    this.ayuntamiento = this.ayuntamientoForm.value as Municipio;
+    this.Ayuntamiento = this.municipioForm.value as Municipio;
     if (this.isModalAdd) {
       this.enviarAyuntamiento();
     } else {
@@ -239,7 +245,7 @@ export class DemarcacionesComponent implements OnInit {
   handleChangeAdd(elementType: string) {
     console.log('handleChangeAdd called with elementType:', elementType);
     this.distritoLocalForm.reset();
-    this.ayuntamientoForm.reset();
+    this.municipioForm.reset();
     this.comunidadForm.reset();
     switch (elementType) {
         case 'distrito-local':
@@ -270,29 +276,29 @@ export class DemarcacionesComponent implements OnInit {
             this.mensajeService.mensajeExito('Distrito Local eliminado correctamente');
           },
           error: (error) => {
-            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el Distrito Local porque tiene Ayuntamientos registrados.') {
-              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene Ayuntamientos registrados.');
+            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el Distrito Local porque tiene municipios registrados.') {
+              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene municipios registrados.');
             } else {
-              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene Ayuntamientos registrados.');
+              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene municipios registrados.');
             }
           }
         });
       }
     );
   }
-  eliminarAyuntamiento(ayuntamientoId: number, nombreAyuntamiento: string) {
+  eliminarAyuntamiento(id: number, nombreAyuntamiento: string) {
     this.mensajeService.mensajeAdvertencia(
       `¿Estás seguro de eliminar el Ayuntamiento: ${nombreAyuntamiento}?`,
       () => {
-        this.municipioService.deleteAyuntamiento(ayuntamientoId).subscribe({
+        this.municipioService.deleteAyuntamiento(id).subscribe({
           next: () => {
-            this.mensajeService.mensajeExito('Ayuntamiento eliminado correctamente');
+            this.mensajeService.mensajeExito('municipios eliminado correctamente');
           },
           error: (error) => {
-            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el Ayuntamiento porque tiene Comunidades registradas.') {
-              this.mensajeService.mensajeError('No se puede eliminar el Ayuntamiento porque tiene Comunidades registradas');
+            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el municipios porque tiene Comunidades registradas.') {
+              this.mensajeService.mensajeError('No se puede eliminar el municipios porque tiene Comunidades registradas');
             } else {
-              this.mensajeService.mensajeError('No se puede eliminar el Ayuntamiento porque tiene Comunidades registradas');
+              this.mensajeService.mensajeError('No se puede eliminar el municipios porque tiene Comunidades registradas');
             }
           }        });
       }
@@ -311,8 +317,12 @@ export class DemarcacionesComponent implements OnInit {
       }
     );
   }
-  actualizarUsuario() {
-    this.distritoLocalService.putDistritoLocal(this.distritoLocal).subscribe({
+  actualizardistrito() {
+    const distrito = { ...this.distritoLocalForm.value };
+    this.distritoLocal.estado = this.distritoLocalForm.value as Estado;
+    const estado = this.distritoLocalForm.get('estado')?.value;
+    distrito.estado = { id: estado } as Estado;
+    this.distritoLocalService.putDistritoLocal(this.id,distrito).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Distrito local actualizado con éxito");
         this.resetForm();
@@ -325,20 +335,27 @@ export class DemarcacionesComponent implements OnInit {
     );
   }
   actualizarAyuntamiento() {
-    this.municipioService.putAyuntamiento(this.ayuntamiento).subscribe({
+    this.Ayuntamiento = this.municipioForm.value as Municipio;
+    const tipoOrganizacionPoliticaValue = this.municipioForm.get('distritoLocal')?.value;
+    this.Ayuntamiento.distritoLocal = { id: tipoOrganizacionPoliticaValue } as DistritoLocal;
+
+    this.municipioService.putAyuntamiento(this.id,this.Ayuntamiento).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Ayuntamiento actualizado con éxito");
+        this.mensajeService.mensajeExito("Municipio actualizado con éxito");
         this.resetFormAy();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al actualizar el ayuntamiento");
+        this.mensajeService.mensajeError("Error al actualizar el municipio");
         console.error(error);
       }
     }
     );
   }
   actualizarComunidad() {
-    this.comunidadService.editarComunidad(this.comunidad).subscribe({
+    const municipio = this.comunidadForm.get('municipio')?.value;
+    this.comunidad.municipio = { id: municipio } as Municipio;
+
+    this.comunidadService.editarComunidad(this.id,this.comunidad).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Comunidad actualizada con éxito");
         this.resetForm();
@@ -350,61 +367,48 @@ export class DemarcacionesComponent implements OnInit {
     }
     );
   }
-  setDataModalUpdateComunidad(user: Comunidad) {
+  setDataModalUpdateComunidad(com: Comunidad) {
     this.isModalAdd = false;
+    this.id = com.id
     this.comunidadForm.patchValue({
-      id: user.id,
-      nombre: user.nombre,
-      acronimo: user.acronimo,
-      estatus: user.estatus,
-      peticion: user.peticion,
-      ayuntamientoId: user.municipio
+      id: com.id,
+      nombreComunidad: com.nombreComunidad,
+      municipio: com.municipio.id
     });
     console.log(this.comunidadForm.value);
   }
-  setDataModalUpdateAyuntamiento(user: Municipio) {
+  setDataModalUpdateAyuntamiento(mun: Municipio) {
     this.isModalAdd = false;
-    this.ayuntamientoForm.patchValue({
-      ayuntamientoId: user.id,
-      nombreAyuntamiento: user.nombreMunicipio,
-      acronimo: user.acronimo,
-      estatus: user.estatus,
-      peticion: user.peticion,
-      distritoLocalId: user.distritoLocal
+    this.id = mun.id;
+    this.municipioForm.patchValue({
+      id: mun.id,
+      nombreMunicipio: mun.nombreMunicipio,
+      distritoLocal: mun.distritoLocal.id
     });
-    console.log(this.ayuntamientoForm.value);
+    console.log(this.municipioForm.value);
   }
-  setDataModalUpdate(user: DistritoLocal) {
+  setDataModalUpdate(dto: DistritoLocal) {
+    this.id = dto.id;
     this.isModalAdd = false;
     this.distritoLocalForm.patchValue({
-      id: user.id,
-      nombre: user.nombreDistritoLocal,
-      acronimo: user.acronimo,
-      estatus: user.estatus,
-      peticion: user.peticion,
-      estado: user.estado
+      id: dto.id,
+      nombreDistritoLocal: dto.nombreDistritoLocal,
+      estado: dto.estado.id
     });
     console.log(this.distritoLocalForm.value);
   }
   submitDistritosLocales() {
     this.distritoLocal = this.distritoLocalForm.value as DistritoLocal;
-    this.isModalAdd ? this.enviarFormulario() : this.actualizarUsuario();
+    this.isModalAdd ? this.enviarFormulario() : this.actualizardistrito();
   }
-  filtrarDistritoslocales = () => {
-    return this.distritosLocales.filter(distritoLocal => {
-      const searchTermLower = this.searchTerm.toLowerCase();
-      return (
-        distritoLocal.nombreDistritoLocal.toLowerCase().includes(searchTermLower) ||
-        distritoLocal.acronimo.toLowerCase().includes(searchTermLower)
-      );
-    });
-  };
+
+
   filtrarAyuntamientos = () => {
     return this.ayuntamientos.filter(ayuntamientos => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
         ayuntamientos.nombreMunicipio.toLowerCase().includes(searchTermLower) ||
-        ayuntamientos.acronimo.toLowerCase().includes(searchTermLower)
+        ayuntamientos.distritoLocal.nombreDistritoLocal.toLowerCase().includes(searchTermLower)
       );
     });
   };
@@ -412,13 +416,27 @@ export class DemarcacionesComponent implements OnInit {
     return this.comunidades.filter(comunidades => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        comunidades.nombre.toLowerCase().includes(searchTermLower) ||
-        comunidades.acronimo.toLowerCase().includes(searchTermLower)
+        comunidades.nombreComunidad.toLowerCase().includes(searchTermLower) ||
+        comunidades.municipio.nombreMunicipio.toLowerCase().includes(searchTermLower) 
       );
     });
   };
-
+  filtrarDistritoslocales = () => {
+    return this.distritosLocales.filter(distritoLocal => {
+      const searchTermLower = this.searchTerm.toLowerCase();
+      return (
+        distritoLocal.nombreDistritoLocal.toLowerCase().includes(searchTermLower) ||
+        distritoLocal.estado.nombreEstado.toLowerCase().includes(searchTermLower) 
+      );
+    });
+  };
   onPageChange(number: number) {
+    this.configPaginator.currentPage = number;
+  }
+  onPageChange2(number: number) {
+    this.configPaginator.currentPage = number;
+  }  
+  onPageChange3(number: number) {
     this.configPaginator.currentPage = number;
   }
 }
