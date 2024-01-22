@@ -4,8 +4,8 @@ import { environment } from 'src/environments/environment';
 import { HandleErrorService } from './handle-error.service';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
-import { ConfigGoogleForm } from 'src/app/models/googleForm';
 import { RespuestaGoogleFormulario } from 'src/app/models/respuesta-google-formulario';
+import { ConfigGoogleForm } from 'src/app/models/formulario';
 
 @Injectable({
   providedIn: 'root'

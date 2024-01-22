@@ -1,6 +1,7 @@
 export interface Candidato {
-  candidatoId: number;
+  id: number;
   nombre: string;
+  nombreCompleto: string;
   apellidoPaterno: string;
   apellidoMaterno: string;
   sobrenombrePropietario: string;

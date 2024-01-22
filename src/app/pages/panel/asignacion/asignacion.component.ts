@@ -1,235 +1,141 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormControl, FormBuilder, Validators  } from '@angular/forms';
-import { UsuarioService } from 'src/app/core/services/usuario.service';
-import { Observable } from 'rxjs';
-import { Usuario } from 'src/app/models/usuario';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { FormularioService } from 'src/app/core/services/formulario.service';
-import { ConfigGoogleForm } from 'src/app/models/googleForm';
-import {FormularioUserService} from 'src/app/core/services/formulariouser.service';
-import {Formuser} from 'src/app/models/formuser';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { PaginationInstance } from 'ngx-pagination';
+import { CandidatoService } from 'src/app/core/services/candidato.service';
+import { Formulario } from 'src/app/models/formulario';
+import { Candidato } from 'src/app/models/candidato';
+import { AsignacionFormulario } from 'src/app/models/asignacion-formulario';
+import { AsignacionFormularioService } from 'src/app/core/services/asignacion-formulario.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-asignacion',
   templateUrl: './asignacion.component.html',
   styleUrls: ['./asignacion.component.css']
 })
-export class AsignacionComponent implements OnInit {
+export class AsignacionComponent {
 
   @ViewChild('closebutton') closebutton!: ElementRef;
-  isLoadingUsers = LoadingStates.neutro;
-  variableDeControl: number = 1;
-  people$: Observable<any[]> = new Observable<any[]>();
-  selectedPeople: any[] = [];
-  usuario: Usuario[] = [];
-  selectedCandidatos: any[] = [];
-  formulario: ConfigGoogleForm[] = [];
-  usuariosFilter: Usuario[] = [];
-  userForm!: FormGroup;
-  selectedFormularios: (number | null)[] = [];
-  selectedFormulario: number = 0;
-  isModalAdd = false;
-  formuser: Formuser[]=[];
-  formusers!: Formuser;
-  filtro: string = '';
-  usuariosAsociadosAlFormulario: Formuser[] = [];
-  formulariosUnicos: { formulario: ConfigGoogleForm, usuarios: Usuario[] }[] = [];
-  itemsPerPage: number = 5;
-  currentPage: number = 1;
-  itemsPerPageOptions: number[] = [5, 10, 15];
+  @ViewChild('searchItem') searchItem!: ElementRef;
+
+  asignacion!: AsignacionFormulario;
+  isLoading = LoadingStates.neutro;
+  asignacionForm!: FormGroup;
+  asignaciones: AsignacionFormulario[] = [];
+  asignacionesFilter: AsignacionFormulario[] = [];
+  formularios: Formulario[] = [];
+  candidatos: Candidato[] = [];
 
   constructor(
     @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
-    private usuarioService : UsuarioService,
+    private asignacionFormularioService: AsignacionFormularioService,
+    private candidatoService: CandidatoService,
     private formularioService: FormularioService,
     private formBuilder: FormBuilder,
-    private formularioUserService : FormularioUserService,
     private mensajeService: MensajeService,
+    private spinnerService: NgxSpinnerService,
 
-    ) {
-      this.crearFormularioUsuario();
-    }
+  ) {
+    this.asignacionFormularioService.refreshListAsignaciones.subscribe(() => this.getAsignaciones());
+    this.getAsignaciones();
+    this.creteForm();
+    this.getFormulariosSinConfiguracion();
+    this.getCandidatos();
+  }
 
-    ngOnInit() {
-      this.obtenerFormularios();
-      this.usuarioService.getUsuarios().subscribe((data: Usuario[]) => {
-        console.log(data);
-        // this.usuario = data.filter(usuario => usuario.rol === 'Candidato' || usuario.rol === 'Gestor');
-      });
-
-      this.formularioService.getFormularios().subscribe(data => {
-        console.log(data);
-        this.formulario = data;
-      });
-
-      this.formulariosUnicos = this.procesarDatos(this.formuser, this.formulario, this.usuario);
-    }
-
-    obtenerFormularios() {
-      this.isLoadingUsers = LoadingStates.trueLoading;
-      this.formularioUserService.getFormularios().subscribe({
-        next: (formularios) => {
-          console.log('Respuesta de la API:', formularios);
-          this.formuser = formularios;
-          this.formulariosUnicos = this.procesarDatos(this.formuser, this.formulario, this.usuario);
-          this.isLoadingUsers = LoadingStates.falseLoading;
+  getAsignaciones() {
+    this.isLoading = LoadingStates.trueLoading;
+    this.asignacionFormularioService.getAll().subscribe(
+      {
+        next: (dataFromAPI) => {
+          this.asignaciones = dataFromAPI;
+          this.asignacionesFilter = this.asignaciones;
+          this.isLoading = LoadingStates.falseLoading;
         },
-        error: (error) => {
-          console.error('Error al obtener los formularios', error);
-          this.isLoadingUsers = LoadingStates.errorLoading;
+        error: () => {
+          this.isLoading = LoadingStates.errorLoading
         }
-      });
-    }
-    onPageChange(number: number) {
-      this.configPaginator.currentPage = number;
-    }
-
-  onFormularioSelect(event: any[]) {
-    this.selectedFormularios = event
-      .map((item: any) => parseInt(item.formularioId))
-      .filter(id => !isNaN(id));
-
-    console.log('Formularios seleccionados (IDs):', this.selectedFormularios);
-  }
-
-
-
-onSubmit() {
-  const valoresFormulario = this.userForm.value;
-  console.log('Valores del formulario:', valoresFormulario);
-  console.log('Formularios seleccionados:', this.selectedFormularios);
-}
-
-handleChangeAdd() {
-  this.userForm.reset();
-  this.isModalAdd = true;
-}
-
-submitUsuario() {
-  this.formusers = this.userForm.value as Formuser;
-  this.isModalAdd ? this.agregarUsuario() : this.editarUsuarios();
-}
-
-crearFormularioUsuario() {
-  this.userForm = this.formBuilder.group({
-    formularioId: [''],
-    usuarioIds: [''],
-  });
-}
-
-agregarUsuario() {
-  const valoresFormulario = this.userForm.value;
-
-  console.log('Valores del formulario a enviar:', valoresFormulario);
-
-  if (valoresFormulario.formularioId && valoresFormulario.usuarioIds) {
-    const formularioUsuario = {
-      formularioId: valoresFormulario.formularioId,
-      usuarioIds: valoresFormulario.usuarioIds
-    };
-
-    this.formularioUserService.postFormulario(formularioUsuario).subscribe({
-      next: () => {
-        this.mensajeService.mensajeExito("Asignación agregada con éxito");
-        this.resetForm();
-      },
-      error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar la asignación");
-        console.error(error);
       }
-    });
-  } else {
-    this.mensajeService.mensajeError("Por favor, complete los campos requeridos");
+    );
   }
-}
 
-editarUsuarios() {
-    this.formularioUserService.putFormulario(this.formusers).subscribe({
-      next: () => {
-        this.mensajeService.mensajeExito('Edición exitosa');
-        this.resetForm();
+  getFormulariosSinConfiguracion() {
+    this.formularioService.getFormulariosSinConfiguracion().subscribe({
+      next: (dataFromAPI) => {
+        this.formularios = dataFromAPI;
       },
       error: (error) => {
-        this.mensajeService.mensajeError('Error durante la edición');
-        console.error(error);
+        console.error('Error al obtener los formularios', error);
       }
     });
   }
 
-resetForm() {
-  this.closebutton.nativeElement.click();
-  this.userForm.reset();
-}
+  getCandidatos() {
+    this.candidatoService.getCandidatos().subscribe({
+      next: (dataFromAPI) => {
+        this.candidatos = dataFromAPI;
+      },
+      error: (error) => {
+        console.error('Error al obtener los candidatos', error);
+      }
+    });
+  }
 
-obtenerNombreFormulario(formularioId: number): string {
-  const formulario = this.formulario.find(f => f.formularioId === formularioId);
-  return formulario ? formulario.formName : 'Sin nombre';
-}
+  creteForm() {
+    this.asignacionForm = this.formBuilder.group({
+      formularioId: [null, Validators.required],
+      candidatosIds: [[], Validators.required]
+    });
+  }
 
-filtrarAsignaciones() {
-  // this.formuser = this.filtrarResultados();
-}
-
-borrarFormulario(formularioId: number, usuarioId: number) {
-  this.mensajeService.mensajeAdvertencia(
-    `¿Estás seguro de eliminar el formulario?`,
-    () => {
-      this.formularioUserService.deleteFormulario(formularioId, usuarioId).subscribe({
-        next: () => {
-          this.mensajeService.mensajeExito('Formulario eliminado correctamente');
-        },
-        error: (error) => this.mensajeService.mensajeError(error)
-      });
+  handleChangeAdd() {
+    if (this.asignacionForm) {
+      this.asignacionForm.reset();
     }
-  );
-}
+  }
+  setDataModalUpdate(dto: AsignacionFormulario) {
 
-filtrarResultados() {
-  // const usuariosFiltrados = this.usuario.filter(usuario =>
-  //   usuario.nombre.toLowerCase().includes(this.filtro.toLowerCase())
-  // );
+  }
 
-  // const asignacionesFiltradas = this.formuser.filter(asignacion =>
-  //   asignacion.usuarioIds.some(id => usuariosFiltrados.some(usuario => usuario.usuarioId === id))
-  // );
+  deleteItem(id: number) {
 
-  // return asignacionesFiltradas;
-}
+  }
 
-obtenerNombreUsuario(usuarioIds: number | number[]): string {
-  const userIdsArray = Array.isArray(usuarioIds) ? usuarioIds : [usuarioIds];
-  const nombres = userIdsArray.map(usuarioId => {
-    const usuario = this.usuario.find(u => u.id === usuarioId);
-    return usuario ? usuario.nombres : 'Sin nombre';
-  });
-  return nombres.join(', ');
-}
+  resetForm() {
+    this.closebutton.nativeElement.click();
+    this.asignacionForm.reset();
+  }
+
+  onPageChange(number: number) {
+    this.configPaginator.currentPage = number;
+  }
+
+  submitUsuario() {
+    const formularioId = this.asignacionForm.get('formularioId')?.value;
+    this.asignacion = {
+      formulario: { id: formularioId } as Formulario,
+      candidatosIds: this.asignacionForm.get('candidatosIds')?.value as number[]
+    } as AsignacionFormulario;
+
+    this.spinnerService.show();
+    this.asignacionFormularioService.post(this.asignacion).subscribe({
+      next: () => {
+        this.spinnerService.hide();
+        this.mensajeService.mensajeExito('Asignación guardada correctamente');
+        this.resetForm();
+        this.configPaginator.currentPage = 1;
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        this.mensajeService.mensajeError(error);
+      },
+    });
+
+  }
 
 
-setDataModalUpdate(user: Formuser) {
-  this.isModalAdd = false;
-  this.userForm.patchValue({
-    formularioId: user.formularioId,
-    usuarioIds: user.usuarioIds
-  });
-  console.log(this.userForm.value);
-}
-
-procesarDatos(formuser: Formuser[], formularios: ConfigGoogleForm[], usuarios: Usuario[]): { formulario: ConfigGoogleForm, usuarios: Usuario[] }[] {
-  const formulariosUnicos: { formulario: ConfigGoogleForm, usuarios: Usuario[] }[] = [];
-
-  formularios.forEach((formulario) => {
-    const asignacionesParaFormulario = formuser.filter((asignacion) => asignacion.formularioId === formulario.formularioId);
-    const usuarioIdsUnicos = Array.from(new Set(asignacionesParaFormulario.map((asignacion) => asignacion.usuarioIds).flat()));
-
-    const usuariosAsociados = usuarios.filter((usuario) => usuarioIdsUnicos.includes(usuario.id));
-
-    formulariosUnicos.push({ formulario, usuarios: usuariosAsociados });
-  });
-
-  return formulariosUnicos;
-}
 
 }

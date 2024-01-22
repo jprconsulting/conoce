@@ -16,10 +16,10 @@ export class HeaderComponent {
     private router: Router
   ) {  }  
 
-  ngOnInit() {
-    this.nombre = this.securityService.getNombre();
-    console.log('Nombre:', this.nombre);
-  }
+  // ngOnInit() {
+  //   this.nombre = this.securityService.getNombre();
+  //   console.log('Nombre:', this.nombre);
+  // }
 
   logout() {
     this.securityService.logout();

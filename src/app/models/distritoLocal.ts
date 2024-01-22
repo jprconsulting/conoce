@@ -1,11 +1,11 @@
-import { Estados } from "./estados";
+import { Estado } from "./estado";
 
 export interface DistritoLocal {
   id: number;
-  nombre: string;
+  nombreDistritoLocal: string;
   acronimo: string;
   estatus: boolean;
   peticion: string;
-  estado: Estados;
+  estado: Estado;
 }
 

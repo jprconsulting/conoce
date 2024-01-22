@@ -4,53 +4,63 @@ import { environment } from 'src/environments/environment';
 import { HandleErrorService } from './handle-error.service';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ConfigGoogleForm } from 'src/app/models/googleForm';
+import { Formulario } from 'src/app/models/formulario';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FormularioService {
-  route = `${environment.apiUrl}/google-form`;
-  private _refreshListUsers$ = new Subject<ConfigGoogleForm>();
+  route = `${environment.apiUrl}/formulario`;
+  private _refreshListFormularios$ = new Subject<Formulario | null>();
 
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
   ) { }
 
-  get refreshListUsers() {
-    return this._refreshListUsers$;
+  get refreshListFormularios() {
+    return this._refreshListFormularios$;
   }
 
-  postFormulario(formData: ConfigGoogleForm) {
-    return this.http.post<ConfigGoogleForm>(`${this.route}/crear`, formData)
-      .pipe(
-        catchError(this.handleErrorService.handleError)
-      );
-  }
-
-  getFormularios(): Observable<ConfigGoogleForm[]> {
-    return this.http.get<ConfigGoogleForm[]>(`${this.route}/obtener-todos`)
-      .pipe(
-        catchError(this.handleErrorService.handleError)
-      );
-  }
-
-  deleteFormulario(formularioId: number) {
-    return this.http.delete(`${this.route}/eliminar_formulario/${formularioId}`)
+  post(dto: Formulario) {
+    return this.http.post<Formulario>(`${this.route}/crear`, dto)
       .pipe(
         tap(() => {
-          this._refreshListUsers$;
+          this._refreshListFormularios$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );
   }
 
-  putFormulario(configForm: ConfigGoogleForm): Observable<ConfigGoogleForm> {
-    return this.http.put<ConfigGoogleForm>(`${this.route}/actualizar-formulario`, configForm)
+  getAll(): Observable<Formulario[]> {
+    return this.http.get<Formulario[]>(`${this.route}/obtener-todos`)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      );
+  }
+
+  getFormulariosSinConfiguracion(): Observable<Formulario[]> {
+    return this.http.get<Formulario[]>(`${this.route}/obtener-formularios-sin-configuracion`)
+      .pipe(
+        catchError(this.handleErrorService.handleError)
+      );
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.route}/eliminar/${id}`)
       .pipe(
         tap(() => {
-          this._refreshListUsers$;
+          this._refreshListFormularios$;
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
+  }
+
+  put(id: number, dto: Formulario) {
+    return this.http.put<Formulario>(`${this.route}/actualizar/${id}`, dto)
+      .pipe(
+        tap(() => {
+          this._refreshListFormularios$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );

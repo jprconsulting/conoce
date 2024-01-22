@@ -3,16 +3,16 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { HandleErrorService } from './handle-error.service';
-import { Ayuntamiento } from 'src/app/models/ayuntamiento';
+import { Municipio } from 'src/app/models/municipio';
 
 @Injectable({
   providedIn: 'root',
 })
 
-export class AyuntamientoService {
-  private apiUrl = 'https://localhost:7224/api/Ayuntamientos';
+export class MunicipioService {
+  private apiUrl = 'https://localhost:7224/api/municipios';
   private _isLoadingUsers = false;
-  private _refreshListUsers$ = new Subject<Ayuntamiento | null>();
+  private _refreshListUsers$ = new Subject<Municipio | null>();
   constructor(
     private http: HttpClient,
     private handleErrorService: HandleErrorService
@@ -26,9 +26,9 @@ export class AyuntamientoService {
   get refreshListUsers() {
     return this._refreshListUsers$;
   }
-  getAyuntamientos(): Observable<Ayuntamiento[]> {
+  getMunicipios(): Observable<Municipio[]> {
     this.isLoadingUsers = true;
-    return this.http.get<Ayuntamiento[]>(`${this.apiUrl}/obtener-todos`).pipe(
+    return this.http.get<Municipio[]>(`${this.apiUrl}/obtener-todos`).pipe(
       catchError((error) => {
         this.isLoadingUsers = false;
         return this.handleErrorService.handleError(error);
@@ -38,8 +38,8 @@ export class AyuntamientoService {
       })
     );
   }
-  postAyuntamiento(ayuntamiento: Ayuntamiento): Observable<Ayuntamiento> {
-    return this.http.post<Ayuntamiento>(`${this.apiUrl}/crear`, ayuntamiento).pipe(
+  postAyuntamiento(ayuntamiento: Municipio): Observable<Municipio> {
+    return this.http.post<Municipio>(`${this.apiUrl}/crear`, ayuntamiento).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);
@@ -54,8 +54,8 @@ export class AyuntamientoService {
       })
     );
   }
-  putAyuntamiento(ayuntamiento: Ayuntamiento): Observable<Ayuntamiento> {
-    return this.http.put<Ayuntamiento>(`${this.apiUrl}/editar_ayuntamiento`, ayuntamiento).pipe(
+  putAyuntamiento(ayuntamiento: Municipio): Observable<Municipio> {
+    return this.http.put<Municipio>(`${this.apiUrl}/editar_ayuntamiento`, ayuntamiento).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

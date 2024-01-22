@@ -1,8 +1,8 @@
 import { DistritoLocal } from "./distritoLocal";
 
-export interface Ayuntamiento {
+export interface Municipio {
   id: number;
-  nombre: string;
+  nombreMunicipio: string;
   acronimo: string;
   estatus: boolean;
   peticion: string;

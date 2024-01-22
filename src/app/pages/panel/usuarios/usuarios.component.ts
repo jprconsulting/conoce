@@ -65,9 +65,9 @@ export class UsuariosComponent implements OnInit {
           Validators.pattern(/[0-9]/),
         ],
       ],
-      nombres: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
-      apellidoPaterno: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
-      apellidoMaterno: ['',[Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      nombres: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      apellidoPaterno: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      apellidoMaterno: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
       estatus: [this.estatusBtn],
     });
   }
@@ -98,57 +98,57 @@ export class UsuariosComponent implements OnInit {
   setEstatus() {
     this.estatusTag = this.estatusBtn ? this.verdadero : this.falso;
   }
-  
+
   resetForm() {
     this.closebutton.nativeElement.click();
     this.userForm.reset();
   }
 
-agregarUsuario() {
-  if (this.userForm.valid) {
-    const nuevoUsuario = { ...this.userForm.value };
-    
-    delete nuevoUsuario.Id;
-    this.usuario = this.userForm.value as Usuario;
-    const rol = this.userForm.get('rol')?.value;
-    nuevoUsuario.rol = { id: rol } as Rol;
-    const nombreUsuarioExistente = this.usuarios.some(u => u.nombres === nuevoUsuario.nombres);
-    const apellidosUsuarioExistente = this.usuarios.some(u => u.apellidoPaterno === nuevoUsuario.apellidoPaterno);
-    const correoExistente = this.usuarios.some(u => u.correo === nuevoUsuario.correo);
-    console.log(this.userForm.value);
-    if (nombreUsuarioExistente) {
-      console.error('Ya existe un usuario con este nombre de usuario.');
-      this.mensajeService.mensajeError('Ya existe un usuario con este nombre de usuario.');
-    } else if (correoExistente) {
-      console.error('Ya existe un usuario con este correo electrónico.');
-      this.mensajeService.mensajeError('Ya existe un usuario con este correo electrónico.');
+  agregarUsuario() {
+    if (this.userForm.valid) {
+      const nuevoUsuario = { ...this.userForm.value };
+
+      delete nuevoUsuario.Id;
+      this.usuario = this.userForm.value as Usuario;
+      const rol = this.userForm.get('rol')?.value;
+      nuevoUsuario.rol = { id: rol } as Rol;
+      const nombreUsuarioExistente = this.usuarios.some(u => u.nombres === nuevoUsuario.nombres);
+      const apellidosUsuarioExistente = this.usuarios.some(u => u.apellidoPaterno === nuevoUsuario.apellidoPaterno);
+      const correoExistente = this.usuarios.some(u => u.correo === nuevoUsuario.correo);
+      console.log(this.userForm.value);
+      if (nombreUsuarioExistente) {
+        console.error('Ya existe un usuario con este nombre de usuario.');
+        this.mensajeService.mensajeError('Ya existe un usuario con este nombre de usuario.');
+      } else if (correoExistente) {
+        console.error('Ya existe un usuario con este correo electrónico.');
+        this.mensajeService.mensajeError('Ya existe un usuario con este correo electrónico.');
+      } else {
+        this.usuarioService.postUsuario(nuevoUsuario).subscribe({
+          next: () => {
+            console.log('Usuario agregado con éxito:', nuevoUsuario);
+            this.mensajeService.mensajeExito('Usuario agregado con éxito');
+            this.resetForm();
+            this.getListadoUsuarios();
+            this.usuarios.push(nuevoUsuario);
+          },
+          error: (error) => {
+            console.error('Error al agregar usuario:', error);
+            this.mensajeService.mensajeError('Error al agregar usuario');
+          }
+        });
+      }
     } else {
-      this.usuarioService.postUsuario(nuevoUsuario).subscribe({
-        next: () => {
-          console.log('Usuario agregado con éxito:', nuevoUsuario);
-          this.mensajeService.mensajeExito('Usuario agregado con éxito');
-          this.resetForm();
-          this.getListadoUsuarios();
-          this.usuarios.push(nuevoUsuario);
-        },
-        error: (error) => {
-          console.error('Error al agregar usuario:', error);
-          this.mensajeService.mensajeError('Error al agregar usuario');
-        }
-      });
+      console.error('El formulario de usuario es inválido. No se puede enviar.');
+      this.mensajeService.mensajeError('Formulario de usuario inválido. Revise los campos.');
     }
-  } else {
-    console.error('El formulario de usuario es inválido. No se puede enviar.');
-    this.mensajeService.mensajeError('Formulario de usuario inválido. Revise los campos.');
   }
-}
 
 
   actualizarUsuario() {
     this.usuario = this.userForm.value as Usuario;
     const rol = this.userForm.get('rol')?.value;
     this.usuario.rol = { id: rol } as Rol;
-    this.usuarioService.putUsuario(this.id,this.usuario).subscribe({
+    this.usuarioService.putUsuario(this.id, this.usuario).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Usuario actualizado con éxito");
         this.getListadoUsuarios();

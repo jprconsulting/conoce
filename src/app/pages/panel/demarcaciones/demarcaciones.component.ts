@@ -1,12 +1,12 @@
 import { Component, ViewChild, OnInit, ElementRef, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { DistritoLocalService } from 'src/app/core/services/distritolocal.service';
-import { AyuntamientoService } from 'src/app/core/services/ayuntamiento.service';
+import { MunicipioService } from 'src/app/core/services/municipio.service';
 import { ComunidadService } from 'src/app/core/services/comunidad.service';
 import { DistritoLocal } from 'src/app/models/distritoLocal';
-import { Ayuntamiento } from 'src/app/models/ayuntamiento';
+import { Municipio } from 'src/app/models/municipio';
 import { Comunidad } from 'src/app/models/comunidad';
-import { Estados } from 'src/app/models/estados';
+import { Estado } from 'src/app/models/estado';
 import { EstadoService } from 'src/app/core/services/estados.service';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { LoadingStates } from 'src/app/global/globals';
@@ -23,13 +23,13 @@ export class DemarcacionesComponent implements OnInit {
   ayuntamientoForm: FormGroup;
   comunidadForm: FormGroup;
   distritoLocal!: DistritoLocal;
-  ayuntamiento!: Ayuntamiento;
+  ayuntamiento!: Municipio;
   comunidad!: Comunidad;
   distritosLocales: DistritoLocal[] = [];
   usuariosFilter: DistritoLocal[] = [];
-  ayuntamientos: Ayuntamiento[] = [];
+  ayuntamientos: Municipio[] = [];
   comunidades: Comunidad[] = [];
-  estados: Estados[] = [];
+  estados: Estado[] = [];
   isModalAdd = false;
   isLoadingUsers = LoadingStates.neutro;
   itemsPerPage: number = 5;
@@ -37,14 +37,14 @@ export class DemarcacionesComponent implements OnInit {
   itemsPerPageOptions: number[] = [5, 10, 15];
   searchTerm: string = '';
   filteredDistritosLocales: DistritoLocal[] = [];
-  filteredAyuntamientos: Ayuntamiento[] = [];
+  filteredAyuntamientos: Municipio[] = [];
   filteredComunidades: Comunidad[] = [];
   currentTab: string = 'distrito-local';
   currentTabClicked: string | null = null;
   constructor(
     @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
     private distritoLocalService: DistritoLocalService,
-    private ayuntamientoService: AyuntamientoService,
+    private municipioService: MunicipioService,
     private comunidadService: ComunidadService,
     private formBuilder: FormBuilder,
     private estadoService: EstadoService,
@@ -115,7 +115,7 @@ export class DemarcacionesComponent implements OnInit {
   }
 
   cargarAyuntamientos() {
-    this.ayuntamientoService.getAyuntamientos().subscribe((data: Ayuntamiento[]) => {
+    this.municipioService.getMunicipios().subscribe((data: Municipio[]) => {
       this.ayuntamientos = data;
     });
   }
@@ -132,7 +132,7 @@ export class DemarcacionesComponent implements OnInit {
       this.getListadoDistritosLocales(); // Usa la función original
     });
 
-    this.ayuntamientoService.refreshListUsers.subscribe(() => {
+    this.municipioService.refreshListUsers.subscribe(() => {
       console.log('Evento de actualización recibido para ayuntamientos');
       this.cargarAyuntamientos();
     });
@@ -145,21 +145,21 @@ export class DemarcacionesComponent implements OnInit {
 
 
   obtenerEstados() {
-    this.estadoService.obtenerEstados().subscribe(
-      (estados: Estados[]) => {
-        this.estados = estados;
-        console.log('Estados', estados)
-      },
-      (error) => {
-        console.error('Error al obtener estados:', error);
-      }
-    );
+    // this.estadoService.obtenerEstados().subscribe(
+    //   (estados: Estados[]) => {
+    //     this.estados = estados;
+    //     console.log('Estados', estados)
+    //   },
+    //   (error) => {
+    //     console.error('Error al obtener estados:', error);
+    //   }
+    // );
   }
 
   enviarFormulario() {
     this.distritoLocal = this.distritoLocalForm.value as DistritoLocal;
     const tipoOrganizacionPoliticaValue = this.distritoLocalForm.get('estado')?.value;
-    this.distritoLocal.estado = { id: tipoOrganizacionPoliticaValue } as Estados;
+    this.distritoLocal.estado = { id: tipoOrganizacionPoliticaValue } as Estado;
     this.distritoLocalService.postDistritoLocal(this.distritoLocal).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Distrito local agregada con éxito");
@@ -174,10 +174,10 @@ export class DemarcacionesComponent implements OnInit {
 }
 
   enviarAyuntamiento() {
-    this.ayuntamiento = this.ayuntamientoForm.value as Ayuntamiento;
+    this.ayuntamiento = this.ayuntamientoForm.value as Municipio;
     const tipoOrganizacionPoliticaValue = this.ayuntamientoForm.get('distritoLocal')?.value;
     this.ayuntamiento.distritoLocal = { id: tipoOrganizacionPoliticaValue } as DistritoLocal;
-    this.ayuntamientoService.postAyuntamiento(this.ayuntamiento).subscribe({
+    this.municipioService.postAyuntamiento(this.ayuntamiento).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Ayuntamiento agregado con éxito");
         this.resetForm();
@@ -193,7 +193,7 @@ export class DemarcacionesComponent implements OnInit {
   agregarComunidad() {
     this.comunidad = this.comunidadForm.value as Comunidad;
     const tipoOrganizacionPoliticaValue = this.ayuntamientoForm.get('ayuntamiento')?.value;
-    this.comunidad.ayuntamiento = { id: tipoOrganizacionPoliticaValue } as Ayuntamiento;
+    this.comunidad.municipio = { id: tipoOrganizacionPoliticaValue } as Municipio;
     this.comunidadService.agregarComunidad(this.comunidad).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Comunidad agregada con éxito");
@@ -219,7 +219,7 @@ export class DemarcacionesComponent implements OnInit {
     this.ayuntamientoForm.reset();
   }
   submitAyuntamientos() {
-    this.ayuntamiento = this.ayuntamientoForm.value as Ayuntamiento;
+    this.ayuntamiento = this.ayuntamientoForm.value as Municipio;
     if (this.isModalAdd) {
       this.enviarAyuntamiento();
     } else {
@@ -284,7 +284,7 @@ export class DemarcacionesComponent implements OnInit {
     this.mensajeService.mensajeAdvertencia(
       `¿Estás seguro de eliminar el Ayuntamiento: ${nombreAyuntamiento}?`,
       () => {
-        this.ayuntamientoService.deleteAyuntamiento(ayuntamientoId).subscribe({
+        this.municipioService.deleteAyuntamiento(ayuntamientoId).subscribe({
           next: () => {
             this.mensajeService.mensajeExito('Ayuntamiento eliminado correctamente');
           },
@@ -325,7 +325,7 @@ export class DemarcacionesComponent implements OnInit {
     );
   }
   actualizarAyuntamiento() {
-    this.ayuntamientoService.putAyuntamiento(this.ayuntamiento).subscribe({
+    this.municipioService.putAyuntamiento(this.ayuntamiento).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Ayuntamiento actualizado con éxito");
         this.resetFormAy();
@@ -358,15 +358,15 @@ export class DemarcacionesComponent implements OnInit {
       acronimo: user.acronimo,
       estatus: user.estatus,
       peticion: user.peticion,
-      ayuntamientoId: user.ayuntamiento
+      ayuntamientoId: user.municipio
     });
     console.log(this.comunidadForm.value);
   }
-  setDataModalUpdateAyuntamiento(user: Ayuntamiento) {
+  setDataModalUpdateAyuntamiento(user: Municipio) {
     this.isModalAdd = false;
     this.ayuntamientoForm.patchValue({
       ayuntamientoId: user.id,
-      nombreAyuntamiento: user.nombre,
+      nombreAyuntamiento: user.nombreMunicipio,
       acronimo: user.acronimo,
       estatus: user.estatus,
       peticion: user.peticion,
@@ -378,7 +378,7 @@ export class DemarcacionesComponent implements OnInit {
     this.isModalAdd = false;
     this.distritoLocalForm.patchValue({
       id: user.id,
-      nombre: user.nombre,
+      nombre: user.nombreDistritoLocal,
       acronimo: user.acronimo,
       estatus: user.estatus,
       peticion: user.peticion,
@@ -394,7 +394,7 @@ export class DemarcacionesComponent implements OnInit {
     return this.distritosLocales.filter(distritoLocal => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        distritoLocal.nombre.toLowerCase().includes(searchTermLower) ||
+        distritoLocal.nombreDistritoLocal.toLowerCase().includes(searchTermLower) ||
         distritoLocal.acronimo.toLowerCase().includes(searchTermLower)
       );
     });
@@ -403,7 +403,7 @@ export class DemarcacionesComponent implements OnInit {
     return this.ayuntamientos.filter(ayuntamientos => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        ayuntamientos.nombre.toLowerCase().includes(searchTermLower) ||
+        ayuntamientos.nombreMunicipio.toLowerCase().includes(searchTermLower) ||
         ayuntamientos.acronimo.toLowerCase().includes(searchTermLower)
       );
     });

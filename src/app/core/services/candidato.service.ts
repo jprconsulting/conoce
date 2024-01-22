@@ -10,7 +10,7 @@ import { catchError, tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class CandidatoService {
-  route = `${environment.apiUrl}/candidato`;
+  route = `${environment.apiUrl}/candidatos`;
   private _refreshLisUsers$ = new Subject<Candidato[] | null>();
 
   constructor(
@@ -23,7 +23,7 @@ export class CandidatoService {
   }
 
   getCandidatos(): Observable<Candidato[]> {
-    return this.http.get<Candidato[]>(`${this.route}/obtener_candidatos`).pipe(
+    return this.http.get<Candidato[]>(`${this.route}/obtener-todos`).pipe(
       catchError(this.handleErrorService.handleError)
     );
   }
@@ -43,7 +43,7 @@ export class CandidatoService {
   }
 
   putCandidato(candidato: Candidato): Observable<Candidato> {
-    return this.http.put<Candidato>(`${this.route}/actualizar_candidato/${candidato.candidatoId}`, candidato)
+    return this.http.put<Candidato>(`${this.route}/actualizar_candidato/${candidato.id}`, candidato)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);

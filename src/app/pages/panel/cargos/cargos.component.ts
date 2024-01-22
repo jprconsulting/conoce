@@ -98,16 +98,16 @@ export class CargosComponent implements OnInit {
       this.mensajeService.mensajeError('Ya existe un cargo con este nombre.');
     }
     else {
-    this.cargoService.postCargo(cargoData).subscribe({
-      next: () => {
-        this.mensajeService.mensajeExito("Cargo agregado con éxito");
-        this.resetForm();
-      },
-      error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar cargo");
-        console.error(error);
-      }
-    });
+    // this.cargoService.postCargo(cargoData).subscribe({
+    //   next: () => {
+    //     this.mensajeService.mensajeExito("Cargo agregado con éxito");
+    //     this.resetForm();
+    //   },
+    //   error: (error) => {
+    //     this.mensajeService.mensajeError("Error al agregar cargo");
+    //     console.error(error);
+    //   }
+    // });
   }}
 
   actualizarUsuario() {

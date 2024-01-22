@@ -11,7 +11,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 })
 export class CargoService {
   route = `${environment.apiUrl}/cargos`;
-  private _refreshLisUsers$ = new Subject<Cargos | null>();
+  private _refreshListCargos$ = new Subject<Cargos | null>();
 
   constructor(
     private http: HttpClient,
@@ -19,7 +19,7 @@ export class CargoService {
   ) { }
 
   get refreshLisUsers() {
-    return this._refreshLisUsers$;
+    return this._refreshListCargos$;
   }
 
   getCargos(): Observable<Cargos[]> {
@@ -28,11 +28,11 @@ export class CargoService {
     );
   }
 
-  postCargo(cargos: Cargos): Observable<Cargos> {
+  post(cargos: Cargos): Observable<Cargos> {
     return this.http.post<Cargos>(`${this.route}/crear`, cargos)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next(null);
+          this._refreshListCargos$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );
@@ -42,7 +42,7 @@ export class CargoService {
     return this.http.delete(`${this.route}/eliminar/${id}`)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next(null);
+          this._refreshListCargos$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );
@@ -52,7 +52,7 @@ export class CargoService {
     return this.http.put<Cargos>(`${this.route}/actualizar/${id}`, dto)
       .pipe(
         tap(() => {
-          this._refreshLisUsers$.next(null);
+          this._refreshListCargos$.next(null);
         }),
         catchError(this.handleErrorService.handleError)
       );

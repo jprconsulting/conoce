@@ -1,602 +1,945 @@
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.41)"
+  size="large"
+  color="#ffffff"
+  type="ball-scale-multiple"
+  [fullScreen]="true"
+>
+  <p style="color: white">Guardando...</p>
+</ngx-spinner>
+
 <app-page-header headerTitle="Candidatos"></app-page-header>
 
-<div class="row row-cards">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <div class="header-left">
-                    <h3 class="card-title" style="width: 105px;">Candidatos</h3>
-                </div>
-                <div class="header-right">
-                    <button class="revisar-button" (click)="enviarGoogleFormIds()">Revisar respuestas</button>
-                </div>
-            </div>
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body border-bottom py-3">
+        <div class="d-flex">
+          <button
+            class="btn btn-primary"
+            data-bs-toggle="modal"
+            data-bs-target="#modal-candidato"
+            (click)="handleChangeAdd()"
+          >
+            <i class="ti ti-plus me-1"></i>Agregar Candidato
+          </button>
 
-            <div class="card-body border-bottom py-3">
-                <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
-                      <i class="ti ti-plus me-1"></i>Agregar Candidato
-                    </button>
-                    <div class="ms-auto text-muted">
-                        <div class="input-icon">
-                            <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
-                            <span class="input-icon-addon">
+          <div class="ms-auto d-flex align-items-center">
+            <div class="input-icon">
+              <input
+                #searchItem
+                type="text"
+                class="form-control form-control-rounded"
+                placeholder="Buscar"
+                (input)="handleChangeSearch($event)"
+              />
+              <span class="input-icon-addon">
                 <i class="ti ti-search"></i>
               </span>
-                        </div>
-                    </div>
-                </div>
             </div>
-
-            <ng-container [ngSwitch]="isLoadingUsers">
-                <div class="progress" *ngSwitchCase="2">
-                    <div class="progress-bar progress-bar-indeterminate bg-green"></div>
-                </div>
-
-                <div *ngSwitchCase="3">
-                    <div class="table-responsive">
-                        <table class="table card-table table-vcenter text-nowrap datatable">
-                            <thead>
-                                <tr>
-                                    <th>Foto</th>
-                                    <th>Nombre del (la) candidato (a)</th>
-                                    <th>Apellido materno</th>
-                                    <th>Apellido paterno</th>
-                                    <th>Cargo</th>
-                                    <th>Agrupación política</th>
-                                    <th>Estatus de los cuestionarios</th>
-                                    <th class="text-center" style="width: 7%">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="table-tbody">
-                                <tr *ngFor="let candidato of candidatos | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage };let i = index" class="align-items-center">
-                                    <td class="justify-content-center">
-                                        <img [src]="obtenerRutaImagen(candidato.foto)" alt="Foto de {{ candidato.nombre }}" width="50" height="50" />
-                                    </td>
-                                    <td class="justify-content-center">{{ candidato.nombre }}</td>
-                                    <td class="justify-content-center">{{ candidato.apellidoPaterno }}</td>
-                                    <td class="justify-content-center">{{ candidato.apellidoMaterno }}</td>
-                                    <!-- <td class="justify-content-center">{{ getNombreCargo(candidato.cargo.id) }}</td> -->
-                                    <td class="justify-content-center">{{ getNombreAgrupacion(candidato.candidaturaId) }}</td>
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <div class="progress">
-                                                <div class="progress-bar" [ngStyle]="{ 'width.%': porcentajeProgreso }" role="progressbar" [attr.aria-valuenow]="porcentajeProgreso" aria-valuemin="0" aria-valuemax="100" [attr.aria-label]="porcentajeProgreso + '% Complete'">
-                                                    <span class="visually-hidden">{{ porcentajeProgreso }}% Complete</span>
-                                                </div>
-                                            </div>
-                                            <button class="btn btn-success btn-icon btn-sm" (click)="mostrarRespuestas(candidato.candidatoId)" title="Recargar estatus" style="margin-left: 5px; margin-right: 5px">
-                                              <i class="ti ti-reload"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                    <td class="justify-content-center">
-                                        <div class="d-flex justify-content-between">
-                                            <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-info" (click)="obtenerRespuestas(candidato.candidatoId)" style="margin-left: 5px; margin-right: 5px" title="Ver respuestas">
-                                              <i class="ti ti-eye"></i>
-                                            </button>
-                                            <button class="btn btn-warning btn-icon btn-sm" title="Editar candidato">
-                                              <i class="ti ti-edit" data-bs-toggle="modal" data-bs-target="#modal-report"></i>
-                                            </button>
-                                            <button class="btn btn-danger btn-icon btn-sm" (click)="borrarUsuario(candidato.candidatoId, candidato.nombre)" style="margin-left: 5px; margin-right: 5px" title="Borrar candidato">
-                                              <i class="ti ti-eraser"></i>
-                                            </button>
-                                            <button class="btn btn-info btn-icon btn-sm" (click)="obtenerRespuestas(candidato.candidatoId)" (click)="verEstadosFormularios(candidato)" data-bs-toggle="modal" data-bs-target="#modalRespuestas" title="Ver estatus de los cuestionarios">
-                                              <i class="ti ti-clipboard-data"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                        <div class="items-per-page">
-                            <label for="itemsPerPage">Elementos por página:</label>
-                            <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
-                              <option *ngFor="let option of itemsPerPageOptions" [value]="option">
-                                {{ option }}
-                              </option>
-                            </select>
-                        </div>
-                        <div class="pagination-container">
-                            <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
-                        </div>
-                    </div>
-                </div>
-                <app-no-results *ngSwitchCase="4"></app-no-results>
-            </ng-container>
+            <a
+              class="btn w-30 btn-icon"
+              aria-label="Dribbble"
+              (click)="exportarDatosAExcel()"
+              title="Descargar excel de usuarios"
+              style="margin-left: 8px; padding-top: 4px; padding-bottom: 4px"
+            >
+              <i
+                class="ti ti-cloud-down text-muted"
+                style="font-size: 28px"
+              ></i>
+            </a>
+          </div>
         </div>
+      </div>
+
+      <ng-container [ngSwitch]="isLoading">
+        <div class="progress" *ngSwitchCase="2">
+          <div class="progress-bar progress-bar-indeterminate bg-green"></div>
+        </div>
+
+        <app-no-results *ngSwitchCase="4"></app-no-results>
+      </ng-container>
     </div>
+  </div>
 </div>
 
 <!--MODAL AGREGAR CANDIDATO-->
-<div class="modal modal-blur fade" id="modal-report" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Candidato
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+<div
+  class="modal modal-blur fade"
+  id="modal-candidato"
+  tabindex="-1"
+  role="dialog"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">
+          {{ isModalAdd ? "Agregar" : "Actualizar" }} Candidato
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+          #closebutton
+        ></button>
+      </div>
+
+      <form [formGroup]="candidatoForm" (ngSubmit)="submitUsuario()">
+        <div class="modal-body">
+          <!-- Inicio del formulario -->
+          <div class="card">
+            <div class="ribbon ribbon-top bg-green">
+              <i class="ti ti-man"></i>
             </div>
-
-            <form [formGroup]="userForm" (ngSubmit)="submitUsuario()">
-                <div class="modal-body">
-                    <!-- Inicio del formulario -->
-                    <div class="card">
-                        <div class="ribbon ribbon-top bg-green">
-                            <i class="ti ti-man"></i> </div>
-                        <div class="card-header">
-                            <h3 class="card-title">INFORMACIÓN GENERAL</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" formControlName="nombre" />
-                                        <div *ngIf="userForm.get('nombre')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('nombre')?.hasError('required')">
-                                                El nombre es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Apellido paterno</label>
-                                        <input type="text" class="form-control" formControlName="apellidoPaterno" />
-                                        <div *ngIf="userForm.get('apellidoPaterno')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('apellidoPaterno')?.hasError('required')">
-                                                El apellido paterno es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Apellido materno</label>
-                                        <input type="text" class="form-control" formControlName="apellidoMaterno" />
-                                        <div *ngIf="userForm.get('apellidoMaterno')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('apellidoMaterno')?.hasError('required')">
-                                                El apellido materno es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-4">
-                                        <label class="form-label">Sobrenombre</label>
-                                        <input type="text" class="form-control" formControlName="sobrenombrePropietario" />
-                                        <div *ngIf="userForm.get('sobrenombrePropietario')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('sobrenombrePropietario')?.hasError('required')">
-                                                El sobrenombre es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Género</label>
-                                        <div>
-                                            <label *ngFor="let generoItem of genero" class="form-check">
-                                        <input class="form-check-input" type="radio" [value]="generoItem.generoId" formControlName="generoId">
-                                        <span class="form-check-label">{{ generoItem.nombreGenero }}</span>
-                                      </label>
-                                        </div>
-                                        <div *ngIf="userForm.get('generoId')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('generoId')?.hasError('required')">
-                                                El género es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Télefono Público</label>
-                                        <input type="tel" class="form-control" formControlName="telefonoPublico" />
-                                        <div *ngIf="userForm.get('telefonoPublico')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('telefonoPublico')?.hasError('required')">
-                                                El número de télefono es requerido
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Correo Electrónico</label>
-                                        <input type="text" class="form-control" formControlName="email" />
-                                        <div *ngIf="userForm.get('email')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('email')?.hasError('required')">
-                                                El correo electrónico es requerido
-                                            </div>
-                                            <div *ngIf="userForm.get('email')?.hasError('email')">
-                                                Ingresa una dirección de correo electrónico válida
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Fecha de nacimiento</label>
-                                        <input type="date" class="form-control" formControlName="fechaNacimiento" />
-                                        <div *ngIf="userForm.get('fechaNacimiento')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('fechaNacimiento')?.hasError('required')">
-                                                La fecha de nacimiento es requerida
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Dirección de casa de campaña</label>
-                                        <input type="text" class="form-control" formControlName="direccionCasaCampania" />
-                                        <div *ngIf="userForm.get('direccionCasaCampania')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('direccionCasaCampania')?.hasError('required')">
-                                                La dirección es obligatoria
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Página Web</label>
-                                        <input type="text" class="form-control" formControlName="paginaWeb" />
-                                        <div *ngIf="userForm.get('paginaWeb')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('paginaWeb')?.hasError('required')">
-                                                La páqina web es obligatoria
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="estadoActivo" class="form-label">Estatus</label>
-                                        <label class="form-check form-switch checkbox-verde">
-                                          <input class="form-check-input" type="checkbox" formControlName="estatus" />
-                                          <span class="form-check-label" [ngClass]="{'text-success': userForm.get('estatus')?.value === true,'text-danger': userForm.get('estatus')?.value === false}">
-                                            {{userForm.get("estatus")?.value ? "Activo" : "Inactivo"}}
-                                          </span>
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Nombre del suplente</label>
-                                        <input type="text" class="form-control" formControlName="nombreSuplente" />
-                                        <div *ngIf="userForm.get('nombreSuplente')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('nombreSuplente')?.hasError('required')">
-                                                El nombre es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="card-header">
+              <h3 class="card-title">INFORMACIÓN GENERAL</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Nombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="nombre"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('nombre')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('nombre')?.hasError('required')
+                        "
+                      >
+                        El nombre es obligatorio
+                      </div>
                     </div>
-                    <br> <br>
-                    <div class="card">
-                        <div class="ribbon ribbon-top bg-blue">
-                            <i class="ti ti-map-2"></i> </div>
-                        <div class="card-header">
-                            <h3 class="card-title">INFORMACIÓN REFERENTE AL CARGO</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Cargo</label>
-                                        <select class="form-select" formControlName="cargoId">
-                                          <option value="null">Selecciona un cargo...</option>
-                                          <option *ngFor="let cargoItem of cargos" [value]="cargoItem.id">{{ cargoItem.nombreCargo }}</option>
-                                        </select>
-                                        <div *ngIf="userForm.get('cargoId')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('cargoId')?.hasError('required')">
-                                                El cargo es obligatorio
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Primer select -->
-                                <div class="col-lg-4">
-                                    <div class="mb-3">
-                                        <label class="form-label">Candidaturas</label>
-                                        <select class="form-select" (change)="seleccionarCandidatura($event)">
-                                      <option value="null">Selecciona una Candidatura...</option>
-                                      <!-- <option *ngFor="let candidatura of candidaturas" [value]="candidatura.tipoCandidaturaId">{{ candidatura.nombreTipoCandidatura }}</option> -->
-                                    </select>
-                                    </div>
-                                </div>
-                                <div class="col-lg-4" *ngIf="partidosFiltrados.length > 0">
-                                    <div class="mb-3">
-                                        <label class="form-label">Partidos Filtrados</label>
-                                        <select class="form-select" formControlName="candidaturaId">
-                                      <option value="null">Selecciona un Partido...</option>
-                                      <option *ngFor="let partido of partidosFiltrados" [value]="partido.candidaturaId">{{ partido.logo }}</option>
-                                    </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br> <br>
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">INFORMACIÓN REFERENTE A LA DEMARCACIÓN</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <select class="form-select" formControlName="estadoId">
-                                <option value="0">Selecciona un estado...</option>
-                                <option *ngFor="let estado of estados" [value]="estado.id">{{ estado.nombreEstado }}</option>
-                              </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-select" formControlName="distritoLocalId">
-                                <option value="0">Selecciona un distrito local...</option>
-                                <option *ngFor="let distrito of distritosLocales" [value]="distrito.id">{{ distrito.nombre }}</option>
-                              </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-select" formControlName="ayuntamientoId">
-                                <option value="0">Selecciona un ayuntamiento...</option>
-                                <option *ngFor="let ayuntamiento of ayuntamientos" [value]="ayuntamiento.id">{{ ayuntamiento.nombre }}</option>
-                              </select>
-                                </div>
-                                <div class="col-md-3">
-                                    <select class="form-select" formControlName="comunidadId" (change)="onComunidadChange($event)">
-                                <option value="0">Selecciona una comunidad...</option>
-                                <option *ngFor="let comunidad of comunidades" [value]="comunidad.id">{{ comunidad.nombre }}</option>
-                              </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br> <br>
-                    <div class="card">
-                        <div class="ribbon ribbon-top bg-red">
-                            <i class="ti ti-brand-facebook"></i> </div>
-                        <div class="card-header">
-                            <h3 class="card-title">REDES SOCIALES</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Facebook</label>
-                                        <input type="tel" class="form-control" formControlName="facebook" />
-                                        <div *ngIf="userForm.get('facebook')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('facebook')?.hasError('required')">
-                                                El link es requerido
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Twitter</label>
-                                        <input type="text" class="form-control" formControlName="twitter" />
-                                        <div *ngIf="userForm.get('twitter')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('twitter')?.hasError('required')">
-                                                El link es requerido
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">Instagram</label>
-                                        <input type="tel" class="form-control" formControlName="instagram" />
-                                        <div *ngIf="userForm.get('instagram')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('instagram')?.hasError('required')">
-                                                El link es requerido
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label class="form-label">TikTok</label>
-                                        <input type="text" class="form-control" formControlName="tiktok" />
-                                        <div *ngIf="userForm.get('tiktok')?.touched" class="error-message">
-                                            <div *ngIf="userForm.get('tiktok')?.hasError('required')">
-                                                El link es requerido
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br> <br>
-                    <div class="card">
-                        <div class="ribbon ribbon-top bg-purple">
-                            <i class="ti ti-camera-plus"></i>
-                        </div>
-                        <div class="card-header">
-                            <h3 class="card-title">IMAGEN DEL CANDIDATO</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-lg-12 d-flex align-items-center justify-content-center">
-                                    <div class="mb-1 text-center">
-                                        <div class="form-group">
-                                            <label for="fotoArchivo" class="img-thumbnail" id="fotoArchivo-label">
-                                    <img [src]="previewImage ? previewImage : 'assets/images/placeholderimage.png'" alt="Subir imagen" style="width: 200px;">
-                                    <input type="file" id="fotoArchivo" (change)="onFileChange($event)">
-                                  </label>
-                                        </div>
-                                        <label class="form-label" *ngIf="!previewImage">Haz clic aquí para seleccionar una imagen desde tu dispositivo</label>
-
-                                        <div *ngIf="previewImage" class="mt-3">
-                                            <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px;">
-                                            <br>
-                                            <label>Imagen seleccionada:</label>
-                                            <br><br>
-                                            <button class="btn btn-danger mt-2" (click)="eliminarImagen()">Eliminar Imagen</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Fin del formulario -->
+                  </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
-              {{ isModalAdd ? "Agregar" : "Actualizar" }}
-            </button>
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Apellido paterno</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="apellidoPaterno"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('apellidoPaterno')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm
+                            .get('apellidoPaterno')
+                            ?.hasError('required')
+                        "
+                      >
+                        El apellido paterno es obligatorio
+                      </div>
+                    </div>
+                  </div>
                 </div>
-            </form>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Apellido materno</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="apellidoMaterno"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('apellidoMaterno')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm
+                            .get('apellidoMaterno')
+                            ?.hasError('required')
+                        "
+                      >
+                        El apellido materno es obligatorio
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="mb-4">
+                    <label class="form-label">Sobrenombre</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="sobrenombrePropietario"
+                    />
+                    <div
+                      *ngIf="
+                        candidatoForm.get('sobrenombrePropietario')?.touched
+                      "
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm
+                            .get('sobrenombrePropietario')
+                            ?.hasError('required')
+                        "
+                      >
+                        El sobrenombre es obligatorio
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Nombre del suplente</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="nombreSuplente"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('nombreSuplente')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm
+                            .get('nombreSuplente')
+                            ?.hasError('required')
+                        "
+                      >
+                        El nombre es obligatorio
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Página Web</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="paginaWeb"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('paginaWeb')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('paginaWeb')?.hasError('required')
+                        "
+                      >
+                        La páqina web es obligatoria
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Télefono Público</label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      formControlName="telefonoPublico"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('telefonoPublico')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm
+                            .get('telefonoPublico')
+                            ?.hasError('required')
+                        "
+                      >
+                        El número de télefono es requerido
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Correo Electrónico</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="email"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('email')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="candidatoForm.get('email')?.hasError('required')"
+                      >
+                        El correo electrónico es requerido
+                      </div>
+                      <div
+                        *ngIf="candidatoForm.get('email')?.hasError('email')"
+                      >
+                        Ingresa una dirección de correo electrónico válida
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Fecha de nacimiento</label>
+                    <input
+                      type="date"
+                      class="form-control"
+                      formControlName="fechaNacimiento"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('fechaNacimiento')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm
+                            .get('fechaNacimiento')
+                            ?.hasError('required')
+                        "
+                      >
+                        La fecha de nacimiento es requerida
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label"
+                      >Dirección de casa de campaña</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="direccionCasaCampania"
+                    />
+                    <div
+                      *ngIf="
+                        candidatoForm.get('direccionCasaCampania')?.touched
+                      "
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm
+                            .get('direccionCasaCampania')
+                            ?.hasError('required')
+                        "
+                      >
+                        La dirección es obligatoria
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Género</label>
+                    <div>
+                      <label
+                        *ngFor="let generoItem of generos"
+                        class="form-check"
+                      >
+                        <input
+                          class="form-check-input"
+                          type="radio"
+                          [value]="generoItem.id"
+                          formControlName="generoId"
+                        />
+                        <span class="form-check-label">{{
+                          generoItem.nombreGenero
+                        }}</span>
+                      </label>
+                    </div>
+                    <div
+                      *ngIf="candidatoForm.get('generoId')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('generoId')?.hasError('required')
+                        "
+                      >
+                        El género es obligatorio
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label for="estadoActivo" class="form-label">Estatus</label>
+                    <label class="form-check form-switch checkbox-verde">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        formControlName="estatus"
+                      />
+                      <span
+                        class="form-check-label"
+                        [ngClass]="{
+                          'text-success':
+                            candidatoForm.get('estatus')?.value === true,
+                          'text-danger':
+                            candidatoForm.get('estatus')?.value === false
+                        }"
+                      >
+                        {{
+                          candidatoForm.get("estatus")?.value
+                            ? "Activo"
+                            : "Inactivo"
+                        }}
+                      </span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="ribbon ribbon-top bg-blue">
+              <i class="ti ti-map-2"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">INFORMACIÓN REFERENTE AL CARGO</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Cargo</label>
+                    <ng-select
+                      placeholder="Elegir"
+                      [items]="cargos"
+                      bindLabel="nombreCargo"
+                      bindValue="id"
+                      [searchable]="false"
+                      [clearable]="false"
+                      formControlName="cargoId"
+                    >
+                      <ng-template ng-option-tmp let-item="item">
+                        {{ item.nombreCargo }}
+                      </ng-template>
+                    </ng-select>
+                    <div
+                      *ngIf="candidatoForm.get('cargoId')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('cargoId')?.hasError('required')
+                        "
+                      >
+                        El cargo es obligatorio
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- Primer select -->
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Agrupación Política</label>
+                    <ng-select
+                      formControlName="agrupacionPoliticaId"
+                      #selectAgrupacionPolitica
+                      [searchable]="false"
+                      [items]="agrupacionesPoliticas"
+                      bindLabel="nombreAgrupacion"
+                      bindValue="id"
+                      placeholder="Elegir"
+                      [clearable]="false"
+                    >
+                      <ng-template ng-header-tmp>
+                        <input
+                          class="form-control"
+                          type="text"
+                          (input)="
+                            selectAgrupacionPolitica.filter(
+                              $any($event.target).value
+                            )
+                          "
+                        />
+                      </ng-template>
+                      <ng-template
+                        ng-option-tmp
+                        let-item="item"
+                        let-index="index"
+                      >
+                        {{ item.nombreAgrupacion }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card mt-4">
+            <div class="card-header">
+              <h3 class="card-title">INFORMACIÓN REFERENTE A LA DEMARCACIÓN</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Estado</label>
+                    <ng-select
+                      formControlName="estadoId"
+                      #selectEstado
+                      [searchable]="false"
+                      [items]="estados"
+                      bindLabel="nombreEstado"
+                      bindValue="id"
+                      placeholder="Elegir"
+                      [clearable]="false"
+                    >
+                      <ng-template ng-header-tmp>
+                        <input
+                          class="form-control"
+                          type="text"
+                          (input)="
+                            selectEstado.filter($any($event.target).value)
+                          "
+                        />
+                      </ng-template>
+                      <ng-template
+                        ng-option-tmp
+                        let-item="item"
+                        let-index="index"
+                      >
+                        {{ item.nombreEstado }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label">Distrito Local</label>
+                    <ng-select
+                      formControlName="distritoLocalId"
+                      #selectDistritoLocal
+                      [searchable]="false"
+                      [items]="distritosLocales"
+                      bindLabel="nombreDistritoLocal"
+                      bindValue="id"
+                      placeholder="Elegir"
+                      [clearable]="false"
+                    >
+                      <ng-template ng-header-tmp>
+                        <input
+                          class="form-control"
+                          type="text"
+                          (input)="
+                            selectDistritoLocal.filter(
+                              $any($event.target).value
+                            )
+                          "
+                        />
+                      </ng-template>
+                      <ng-template
+                        ng-option-tmp
+                        let-item="item"
+                        let-index="index"
+                      >
+                        {{ item.nombreDistritoLocal }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Municipio</label>
+                    <ng-select
+                      formControlName="municipioId"
+                      #selectMunicipio
+                      [searchable]="false"
+                      [items]="municipios"
+                      bindLabel="nombreMunicipio"
+                      bindValue="id"
+                      placeholder="Elegir"
+                      [clearable]="false"
+                    >
+                      <ng-template ng-header-tmp>
+                        <input
+                          class="form-control"
+                          type="text"
+                          (input)="
+                            selectMunicipio.filter($any($event.target).value)
+                          "
+                        />
+                      </ng-template>
+                      <ng-template
+                        ng-option-tmp
+                        let-item="item"
+                        let-index="index"
+                      >
+                        {{ item.nombreMunicipio }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label class="form-label">Comunidad</label>
+                    <ng-select
+                      formControlName="comunidadId"
+                      #selectComunidad
+                      [searchable]="false"
+                      [items]="comunidades"
+                      bindLabel="nombreComunidad"
+                      bindValue="id"
+                      placeholder="Elegir"
+                      [clearable]="false"
+                    >
+                      <ng-template ng-header-tmp>
+                        <input
+                          class="form-control"
+                          type="text"
+                          (input)="
+                            selectComunidad.filter($any($event.target).value)
+                          "
+                        />
+                      </ng-template>
+                      <ng-template
+                        ng-option-tmp
+                        let-item="item"
+                        let-index="index"
+                      >
+                        {{ item.nombreComunidad }}
+                      </ng-template>
+                    </ng-select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <br />
+          <div class="card">
+            <div class="ribbon ribbon-top bg-red">
+              <i class="ti ti-brand-facebook"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">REDES SOCIALES</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Facebook</label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      formControlName="facebook"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('facebook')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('facebook')?.hasError('required')
+                        "
+                      >
+                        El link es requerido
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Twitter</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="twitter"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('twitter')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('twitter')?.hasError('required')
+                        "
+                      >
+                        El link es requerido
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">Instagram</label>
+                    <input
+                      type="tel"
+                      class="form-control"
+                      formControlName="instagram"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('instagram')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('instagram')?.hasError('required')
+                        "
+                      >
+                        El link es requerido
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-6">
+                  <div class="mb-3">
+                    <label class="form-label">TikTok</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      formControlName="tiktok"
+                    />
+                    <div
+                      *ngIf="candidatoForm.get('tiktok')?.touched"
+                      class="error-message"
+                    >
+                      <div
+                        *ngIf="
+                          candidatoForm.get('tiktok')?.hasError('required')
+                        "
+                      >
+                        El link es requerido
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <br />
+          <div class="card">
+            <div class="ribbon ribbon-top bg-purple">
+              <i class="ti ti-camera-plus"></i>
+            </div>
+            <div class="card-header">
+              <h3 class="card-title">IMAGEN DEL CANDIDATO</h3>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div
+                  class="col-lg-12 d-flex align-items-center justify-content-center"
+                >
+                  <div class="mb-1 text-center">
+                    <div class="form-group">
+                      <label
+                        for="fotoArchivo"
+                        class="img-thumbnail"
+                        id="fotoArchivo-label"
+                      >
+                        <img
+                          [src]="
+                            previewImage
+                              ? previewImage
+                              : 'assets/images/placeholderimage.png'
+                          "
+                          alt="Subir imagen"
+                          style="width: 200px"
+                        />
+                        <input
+                          type="file"
+                          id="fotoArchivo"
+                          (change)="onFileChange($event)"
+                        />
+                      </label>
+                    </div>
+                    <label class="form-label" *ngIf="!previewImage"
+                      >Haz clic aquí para seleccionar una imagen desde tu
+                      dispositivo</label
+                    >
+
+                    <div *ngIf="previewImage" class="mt-3">
+                      <img
+                        [src]="previewImage"
+                        class="img-thumbnail"
+                        alt="Vista previa de la imagen"
+                        style="width: 200px"
+                      />
+                      <br />
+                      <label>Imagen seleccionada:</label>
+                      <br /><br />
+                      <button
+                        class="btn btn-danger mt-2"
+                        (click)="eliminarImagen()"
+                      >
+                        Eliminar Imagen
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fin del formulario -->
         </div>
+        <div class="modal-footer">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!candidatoForm.valid"
+          >
+            {{ isModalAdd ? "Agregar" : "Actualizar" }}
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>
 
 <!-- MODAL PARA VER LAS RESPUESTAS -->
-<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title" id="exampleModalLabel">Respuestas del formulario</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+<div
+  class="modal fade"
+  id="modal-info"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title" id="exampleModalLabel">
+          Respuestas del formulario
+        </h1>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
-            </div>
-            <div class="modal-body" style="background-color: #f6f8fb">
-                <div *ngIf="respuestasGoogleFormulario">
-                    <div class="accordion" id="respuestasAcordeon">
-                        <div *ngFor="let formulario of respuestasGoogleFormulario.formularios" class="accordion-item">
-                            <h2 class="accordion-header" [attr.id]="'heading' + formulario.formularioId">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + formulario.formularioId" aria-expanded="true" [attr.aria-controls]="'collapse' + formulario.formularioId">
-                                <span [ngClass]="{'text-danger': formulario.preguntasRespuestas.length === 0, 'text-success': formulario.preguntasRespuestas.length > 0}">
-                                    Nombre del formulario : {{ formulario.formName }}
-                                </span>
-                                <ng-container *ngIf="formulario.preguntasRespuestas.length > 0; else redRibbon">
-                                    <div class="ribbon ribbon-top bg-green" style="padding-bottom: 10px;">
-                                        <i class="ti ti-clipboard-check"></i>
-                                    </div>
-                                </ng-container>
-                                <ng-template #redRibbon>
-                                    <div class="ribbon ribbon-top bg-red" style="padding-bottom: 10px;">
-                                        <i class="ti ti-clipboard-x"></i>
-                                    </div>
-                                </ng-template>
-                            </button>
-                            </h2>
-                            <div [attr.id]="'collapse' + formulario.formularioId" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + formulario.formularioId" data-bs-parent="#respuestasAcordeon">
-                                <div class="accordion-body">
-                                    <div *ngIf="formulario.preguntasRespuestas.length > 0 else sinRespuestas">
-                                        <h5>Preguntas y Respuestas:</h5>
-                                        <ul class="list-group">
-                                            <li *ngFor="let preguntaRespuesta of formulario.preguntasRespuestas" class="list-group-item">
-                                                <strong>{{ preguntaRespuesta.pregunta }}:</strong> {{ preguntaRespuesta.respuesta }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <ng-template #sinRespuestas>
-                                        <p>No hay respuestas para este formulario.</p>
-                                    </ng-template>
-                                </div>
-                            </div>
-                            <br>
-                        </div>
+      </div>
+      <div class="modal-body" style="background-color: #f6f8fb">
+        <div *ngIf="respuestasGoogleFormulario">
+          <div class="accordion" id="respuestasAcordeon">
+            <div
+              *ngFor="let formulario of respuestasGoogleFormulario.formularios"
+              class="accordion-item"
+            >
+              <h2
+                class="accordion-header"
+                [attr.id]="'heading' + formulario.formularioId"
+              >
+                <button
+                  class="accordion-button"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  [attr.data-bs-target]="'#collapse' + formulario.formularioId"
+                  aria-expanded="true"
+                  [attr.aria-controls]="'collapse' + formulario.formularioId"
+                >
+                  <span
+                    [ngClass]="{
+                      'text-danger':
+                        formulario.preguntasRespuestas.length === 0,
+                      'text-success': formulario.preguntasRespuestas.length > 0
+                    }"
+                  >
+                    Nombre del formulario : {{ formulario.formName }}
+                  </span>
+                  <ng-container
+                    *ngIf="
+                      formulario.preguntasRespuestas.length > 0;
+                      else redRibbon
+                    "
+                  >
+                    <div
+                      class="ribbon ribbon-top bg-green"
+                      style="padding-bottom: 10px"
+                    >
+                      <i class="ti ti-clipboard-check"></i>
                     </div>
+                  </ng-container>
+                  <ng-template #redRibbon>
+                    <div
+                      class="ribbon ribbon-top bg-red"
+                      style="padding-bottom: 10px"
+                    >
+                      <i class="ti ti-clipboard-x"></i>
+                    </div>
+                  </ng-template>
+                </button>
+              </h2>
+              <div
+                [attr.id]="'collapse' + formulario.formularioId"
+                class="accordion-collapse collapse show"
+                [attr.aria-labelledby]="'heading' + formulario.formularioId"
+                data-bs-parent="#respuestasAcordeon"
+              >
+                <div class="accordion-body">
+                  <div
+                    *ngIf="
+                      formulario.preguntasRespuestas.length > 0;
+                      else sinRespuestas
+                    "
+                  >
+                    <h5>Preguntas y Respuestas:</h5>
+                    <ul class="list-group">
+                      <li
+                        *ngFor="
+                          let preguntaRespuesta of formulario.preguntasRespuestas
+                        "
+                        class="list-group-item"
+                      >
+                        <strong>{{ preguntaRespuesta.pregunta }}:</strong>
+                        {{ preguntaRespuesta.respuesta }}
+                      </li>
+                    </ul>
+                  </div>
+                  <ng-template #sinRespuestas>
+                    <p>No hay respuestas para este formulario.</p>
+                  </ng-template>
                 </div>
+              </div>
+              <br />
             </div>
+          </div>
         </div>
+      </div>
     </div>
-</div>
-
-<!-- MODAL PARA VER EL ESTATUS -->
-<div class="modal fade" id="modalRespuestas" tabindex="-1" aria-labelledby="modalRespuestasLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalRespuestasLabel">Estado del formulario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card">
-                    <br>
-                    <!-- Filtrar por estatus y campo de búsqueda -->
-                    <div class="row mt-3">
-                        <div class="col-md-6">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="border-left-width: 1px; margin-left: 10px;">
-                                  Filtrar por Estatus
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('')">Todos</a></li>
-                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('Contestado')">Contestado</a></li>
-                                    <li><a class="dropdown-item" (click)="filtrarPorEstatus('Por contestar')">Por contestar</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="ms-auto text-muted">
-                                <div class="input-icon" style="margin-right: 10px;">
-                                    <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
-                                    <span class="input-icon-addon">
-                                        <i class="ti ti-search"></i>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="table-responsive">
-                        <table class="table card-table table-vcenter text-nowrap datatable">
-                            <thead>
-                                <tr>
-                                    <th>Formulario</th>
-                                    <th>Estatus</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr *ngFor="let formulario of calcularEstadosFormularios()">
-                                    <ng-container *ngIf="formulario.nombre.toLowerCase().includes(filtro.toLowerCase()) && (estatusSeleccionado === '' || formulario.estado === estatusSeleccionado)">
-                                        <td>{{ formulario.nombre }}</td>
-                                        <td>
-                                            <ng-container *ngIf="formulario.estado === 'Contestado'; else porContestar">
-                                                <span class="badge bg-success me-1"></span>Contestado
-                                            </ng-container>
-                                            <ng-template #porContestar>
-                                                <span class="badge bg-danger me-1"></span>Por contestar
-                                            </ng-template>
-                                        </td>
-                                    </ng-container>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>

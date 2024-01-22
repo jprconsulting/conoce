@@ -11,11 +11,11 @@ import { CandidatoService } from 'src/app/core/services/candidato.service';
 import { Candidato } from 'src/app/models/candidato';
 import { HttpClient } from '@angular/common/http';
 import { Cargos } from 'src/app/models/cargos';
-import { Candidaturas } from 'src/app/models/candidaturas';
 import { EstadoService } from 'src/app/core/services/estados.service';
-import { Estados } from 'src/app/models/estados';
+import { Estado } from 'src/app/models/estado';
 import { AceptacionService } from 'src/app/core/services/aceptacion.service';
 import { Aceptacion } from 'src/app/models/aceptacion';
+import { AgrupacionPolitica } from 'src/app/models/agrupacion-politica';
 @Component({
   selector: 'app-consentimientos',
   templateUrl: './consentimientos.component.html',
@@ -36,7 +36,7 @@ export class ConsentimientosComponent  {
   formData: any;
   email!: Email;
   Candidatos: Candidato[] = [];
-  candidaturas: Candidaturas[] = [];
+  candidaturas: AgrupacionPolitica[] = [];
   candidatos!: any[];
   aceptacion!: any[];
   isLoadingEmails = LoadingStates.neutro;
@@ -50,7 +50,7 @@ export class ConsentimientosComponent  {
   filteredCandidates: any[] = []; 
   filteredCandidates2: any[] = []; 
   candidatoFilter: Candidato[] = [];
-  estados: Estados[] = [];
+  estados: Estado[] = [];
   cargos: Cargos[] = [];
   Aceptacion: Aceptacion[] = [];
   itemsPerPageTable1: number = 5;

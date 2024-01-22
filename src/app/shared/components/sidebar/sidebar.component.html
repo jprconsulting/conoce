@@ -1,122 +1,214 @@
 <div class="container-fluid">
-    <!-- inicio menu -->
-    <div class="collapse navbar-collapse" id="sidebar-menu" *ngIf="dataObject && dataObject.isAuthenticated">
-        <ul class="navbar-nav pt-lg-3">
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['inicio']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+  <!-- inicio menu -->
+  <div
+    class="collapse navbar-collapse"
+    id="sidebar-menu"
+    *ngIf="dataObject && dataObject.isAuthenticated"
+  >
+    <ul class="navbar-nav pt-lg-3">
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessInicio'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['inicio']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-home-2" style="color: white"></i>
           </span>
-                    <span class="nav-link-title text-white"> Inicio </span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessUsuarios'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['usuarios']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title text-white"> Inicio </span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessUsuarios'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['usuarios']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-users" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Usuarios</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessAsignacionFormulario'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['asignacion']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title">Usuarios</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessAsignacionFormulario'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['asignacion']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-user-check" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Asignación de Formulario</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessCandidatos'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['candidatos']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                      <i class="ti ti-podium" style="color: white"></i>
-                    </span>
-                    <span class="nav-link-title">Candidatos</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessDemarcaciones'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['demarcaciones']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title">Asignación de Formulario</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessCandidatos'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['candidatos']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
+            <i class="ti ti-podium" style="color: white"></i>
+          </span>
+          <span class="nav-link-title">Candidatos</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessDemarcaciones'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['demarcaciones']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-map-pin" style="color: white"></i>
           </span>
-                    <span class="nav-link-title"> Demarcaciones</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessFormularios'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['formulario']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-            <i class="ti ti-file-plus" style="color: white"></i>
+          <span class="nav-link-title"> Demarcaciones</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessFormularios'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['formulario']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
+            <i class="ti ti-file-settings" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Configuración Formularios</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessMisCuestionarios'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['mis-cuestionarios']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title">Formularios</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessMisCuestionarios'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['mis-cuestionarios']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-list" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Mis Cuestionarios</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessAgrupacionesPoliticas'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['Candidaturas']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title">Mis Cuestionarios</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessAgrupacionesPoliticas'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['Candidaturas']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-users-group" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Agrupaciones Políticas</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessCargos'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['cargos']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title">Agrupaciones Políticas</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessCargos'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['cargos']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-briefcase" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Cargos</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessRespuestas'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['respuestas']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-        <i class="ti ti-eye" style="color: white"></i>
-      </span>
-                    <span class="nav-link-title">Respuestas de cuestionarios</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" *appHasClaim="'CanAccessUserCuestionarios'" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['formulario-asignado']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title">Cargos</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessRespuestas'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['respuestas']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
+            <i class="ti ti-eye" style="color: white"></i>
+          </span>
+          <span class="nav-link-title">Respuestas de cuestionarios</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        *appHasClaim="'CanAccessUserCuestionarios'"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['formulario-asignado']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-list" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Cuestionarios</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['Email']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <i class="ti ti-mail-filled"
-                        data-bs-toggle="modal" data-bs-target="#modal-report2" style="color: white"
-                        ></i>
+          <span class="nav-link-title">Cuestionarios</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['Email']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
+            <i
+              class="ti ti-mail-filled"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-report2"
+              style="color: white"
+            ></i>
           </span>
-                    <span class="nav-link-title">Configura Email</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['Consentimientos']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
-                        <i class="ti ti-shield-lock"
-                        data-bs-toggle="modal" data-bs-target="#modal-report2" style="color: white"></i>
+          <span class="nav-link-title">Configura Email</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['Consentimientos']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
+            <i
+              class="ti ti-shield-lock"
+              data-bs-toggle="modal"
+              data-bs-target="#modal-report2"
+              style="color: white"
+            ></i>
           </span>
-                    <span class="nav-link-title">Aviso de seguridad/Consentimientos</span>
-                </a>
-            </li>
-            <li class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" style="margin-bottom: 10px;">
-                <a class="nav-link" [routerLink]="['faq']">
-                    <span class="nav-link-icon d-md-none d-lg-inline-block">
+          <span class="nav-link-title">Aviso de seguridad/Consentimientos</span>
+        </a>
+      </li>
+      <li
+        class="nav-item"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        style="margin-bottom: 10px"
+      >
+        <a class="nav-link" [routerLink]="['faq']">
+          <span class="nav-link-icon d-md-none d-lg-inline-block">
             <i class="ti ti-help-octagon" style="color: white"></i>
           </span>
-                    <span class="nav-link-title">Preguntas frecuentes</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+          <span class="nav-link-title">Preguntas frecuentes</span>
+        </a>
+      </li>
+    </ul>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Ayuntamiento } from "./ayuntamiento";
+import { Municipio } from "./municipio";
 
 export interface Comunidad {
   id: number;
@@ -6,5 +6,5 @@ export interface Comunidad {
   acronimo: string;
   estatus: boolean;
   peticion: string;
-  ayuntamiento: Ayuntamiento;
+  municipio: Municipio;
 }
