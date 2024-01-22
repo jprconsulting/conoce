@@ -40,6 +40,7 @@ export class CandidatosComponent {
   // Candidato
   candidatoForm!: FormGroup;
   candidatos: Candidato[] = [];
+  candidato!: Candidato;
   candidatosFilter: Candidato[] = [];
   isLoading = LoadingStates.neutro;
 
@@ -51,7 +52,6 @@ export class CandidatosComponent {
   cargos: Cargos[] = [];
   generos: Genero[] = [];
   agrupacionesPoliticas: AgrupacionPolitica[] = [];
-
 
   previewImage: string | ArrayBuffer | null = null;
   currentPage: number = 1;
@@ -78,7 +78,7 @@ export class CandidatosComponent {
     private comunidadService: ComunidadService,
 
   ) {
-    this.creteForm();    
+    this.creteForm();
     this.getCandidatos();
     this.getCargos();
     this.getGeneros();
@@ -183,58 +183,27 @@ export class CandidatosComponent {
   }
 
   agregarCandidato() {
-    const candidatoToAddOrUpdate: Candidato = this.candidatoForm.value as Candidato;
-    const file: File | null = this.candidatoForm.get('fotoArchivo')?.value as File;
-
-    if (file) {
-      const formData = new FormData();
-      formData.append('fotoArchivo', file);
-
-      formData.append('candidatoId', this.candidatoForm.get('candidatoId')?.value ? this.candidatoForm.get('candidatoId')?.value.toString() : '');
-      formData.append('nombre', this.candidatoForm.get('nombre')?.value);
-      formData.append('apellidoPaterno', this.candidatoForm.get('apellidoPaterno')?.value);
-      formData.append('apellidoMaterno', this.candidatoForm.get('apellidoMaterno')?.value);
-      formData.append('sobrenombrePropietario', this.candidatoForm.get('sobrenombrePropietario')?.value);
-      formData.append('generoId', this.candidatoForm.get('generoId')?.value);
-      formData.append('nombreSuplente', this.candidatoForm.get('nombreSuplente')?.value);
-      formData.append('fechaNacimiento', this.candidatoForm.get('fechaNacimiento')?.value);
-      formData.append('direccionCasaCampania', this.candidatoForm.get('direccionCasaCampania')?.value);
-      formData.append('telefonoPublico', this.candidatoForm.get('telefonoPublico')?.value);
-      formData.append('email', this.candidatoForm.get('email')?.value);
-      formData.append('paginaWeb', this.candidatoForm.get('paginaWeb')?.value);
-      formData.append('facebook', this.candidatoForm.get('facebook')?.value);
-      formData.append('twitter', this.candidatoForm.get('twitter')?.value);
-      formData.append('instagram', this.candidatoForm.get('instagram')?.value);
-      formData.append('tiktok', this.candidatoForm.get('tiktok')?.value);
-      formData.append('estatus', this.candidatoForm.get('estatus')?.value);
-      formData.append('cargoId', this.candidatoForm.get('cargoId')?.value);
-      formData.append('estadoId', this.candidatoForm.get('estadoId')?.value);
-      formData.append('distritoLocalId', this.candidatoForm.get('distritoLocalId')?.value);
-      formData.append('municipioId', this.candidatoForm.get('municipioId')?.value);
-      formData.append('comunidadId', this.candidatoForm.get('comunidadId')?.value);
-      formData.append('candidaturaId', this.candidatoForm.get('candidaturaId')?.value);
-
-      this.candidatoService.postCandidato(formData).subscribe({
-        next: () => {
-          console.log('Candidato agregado con éxito');
-        },
-        error: (error) => {
-          console.error('Error al agregar al candidato:', error);
-        }
-      });
-    } else {
-      console.error('Por favor, selecciona una foto.');
-    }
-  }
-
-  onFileChange(event: any) {
-    const file = event?.target?.files?.[0];
-    if (file) {
-      const fileName = file.name;
-      console.log(fileName); // Esto mostrará el nombre del archivo en la consola
-      this.candidatoForm.get('fotoArchivo')?.setValue(file);
-    }
-  }
+    this.candidato = this.candidatoForm.value as Candidato;
+    const AyuntamientoValue = this.candidatoForm.get('ayuntamiento')?.value;
+    this.candidato.municipio = { id: AyuntamientoValue } as Municipio;
+    const EstadoValue = this.candidatoForm.get('estado')?.value;
+    this.candidato.estado = { id: EstadoValue } as Estado;
+    const distritoLocalValue = this.candidatoForm.get('distritoLocal')?.value;
+    this.candidato.distritoLocal = { id: distritoLocalValue } as DistritoLocal;
+    const CargoValue = this.candidatoForm.get('cargos')?.value;
+    this.candidato.cargo = { id: CargoValue } as Cargos;
+    this.candidatoService.postCandidato(this.candidato).subscribe({
+      next: () => {
+        this.mensajeService.mensajeExito("Comunidad agregada con éxito");
+        this.resetForm();
+        this.getCandidatos();
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError("Error al agregar la comunidad");
+        console.error(error);
+      }
+    });
+}
 
   actualizarUsuario(candidato: Candidato) {
     this.candidatoService.putCandidato(candidato).subscribe({
@@ -302,16 +271,71 @@ export class CandidatosComponent {
     this.configPaginator.currentPage = 1;
   }
 
-  obtenerRutaImagen(nombreArchivo: string): string {
-    const rutaBaseApp = 'https://localhost:7154/';
+  onFileChange(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
 
-    if (nombreArchivo) {
-      return `${rutaBaseApp}images/${nombreArchivo}`;
+    if (inputElement.files && inputElement.files.length > 0) {
+      const file = inputElement.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const base64String = reader.result as string;
+        const base64WithoutPrefix = base64String.split(';base64,').pop() || '';
+
+        this.candidatoForm.patchValue({
+          imagenBase64: base64WithoutPrefix
+        });
+      };
+
+      reader.readAsDataURL(file);
     }
-    return '/assets/images/';
   }
 
 
+  readFileAsDataURL(filePath: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
 
+      reader.onloadend = () => {
+        if (typeof reader.result === 'string') {
+          resolve(reader.result);
+        } else {
+          reject(new Error('Error al leer el archivo como URL de datos.'));
+        }
+      };
+
+      reader.onerror = () => {
+        reject(new Error('Error al leer el archivo.'));
+      };
+
+      reader.readAsDataURL(new Blob([filePath]));
+    });
+  }
+
+  obtenerRutaImagen(nombreArchivo: string): string {
+    const rutaBaseAPI = 'https://localhost:7224/';
+    if (nombreArchivo) {
+      return `${rutaBaseAPI}images/${nombreArchivo}`;
+    }
+    return ''; // O una URL predeterminada si no hay nombre de archivo
+  }
+
+  imagenAmpliada: string | null = null;
+  mostrarImagenAmpliada(rutaImagen: string) {
+    this.imagenAmpliada = rutaImagen;
+    const modal = document.getElementById('modal-imagen-ampliada');
+    if (modal) {
+      modal.classList.add('show');
+      modal.style.display = 'block';
+    }
+  }
+  cerrarModal() {
+    this.imagenAmpliada = null;
+    const modal = document.getElementById('modal-imagen-ampliada');
+    if (modal) {
+      modal.classList.remove('show');
+      modal.style.display = 'none';
+    }
+  }
 }
 

@@ -28,8 +28,8 @@ export class CandidatoService {
     );
   }
 
-  postCandidato(formData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.route}/agregar_candidato`, formData);
+  postCandidato(candidato: Candidato): Observable<Candidato> {
+    return this.http.post<any>(`${this.route}/agregar_candidato`, candidato);
   }
 
   deleteCandidatos(id: number) {
