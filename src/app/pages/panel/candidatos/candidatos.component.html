@@ -65,7 +65,6 @@
                                     </div>
                                 </td>
                                 <td>{{ candidatos.nombreCompleto }}</td>
-                                <td>{{ candidatos.agrupacion.acronimo }}</td>
                                 <td>
                                     <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" style="margin-right: 10px;">
                           <i class="ti ti-edit"></i>
@@ -110,10 +109,10 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Nombre</label>
-                                        <input type="text" class="form-control" formControlName="nombre" />
-                                        <div *ngIf="candidatoForm.get('nombre')?.touched" class="error-message">
+                                        <input type="text" class="form-control" formControlName="nombres" />
+                                        <div *ngIf="candidatoForm.get('nombres')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm.get('nombre')?.hasError('required')
+                          candidatoForm.get('nombres')?.hasError('required')
                         ">
                                                 El nombre es obligatorio
                                             </div>
@@ -291,16 +290,16 @@
                           class="form-check-input"
                           type="radio"
                           [value]="generoItem.id"
-                          formControlName="generoId"
+                          formControlName="genero"
                         />
                         <span class="form-check-label">{{
                           generoItem.nombreGenero
                         }}</span>
                       </label>
                                         </div>
-                                        <div *ngIf="candidatoForm.get('generoId')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('genero')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm.get('generoId')?.hasError('required')
+                          candidatoForm.get('genero')?.hasError('required')
                         ">
                                                 El género es obligatorio
                                             </div>
@@ -350,14 +349,14 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Cargo</label>
-                                        <ng-select placeholder="Elegir" [items]="cargos" bindLabel="nombreCargo" bindValue="id" [searchable]="false" [clearable]="false" formControlName="cargoId">
+                                        <ng-select placeholder="Elegir" [items]="cargos" bindLabel="nombreCargo" bindValue="id" [searchable]="false" [clearable]="false" formControlName="cargo">
                                             <ng-template ng-option-tmp let-item="item">
                                                 {{ item.nombreCargo }}
                                             </ng-template>
                                         </ng-select>
-                                        <div *ngIf="candidatoForm.get('cargoId')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('cargo')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm.get('cargoId')?.hasError('required')
+                          candidatoForm.get('cargo')?.hasError('required')
                         ">
                                                 El cargo es obligatorio
                                             </div>
@@ -368,7 +367,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Agrupación Política</label>
-                                        <ng-select formControlName="agrupacionPoliticaId" #selectAgrupacionPolitica [searchable]="false" [items]="agrupacionesPoliticas" bindLabel="nombreAgrupacion" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="tipoAgrupacionPolitica" #selectAgrupacionPolitica [searchable]="false" [items]="agrupacionesPoliticas" bindLabel="nombreAgrupacion" bindValue="id" placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectAgrupacionPolitica.filter(
@@ -395,7 +394,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Estado</label>
-                                        <ng-select formControlName="estadoId" #selectEstado [searchable]="false" [items]="estados" bindLabel="nombreEstado" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="estado" #selectEstado [searchable]="false" [items]="estados" bindLabel="nombreEstado" bindValue="id" placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectEstado.filter($any($event.target).value)
@@ -410,7 +409,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Distrito Local</label>
-                                        <ng-select formControlName="distritoLocalId" #selectDistritoLocal [searchable]="false" [items]="distritosLocales" bindLabel="nombreDistritoLocal" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="distritoLocal" #selectDistritoLocal [searchable]="false" [items]="distritosLocales" bindLabel="nombreDistritoLocal" bindValue="id" placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectDistritoLocal.filter(
@@ -429,7 +428,7 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Municipio</label>
-                                        <ng-select formControlName="municipioId" #selectMunicipio [searchable]="false" [items]="municipios" bindLabel="nombreMunicipio" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="ayuntamiento" #selectMunicipio [searchable]="false" [items]="municipios" bindLabel="nombreMunicipio" bindValue="id" placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectMunicipio.filter($any($event.target).value)
@@ -444,7 +443,7 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Comunidad</label>
-                                        <ng-select formControlName="comunidadId" #selectComunidad [searchable]="false" [items]="comunidades" bindLabel="nombreComunidad" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="comunidad" #selectComunidad [searchable]="false" [items]="comunidades" bindLabel="nombreComunidad" bindValue="id" placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectComunidad.filter($any($event.target).value)
