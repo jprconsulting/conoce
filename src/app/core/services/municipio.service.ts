@@ -38,15 +38,15 @@ export class MunicipioService {
       })
     );
   }
-  postAyuntamiento(ayuntamiento: Municipio): Observable<Municipio> {
-    return this.http.post<Municipio>(`${this.apiUrl}/crear`, ayuntamiento).pipe(
+  postMunicipios(municipio: Municipio): Observable<Municipio> {
+    return this.http.post<Municipio>(`${this.apiUrl}/crear`, municipio).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);
       })
     );
   }
-  deleteAyuntamiento(id: number): Observable<any> {
+  deleteMunicipios(id: number): Observable<any> {
     return this.http.delete(`${this.apiUrl}/eliminar/${id}`).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
@@ -54,8 +54,8 @@ export class MunicipioService {
       })
     );
   }
-  putAyuntamiento(id: number,ayuntamiento: Municipio): Observable<Municipio> {
-    return this.http.put<Municipio>(`${this.apiUrl}/actualizar/${id}`, ayuntamiento).pipe(
+  putMunicipios(id: number,municipio: Municipio): Observable<Municipio> {
+    return this.http.put<Municipio>(`${this.apiUrl}/actualizar/${id}`, municipio).pipe(
       catchError(this.handleErrorService.handleError),
       tap(() => {
         this._refreshListUsers$.next(null);

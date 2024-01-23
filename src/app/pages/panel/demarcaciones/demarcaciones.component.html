@@ -205,13 +205,13 @@
                               #
                           </th>
                             <th
-                            style="text-transform: none; font-size: inherit" class="text-center"
+                            style="text-transform: none; font-size: inherit"
                             >
                               Nombre
                             </th>
                             
                             <th
-                            style="text-transform: none; font-size: inherit" class="text-center"
+                            style="text-transform: none; font-size: inherit"
                             >
                               Estado
                             </th>
@@ -290,7 +290,7 @@
               data-bs-toggle="collapse"
               data-bs-target="#collapse-2"
               aria-expanded="false"
-              (click)="handleChangeAdd('ayuntamiento')"
+              (click)="handleChangeAdd('municipio')"
             >
               Municipios
             </button>
@@ -304,13 +304,13 @@
               <button
                 class="btn btn-primary"
                 data-bs-toggle="modal"
-                data-bs-target="#modal-ayuntamiento"
+                data-bs-target="#modal-municipio"
               >
                 <i class="ti ti-plus me-1"></i>Agregar municipios
               </button>
               <div
                 class="modal modal-blur fade"
-                id="modal-ayuntamiento"
+                id="modal-municipio"
                 tabindex="-1"
                 role="dialog"
                 aria-hidden="true"
@@ -334,7 +334,7 @@
                     <div class="modal-body">
                       <form
                         [formGroup]="municipioForm"
-                        (ngSubmit)="submitAyuntamientos()"
+                        (ngSubmit)="submitMunicipios()"
                       >
                       <div class="row mb-3">
                         <div class="col-md-6">
@@ -445,7 +445,7 @@
               </div>
               <!-- FIN MODAL -->
               <br />
-              <!-- Lista de Ayuntamientos -->
+              <!-- Lista de municipio -->
               <ng-container [ngSwitch]="isLoadingUsers">
                 <div class="progress" *ngSwitchCase="2">
                   <div
@@ -456,7 +456,7 @@
                 <div *ngSwitchCase="3">
                   <div
                     class="table-responsive"
-                    *ngIf="ayuntamientos.length > 0"
+                    *ngIf="Municipios.length > 0"
                   >
                     <br />
                     <div class="input-icon">
@@ -480,27 +480,27 @@
                             <th style="text-transform: none; font-size: inherit">
                               #
                           </th>
-                            <th style="text-transform: none; font-size: inherit" class="text-center">Nombre</th>
-                            <th style="text-transform: none; font-size: inherit" class="text-center">Distrito local</th>
+                            <th style="text-transform: none; font-size: inherit">Nombre</th>
+                            <th style="text-transform: none; font-size: inherit">Distrito local</th>
                             <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">
                               Acciones
                             </th>
                           </tr>
                         </thead>
                         <tbody class="table-tbody">
-                          <tr *ngFor="let ayuntamiento of filtrarAyuntamientos() | paginate : configPaginator; let pointIndex = index">
+                          <tr *ngFor="let municipio of filtrarMunicipios() | paginate : configPaginator; let pointIndex = index">
                             <td>
                               {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
                           </td>
-                            <td>{{ ayuntamiento.nombreMunicipio }}</td>
-                            <td>{{ ayuntamiento.distritoLocal.nombreDistritoLocal }}</td>
+                            <td>{{ municipio.nombreMunicipio }}</td>
+                            <td>{{ municipio.distritoLocal.nombreDistritoLocal }}</td>
                             
                             <td>
                               <div class="d-flex justify-content-between">
-                                <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-ayuntamiento" (click)="setDataModalUpdateAyuntamiento(ayuntamiento)">
+                                <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-municipio" (click)="setDataModalUpdateMunicipio(municipio)">
                                   <i class="ti ti-edit"></i>
                                 </button>
-                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarAyuntamiento(ayuntamiento.id, ayuntamiento.nombreMunicipio)">
+                                <button class="btn btn-danger btn-icon btn-sm" (click)="eliminarMunicipio(municipio.id, municipio.nombreMunicipio)">
                                   <i class="ti ti-trash"></i>
                                 </button>
                               </div>
@@ -511,7 +511,7 @@
                       </table>
                     </div>
                   </div>
-                  <div *ngIf="ayuntamientos.length === 0">
+                  <div *ngIf="Municipios.length === 0">
                     <p>No hay Municipios agregados.</p>
                   </div>
                 </div>
@@ -635,9 +635,6 @@
 
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="ayuntamiento" class="form-label"
-                                >Ayuntamiento:</label
-                              >
                               <label for="distritoLocal" class="form-label"
                                 >Distrito local:</label
                               >
@@ -645,7 +642,7 @@
                               formControlName="municipio"
                               #selectEstado
                               [searchable]="false"
-                              [items]="ayuntamientos"
+                              [items]="Municipios"
                               bindLabel="nombreMunicipio"
                               bindValue="id"
                               placeholder="Elegir"
@@ -736,8 +733,8 @@
                             <th style="text-transform: none; font-size: inherit">
                               #
                           </th>
-                            <th tyle="text-transform: none; font-size: inherit" class="text-center">Nombre</th>
-                            <th tyle="text-transform: none; font-size: inherit" class="text-center">Ayuntamiento</th>
+                            <th tyle="text-transform: none; font-size: inherit" >Nombre</th>
+                            <th tyle="text-transform: none; font-size: inherit" >Municipio</th>
                             <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">
                               Acciones
                             </th>
