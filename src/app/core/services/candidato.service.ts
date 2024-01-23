@@ -29,7 +29,7 @@ export class CandidatoService {
   }
 
   postCandidato(candidato: Candidato): Observable<Candidato> {
-    return this.http.post<any>(`${this.route}/agregar_candidato`, candidato);
+    return this.http.post<any>(`${this.route}/crear`, candidato);
   }
 
   deleteCandidatos(id: number) {

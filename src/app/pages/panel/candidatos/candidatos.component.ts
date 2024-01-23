@@ -93,11 +93,11 @@ export class CandidatosComponent {
   creteForm() {
     this.candidatoForm = this.formBuilder.group({
       candidatoId: [null],
-      nombre: ['', Validators.required],
+      nombres: ['', Validators.required],
       apellidoPaterno: ['', Validators.required],
       apellidoMaterno: ['', Validators.required],
-      sobrenombrePropietario: [''],
-      generoId: [null, Validators.required],
+      sobrenombre: [''],
+      genero: [null, Validators.required],
       nombreSuplente: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       fechaNacimiento: ['', Validators.required],
@@ -110,13 +110,13 @@ export class CandidatosComponent {
       tiktok: ['', Validators.required],
       foto: [null],
       estatus: [true],
-      cargoId: [null, Validators.required],
-      estadoId: [null],
-      distritoLocalId: [null],
-      municipioId: [null],
-      comunidadId: [null],
-      agrupacionPoliticaId: [null, Validators.required],
-      fotoArchivo: [null, Validators.required]
+      cargo: [null, Validators.required],
+      estado: [null],
+      distritoLocal: [null],
+      ayuntamiento: [null],
+      comunidad: [null],
+      tipoAgrupacionPolitica: [null, Validators.required],
+      imagenBase64: [null, Validators.required]
     });
   }
 
@@ -184,25 +184,37 @@ export class CandidatosComponent {
 
   agregarCandidato() {
     this.candidato = this.candidatoForm.value as Candidato;
-    const AyuntamientoValue = this.candidatoForm.get('ayuntamiento')?.value;
-    this.candidato.municipio = { id: AyuntamientoValue } as Municipio;
+    const AgrupacionValue = this.candidatoForm.get('tipoAgrupacionPolitica')?.value;
+    this.candidato.agrupacion = { id: AgrupacionValue } as AgrupacionPolitica;
+    const CargoValue = this.candidatoForm.get('cargo')?.value;
+    this.candidato.cargo = { id: CargoValue } as Cargos;
+    const GeneroValue = this.candidatoForm.get('genero')?.value;
+    this.candidato.genero = { id: GeneroValue } as Genero;
     const EstadoValue = this.candidatoForm.get('estado')?.value;
     this.candidato.estado = { id: EstadoValue } as Estado;
     const distritoLocalValue = this.candidatoForm.get('distritoLocal')?.value;
     this.candidato.distritoLocal = { id: distritoLocalValue } as DistritoLocal;
-    const CargoValue = this.candidatoForm.get('cargos')?.value;
-    this.candidato.cargo = { id: CargoValue } as Cargos;
+    const AyuntamientoValue = this.candidatoForm.get('ayuntamiento')?.value;
+    this.candidato.municipio = { id: AyuntamientoValue } as Municipio;
+    const ComunidadValue = this.candidatoForm.get('comunidad')?.value;
+    this.candidato.comunidad = { id: ComunidadValue } as Comunidad;
+    const imagenBase64 = this.candidatoForm.get('imagenBase64')?.value;
+    if (imagenBase64) {
+      const candidato = { ...this.candidato, imagenBase64 };
     this.candidatoService.postCandidato(this.candidato).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Comunidad agregada con éxito");
+        this.mensajeService.mensajeExito("Candidato agregado con éxito");
         this.resetForm();
         this.getCandidatos();
       },
       error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar la comunidad");
+        this.mensajeService.mensajeError("Error al agregar al candidato");
         console.error(error);
       }
     });
+  } else {
+    console.error('Error: No se encontró una representación válida en base64 de la imagen.');
+  }
 }
 
   actualizarUsuario(candidato: Candidato) {
@@ -273,24 +285,19 @@ export class CandidatosComponent {
 
   onFileChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
-
     if (inputElement.files && inputElement.files.length > 0) {
       const file = inputElement.files[0];
       const reader = new FileReader();
-
       reader.onload = () => {
         const base64String = reader.result as string;
         const base64WithoutPrefix = base64String.split(';base64,').pop() || '';
-
         this.candidatoForm.patchValue({
-          imagenBase64: base64WithoutPrefix
+          imagenBase64: base64WithoutPrefix// Contiene solo la representación en base64
         });
       };
-
       reader.readAsDataURL(file);
     }
   }
-
 
   readFileAsDataURL(filePath: string): Promise<string> {
     return new Promise((resolve, reject) => {
