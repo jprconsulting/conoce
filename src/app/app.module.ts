@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginModule } from './pages/login/login.module';
 import { FaqRoutingModule } from './pages/panel/faq/faq-routing.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,

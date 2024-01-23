@@ -1,3 +1,11 @@
+import { Estado } from "./estado";
+import { Cargos } from "./cargos";
+import { DistritoLocal } from "./distritoLocal";
+import { Municipio } from "./municipio";
+import { Comunidad } from "./comunidad";
+import { Genero } from "./genero";
+import { AgrupacionPolitica } from "./agrupacion-politica";
+
 export interface Candidato {
   id: number;
   nombre: string;
@@ -17,17 +25,13 @@ export interface Candidato {
   tiktok: string;
   foto: string;
   estatus: boolean;
-  cargoId: number;
-  estadoId: number;
-  distritoLocalId: number;
-  ayuntamientoId: number;
-  comunidadId: number;
-  generoId: number;
-  candidaturaId: number;
-  candidatura: any;
-  cargo: any;
-  estado: any;
-  genero: any;
+  cargo: Cargos;
+  estado: Estado;
+  distritoLocal: DistritoLocal;
+  municipio: Municipio;
+  comunidad: Comunidad;
+  genero: Genero;
+  agrupacion: AgrupacionPolitica;
 
   tieneRespuestas: boolean;
 
