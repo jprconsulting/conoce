@@ -105,6 +105,11 @@ const routes: Routes = [
         loadChildren: () => import("./formulario-asignado/formulario-asignado.module")
           .then(c => c.FormularioAsignadoModule)
       },
+      {
+        path: 'Agrupacion-Politica',
+        loadChildren: () => import("./agrupaciones/agrupaciones.module")
+          .then(c => c.AgrupacionesModule)
+      },
     ]
   }
 ];

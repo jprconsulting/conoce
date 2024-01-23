@@ -56,7 +56,19 @@ export class FormularioComponent {
   }
 
   editar() {
-
+    this.spinnerService.show();
+    this.formularioService.post(this.formulario).subscribe({
+      next: () => {
+        this.spinnerService.hide();
+        this.mensajeService.mensajeExito('Formulario guardado correctamente');
+        this.resetForm();
+        this.configPaginator.currentPage = 1;
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        this.mensajeService.mensajeError(error);
+      },
+    });
   }
 
   submit() {
@@ -153,22 +165,34 @@ export class FormularioComponent {
 
 
   setDataModalUpdate(dto: Formulario) {
-    // this.isModalAdd = false;
-    // this.configGoogleFormFormGroup.patchValue({
-    //   formularioId: user.formularioId,
-    //   formName: user.formName,
-    //   googleFormId: user.googleFormId,
-    //   spreadsheetId: user.spreadsheetId,
-    //   sheetName: user.sheetName,
-    // });
-    // console.log(this.configGoogleFormFormGroup.value);
+     this.isModalAdd = false;
+     this.formularioForm.patchValue({
+       formularioId: dto.id,
+       nombreFormulario: dto.nombreFormulario,
+       googleFormId: dto.googleFormId,
+       spreadsheetId: dto.spreadsheetId,
+       sheetName: dto.sheetName,
+       endPointEditLinks: dto.endPointEditLinks,
+       configGoogleForm: dto.configGoogleForm
+     });
+     console.log(this.formularioForm.value);
   }
 
-  deleteItem(id: number) {
-
+  deleteItem(id: number,) {
+    this.mensajeService.mensajeAdvertencia(
+      `¿Estás seguro de eliminar el formulario?`,
+      () => {
+        this.formularioService.delete(id).subscribe({
+          next: () => {
+            this.mensajeService.mensajeExito('Formulario borrado correctamente');
+            this.configPaginator.currentPage = 1;
+            this.getFormularios();
+          },
+          error: (error) => this.mensajeService.mensajeError(error)
+        });
+      }
+    );
   }
-
-
 
   onPageChange(number: number) {
     this.configPaginator.currentPage = number;

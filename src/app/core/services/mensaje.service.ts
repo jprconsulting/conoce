@@ -36,7 +36,8 @@ export class MensajeService {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, borrarlo!'
+      confirmButtonText: 'Sí, borrarlo!',
+      cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.value) {
         onConfirm(); 

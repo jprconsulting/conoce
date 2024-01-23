@@ -98,7 +98,7 @@
                     <button
                       class="btn btn-warning btn-icon btn-sm"
                       data-bs-toggle="modal"
-                      data-bs-target="#modal-usuario"
+                      data-bs-target="#modal-formulario"
                       (click)="setDataModalUpdate(formulario)"
                     >
                       <i class="ti ti-edit"></i>
@@ -231,6 +231,7 @@
                     <input
                       type="file"
                       class="form-control"
+                      formControlName="configGoogleForm"
                       accept=".json"
                       (change)="onFileChange($event)"
                     />
