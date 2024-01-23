@@ -6,10 +6,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { FilterByTipoCandidaturaPipe } from './filter-by-tipo-candidatura.pipe';
 
 @NgModule({
   declarations: [
-    AgrupacionesComponent
+    AgrupacionesComponent,
+    FilterByTipoCandidaturaPipe,
   ],
   imports: [
     CommonModule,
