@@ -28,6 +28,7 @@ export class AsignacionComponent {
   asignacionesFilter: AsignacionFormulario[] = [];
   formularios: Formulario[] = [];
   candidatos: Candidato[] = [];
+  id!: number;
 
   constructor(
     @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
@@ -87,7 +88,7 @@ export class AsignacionComponent {
   creteForm() {
     this.asignacionForm = this.formBuilder.group({
       formularioId: [null, Validators.required],
-      candidatosIds: [[], Validators.required]
+      candidatosIds: [[], Validators.required],
     });
   }
 
@@ -97,11 +98,30 @@ export class AsignacionComponent {
     }
   }
   setDataModalUpdate(dto: AsignacionFormulario) {
-
+    this.id = dto.id;
+    this.asignacionForm.patchValue({
+      id: dto.id,
+      formularioId: dto.formulario.id,
+      candidatosIds: dto.candidato.nombreCompleto
+    });
+    console.log(this.asignacionForm.value);
   }
 
   deleteItem(id: number) {
-
+    this.mensajeService.mensajeAdvertencia(
+      `¿Estás seguro de eliminar?`,
+      () => {
+        this.asignacionFormularioService.delete(id).subscribe({
+          next: () => {
+            this.mensajeService.mensajeExito('Registro borrado exitosamente');
+            this.configPaginator.currentPage = 1;
+            this.getAsignaciones();
+            //this.ConfigPaginator.currentPage = 1;
+          },
+          error: (error) => this.mensajeService.mensajeError(error)
+        });
+      }
+    );
   }
 
   resetForm() {
@@ -135,7 +155,26 @@ export class AsignacionComponent {
     });
 
   }
+  editar(){
+    const formularioId = this.asignacionForm.get('formularioId')?.value;
+    this.asignacion = {
+      formulario: { id: formularioId } as Formulario,
+      candidatosIds: this.asignacionForm.get('candidatosIds')?.value as number[]
+    } as AsignacionFormulario;
 
+    this.spinnerService.show();
+    this.asignacionFormularioService.put(this.id,this.asignacion).subscribe({
+      next: () => {
+        this.spinnerService.hide();
+        this.mensajeService.mensajeExito('Asignación guardada correctamente');
+        this.resetForm();
+        this.configPaginator.currentPage = 1;
+      },
+      error: (error) => {
+        this.spinnerService.hide();
+        this.mensajeService.mensajeError(error);
+      },
+    });
 
-
+  }
 }

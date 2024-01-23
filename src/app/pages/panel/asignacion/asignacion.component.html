@@ -70,7 +70,7 @@
                       <button
                         class="btn btn-warning btn-icon btn-sm"
                         data-bs-toggle="modal"
-                        data-bs-target="#modal-usuario"
+                        data-bs-target="#modal-google-form-edicion"
                         (click)="setDataModalUpdate(asignacion)"
                       >
                         <i class="ti ti-edit"></i>
@@ -119,7 +119,7 @@
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Asignación de Formulario</h5>
+        <h5 class="modal-title">Asignación de formulario</h5>
         <button
           type="button"
           class="btn-close"
@@ -198,3 +198,45 @@
   </div>
 </div>
 <!-- FIN MODAL -->
+<div class="modal modal-blur fade" id="modal-google-form-edicion" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Editar formulario</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+            <div class="modal-body" style="max-height: 500px; overflow-y: auto;">
+              <form [formGroup]="asignacionForm" (ngSubmit)="editar()">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="mb-3">
+                      <label class="form-label">Formulario:</label>
+                      <ng-select
+                        placeholder="Elegir"
+                        [items]="formularios"
+                        bindLabel="nombreFormulario"
+                        bindValue="id"
+                        [searchable]="false"
+                        [clearable]="false"
+                        formControlName="formularioId"
+                      >
+                        <ng-template ng-option-tmp let-item="item">
+                          {{ item.nombreFormulario }}
+                        </ng-template>
+                      </ng-select>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="submit"
+                    class="btn btn-primary"
+                    [disabled]="!asignacionForm.valid"
+                  >
+                    Ediatr
+                  </button>                </div>
+              </form>
+            </div>
+      </div>
+  </div>
+</div>
