@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { CandidatoService } from 'src/app/core/services/candidato.service';
@@ -58,6 +58,7 @@ export class CandidatosComponent {
   isModalAdd = false;
   respuestas: RespuestaGoogleFormulario[] = [];
   fileCandidatura: File | undefined;
+  showImage: boolean = true;
 
   constructor(
     @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
@@ -116,7 +117,7 @@ export class CandidatosComponent {
       ayuntamiento: [null],
       comunidad: [null],
       tipoAgrupacionPolitica: [null, Validators.required],
-      imagenBase64: [null, Validators.required]
+      imagenBase64: ['']
     });
   }
 
@@ -243,21 +244,34 @@ export class CandidatosComponent {
       const reader = new FileReader();
       reader.readAsDataURL(file);
       reader.onload = () => {
-        this.previewImage = reader.result; // Actualiza la previsualización
+        // La cadena Base64 incluye el prefijo "data:image/png;base64,"
+        const base64String = reader.result as string;
 
-        const fotoControl = this.candidatoForm.get('foto');
-        if (fotoControl) {
-          fotoControl.setValue(reader.result); // Actualiza el campo "foto" en el formulario
+        // Eliminar el prefijo "data:image/png;base64," de la cadena
+        const base64WithoutPrefix = base64String.replace(/^data:image\/(png|jpg|jpeg);base64,/, '');
+
+        console.log(base64WithoutPrefix); // Verifica que la cadena no incluya el prefijo
+
+        // Asigna la cadena Base64 sin el prefijo al control del formulario base64Logo
+        const imagenBase64Control = this.candidatoForm.get('imagenBase64');
+        if (imagenBase64Control instanceof FormControl) {
+          imagenBase64Control.setValue(base64WithoutPrefix);
         }
+
+        this.previewImage = base64String; // Actualiza la previsualización
       };
     }
   }
 
-  eliminarImagen() {
-    this.previewImage = null;
+  mostrar(){
+    this.showImage = true;
   }
 
-
+  eliminarImagen(event: Event) {
+    this.showImage = false;
+    this.previewImage = null;
+    event.stopPropagation();
+  }
 
   handleChangeAdd() {
     this.candidatoForm.reset();
@@ -281,22 +295,6 @@ export class CandidatosComponent {
     const valueSearch = inputValue.toLowerCase();
 
     this.configPaginator.currentPage = 1;
-  }
-
-  onFileChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    if (inputElement.files && inputElement.files.length > 0) {
-      const file = inputElement.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        const base64String = reader.result as string;
-        const base64WithoutPrefix = base64String.split(';base64,').pop() || '';
-        this.candidatoForm.patchValue({
-          imagenBase64: base64WithoutPrefix// Contiene solo la representación en base64
-        });
-      };
-      reader.readAsDataURL(file);
-    }
   }
 
   readFileAsDataURL(filePath: string): Promise<string> {
@@ -343,6 +341,10 @@ export class CandidatosComponent {
       modal.classList.remove('show');
       modal.style.display = 'none';
     }
+  }
+
+  get imagenControl(): FormControl {
+    return this.candidatoForm.get('imagen') as FormControl;
   }
 }
 
