@@ -59,6 +59,10 @@ export class CandidatosComponent {
   respuestas: RespuestaGoogleFormulario[] = [];
   fileCandidatura: File | undefined;
   showImage: boolean = true;
+  verdadero = "Activo";
+  falso = "Inactivo";
+  estatusBtn = true;
+  estatusTag = this.verdadero;
 
   constructor(
     @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
@@ -101,7 +105,7 @@ export class CandidatosComponent {
       nombreSuplente: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
       fechaNacimiento: ['', Validators.required],
       direccionCasaCampania: ['', [Validators.required, Validators.minLength(6)]],
-      telefonoPublico: ['', [Validators.required,Validators.minLength(9), Validators.pattern(/[0-9]/)]],
+      telefonoPublico: ['', [Validators.required, Validators.minLength(9), Validators.pattern(/[0-9]/)]],
       email: ['', [Validators.required, Validators.email]],
       paginaWeb: [''],
       facebook: ['', Validators.required],
@@ -110,7 +114,7 @@ export class CandidatosComponent {
       tiktok: ['', Validators.required],
       foto: [null],
       imagenBase64: [''],
-      estatus: [true],
+      estatus: [this.estatusBtn],
       agrupacionPoliticaId: [null, Validators.required],
       cargoId: [null, Validators.required],
       estadoId: [null, Validators.required],
@@ -120,7 +124,9 @@ export class CandidatosComponent {
       comunidadId: [null, Validators.required],
     });
   }
-
+  setEstatus() {
+    this.estatusTag = this.estatusBtn ? this.verdadero : this.falso;
+  }
   onFileSelectCand(event: any) {
     this.fileCandidatura = event.target.files.item(0) as File;
   }
@@ -288,7 +294,7 @@ export class CandidatosComponent {
     const imagenBase64 = this.candidatoForm.get('imagenBase64')?.value;
 
     console.log(this.candidato);
-    this.candidatoService.putCandidato(this.id,candidato).subscribe({
+    this.candidatoService.putCandidato(this.id, candidato).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Candidato actualizado con éxito");
         this.resetForm();
@@ -304,6 +310,7 @@ export class CandidatosComponent {
   resetForm() {
     this.closebutton.nativeElement.click();
     this.candidatoForm.reset();
+    this.previewImage = null;
   }
 
 
@@ -344,8 +351,14 @@ export class CandidatosComponent {
   }
 
   handleChangeAdd() {
-    this.candidatoForm.reset();
-    this.isModalAdd = true;
+    if (this.candidatoForm) {
+      this.candidatoForm.reset();
+      const estatusControl = this.candidatoForm.get('estatus');
+      if (estatusControl) {
+        estatusControl.setValue(true);
+      }
+      this.isModalAdd = true;
+    }
   }
 
   getConfigGoogleForms() {
@@ -436,50 +449,50 @@ export class CandidatosComponent {
     return fechaFormateada;
   }
 
-  setDataModalUpdatecandidatos(dto: Candidato){
-      this.id = dto.id;
-      this.isModalAdd = false;
-      const fechaFormateada = this.formatoFecha(dto.fechaNacimiento);
-      this.candidatoForm.patchValue({
-        id: dto.id,
-        nombres: dto.nombres,
-        apellidoPaterno: dto.apellidoPaterno,
-        apellidoMaterno: dto.apellidoMaterno,
-        sobrenombre: dto.sobrenombre,
-        nombreSuplente: dto.nombreSuplente,
-        fechaNacimiento: fechaFormateada,
-        direccionCasaCampania: dto.direccionCasaCampania,
-        telefonoPublico: dto.telefonoPublico,
-        email: dto.email,
-        paginaWeb: dto.paginaWeb,
-        facebook: dto.facebook,
-        twitter: dto.twitter,
-        instagram: dto.instagram,
-        tiktok: dto.tiktok,
-        imagenBase64: dto.imagenBase64,
-        estatus: dto.estatus,
-        agrupacionPoliticaId: dto.agrupacionPolitica.id,
-        cargoId: dto.cargo.id,
-        estadoId: dto.estado.id,
-        generoId: dto.genero.id,
-        distritoLocalId: dto.distritoLocal.id,
-        municipioId: dto.municipio.id,
-        comunidadId: dto.comunidad.id,
-      });
-      console.log(this.candidatoForm.value);
-    }
+  setDataModalUpdatecandidatos(dto: Candidato) {
+    this.id = dto.id;
+    this.isModalAdd = false;
+    const fechaFormateada = this.formatoFecha(dto.fechaNacimiento);
+    this.candidatoForm.patchValue({
+      id: dto.id,
+      nombres: dto.nombres,
+      apellidoPaterno: dto.apellidoPaterno,
+      apellidoMaterno: dto.apellidoMaterno,
+      sobrenombre: dto.sobrenombre,
+      nombreSuplente: dto.nombreSuplente,
+      fechaNacimiento: fechaFormateada,
+      direccionCasaCampania: dto.direccionCasaCampania,
+      telefonoPublico: dto.telefonoPublico,
+      email: dto.email,
+      paginaWeb: dto.paginaWeb,
+      facebook: dto.facebook,
+      twitter: dto.twitter,
+      instagram: dto.instagram,
+      tiktok: dto.tiktok,
+      imagenBase64: dto.imagenBase64,
+      estatus: dto.estatus,
+      agrupacionPoliticaId: dto.agrupacionPolitica.id,
+      cargoId: dto.cargo.id,
+      estadoId: dto.estado.id,
+      generoId: dto.genero.id,
+      distritoLocalId: dto.distritoLocal.id,
+      municipioId: dto.municipio.id,
+      comunidadId: dto.comunidad.id,
+    });
+    console.log(this.candidatoForm.value);
+  }
 
-    filtrarResultados() {
-      const filtroLowerCase = this.filtro.toLowerCase().trim();
-  
-      return this.candidatos.filter(candidato =>
-        candidato.nombres.toLowerCase().includes(filtroLowerCase) ||
-        candidato.apellidoPaterno.toLowerCase().includes(filtroLowerCase) ||
-        candidato.apellidoMaterno.toLowerCase().includes(filtroLowerCase) ||
-        candidato.email.toLowerCase().includes(filtroLowerCase) ||
-        candidato.cargo.nombreCargo.toLowerCase().includes(filtroLowerCase) ||
-        candidato.genero.nombreGenero.toLowerCase().includes(filtroLowerCase)
-      );
-    }
+  filtrarResultados() {
+    const filtroLowerCase = this.filtro.toLowerCase().trim();
+
+    return this.candidatos.filter(candidato =>
+      candidato.nombres.toLowerCase().includes(filtroLowerCase) ||
+      candidato.apellidoPaterno.toLowerCase().includes(filtroLowerCase) ||
+      candidato.apellidoMaterno.toLowerCase().includes(filtroLowerCase) ||
+      candidato.email.toLowerCase().includes(filtroLowerCase) ||
+      candidato.cargo.nombreCargo.toLowerCase().includes(filtroLowerCase) ||
+      candidato.genero.nombreGenero.toLowerCase().includes(filtroLowerCase)
+    );
+  }
 }
 

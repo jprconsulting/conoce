@@ -11,7 +11,7 @@
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidato"
-                        (click)="handleChangeAdd();resetForm()">
+                        (click)="handleChangeAdd()">
                         <i class="ti ti-plus me-1"></i>Agregar Candidato
                     </button>
 
@@ -139,7 +139,7 @@
                 <h5 class="modal-title">
                     {{ isModalAdd ? "Agregar" : "Actualizar" }} Candidato
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"
                     #closebutton></button>
             </div>
 
@@ -171,7 +171,7 @@
                                                 El nombre debe tener al menos 3 caracteres
                                             </div>
                                             <div *ngIf="candidatoForm.get('nombres')?.hasError('pattern')">
-                                                El nombre no puede tener números  ni signos
+                                                El nombre no puede tener números ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -180,7 +180,8 @@
                                     <div class="mb-3">
                                         <label class="form-label">Apellido paterno</label>
                                         <input type="text" class="form-control" formControlName="apellidoPaterno" />
-                                        <div *ngIf="candidatoForm.get('apellidoPaterno')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('apellidoPaterno')?.touched"
+                                            class="error-message">
                                             <div *ngIf="
                               candidatoForm.get('apellidoPaterno')?.hasError('required')
                             ">
@@ -192,7 +193,7 @@
                                                 El apellido paterno debe tener al menos 3 caracteres
                                             </div>
                                             <div *ngIf="candidatoForm.get('apellidoPaterno')?.hasError('pattern')">
-                                                El apellido paterno no puede tener números  ni signos
+                                                El apellido paterno no puede tener números ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -203,7 +204,8 @@
                                     <div class="mb-3">
                                         <label class="form-label">Apellido materno</label>
                                         <input type="text" class="form-control" formControlName="apellidoMaterno" />
-                                        <div *ngIf="candidatoForm.get('apellidoMaterno')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('apellidoMaterno')?.touched"
+                                            class="error-message">
                                             <div *ngIf="
                               candidatoForm.get('apellidoMaterno')?.hasError('required')
                             ">
@@ -215,7 +217,7 @@
                                                 El apellido maternodebe tener al menos 3 caracteres
                                             </div>
                                             <div *ngIf="candidatoForm.get('apellidoMaterno')?.hasError('pattern')">
-                                                El apellido materno no puede tener números  ni signos
+                                                El apellido materno no puede tener números ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -233,8 +235,8 @@
                                             <div *ngIf="
                                             candidatoForm.get('sobrenombre')?.hasError('minlength')
                                           ">
-                                                              El sobrenombre debe tener al menos 3 caracteres
-                                                          </div>
+                                                El sobrenombre debe tener al menos 3 caracteres
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -257,7 +259,7 @@
                                                 El nombre tener al menos 3 caracteres
                                             </div>
                                             <div *ngIf="candidatoForm.get('nombreSuplente')?.hasError('pattern')">
-                                                El nombre no puede tener números  ni signos
+                                                El nombre no puede tener números ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -290,8 +292,8 @@
                                             <div *ngIf="
                                             candidatoForm.get('telefonoPublico')?.hasError('minlength')
                                           ">
-                                                             La direcion debe tener al menos 10 caracteres
-                                                          </div>
+                                                La direcion debe tener al menos 10 caracteres
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -348,8 +350,8 @@
                                             <div *ngIf="
                                             candidatoForm.get('direccionCasaCampania')?.hasError('minlength')
                                           ">
-                                                             La direcion debe tener al menos 5 caracteres
-                                                          </div>
+                                                La direcion debe tener al menos 5 caracteres
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -377,24 +379,24 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6">
-                                    <div class="mb-3">
-                                        <label for="estadoActivo" class="form-label">Estatus</label>
-                                        <label class="form-check form-switch checkbox-verde">
-                                            <input class="form-check-input" type="checkbox" formControlName="estatus"/>
-                                            <span class="form-check-label" [ngClass]="{
-                          'text-success':
-                            candidatoForm.get('estatus')?.value === true,
-                          'text-danger':
-                            candidatoForm.get('estatus')?.value === false
-                        }">
+                                <div class="col">
+                                    <label>Estatus: </label><br />
+                                    <div class="form-group">
+                                        <div class="form-check form-switch mt-1 ml-2 custom-green-switch">
+                                            <input class="form-check-input" type="checkbox" (change)="setEstatus()" ng
+                                                ser name="estatusBtn" formControlName="estatus" />
+                                            <span class="form-check-label" [ngClass]="
+                              candidatoForm.get('estatus')?.value
+                                ? 'text-success'
+                                : 'text-danger'
+                            ">
                                                 {{
                                                 candidatoForm.get("estatus")?.value
                                                 ? "Activo"
                                                 : "Inactivo"
                                                 }}
                                             </span>
-                                        </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -446,8 +448,10 @@
                                                 {{ item.nombreAgrupacion }}
                                             </ng-template>
                                         </ng-select>
-                                        <div *ngIf="candidatoForm.get('agrupacionPoliticaId')?.touched" class="error-message">
-                                            <div *ngIf="candidatoForm.get('agrupacionPoliticaId')?.hasError('required')">
+                                        <div *ngIf="candidatoForm.get('agrupacionPoliticaId')?.touched"
+                                            class="error-message">
+                                            <div
+                                                *ngIf="candidatoForm.get('agrupacionPoliticaId')?.hasError('required')">
                                                 La agrupacion politica es obligatoria
                                             </div>
                                         </div>
@@ -480,7 +484,7 @@
                                         </ng-select>
                                         <div *ngIf="candidatoForm.get('estadoId')?.touched" class="error-message">
                                             <div *ngIf="candidatoForm.get('estadoId')?.hasError('required')">
-                                               El estado es obligatorio
+                                                El estado es obligatorio
                                             </div>
                                         </div>
                                     </div>
@@ -503,9 +507,10 @@
                                                 {{ item.nombreDistritoLocal }}
                                             </ng-template>
                                         </ng-select>
-                                        <div *ngIf="candidatoForm.get('distritoLocalId')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('distritoLocalId')?.touched"
+                                            class="error-message">
                                             <div *ngIf="candidatoForm.get('distritoLocalId')?.hasError('required')">
-                                               El distrito local es obligatorio
+                                                El distrito local es obligatorio
                                             </div>
                                         </div>
                                     </div>

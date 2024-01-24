@@ -6,20 +6,24 @@
             </div>
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="handleChangeAdd()">
-            <i class="ti ti-plus me-1"></i>Agregar usuario
-          </button>
-          <div class="ms-auto d-flex align-items-center">
-            <div class="input-icon">
-                <input #busquedaInput type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" />
-                <span class="input-icon-addon">
-<i class="ti ti-search"></i>
-</span>
-            </div>
-            <a class="btn w-30 btn-icon" aria-label="Dribbble" (click)="exportarDatosAExcel()" title="Descargar excel de usuarios" style="margin-left: 8px; padding-top: 4px; padding-bottom: 4px">
-                <i class="ti ti-cloud-down text-muted" style="font-size: 28px"></i>
-            </a>
-        </div>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-report"
+                        (click)="handleChangeAdd()">
+                        <i class="ti ti-plus me-1"></i>Agregar usuario
+                    </button>
+                    <div class="ms-auto d-flex align-items-center">
+                        <div class="input-icon">
+                            <input #busquedaInput type="text" [(ngModel)]="filtro"
+                                class="form-control form-control-rounded" placeholder="Buscar" />
+                            <span class="input-icon-addon">
+                                <i class="ti ti-search"></i>
+                            </span>
+                        </div>
+                        <a class="btn w-30 btn-icon" aria-label="Dribbble" (click)="exportarDatosAExcel()"
+                            title="Descargar excel de usuarios"
+                            style="margin-left: 8px; padding-top: 4px; padding-bottom: 4px">
+                            <i class="ti ti-cloud-down text-muted" style="font-size: 28px"></i>
+                        </a>
+                    </div>
 
                 </div>
             </div>
@@ -36,17 +40,19 @@
                             <thead>
                                 <tr>
                                     <th style="text-transform: none; font-size: inherit" class="text-center;w-1">#</th>
-                                    <th style="text-transform: none; font-size: inherit" >Nombre(s)</th>
-                                    <th style="text-transform: none; font-size: inherit" >Apellido(s)</th>
-                                    <th style="text-transform: none; font-size: inherit" >Rol</th>
-                                    <th style="text-transform: none; font-size: inherit" >Correo</th>
-                                    <th style="text-transform: none; font-size: inherit" >Estatus</th>
-                                    <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">Acciones</th>
+                                    <th style="text-transform: none; font-size: inherit">Nombre(s)</th>
+                                    <th style="text-transform: none; font-size: inherit">Apellido(s)</th>
+                                    <th style="text-transform: none; font-size: inherit">Rol</th>
+                                    <th style="text-transform: none; font-size: inherit">Correo</th>
+                                    <th style="text-transform: none; font-size: inherit">Estatus</th>
+                                    <th style="text-transform: none; font-size: inherit;width: 7%" class="text-center">
+                                        Acciones</th>
                                 </tr>
                             </thead>
                             <tbody class="table-tbody">
                                 <tr></tr>
-                                <tr *ngFor="let usuario of filtrarResultados()  | paginate : configPaginator; let pointIndex = index">
+                                <tr
+                                    *ngFor="let usuario of filtrarResultados()  | paginate : configPaginator; let pointIndex = index">
                                     <td>{{ usuario.id }}</td>
                                     <td>{{ usuario.nombres }}</td>
                                     <td>{{ usuario.apellidoPaterno }} {{ usuario.apellidoMaterno }}</td>
@@ -62,14 +68,15 @@
                                     </td>
                                     <td>
                                         <div class="d-flex justify-content-between">
-                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" (click)="setDataModalUpdate(usuario)">
-                        <i class="ti ti-edit"></i>
-                      </button>
+                                            <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal"
+                                                data-bs-target="#modal-report" (click)="setDataModalUpdate(usuario)">
+                                                <i class="ti ti-edit"></i>
+                                            </button>
                                             <button class="btn btn-danger btn-icon btn-sm" (click)="
                           borrarUsuario(usuario.id, usuario.nombres)
                         ">
-                        <i class="ti ti-eraser"></i>
-                      </button>
+                                                <i class="ti ti-eraser"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -77,7 +84,7 @@
                         </table>
                     </div>
 
-                   
+
                 </div>
                 <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
@@ -101,7 +108,8 @@
                     <h5 class="modal-title">
                         {{ isModalAdd ? "Agregar" : "Actualizar" }} usuario
                     </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        #closebutton></button>
                 </div>
 
                 <form [formGroup]="userForm" (ngSubmit)="submitUsuario()">
@@ -124,7 +132,7 @@
                                             El nombre debe tener al menos 3 caracteres
                                         </div>
                                         <div *ngIf="userForm.get('nombres')?.hasError('pattern')">
-                                            El nombre no puede tener números  ni signos
+                                            El nombre no puede tener números ni signos
                                         </div>
                                     </div>
                                 </div>
@@ -146,7 +154,7 @@
                                             El apellido paterno debe tener al menos 3 caracteres
                                         </div>
                                         <div *ngIf="userForm.get('apellidoPaterno')?.hasError('pattern')">
-                                            El apellido paterno no puede tener números  ni signos
+                                            El apellido paterno no puede tener números ni signos
                                         </div>
                                     </div>
                                 </div>
@@ -171,7 +179,7 @@
                                             El apellido materno debe tener al menos 3 caracteres
                                         </div>
                                         <div *ngIf="userForm.get('apellidoMaterno')?.hasError('pattern')">
-                                            El apellido materno no puede tener números  ni signos
+                                            El apellido materno no puede tener números ni signos
                                         </div>
                                     </div>
                                 </div>
@@ -214,7 +222,8 @@
                             <div class="col-lg-6">
                                 <div class="mb-3">
                                     <label class="form-label">Rol*:</label>
-                                    <ng-select placeholder="Elegir" [items]="roles" bindLabel="nombreRol" bindValue="id" [searchable]="false" [clearable]="false" formControlName="rol">
+                                    <ng-select placeholder="Elegir" [items]="roles" bindLabel="nombreRol" bindValue="id"
+                                        [searchable]="false" [clearable]="false" formControlName="rol">
                                         <ng-template ng-option-tmp let-item="item">
                                             {{ item.nombreRol }}
                                         </ng-template>
@@ -232,28 +241,30 @@
                                 <label>Estatus: </label><br />
                                 <div class="form-group">
                                     <div class="form-check form-switch mt-1 ml-2 custom-green-switch">
-                                        <input class="form-check-input" type="checkbox" (change)="setEstatus()" ng ser name="estatusBtn" formControlName="estatus" />
+                                        <input class="form-check-input" type="checkbox" (change)="setEstatus()" ng ser
+                                            name="estatusBtn" formControlName="estatus" />
                                         <span class="form-check-label" [ngClass]="
                           userForm.get('estatus')?.value
                             ? 'text-success'
                             : 'text-danger'
                         ">
-                        {{
-                          userForm.get("estatus")?.value
-                            ? "Activo"
-                            : "Inactivo"
-                        }}
-                      </span>
+                                            {{
+                                            userForm.get("estatus")?.value
+                                            ? "Activo"
+                                            : "Inactivo"
+                                            }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <p class="form-label"style="margin-left: 30px;color: red;font-weight: bold;margin-top: 30px;">Todos los campos marcados con * son requeridos</p>
+                        <p class="form-label" style="margin-left: 30px;color: red;font-weight: bold;margin-top: 30px;">
+                            Todos los campos marcados con * son requeridos</p>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" [disabled]="!userForm.valid">
-              {{ isModalAdd ? "Agregar" : "Actualizar" }}
-            </button>
+                            {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                        </button>
                     </div>
                 </form>
             </div>
