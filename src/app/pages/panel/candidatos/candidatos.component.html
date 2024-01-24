@@ -10,18 +10,23 @@
             </div>
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidato" (click)="handleChangeAdd();resetForm()">
-            <i class="ti ti-plus me-1"></i>Agregar Candidato
-          </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidato"
+                        (click)="handleChangeAdd();resetForm()">
+                        <i class="ti ti-plus me-1"></i>Agregar Candidato
+                    </button>
 
                     <div class="ms-auto d-flex align-items-center">
                         <div class="input-icon">
-                            <input #searchItem type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" (input)="handleChangeSearch($event)" />
+                            <input #searchItem type="text" [(ngModel)]="filtro"
+                                class="form-control form-control-rounded" placeholder="Buscar"
+                                (input)="handleChangeSearch($event)" />
                             <span class="input-icon-addon">
-                <i class="ti ti-search"></i>
-              </span>
+                                <i class="ti ti-search"></i>
+                            </span>
                         </div>
-                        <a class="btn w-30 btn-icon" aria-label="Dribbble" (click)="exportarDatosAExcel()" title="Descargar excel de usuarios" style="margin-left: 8px; padding-top: 4px; padding-bottom: 4px">
+                        <a class="btn w-30 btn-icon" aria-label="Dribbble" (click)="exportarDatosAExcel()"
+                            title="Descargar excel de usuarios"
+                            style="margin-left: 8px; padding-top: 4px; padding-bottom: 4px">
                             <i class="ti ti-cloud-down text-muted" style="font-size: 28px"></i>
                         </a>
                     </div>
@@ -58,9 +63,8 @@
                                 <th style="text-transform: none; font-size: inherit">
                                     Genero
                                 </th>
-                                <th style="text-transform: none; font-size: inherit">
-                                    Acciones
-                                </th>
+                                <th style="text-transform: none; font-size: inherit;" class="text-center">
+                                    Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -70,7 +74,8 @@
                   let pointIndex = index
                 ">
                                 <td>
-                                    {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
+                                    {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1
+                                    }}
                                 </td>
                                 <td>{{ candidatos.nombres }}</td>
                                 <td>{{ candidatos.apellidoPaterno }}</td>
@@ -79,29 +84,33 @@
                                 <td>{{ candidatos.cargo.nombreCargo }}</td>
                                 <td class="text-center">
                                     <div class="flex justify-center items-center">
-                                        <img [src]="obtenerRutaImagen(candidatos.agrupacionPolitica.logo)" alt="Foto de {{ candidatos.agrupacionPolitica.nombreAgrupacion }}" width="50" height="50" (click)="
+                                        <img [src]="obtenerRutaImagen(candidatos.agrupacionPolitica.logo)"
+                                            alt="Foto de {{ candidatos.agrupacionPolitica.nombreAgrupacion }}"
+                                            width="50" height="50" (click)="
                       mostrarImagenAmpliada(
                         obtenerRutaImagen(candidatos.agrupacionPolitica.logo)
                       )
                     " />
                                     </div>
-    
+
                                 </td>
                                 <td>{{ candidatos.genero.nombreGenero }}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
                                     setDataModalUpdatecandidatos(candidatos)
                                   ">
-                    <i class="ti ti-eye"></i>
-                  </button>
-                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
+                                        <i class="ti ti-eye"></i>
+                                    </button>
+                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
                                     setDataModalUpdatecandidatos(candidatos)
                                   ">
-                    <i class="ti ti-edit" ></i>
-                  </button>
-                                    <button class="btn btn-danger btn-icon btn-sm"  (click)="deleteItem(candidatos.id)">
-                    <i class="ti ti-eraser"></i>
-                  </button>
+                                        <i class="ti ti-edit"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-icon btn-sm" (click)="deleteItem(candidatos.id)">
+                                        <i class="ti ti-eraser"></i>
+                                    </button>
                                 </td>
                             </tr>
                         </tbody>
@@ -130,7 +139,8 @@
                 <h5 class="modal-title">
                     {{ isModalAdd ? "Agregar" : "Actualizar" }} Candidato
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #closebutton></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                    #closebutton></button>
             </div>
 
             <form [formGroup]="candidatoForm" (ngSubmit)="submitUsuario()">
@@ -151,9 +161,17 @@
                                         <input type="text" class="form-control" formControlName="nombres" />
                                         <div *ngIf="candidatoForm.get('nombres')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm.get('nombres')?.hasError('required')
-                        ">
-                                                El nombre es obligatorio
+                              candidatoForm.get('nombres')?.hasError('required')
+                            ">
+                                                El nombre es requerido
+                                            </div>
+                                            <div *ngIf="
+                              candidatoForm.get('nombres')?.hasError('minlength')
+                            ">
+                                                El nombre debe tener al menos 3 caracteres
+                                            </div>
+                                            <div *ngIf="candidatoForm.get('nombres')?.hasError('pattern')">
+                                                El nombre no puede tener números  ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -164,11 +182,17 @@
                                         <input type="text" class="form-control" formControlName="apellidoPaterno" />
                                         <div *ngIf="candidatoForm.get('apellidoPaterno')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm
-                            .get('apellidoPaterno')
-                            ?.hasError('required')
-                        ">
-                                                El apellido paterno es obligatorio
+                              candidatoForm.get('apellidoPaterno')?.hasError('required')
+                            ">
+                                                El apellido paterno es requerido
+                                            </div>
+                                            <div *ngIf="
+                              candidatoForm.get('apellidoPaterno')?.hasError('minlength')
+                            ">
+                                                El apellido paterno debe tener al menos 3 caracteres
+                                            </div>
+                                            <div *ngIf="candidatoForm.get('apellidoPaterno')?.hasError('pattern')">
+                                                El apellido paterno no puede tener números  ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -181,11 +205,17 @@
                                         <input type="text" class="form-control" formControlName="apellidoMaterno" />
                                         <div *ngIf="candidatoForm.get('apellidoMaterno')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm
-                            .get('apellidoMaterno')
-                            ?.hasError('required')
-                        ">
-                                                El apellido materno es obligatorio
+                              candidatoForm.get('apellidoMaterno')?.hasError('required')
+                            ">
+                                                El apellido materno es requerido
+                                            </div>
+                                            <div *ngIf="
+                              candidatoForm.get('apellidoMaterno')?.hasError('minlength')
+                            ">
+                                                El apellido maternodebe tener al menos 3 caracteres
+                                            </div>
+                                            <div *ngIf="candidatoForm.get('apellidoMaterno')?.hasError('pattern')">
+                                                El apellido materno no puede tener números  ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -200,6 +230,11 @@
                         ">
                                                 El sobrenombre es obligatorio
                                             </div>
+                                            <div *ngIf="
+                                            candidatoForm.get('sobrenombre')?.hasError('minlength')
+                                          ">
+                                                              El sobrenombre debe tener al menos 3 caracteres
+                                                          </div>
                                         </div>
                                     </div>
                                 </div>
@@ -212,11 +247,17 @@
                                         <input type="text" class="form-control" formControlName="nombreSuplente" />
                                         <div *ngIf="candidatoForm.get('nombreSuplente')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm
-                            .get('nombreSuplente')
-                            ?.hasError('required')
-                        ">
-                                                El nombre es obligatorio
+                              candidatoForm.get('nombreSuplente')?.hasError('required')
+                            ">
+                                                El nombre es requerido
+                                            </div>
+                                            <div *ngIf="
+                              candidatoForm.get('nombreSuplente')?.hasError('minlength')
+                            ">
+                                                El nombre tener al menos 3 caracteres
+                                            </div>
+                                            <div *ngIf="candidatoForm.get('nombreSuplente')?.hasError('pattern')">
+                                                El nombre no puede tener números  ni signos
                                             </div>
                                         </div>
                                     </div>
@@ -225,13 +266,6 @@
                                     <div class="mb-3">
                                         <label class="form-label">Página Web</label>
                                         <input type="text" class="form-control" formControlName="paginaWeb" />
-                                        <div *ngIf="candidatoForm.get('paginaWeb')?.touched" class="error-message">
-                                            <div *ngIf="
-                          candidatoForm.get('paginaWeb')?.hasError('required')
-                        ">
-                                                La páqina web es obligatoria
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -239,16 +273,25 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Télefono Público</label>
+                                        <label class="form-label">Teléfono Público</label>
                                         <input type="tel" class="form-control" formControlName="telefonoPublico" />
-                                        <div *ngIf="candidatoForm.get('telefonoPublico')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('telefonoPublico')?.touched"
+                                            class="error-message">
                                             <div *ngIf="
                           candidatoForm
                             .get('telefonoPublico')
                             ?.hasError('required')
                         ">
-                                                El número de télefono es requerido
+                                                El número de teléfono es requerido
                                             </div>
+                                            <div *ngIf="candidatoForm.get('telefonoPublico')?.hasError('pattern')">
+                                                El numero de teléfono no puede tener letras
+                                            </div>
+                                            <div *ngIf="
+                                            candidatoForm.get('telefonoPublico')?.hasError('minlength')
+                                          ">
+                                                             La direcion debe tener al menos 10 caracteres
+                                                          </div>
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +317,8 @@
                                     <div class="mb-3">
                                         <label class="form-label">Fecha de nacimiento</label>
                                         <input type="date" class="form-control" formControlName="fechaNacimiento" />
-                                        <div *ngIf="candidatoForm.get('fechaNacimiento')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('fechaNacimiento')?.touched"
+                                            class="error-message">
                                             <div *ngIf="
                           candidatoForm
                             .get('fechaNacimiento')
@@ -289,7 +333,8 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Dirección de casa de campaña</label>
-                                        <input type="text" class="form-control" formControlName="direccionCasaCampania" />
+                                        <input type="text" class="form-control"
+                                            formControlName="direccionCasaCampania" />
                                         <div *ngIf="
                         candidatoForm.get('direccionCasaCampania')?.touched
                       " class="error-message">
@@ -300,6 +345,11 @@
                         ">
                                                 La dirección es obligatoria
                                             </div>
+                                            <div *ngIf="
+                                            candidatoForm.get('direccionCasaCampania')?.hasError('minlength')
+                                          ">
+                                                             La direcion debe tener al menos 5 caracteres
+                                                          </div>
                                         </div>
                                     </div>
                                 </div>
@@ -311,16 +361,16 @@
                                         <label class="form-label">Género</label>
                                         <div>
                                             <label *ngFor="let generoItem of generos" class="form-check">
-                        <input class="form-check-input" type="radio" [value]="generoItem.id"
-                          formControlName="generoId" />
-                        <span class="form-check-label">{{
-                          generoItem.nombreGenero
-                          }}</span>
-                      </label>
+                                                <input class="form-check-input" type="radio" [value]="generoItem.id"
+                                                    formControlName="generoId" />
+                                                <span class="form-check-label">{{
+                                                    generoItem.nombreGenero
+                                                    }}</span>
+                                            </label>
                                         </div>
-                                        <div *ngIf="candidatoForm.get('genero')?.touched" class="error-message">
+                                        <div *ngIf="candidatoForm.get('generoId')?.touched" class="error-message">
                                             <div *ngIf="
-                          candidatoForm.get('genero')?.hasError('required')
+                          candidatoForm.get('generoId')?.hasError('required')
                         ">
                                                 El género es obligatorio
                                             </div>
@@ -331,20 +381,20 @@
                                     <div class="mb-3">
                                         <label for="estadoActivo" class="form-label">Estatus</label>
                                         <label class="form-check form-switch checkbox-verde">
-                      <input class="form-check-input" type="checkbox" formControlName="estatus" />
-                      <span class="form-check-label" [ngClass]="{
+                                            <input class="form-check-input" type="checkbox" formControlName="estatus"/>
+                                            <span class="form-check-label" [ngClass]="{
                           'text-success':
                             candidatoForm.get('estatus')?.value === true,
                           'text-danger':
                             candidatoForm.get('estatus')?.value === false
                         }">
-                        {{
-                        candidatoForm.get("estatus")?.value
-                        ? "Activo"
-                        : "Inactivo"
-                        }}
-                      </span>
-                    </label>
+                                                {{
+                                                candidatoForm.get("estatus")?.value
+                                                ? "Activo"
+                                                : "Inactivo"
+                                                }}
+                                            </span>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
@@ -363,13 +413,15 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Cargo</label>
-                                        <ng-select placeholder="Elegir" [items]="cargos" bindLabel="nombreCargo" bindValue="id" [searchable]="false" [clearable]="false" formControlName="cargoId">
+                                        <ng-select placeholder="Elegir" [items]="cargos" bindLabel="nombreCargo"
+                                            bindValue="id" [searchable]="false" [clearable]="false"
+                                            formControlName="cargoId">
                                             <ng-template ng-option-tmp let-item="item">
                                                 {{ item.nombreCargo }}
                                             </ng-template>
                                         </ng-select>
-                                        <div *ngIf="candidatoForm.get('cargo')?.touched" class="error-message">
-                                            <div *ngIf="candidatoForm.get('cargo')?.hasError('required')">
+                                        <div *ngIf="candidatoForm.get('cargoId')?.touched" class="error-message">
+                                            <div *ngIf="candidatoForm.get('cargoId')?.hasError('required')">
                                                 El cargo es obligatorio
                                             </div>
                                         </div>
@@ -379,7 +431,10 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Agrupación Política</label>
-                                        <ng-select formControlName="agrupacionPoliticaId" #selectAgrupacionPolitica [searchable]="false" [items]="agrupacionesPoliticas" bindLabel="nombreAgrupacion" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="agrupacionPoliticaId" #selectAgrupacionPolitica
+                                            [searchable]="false" [items]="agrupacionesPoliticas"
+                                            bindLabel="nombreAgrupacion" bindValue="id" placeholder="Elegir"
+                                            [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectAgrupacionPolitica.filter(
@@ -391,6 +446,11 @@
                                                 {{ item.nombreAgrupacion }}
                                             </ng-template>
                                         </ng-select>
+                                        <div *ngIf="candidatoForm.get('agrupacionPoliticaId')?.touched" class="error-message">
+                                            <div *ngIf="candidatoForm.get('agrupacionPoliticaId')?.hasError('required')">
+                                                La agrupacion politica es obligatoria
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -406,7 +466,9 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Estado</label>
-                                        <ng-select formControlName="estadoId" #selectEstado [searchable]="false" [items]="estados" bindLabel="nombreEstado" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="estadoId" #selectEstado [searchable]="false"
+                                            [items]="estados" bindLabel="nombreEstado" bindValue="id"
+                                            placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectEstado.filter($any($event.target).value)
@@ -416,12 +478,20 @@
                                                 {{ item.nombreEstado }}
                                             </ng-template>
                                         </ng-select>
+                                        <div *ngIf="candidatoForm.get('estadoId')?.touched" class="error-message">
+                                            <div *ngIf="candidatoForm.get('estadoId')?.hasError('required')">
+                                               El estado es obligatorio
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Distrito Local</label>
-                                        <ng-select formControlName="distritoLocalId" #selectDistritoLocal [searchable]="false" [items]="distritosLocales" bindLabel="nombreDistritoLocal" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="distritoLocalId" #selectDistritoLocal
+                                            [searchable]="false" [items]="distritosLocales"
+                                            bindLabel="nombreDistritoLocal" bindValue="id" placeholder="Elegir"
+                                            [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectDistritoLocal.filter(
@@ -433,6 +503,11 @@
                                                 {{ item.nombreDistritoLocal }}
                                             </ng-template>
                                         </ng-select>
+                                        <div *ngIf="candidatoForm.get('distritoLocalId')?.touched" class="error-message">
+                                            <div *ngIf="candidatoForm.get('distritoLocalId')?.hasError('required')">
+                                               El distrito local es obligatorio
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -440,7 +515,9 @@
                                 <div class="col-lg-6">
                                     <div class="mb-3">
                                         <label class="form-label">Municipio</label>
-                                        <ng-select formControlName="municipioId" #selectMunicipio [searchable]="false" [items]="municipios" bindLabel="nombreMunicipio" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="municipioId" #selectMunicipio [searchable]="false"
+                                            [items]="municipios" bindLabel="nombreMunicipio" bindValue="id"
+                                            placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectMunicipio.filter($any($event.target).value)
@@ -450,12 +527,19 @@
                                                 {{ item.nombreMunicipio }}
                                             </ng-template>
                                         </ng-select>
+                                        <div *ngIf="candidatoForm.get('municipioId')?.touched" class="error-message">
+                                            <div *ngIf="candidatoForm.get('municipioId')?.hasError('required')">
+                                                El municipio es obligatorio
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label class="form-label">Comunidad</label>
-                                        <ng-select formControlName="comunidadId" #selectComunidad [searchable]="false" [items]="comunidades" bindLabel="nombreComunidad" bindValue="id" placeholder="Elegir" [clearable]="false">
+                                        <ng-select formControlName="comunidadId" #selectComunidad [searchable]="false"
+                                            [items]="comunidades" bindLabel="nombreComunidad" bindValue="id"
+                                            placeholder="Elegir" [clearable]="false">
                                             <ng-template ng-header-tmp>
                                                 <input class="form-control" type="text" (input)="
                             selectComunidad.filter($any($event.target).value)
@@ -465,6 +549,11 @@
                                                 {{ item.nombreComunidad }}
                                             </ng-template>
                                         </ng-select>
+                                        <div *ngIf="candidatoForm.get('comunidadId')?.touched" class="error-message">
+                                            <div *ngIf="candidatoForm.get('comunidadId')?.hasError('required')">
+                                                La comunidad es obligatoria
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -556,16 +645,19 @@
                                     <div class="mb-1 text-center">
                                         <!-- Campo de Subir Imagen -->
                                         <div class="form-group">
-                                            <label for="imagen" class="img-thumbnail" id="imagen-label" *ngIf="!previewImage">
-                        <img src="assets/images/placeholderimage.png" alt="Subir imagen" style="width: 200px" />
-                        <input type="file" class="form-control-file custom-file-input" id="imagen"
-                          formControlName="foto" (change)="onImageChange($event); mostrar()" style="display: none"
-                          accept="image/*" />
-                      </label>
+                                            <label for="imagen" class="img-thumbnail" id="imagen-label"
+                                                *ngIf="!previewImage">
+                                                <img src="assets/images/placeholderimage.png" alt="Subir imagen"
+                                                    style="width: 200px" />
+                                                <input type="file" class="form-control-file custom-file-input"
+                                                    id="imagen" formControlName="foto"
+                                                    (change)="onImageChange($event); mostrar()" style="display: none"
+                                                    accept="image/*" />
+                                            </label>
                                         </div>
                                         <br />
                                         <label>Haz clic aquí para seleccionar una imagen desde tu
-                      dispositivo</label>
+                                            dispositivo</label>
                                         <!-- Vista previa de la imagen -->
                                         <div *ngIf="
                         candidatoForm.get('imagenBase64')?.value && showImage;
@@ -575,16 +667,18 @@
                           'data:image/jpeg;base64,' +
                           candidatoForm.get('imagenBase64')?.value
                         " width="100%" height="100%" alt="Vista previa de la imagen" />
-                                            <button type="button" class="btn btn-danger mt-2" (click)="eliminarImagen($event)">
-                        Eliminar Imagen
-                      </button>
+                                            <button type="button" class="btn btn-danger mt-2"
+                                                (click)="eliminarImagen($event)">
+                                                Eliminar Imagen
+                                            </button>
                                         </div>
 
                                         <ng-template #previewSection>
                                             <div *ngIf="previewImage && showImage" class="mt-3">
                                                 <label>Imagen seleccionada:</label>
                                                 <br /><br /><br />
-                                                <img [src]="previewImage" class="img-thumbnail" alt="Vista previa de la imagen" style="width: 200px" />
+                                                <img [src]="previewImage" class="img-thumbnail"
+                                                    alt="Vista previa de la imagen" style="width: 200px" />
                                                 <br /><br />
                                             </div>
                                         </ng-template>
@@ -598,8 +692,8 @@
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" [disabled]="!candidatoForm.valid">
-            {{ isModalAdd ? "Agregar" : "Actualizar" }}
-          </button>
+                        {{ isModalAdd ? "Agregar" : "Actualizar" }}
+                    </button>
                 </div>
             </form>
         </div>
@@ -607,7 +701,8 @@
 </div>
 
 <!-- MODAL PARA VER LAS RESPUESTAS -->
-<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -615,38 +710,43 @@
                     Respuestas del formulario
                 </h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body" style="background-color: #f6f8fb">
                 <div *ngIf="respuestasGoogleFormulario">
                     <div class="accordion" id="respuestasAcordeon">
                         <div *ngFor="let formulario of respuestasGoogleFormulario.formularios" class="accordion-item">
                             <h2 class="accordion-header" [attr.id]="'heading' + formulario.formularioId">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse' + formulario.formularioId" aria-expanded="true" [attr.aria-controls]="'collapse' + formulario.formularioId">
-                  <span [ngClass]="{
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                    [attr.data-bs-target]="'#collapse' + formulario.formularioId" aria-expanded="true"
+                                    [attr.aria-controls]="'collapse' + formulario.formularioId">
+                                    <span [ngClass]="{
                       'text-danger':
                         formulario.preguntasRespuestas.length === 0,
                       'text-success': formulario.preguntasRespuestas.length > 0
                     }">
-                    Nombre del formulario : {{ formulario.formName }}
-                  </span>
-                  <ng-container *ngIf="
+                                        Nombre del formulario : {{ formulario.formName }}
+                                    </span>
+                                    <ng-container *ngIf="
                       formulario.preguntasRespuestas.length > 0;
                       else redRibbon
                     ">
-                    <div class="ribbon ribbon-top bg-green" style="padding-bottom: 10px">
-                      <i class="ti ti-clipboard-check"></i>
-                    </div>
-                  </ng-container>
-                  <ng-template #redRibbon>
-                    <div class="ribbon ribbon-top bg-red" style="padding-bottom: 10px">
-                      <i class="ti ti-clipboard-x"></i>
-                    </div>
-                  </ng-template>
-                </button>
+                                        <div class="ribbon ribbon-top bg-green" style="padding-bottom: 10px">
+                                            <i class="ti ti-clipboard-check"></i>
+                                        </div>
+                                    </ng-container>
+                                    <ng-template #redRibbon>
+                                        <div class="ribbon ribbon-top bg-red" style="padding-bottom: 10px">
+                                            <i class="ti ti-clipboard-x"></i>
+                                        </div>
+                                    </ng-template>
+                                </button>
                             </h2>
-                            <div [attr.id]="'collapse' + formulario.formularioId" class="accordion-collapse collapse show" [attr.aria-labelledby]="'heading' + formulario.formularioId" data-bs-parent="#respuestasAcordeon">
+                            <div [attr.id]="'collapse' + formulario.formularioId"
+                                class="accordion-collapse collapse show"
+                                [attr.aria-labelledby]="'heading' + formulario.formularioId"
+                                data-bs-parent="#respuestasAcordeon">
                                 <div class="accordion-body">
                                     <div *ngIf="
                       formulario.preguntasRespuestas.length > 0;
@@ -657,7 +757,8 @@
                                             <li *ngFor="
                           let preguntaRespuesta of formulario.preguntasRespuestas
                         " class="list-group-item">
-                                                <strong>{{ preguntaRespuesta.pregunta }}:</strong> {{ preguntaRespuesta.respuesta }}
+                                                <strong>{{ preguntaRespuesta.pregunta }}:</strong> {{
+                                                preguntaRespuesta.respuesta }}
                                             </li>
                                         </ul>
                                     </div>
@@ -675,7 +776,8 @@
     </div>
 </div>
 
-<div class="modal modal-highlight" id="modal-imagen-ampliada" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.5)">
+<div class="modal modal-highlight" id="modal-imagen-ampliada" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.5)">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">

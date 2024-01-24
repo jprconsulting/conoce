@@ -94,14 +94,14 @@ export class CandidatosComponent {
   creteForm() {
     this.candidatoForm = this.formBuilder.group({
       id: [null],
-      nombres: ['', Validators.required],
-      apellidoPaterno: ['', Validators.required],
-      apellidoMaterno: ['', Validators.required],
-      sobrenombre: [''],
-      nombreSuplente: ['', Validators.required],
+      nombres: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      apellidoPaterno: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      apellidoMaterno: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
+      sobrenombre: ['', [Validators.required, Validators.minLength(2)]],
+      nombreSuplente: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^([a-zA-ZÀ-ÿ\u00C0-\u00FF]{2})[a-zA-ZÀ-ÿ\u00C0-\u00FF ]+$/)]],
       fechaNacimiento: ['', Validators.required],
-      direccionCasaCampania: [''],
-      telefonoPublico: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
+      direccionCasaCampania: ['', [Validators.required, Validators.minLength(6)]],
+      telefonoPublico: ['', [Validators.required,Validators.minLength(9), Validators.pattern(/[0-9]/)]],
       email: ['', [Validators.required, Validators.email]],
       paginaWeb: [''],
       facebook: ['', Validators.required],
@@ -113,11 +113,11 @@ export class CandidatosComponent {
       estatus: [true],
       agrupacionPoliticaId: [null, Validators.required],
       cargoId: [null, Validators.required],
-      estadoId: [null],
+      estadoId: [null, Validators.required],
       generoId: [null, Validators.required],
-      distritoLocalId: [null],
-      municipioId: [null],
-      comunidadId: [null]
+      distritoLocalId: [null, Validators.required],
+      municipioId: [null, Validators.required],
+      comunidadId: [null, Validators.required],
     });
   }
 
