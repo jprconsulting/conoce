@@ -10,7 +10,7 @@ import { EmailService } from 'src/app/core/services/email.servicio';
 import { CandidatoService } from 'src/app/core/services/candidato.service';
 import { Candidato } from 'src/app/models/candidato';
 import { HttpClient } from '@angular/common/http';
-import { Cargos } from 'src/app/models/cargos';
+import { Cargo } from 'src/app/models/cargos';
 import { EstadoService } from 'src/app/core/services/estados.service';
 import { Estado } from 'src/app/models/estado';
 import { AceptacionService } from 'src/app/core/services/aceptacion.service';
@@ -51,7 +51,7 @@ export class ConsentimientosComponent  {
   filteredCandidates2: any[] = []; 
   candidatoFilter: Candidato[] = [];
   estados: Estado[] = [];
-  cargos: Cargos[] = [];
+  cargos: Cargo[] = [];
   Aceptacion: Aceptacion[] = [];
   itemsPerPageTable1: number = 5;
     currentPageTable1: number = 1;

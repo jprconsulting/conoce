@@ -8,7 +8,7 @@ import { Candidato } from 'src/app/models/candidato';
 import { Estado } from 'src/app/models/estado';
 import { Partidos } from 'src/app/models/partidos';
 import { EstadoService } from 'src/app/core/services/estados.service';
-import { Cargos } from 'src/app/models/cargos';
+import { Cargo } from 'src/app/models/cargos';
 import { Genero } from 'src/app/models/genero';
 import { HttpClient } from '@angular/common/http';
 import { FormularioService } from 'src/app/core/services/formulario.service';
@@ -49,7 +49,7 @@ export class CandidatosComponent {
   distritosLocales: DistritoLocal[] = [];
   municipios: Municipio[] = [];
   comunidades: Comunidad[] = [];
-  cargos: Cargos[] = [];
+  cargos: Cargo[] = [];
   generos: Genero[] = [];
   agrupacionesPoliticas: AgrupacionPolitica[] = [];
 
@@ -93,31 +93,31 @@ export class CandidatosComponent {
 
   creteForm() {
     this.candidatoForm = this.formBuilder.group({
-      candidatoId: [null],
+      id: [null],
       nombres: ['', Validators.required],
       apellidoPaterno: ['', Validators.required],
       apellidoMaterno: ['', Validators.required],
       sobrenombre: [''],
-      genero: [null, Validators.required],
       nombreSuplente: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
       fechaNacimiento: ['', Validators.required],
       direccionCasaCampania: [''],
       telefonoPublico: ['', [Validators.required, Validators.pattern(/[0-9]/)]],
+      email: ['', [Validators.required, Validators.email]],
       paginaWeb: [''],
       facebook: ['', Validators.required],
       twitter: ['', Validators.required],
       instagram: ['', Validators.required],
       tiktok: ['', Validators.required],
       foto: [null],
+      imagenBase64: [''],
       estatus: [true],
-      cargo: [null, Validators.required],
-      estado: [null],
-      distritoLocal: [null],
-      ayuntamiento: [null],
-      comunidad: [null],
-      tipoAgrupacionPolitica: [null, Validators.required],
-      imagenBase64: ['']
+      agrupacionPoliticaId: [null, Validators.required],
+      cargoId: [null, Validators.required],
+      estadoId: [null],
+      generoId: [null, Validators.required],
+      distritoLocalId: [null],
+      municipioId: [null],
+      comunidadId: [null]
     });
   }
 
@@ -185,38 +185,40 @@ export class CandidatosComponent {
 
   agregarCandidato() {
     this.candidato = this.candidatoForm.value as Candidato;
-    const AgrupacionValue = this.candidatoForm.get('tipoAgrupacionPolitica')?.value;
-    this.candidato.agrupacion = { id: AgrupacionValue } as AgrupacionPolitica;
-    const CargoValue = this.candidatoForm.get('cargo')?.value;
-    this.candidato.cargo = { id: CargoValue } as Cargos;
-    const GeneroValue = this.candidatoForm.get('genero')?.value;
-    this.candidato.genero = { id: GeneroValue } as Genero;
-    const EstadoValue = this.candidatoForm.get('estado')?.value;
-    this.candidato.estado = { id: EstadoValue } as Estado;
-    const distritoLocalValue = this.candidatoForm.get('distritoLocal')?.value;
-    this.candidato.distritoLocal = { id: distritoLocalValue } as DistritoLocal;
-    const AyuntamientoValue = this.candidatoForm.get('ayuntamiento')?.value;
-    this.candidato.municipio = { id: AyuntamientoValue } as Municipio;
-    const ComunidadValue = this.candidatoForm.get('comunidad')?.value;
-    this.candidato.comunidad = { id: ComunidadValue } as Comunidad;
+    const agrupacionPoliticaId = this.candidatoForm.get('agrupacionPoliticaId')?.value;
+    this.candidato.agrupacionPolitica = { id: agrupacionPoliticaId } as AgrupacionPolitica;
+    const cargoId = this.candidatoForm.get('cargoId')?.value;
+    this.candidato.cargo = { id: cargoId } as Cargo;
+    const generoId = this.candidatoForm.get('generoId')?.value;
+    this.candidato.genero = { id: generoId } as Genero;
+    const estadoId = this.candidatoForm.get('estadoId')?.value;
+    this.candidato.estado = { id: estadoId } as Estado;
+    const distritoLocalId = this.candidatoForm.get('distritoLocalId')?.value;
+    this.candidato.distritoLocal = { id: distritoLocalId } as DistritoLocal;
+    const municipioId = this.candidatoForm.get('municipioId')?.value;
+    this.candidato.municipio = { id: municipioId } as Municipio;
+    const comunidadId = this.candidatoForm.get('comunidadId')?.value;
+    this.candidato.comunidad = { id: comunidadId } as Comunidad;
     const imagenBase64 = this.candidatoForm.get('imagenBase64')?.value;
+
+    console.log(this.candidato);
     if (imagenBase64) {
       const candidato = { ...this.candidato, imagenBase64 };
-    this.candidatoService.postCandidato(this.candidato).subscribe({
-      next: () => {
-        this.mensajeService.mensajeExito("Candidato agregado con éxito");
-        this.resetForm();
-        this.getCandidatos();
-      },
-      error: (error) => {
-        this.mensajeService.mensajeError("Error al agregar al candidato");
-        console.error(error);
-      }
-    });
-  } else {
-    console.error('Error: No se encontró una representación válida en base64 de la imagen.');
+      this.candidatoService.postCandidato(this.candidato).subscribe({
+        next: () => {
+          this.mensajeService.mensajeExito("Candidato agregado con éxito");
+          this.resetForm();
+          this.getCandidatos();
+        },
+        error: (error) => {
+          this.mensajeService.mensajeError("Error al agregar al candidato");
+          console.error(error);
+        }
+      });
+    } else {
+      console.error('Error: No se encontró una representación válida en base64 de la imagen.');
+    }
   }
-}
 
   actualizarUsuario(candidato: Candidato) {
     this.candidatoService.putCandidato(candidato).subscribe({
@@ -263,7 +265,7 @@ export class CandidatosComponent {
     }
   }
 
-  mostrar(){
+  mostrar() {
     this.showImage = true;
   }
 

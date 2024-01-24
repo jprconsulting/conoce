@@ -1,5 +1,5 @@
 import { Estado } from "./estado";
-import { Cargos } from "./cargos";
+import { Cargo } from "./cargos";
 import { DistritoLocal } from "./distritoLocal";
 import { Municipio } from "./municipio";
 import { Comunidad } from "./comunidad";
@@ -8,11 +8,11 @@ import { AgrupacionPolitica } from "./agrupacion-politica";
 
 export interface Candidato {
   id: number;
-  nombre: string;
+  nombres: string;
   nombreCompleto: string;
   apellidoPaterno: string;
   apellidoMaterno: string;
-  sobrenombrePropietario: string;
+  sobrenombre: string;
   nombreSuplente: string;
   fechaNacimiento: string;
   direccionCasaCampania: string;
@@ -25,16 +25,14 @@ export interface Candidato {
   tiktok: string;
   foto: string;
   estatus: boolean;
-  cargo: Cargos;
+  agrupacionPolitica: AgrupacionPolitica;
+  cargo: Cargo;
   estado: Estado;
+  genero: Genero;
   distritoLocal: DistritoLocal;
   municipio: Municipio;
   comunidad: Comunidad;
-  genero: Genero;
-  agrupacion: AgrupacionPolitica;
-
   tieneRespuestas: boolean;
-
 }
 
 

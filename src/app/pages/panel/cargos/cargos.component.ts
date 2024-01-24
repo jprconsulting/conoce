@@ -4,7 +4,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { CargoService } from 'src/app/core/services/cargo.service';
 import { LoadingStates } from 'src/app/global/globals';
-import { Cargos } from 'src/app/models/cargos';
+import { Cargo } from 'src/app/models/cargos';
 import { PaginationInstance } from 'ngx-pagination';
 import * as XLSX from 'xlsx';
 
@@ -18,10 +18,10 @@ export class CargosComponent implements OnInit {
   @ViewChild('closebutton') closebutton!: ElementRef;
 
   // Usuarios
-  cargo!: Cargos;
-  cargos: Cargos[] = [];
+  cargo!: Cargo;
+  cargos: Cargo[] = [];
   isLoading = LoadingStates.neutro;
-  usuariosFilter: Cargos[] = [];
+  usuariosFilter: Cargo[] = [];
   userForm!: FormGroup;
   isModalAdd = false;
   filtro: string = '';
@@ -125,7 +125,7 @@ export class CargosComponent implements OnInit {
   }
 
   submitUsuario() {
-    this.cargo = this.userForm.value as Cargos;
+    this.cargo = this.userForm.value as Cargo;
     this.isModalAdd ? this.agregarUsuario() : this.actualizarUsuario();
   }
 
@@ -159,7 +159,7 @@ export class CargosComponent implements OnInit {
 
 
   idUpdate!: number;
-  setDataModalUpdate(dto: Cargos) {
+  setDataModalUpdate(dto: Cargo) {
     this.isModalAdd = false;
     this.idUpdate = dto.id;
     this.userForm.patchValue({
