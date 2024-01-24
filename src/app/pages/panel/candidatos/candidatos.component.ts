@@ -348,5 +348,20 @@ export class CandidatosComponent {
   get imagenControl(): FormControl {
     return this.candidatoForm.get('imagen') as FormControl;
   }
+  deleteItem(id: number) {
+    this.mensajeService.mensajeAdvertencia(
+      `¿Estás seguro de eliminar?`,
+      () => {
+        this.candidatoService.deleteCandidatos(id).subscribe({
+          next: () => {
+            this.mensajeService.mensajeExito('Candidato borrado exitosamente');
+            this.configPaginator.currentPage = 1;
+            this.getCandidatos();
+          },
+          error: (error) => this.mensajeService.mensajeError(error)
+        });
+      }
+    );
+  }
 }
 

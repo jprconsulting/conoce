@@ -28,7 +28,7 @@
                 data-bs-target="#modal-distrito-local"
                 (click)="handleChangeAdd('distrito-local')"
               >
-                <i class="ti ti-plus me-1"></i>Agregar Distrito local
+                <i class="ti ti-plus me-1"></i>Agregar distrito local
               </button>
 
               <!-- MODAL AGREGAR DISTRITO LOCAL -->
@@ -99,7 +99,7 @@
                                   ?.hasError('pattern')
                               "
                             >
-                              El nombre del distrito no puede tener numero ni caracteres
+                              El nombre del distrito no puede tener número ni caracteres
                             </div>
                              
                             </div>
@@ -363,7 +363,7 @@
                               <div *ngIf="
                               municipioForm.get('nombreMunicipio')?.hasError('minlength')
                             ">
-                                                 El nombre del municipio debe contener almenos 3 caracteres
+                                                 El nombre del municipio debe contener al menos 3 caracteres
                                             </div>
                                   <div
                                   *ngIf="
@@ -372,7 +372,7 @@
                                       ?.hasError('pattern')
                                   "
                                 >
-                                  El nombre del municipio no puede tener numero ni caracteres
+                                  El nombre del municipio no puede tener número ni caracteres
                                 </div>
                             </div>
                         </div>
@@ -559,7 +559,7 @@
                 data-bs-target="#modal-comunidad"
                 (click)="handleChangeAdd('comunidad')"
               >
-                <i class="ti ti-plus me-1"></i>Agregar Comunidad
+                <i class="ti ti-plus me-1"></i>Agregar comunidad
               </button>
               <!-- MODAL AGREGAR COMUNIDAD -->
               <div
@@ -619,7 +619,7 @@
                               <div *ngIf="
                               comunidadForm.get('nombreComunidad')?.hasError('minlength')
                             ">
-                                                 El nombre de la comunidad debe contener almenos 3 caracteres
+                                                 El nombre de la comunidad debe contener al menos 3 caracteres
                                             </div>
                                   <div
                                   *ngIf="
@@ -628,7 +628,7 @@
                                       ?.hasError('pattern')
                                   "
                                 >
-                                  El nombre de la comunidad no puede tener numero ni caracteres
+                                  El nombre de la comunidad no puede tener número ni caracteres
                                 </div>
                             </div>
                           </div>
@@ -636,7 +636,7 @@
                           <div class="col-md-6">
                             <div class="mb-3">
                               <label for="distritoLocal" class="form-label"
-                                >Distrito local:</label
+                                >Municipio:</label
                               >
                               <ng-select
                               formControlName="municipio"

@@ -37,13 +37,25 @@
                             <tr>
                                 <th style="text-transform: none; font-size: inherit">#</th>
                                 <th style="text-transform: none; font-size: inherit">
-                                    Foto del candidato
+                                    Nombre
                                 </th>
                                 <th style="text-transform: none; font-size: inherit">
-                                    Nombre del candidato
+                                    Apellido paterno
                                 </th>
                                 <th style="text-transform: none; font-size: inherit">
-                                    Agrupación política
+                                    Apellido materno
+                                </th>
+                                <th style="text-transform: none; font-size: inherit">
+                                    Email
+                                </th>
+                                <th style="text-transform: none; font-size: inherit">
+                                    Cargo
+                                </th>
+                                <th style="text-transform: none; font-size: inherit">
+                                    Agrupacion politica
+                                </th>
+                                <th style="text-transform: none; font-size: inherit">
+                                    Genero
                                 </th>
                                 <th style="text-transform: none; font-size: inherit">
                                     Acciones
@@ -59,30 +71,21 @@
                                 <td>
                                     {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
                                 </td>
+                                <td>{{ candidatos.nombres }}</td>
+                                <td>{{ candidatos.apellidoPaterno }}</td>
+                                <td>{{ candidatos.apellidoMaterno }}</td>
+                                <td>{{ candidatos.email }}</td>
+                                <td>{{ candidatos.cargo.nombreCargo }}</td>
+                                <td>{{ candidatos.agrupacionPolitica.nombreAgrupacion }}</td>
+                                <td>{{ candidatos.genero.nombreGenero }}</td>
                                 <td>
-                                    <div class="flex justify-center items-center">
-                                        <img [src]="obtenerRutaImagen(candidatos.foto)" alt="Foto de {{ candidatos.nombreCompleto }}" width="50" height="50" (click)="
-                        mostrarImagenAmpliada(
-                          obtenerRutaImagen(candidatos.foto)
-                        )
-                      " />
-                                    </div>
-                                </td>
-                                <td>{{ candidatos.nombreCompleto }}</td>
-                                <td>
-                                    <div class="flex justify-center items-center">
-                                        <img [src]="obtenerRutaImagen(candidatos.agrupacionPolitica.logo)" alt="Foto de {{ candidatos.agrupacionPolitica.nombreAgrupacion }}" width="50" height="50" (click)="
-                      mostrarImagenAmpliada(
-                        obtenerRutaImagen(candidatos.agrupacionPolitica.logo)
-                      )
-                    " />
-                                    </div>
-                                </td>
-                                <td>
-                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-report" style="margin-right: 10px">
-                    <i class="ti ti-edit"></i>
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px">
+                    <i class="ti ti-eye"></i>
                   </button>
-                                    <button class="btn btn-danger btn-icon btn-sm">
+                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px">
+                    <i class="ti ti-edit" ></i>
+                  </button>
+                                    <button class="btn btn-danger btn-icon btn-sm"  (click)="deleteItem(candidatos.id)">
                     <i class="ti ti-eraser"></i>
                   </button>
                                 </td>

@@ -33,7 +33,7 @@ export class CandidatoService {
   }
 
   deleteCandidatos(id: number) {
-    return this.http.delete(`${this.route}/eliminar_candidato/${id}`)
+    return this.http.delete(`${this.route}/eliminar/${id}`)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
