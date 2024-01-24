@@ -52,7 +52,7 @@ export class CandidatosComponent {
   cargos: Cargo[] = [];
   generos: Genero[] = [];
   agrupacionesPoliticas: AgrupacionPolitica[] = [];
-
+  filtro: string = '';
   previewImage: string | ArrayBuffer | null = null;
   currentPage: number = 1;
   isModalAdd = false;
@@ -469,6 +469,17 @@ export class CandidatosComponent {
       console.log(this.candidatoForm.value);
     }
 
+    filtrarResultados() {
+      const filtroLowerCase = this.filtro.toLowerCase().trim();
   
+      return this.candidatos.filter(candidato =>
+        candidato.nombres.toLowerCase().includes(filtroLowerCase) ||
+        candidato.apellidoPaterno.toLowerCase().includes(filtroLowerCase) ||
+        candidato.apellidoMaterno.toLowerCase().includes(filtroLowerCase) ||
+        candidato.email.toLowerCase().includes(filtroLowerCase) ||
+        candidato.cargo.nombreCargo.toLowerCase().includes(filtroLowerCase) ||
+        candidato.genero.nombreGenero.toLowerCase().includes(filtroLowerCase)
+      );
+    }
 }
 

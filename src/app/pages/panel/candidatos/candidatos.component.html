@@ -10,13 +10,13 @@
             </div>
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidato" (click)="handleChangeAdd()">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidato" (click)="handleChangeAdd();resetForm()">
             <i class="ti ti-plus me-1"></i>Agregar Candidato
           </button>
 
                     <div class="ms-auto d-flex align-items-center">
                         <div class="input-icon">
-                            <input #searchItem type="text" class="form-control form-control-rounded" placeholder="Buscar" (input)="handleChangeSearch($event)" />
+                            <input #searchItem type="text" [(ngModel)]="filtro" class="form-control form-control-rounded" placeholder="Buscar" (input)="handleChangeSearch($event)" />
                             <span class="input-icon-addon">
                 <i class="ti ti-search"></i>
               </span>
@@ -65,7 +65,7 @@
                         </thead>
                         <tbody>
                             <tr *ngFor="
-                  let candidatos of candidatosFilter
+                  let candidatos of filtrarResultados()
                   | paginate : configPaginator;
                   let pointIndex = index
                 ">
