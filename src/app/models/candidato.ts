@@ -33,6 +33,7 @@ export interface Candidato {
   municipio: Municipio;
   comunidad: Comunidad;
   tieneRespuestas: boolean;
+  imagenBase64: string;
 }
 
 

@@ -2,11 +2,12 @@
     <p style="color: white">Guardando...</p>
 </ngx-spinner>
 
-<app-page-header headerTitle="Candidatos"></app-page-header>
-
 <div class="row">
     <div class="col-12">
         <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Candidatos</h3>
+            </div>
             <div class="card-body border-bottom py-3">
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidato" (click)="handleChangeAdd()">
@@ -32,7 +33,7 @@
                     <div class="progress-bar progress-bar-indeterminate bg-green"></div>
                 </div>
                 <div *ngSwitchCase="3" class="table-responsive">
-                    <table class="table table-vcenter card-table table-striped text-center">
+                    <table class="table table-vcenter card-table table-striped">
                         <thead>
                             <tr>
                                 <th style="text-transform: none; font-size: inherit">#</th>
@@ -65,7 +66,7 @@
                         <tbody>
                             <tr *ngFor="
                   let candidatos of candidatosFilter
-                    | paginate : configPaginator;
+                  | paginate : configPaginator;
                   let pointIndex = index
                 ">
                                 <td>
@@ -76,13 +77,26 @@
                                 <td>{{ candidatos.apellidoMaterno }}</td>
                                 <td>{{ candidatos.email }}</td>
                                 <td>{{ candidatos.cargo.nombreCargo }}</td>
-                                <td>{{ candidatos.agrupacionPolitica.nombreAgrupacion }}</td>
+                                <td class="text-center">
+                                    <div class="flex justify-center items-center">
+                                        <img [src]="obtenerRutaImagen(candidatos.agrupacionPolitica.logo)" alt="Foto de {{ candidatos.agrupacionPolitica.nombreAgrupacion }}" width="50" height="50" (click)="
+                      mostrarImagenAmpliada(
+                        obtenerRutaImagen(candidatos.agrupacionPolitica.logo)
+                      )
+                    " />
+                                    </div>
+    
+                                </td>
                                 <td>{{ candidatos.genero.nombreGenero }}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px">
+                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
+                                    setDataModalUpdatecandidatos(candidatos)
+                                  ">
                     <i class="ti ti-eye"></i>
                   </button>
-                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px">
+                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal" data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
+                                    setDataModalUpdatecandidatos(candidatos)
+                                  ">
                     <i class="ti ti-edit" ></i>
                   </button>
                                     <button class="btn btn-danger btn-icon btn-sm"  (click)="deleteItem(candidatos.id)">
@@ -95,6 +109,15 @@
                 </div>
                 <app-no-results *ngSwitchCase="4"></app-no-results>
             </ng-container>
+            <div class="card-footer d-flex align-items-center">
+                <p class="m-0 text-muted">
+                    Total de registros: <b>{{ candidatosFilter.length }}</b>
+                </p>
+                <div class="m-0 ms-auto">
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                    </pagination-controls>
+                </div>
+            </div>
         </div>
     </div>
 </div>

@@ -26,6 +26,7 @@ import { CargoService } from 'src/app/core/services/cargo.service';
 import { GeneroService } from 'src/app/core/services/genero.service';
 import { AgrupacionPolitica } from 'src/app/models/agrupacion-politica';
 import { AgrupacionPoliticaService } from 'src/app/core/services/agrupacion-politica.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-candidatos',
@@ -38,13 +39,12 @@ export class CandidatosComponent {
 
   respuestasGoogleFormulario: RespuestaGoogleFormulario = {} as RespuestaGoogleFormulario;
   // Candidato
+  id!: number;
   candidatoForm!: FormGroup;
   candidatos: Candidato[] = [];
   candidato!: Candidato;
   candidatosFilter: Candidato[] = [];
   isLoading = LoadingStates.neutro;
-
-
   estados: Estado[] = [];
   distritosLocales: DistritoLocal[] = [];
   municipios: Municipio[] = [];
@@ -127,7 +127,54 @@ export class CandidatosComponent {
 
 
   exportarDatosAExcel() {
+    if (this.candidatos.length === 0) {
+      console.warn('La lista de candidatos está vacía. No se puede exportar.');
+      return;
+    }
 
+    const datosParaExportar = this.candidatos.map(candidato => {
+      const estatus = candidato.estatus ? 'Activo' : 'Inactivo';
+      return {
+        'Id': candidato.id,
+        'Nombres': candidato.nombres,
+        'Apellido paterno': candidato.apellidoMaterno,
+        'Apellido materno': candidato.apellidoMaterno,
+        'Sobrenombre': candidato.sobrenombre,
+        'Nombre suplente': candidato.nombreSuplente,
+        'Fecha de nacimiento': candidato.fechaNacimiento,
+        'Direccion de campaña': candidato.direccionCasaCampania,
+        'Telefono publico': candidato.telefonoPublico,
+        'Email': candidato.email,
+        'Pagina web': candidato.paginaWeb,
+        'facebook': candidato.facebook,
+        'twitter': candidato.twitter,
+        'instagram': candidato.instagram,
+        'tiktok': candidato.tiktok,
+        'Estatus': estatus,
+        'agrupacionPoliticaId': candidato.agrupacionPolitica,
+        'cargoId': candidato.cargo.nombreCargo,
+        'estadoId': candidato.estado.nombreEstado,
+        'generoId': candidato.genero.nombreGenero,
+        'distritoLocalId': candidato.distritoLocal.nombreDistritoLocal,
+        'municipioId': candidato.municipio.nombreMunicipio,
+        'comunidadId': candidato.comunidad.nombreComunidad
+      };
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosParaExportar);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    this.guardarArchivoExcel(excelBuffer, 'candidatos.xlsx');
+  }
+  guardarArchivoExcel(buffer: any, nombreArchivo: string) {
+    const data: Blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url: string = window.URL.createObjectURL(data);
+    const a: HTMLAnchorElement = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    a.click();
+    window.URL.revokeObjectURL(url);
   }
 
   getCandidatos() {
@@ -136,7 +183,7 @@ export class CandidatosComponent {
       {
         next: (dataFromAPI) => {
           this.candidatos = dataFromAPI;
-          this.candidatosFilter = this.candidatos;
+          this.candidatosFilter = this.candidatos; console.log(this.candidatos);
           this.isLoading = LoadingStates.falseLoading;
         },
         error: () => {
@@ -182,7 +229,9 @@ export class CandidatosComponent {
       this.actualizarUsuario(candidatoToAddOrUpdate);
     }
   }
-
+  onPageChange(number: number) {
+    this.configPaginator.currentPage = number;
+  }
   agregarCandidato() {
     this.candidato = this.candidatoForm.value as Candidato;
     const agrupacionPoliticaId = this.candidatoForm.get('agrupacionPoliticaId')?.value;
@@ -221,10 +270,29 @@ export class CandidatosComponent {
   }
 
   actualizarUsuario(candidato: Candidato) {
-    this.candidatoService.putCandidato(candidato).subscribe({
+    this.candidato = this.candidatoForm.value as Candidato;
+    const agrupacionPoliticaId = this.candidatoForm.get('agrupacionPoliticaId')?.value;
+    this.candidato.agrupacionPolitica = { id: agrupacionPoliticaId } as AgrupacionPolitica;
+    const cargoId = this.candidatoForm.get('cargoId')?.value;
+    this.candidato.cargo = { id: cargoId } as Cargo;
+    const generoId = this.candidatoForm.get('generoId')?.value;
+    this.candidato.genero = { id: generoId } as Genero;
+    const estadoId = this.candidatoForm.get('estadoId')?.value;
+    this.candidato.estado = { id: estadoId } as Estado;
+    const distritoLocalId = this.candidatoForm.get('distritoLocalId')?.value;
+    this.candidato.distritoLocal = { id: distritoLocalId } as DistritoLocal;
+    const municipioId = this.candidatoForm.get('municipioId')?.value;
+    this.candidato.municipio = { id: municipioId } as Municipio;
+    const comunidadId = this.candidatoForm.get('comunidadId')?.value;
+    this.candidato.comunidad = { id: comunidadId } as Comunidad;
+    const imagenBase64 = this.candidatoForm.get('imagenBase64')?.value;
+
+    console.log(this.candidato);
+    this.candidatoService.putCandidato(this.id,candidato).subscribe({
       next: () => {
         this.mensajeService.mensajeExito("Candidato actualizado con éxito");
         this.resetForm();
+        this.getCandidatos();
       },
       error: (error) => {
         this.mensajeService.mensajeError("Error al actualizar al candidato");
@@ -363,5 +431,44 @@ export class CandidatosComponent {
       }
     );
   }
+  formatoFecha(fecha: string): string {
+    const fechaFormateada = new Date(fecha).toISOString().split('T')[0];
+    return fechaFormateada;
+  }
+
+  setDataModalUpdatecandidatos(dto: Candidato){
+      this.id = dto.id;
+      this.isModalAdd = false;
+      const fechaFormateada = this.formatoFecha(dto.fechaNacimiento);
+      this.candidatoForm.patchValue({
+        id: dto.id,
+        nombres: dto.nombres,
+        apellidoPaterno: dto.apellidoPaterno,
+        apellidoMaterno: dto.apellidoMaterno,
+        sobrenombre: dto.sobrenombre,
+        nombreSuplente: dto.nombreSuplente,
+        fechaNacimiento: fechaFormateada,
+        direccionCasaCampania: dto.direccionCasaCampania,
+        telefonoPublico: dto.telefonoPublico,
+        email: dto.email,
+        paginaWeb: dto.paginaWeb,
+        facebook: dto.facebook,
+        twitter: dto.twitter,
+        instagram: dto.instagram,
+        tiktok: dto.tiktok,
+        imagenBase64: dto.imagenBase64,
+        estatus: dto.estatus,
+        agrupacionPoliticaId: dto.agrupacionPolitica.id,
+        cargoId: dto.cargo.id,
+        estadoId: dto.estado.id,
+        generoId: dto.genero.id,
+        distritoLocalId: dto.distritoLocal.id,
+        municipioId: dto.municipio.id,
+        comunidadId: dto.comunidad.id,
+      });
+      console.log(this.candidatoForm.value);
+    }
+
+  
 }
 

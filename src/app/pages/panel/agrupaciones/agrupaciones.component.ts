@@ -248,11 +248,11 @@ agregarCargo() {
 
   deleteItem(id: number, nameItem: string) {
     this.mensajeService.mensajeAdvertencia(
-      `¿Estás seguro de eliminar la agrupacion: ${nameItem}?`,
+      `¿Estás seguro de eliminar la agrupación: ${nameItem}?`,
       () => {
         this.agrupacionService.delete(id).subscribe({
           next: () => {
-            this.mensajeService.mensajeExito('Agrupacion borrada correctamente');
+            this.mensajeService.mensajeExito('Agrupación borrada correctamente');
             this.configPaginator.currentPage = 1;
             this.obtenerCandidaturas();
           },

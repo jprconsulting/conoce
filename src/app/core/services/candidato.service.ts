@@ -42,8 +42,8 @@ export class CandidatoService {
       );
   }
 
-  putCandidato(candidato: Candidato): Observable<Candidato> {
-    return this.http.put<Candidato>(`${this.route}/actualizar_candidato/${candidato.id}`, candidato)
+  putCandidato(id:number,candidato: Candidato): Observable<Candidato> {
+    return this.http.put<Candidato>(`${this.route}/actualizar/${id}`, candidato)
       .pipe(
         tap(() => {
           this._refreshLisUsers$.next(null);
