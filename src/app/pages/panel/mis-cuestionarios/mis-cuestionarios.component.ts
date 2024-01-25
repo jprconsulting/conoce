@@ -2,6 +2,7 @@ import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FormularioAsignadoService } from 'src/app/core/services/formularioAsignado.service';
 import { SecurityService } from 'src/app/core/services/security.service';
+import { AsignacionFormulario } from 'src/app/models/asignacion-formulario';
 import { FormulariosAsignados } from 'src/app/models/login';
 
 @Component({
@@ -15,7 +16,7 @@ export class MisCuestionariosComponent {
   formularios: { id: string, urlEdicion: string }[] = [];
   enlaceEdicion: string | null = null;
   enlaceEdicionUsuario: string = '';
-  formulariosAsignados: FormulariosAsignados[] = [];
+  formulariosAsignados: AsignacionFormulario[] = [];
   itemsPerPage: number = 7;
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [7, 14, 21];
@@ -38,6 +39,9 @@ export class MisCuestionariosComponent {
     // Obtener el userId del servicio y mostrarlo en el console.log
     const usuarioId = this.securityService.getUsuarioId();
     console.log('UsuarioId:', usuarioId);
+
+    const email = this.securityService.getEmail();
+    console.log('email:', email);
 
     // Obtener formularios asignados
     this.mostrarFormulariosAsignados();
@@ -86,14 +90,24 @@ export class MisCuestionariosComponent {
   }
 
   mostrarFormulariosAsignados() {
-    const formulariosAsignados = this.securityService.getFormulariosAsignados();
-    if (formulariosAsignados) {
-      this.formulariosAsignados = formulariosAsignados;
-      console.log('Formularios Asignados:', this.formulariosAsignados);
+    const candidatoEmail = this.securityService.getEmail();
+
+    if (candidatoEmail) {
+
+      this.securityService.getFormulariosAsignados(candidatoEmail).subscribe(
+        (asignacionFormularios) => {
+          this.formulariosAsignados = asignacionFormularios;
+          console.log('Formularios Asignados:', this.formulariosAsignados);
+        },
+        (error) => {
+          console.error('Error al obtener formularios asignados:', error);
+        }
+      );
     } else {
-      console.log('No se encontraron formularios asignados.');
+      console.log('No se encontró un correo electrónico para el candidato.');
     }
   }
+  
 
   openGoogleFormModal(googleFormId: string) {
     this.googleFormUrl = this.sanitizer.bypassSecurityTrustResourceUrl(

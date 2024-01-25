@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AsignacionFormulario } from 'src/app/models/asignacion-formulario';
 import { environment } from 'src/environments/environment';
@@ -27,6 +27,10 @@ export class AsignacionFormularioService {
     return this.http.get<AsignacionFormulario>(`${this.route}/obtener-por-id/${id}`);
   }
 
+  getByCandidatoEmail(email: string): Observable<AsignacionFormulario[]> {
+    return this.http.get<AsignacionFormulario[]>(`${this.route}/obtener-por-candidato-email?email=${email}`);
+  }
+  
   getAll() {
     return this.http.get<AsignacionFormulario[]>(`${this.route}/obtener-todos`);
   }
