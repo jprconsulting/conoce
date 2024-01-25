@@ -1,5 +1,6 @@
-import { Component, ElementRef, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, Renderer2, ViewChild } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { PaginationInstance } from 'ngx-pagination';
 import { FormularioAsignadoService } from 'src/app/core/services/formularioAsignado.service';
 import { SecurityService } from 'src/app/core/services/security.service';
 import { AsignacionFormulario } from 'src/app/models/asignacion-formulario';
@@ -21,10 +22,12 @@ export class MisCuestionariosComponent {
   currentPage: number = 1;
   itemsPerPageOptions: number[] = [7, 14, 21];
   formularioUsuarioId: number | undefined;
+  asignacionFilter: AsignacionFormulario[] = [];
 
   @ViewChild('googleFormFrame', { static: false }) googleFormFrame: ElementRef | undefined;
 
   constructor(
+    @Inject('CONFIG_PAGINATOR') public configPaginator: PaginationInstance,
     private sanitizer: DomSanitizer,
     private el: ElementRef,
     private renderer: Renderer2,
@@ -129,4 +132,7 @@ export class MisCuestionariosComponent {
     );
   }
 
+  onPageChange(number: number) {
+    this.configPaginator.currentPage = number;
+  }
 }

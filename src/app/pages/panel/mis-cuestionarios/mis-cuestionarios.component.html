@@ -4,17 +4,29 @@
     <div class="col-12">
         <div class="card">
             <div class="table-responsive">
-                <table class="table card-table table-vcenter text-nowrap datatable">
+                <table class="table table-vcenter card-table table-striped text-center">
                     <thead>
                         <tr>
-                            <th>Nombre formulario</th>
-                            <th>Estatus</th>
-                            <th class="text-center" style="width: 7%">Acciones</th>
+                            <th style="text-transform: none; font-size: inherit">
+                                #
+                            </th>
+                            <th style="text-transform: none; font-size: inherit">
+                                Nombre del formulario
+                            </th>
+                            <th style="text-transform: none; font-size: inherit">
+                                Estatus
+                            </th>
+                            <th style="text-transform: none; font-size: inherit; width: 7%">
+                                Acciones
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="table-tbody">
                         <tr></tr>
-                        <tr *ngFor="let formulario of formulariosAsignados | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                        <tr *ngFor="let formulario of formulariosAsignados | paginate : configPaginator; let pointIndex = index">
+                            <td>
+                                {{ configPaginator.itemsPerPage * (configPaginator.currentPage - 1) + pointIndex + 1 }}
+                            </td>
                             <td>{{ formulario.formulario.nombreFormulario }}</td>
                             <td>
                                 <ng-container *ngIf="formulario.estatus; else elseEST">
@@ -38,17 +50,13 @@
                     </tbody>
                 </table>
             </div>
-            <div class="pagination-and-items-per-page" style="margin-bottom: 0px">
-                <div class="items-per-page">
-                    <label for="itemsPerPage">Elementos por página:</label>
-                    <select id="itemsPerPage" [(ngModel)]="itemsPerPage" style="margin-left: 5px">
-      <option *ngFor="let option of itemsPerPageOptions" [value]="option">
-        {{ option }}
-      </option>
-    </select>
-                </div>
-                <div class="pagination-container">
-                    <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+            <div class="card-footer d-flex align-items-center">
+                <p class="m-0 text-muted">
+                    Total de registros: <b>{{ formulariosAsignados.length }}</b>
+                </p>
+                <div class="m-0 ms-auto">
+                    <pagination-controls (pageChange)="onPageChange($event)" previousLabel="" nextLabel="">
+                    </pagination-controls>
                 </div>
             </div>
         </div>
