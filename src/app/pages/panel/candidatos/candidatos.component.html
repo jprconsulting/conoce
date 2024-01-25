@@ -12,7 +12,7 @@
                 <div class="d-flex">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-candidato"
                         (click)="handleChangeAdd()">
-                        <i class="ti ti-plus me-1"></i>Agregar Candidato
+                        <i class="ti ti-plus me-1"></i>Agregar candidato
                     </button>
 
                     <div class="ms-auto d-flex align-items-center">
@@ -136,7 +136,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">
-                    {{ isModalAdd ? "Agregar" : "Actualizar" }} Candidato
+                    {{ isModalAdd ? "Agregar" : "Actualizar" }} candidato
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" (click)="resetForm()"
                     #closebutton></button>
@@ -156,7 +156,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Nombre</label>
+                                        <label class="form-label">Nombre*:</label>
                                         <input type="text" class="form-control" formControlName="nombres" />
                                         <div *ngIf="candidatoForm.get('nombres')?.touched" class="error-message">
                                             <div *ngIf="
@@ -177,7 +177,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Apellido paterno</label>
+                                        <label class="form-label">Apellido paterno*:</label>
                                         <input type="text" class="form-control" formControlName="apellidoPaterno" />
                                         <div *ngIf="candidatoForm.get('apellidoPaterno')?.touched"
                                             class="error-message">
@@ -201,7 +201,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Apellido materno</label>
+                                        <label class="form-label">Apellido materno*:</label>
                                         <input type="text" class="form-control" formControlName="apellidoMaterno" />
                                         <div *ngIf="candidatoForm.get('apellidoMaterno')?.touched"
                                             class="error-message">
@@ -223,7 +223,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-4">
-                                        <label class="form-label">Sobrenombre</label>
+                                        <label class="form-label">Sobrenombre*:</label>
                                         <input type="text" class="form-control" formControlName="sobrenombre" />
                                         <div *ngIf="candidatoForm.get('sobrenombre')?.touched" class="error-message">
                                             <div *ngIf="
@@ -244,7 +244,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Nombre del suplente</label>
+                                        <label class="form-label">Nombre del suplente*:</label>
                                         <input type="text" class="form-control" formControlName="nombreSuplente" />
                                         <div *ngIf="candidatoForm.get('nombreSuplente')?.touched" class="error-message">
                                             <div *ngIf="
@@ -265,7 +265,7 @@
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Página Web</label>
+                                        <label class="form-label">Página web</label>
                                         <input type="text" class="form-control" formControlName="paginaWeb" />
                                     </div>
                                 </div>
@@ -274,7 +274,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Teléfono Público</label>
+                                        <label class="form-label">Teléfono público*:</label>
                                         <input type="tel" class="form-control" formControlName="telefonoPublico" />
                                         <div *ngIf="candidatoForm.get('telefonoPublico')?.touched"
                                             class="error-message">
@@ -286,12 +286,12 @@
                                                 El número de teléfono es requerido
                                             </div>
                                             <div *ngIf="candidatoForm.get('telefonoPublico')?.hasError('pattern')">
-                                                El numero de teléfono no puede tener letras
+                                                El número de teléfono no puede tener letras
                                             </div>
                                             <div *ngIf="
                                             candidatoForm.get('telefonoPublico')?.hasError('minlength')
                                           ">
-                                                La direcion debe tener al menos 10 caracteres
+                                                El numero de teléfono debe tener al menos 10 caracteres
                                             </div>
                                         </div>
                                     </div>
@@ -299,7 +299,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Correo Electrónico</label>
+                                        <label class="form-label">Correo electrónico*:</label>
                                         <input type="text" class="form-control" formControlName="email" />
                                         <div *ngIf="candidatoForm.get('email')?.touched" class="error-message">
                                             <div *ngIf="candidatoForm.get('email')?.hasError('required')">
@@ -316,7 +316,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Fecha de nacimiento</label>
+                                        <label class="form-label">Fecha de nacimiento*:</label>
                                         <input type="date" class="form-control" formControlName="fechaNacimiento" />
                                         <div *ngIf="candidatoForm.get('fechaNacimiento')?.touched"
                                             class="error-message">
@@ -333,7 +333,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Dirección de casa de campaña</label>
+                                        <label class="form-label">Dirección de casa de campaña*:</label>
                                         <input type="text" class="form-control"
                                             formControlName="direccionCasaCampania" />
                                         <div *ngIf="
@@ -359,7 +359,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Género</label>
+                                        <label class="form-label">Género*:</label>
                                         <div>
                                             <label *ngFor="let generoItem of generos" class="form-check">
                                                 <input class="form-check-input" type="radio" [value]="generoItem.id"
@@ -379,7 +379,7 @@
                                     </div>
                                 </div>
                                 <div class="col">
-                                    <label>Estatus: </label><br />
+                                    <label>Estatus*: </label><br />
                                     <div class="form-group">
                                         <div class="form-check form-switch mt-1 ml-2 custom-green-switch">
                                             <input class="form-check-input" type="checkbox" (change)="setEstatus()" ng
@@ -413,7 +413,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Cargo</label>
+                                        <label class="form-label">Cargo*:</label>
                                         <ng-select placeholder="Elegir" [items]="cargos" bindLabel="nombreCargo"
                                             bindValue="id" [searchable]="false" [clearable]="false"
                                             formControlName="cargoId">
@@ -431,7 +431,7 @@
                                 <!-- Primer select -->
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Agrupación Política</label>
+                                        <label class="form-label">Agrupación política*:</label>
                                         <ng-select formControlName="agrupacionPoliticaId" #selectAgrupacionPolitica
                                             [searchable]="false" [items]="agrupacionesPoliticas"
                                             bindLabel="nombreAgrupacion" bindValue="id" placeholder="Elegir"
@@ -468,7 +468,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Estado</label>
+                                        <label class="form-label">Estado*:</label>
                                         <ng-select formControlName="estadoId" #selectEstado [searchable]="false"
                                             [items]="estados" bindLabel="nombreEstado" bindValue="id"
                                             placeholder="Elegir" [clearable]="false">
@@ -490,7 +490,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Distrito Local</label>
+                                        <label class="form-label">Distrito local*:</label>
                                         <ng-select formControlName="distritoLocalId" #selectDistritoLocal
                                             [searchable]="false" [items]="distritosLocales"
                                             bindLabel="nombreDistritoLocal" bindValue="id" placeholder="Elegir"
@@ -518,7 +518,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Municipio</label>
+                                        <label class="form-label">Municipio*:</label>
                                         <ng-select formControlName="municipioId" #selectMunicipio [searchable]="false"
                                             [items]="municipios" bindLabel="nombreMunicipio" bindValue="id"
                                             placeholder="Elegir" [clearable]="false">
@@ -540,7 +540,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Comunidad</label>
+                                        <label class="form-label">Comunidad*:</label>
                                         <ng-select formControlName="comunidadId" #selectComunidad [searchable]="false"
                                             [items]="comunidades" bindLabel="nombreComunidad" bindValue="id"
                                             placeholder="Elegir" [clearable]="false">
@@ -576,7 +576,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Facebook</label>
+                                        <label class="form-label">Facebook*:</label>
                                         <input type="tel" class="form-control" formControlName="facebook" />
                                         <div *ngIf="candidatoForm.get('facebook')?.touched" class="error-message">
                                             <div *ngIf="
@@ -590,7 +590,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Twitter</label>
+                                        <label class="form-label">Twitter*:</label>
                                         <input type="text" class="form-control" formControlName="twitter" />
                                         <div *ngIf="candidatoForm.get('twitter')?.touched" class="error-message">
                                             <div *ngIf="
@@ -606,7 +606,7 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">Instagram</label>
+                                        <label class="form-label">Instagram*:</label>
                                         <input type="tel" class="form-control" formControlName="instagram" />
                                         <div *ngIf="candidatoForm.get('instagram')?.touched" class="error-message">
                                             <div *ngIf="
@@ -620,7 +620,7 @@
 
                                 <div class="col-lg-6">
                                     <div class="mb-3">
-                                        <label class="form-label">TikTok</label>
+                                        <label class="form-label">Tik Tok*:</label>
                                         <input type="text" class="form-control" formControlName="tiktok" />
                                         <div *ngIf="candidatoForm.get('tiktok')?.touched" class="error-message">
                                             <div *ngIf="
@@ -694,6 +694,11 @@
 
                     <!-- Fin del formulario -->
                 </div>
+                <p class="form-label" style="
+                margin-left: 20px;
+                color: red;
+                font-weight: bold;
+            ">Todos los campos marcados con * son requeridos</p>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary" [disabled]="!candidatoForm.valid">
                         {{ isModalAdd ? "Agregar" : "Actualizar" }}
