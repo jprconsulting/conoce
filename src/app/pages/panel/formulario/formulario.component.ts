@@ -20,6 +20,7 @@ export class FormularioComponent {
   formulario!: Formulario;
   formularioForm!: FormGroup;
   id!: number;
+  configGoogleForm!: number;
   formularios: Formulario[] = [];
   formulariosFilter: Formulario[] = [];
   isLoading = LoadingStates.neutro;
@@ -61,9 +62,17 @@ export class FormularioComponent {
     this.isModalAdd ? this.agregar() : this.editar();
   }
   editar() {
+    console.log(this.configGoogleForm);
 
+    // Copia los valores del formularioForm a la variable formulario
     const formulario = { ...this.formularioForm.value };
 
+    // Crea un nuevo objeto con la estructura deseada para configGoogleForm
+    formulario.configGoogleForm = {
+      id: this.configGoogleForm
+    };
+
+    console.log('fgd', formulario);
 
     this.spinnerService.show();
     this.formularioService.put(this.id, formulario).subscribe({
@@ -79,6 +88,7 @@ export class FormularioComponent {
       },
     });
   }
+
   creteForm() {
     this.formularioForm = this.formBuilder.group({
       id: [null],
@@ -86,7 +96,8 @@ export class FormularioComponent {
       googleFormId: ['', Validators.required],
       spreadsheetId: ['', Validators.required],
       sheetName: ['', Validators.required],
-      endPointEditLinks: ['', Validators.required]
+      endPointEditLinks: ['', Validators.required],
+      configGoogleForm: []
     });
   }
 
@@ -137,7 +148,14 @@ export class FormularioComponent {
   resetForm() {
     this.closebutton.nativeElement.click();
     this.formularioForm.reset();
+
+    // Realiza un chequeo de nulidad antes de asignar null
+    const configGoogleFormControl = this.formularioForm.get('configGoogleForm');
+    if (configGoogleFormControl !== null && configGoogleFormControl !== undefined) {
+      configGoogleFormControl.setValue(null);
+    }
   }
+
 
   handleChangeAdd() {
     this.formularioForm.reset();
@@ -168,6 +186,7 @@ export class FormularioComponent {
   setDataModalUpdate(dto: Formulario) {
     this.id = dto.id;
     this.isModalAdd = false;
+    this.configGoogleForm = dto.configGoogleForm.id;
     this.formularioForm.patchValue({
       id: dto.id,
       nombreFormulario: dto.nombreFormulario,
@@ -178,6 +197,7 @@ export class FormularioComponent {
       configGoogleForm: dto.configGoogleForm
     });
     console.log(this.formularioForm.value);
+    console.log(this.configGoogleForm);
   }
 
   deleteItem(id: number,) {
