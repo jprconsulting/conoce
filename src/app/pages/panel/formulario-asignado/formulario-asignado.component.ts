@@ -21,18 +21,18 @@ export class FormularioAsignadoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.mostrarFormulariosAsignados();
+    // this.mostrarFormulariosAsignados();
   }
 
-  mostrarFormulariosAsignados() {
-    const formulariosAsignados = this.securityService.getFormulariosAsignados();
-    if (formulariosAsignados) {
-      this.formulariosAsignados = formulariosAsignados;
-      console.log('Formularios Asignados:', this.formulariosAsignados);
-    } else {
-      console.log('No se encontraron formularios asignados.');
-    }
-  }
+  // mostrarFormulariosAsignados() {
+  //   const formulariosAsignados = this.securityService.getFormulariosAsignados();
+  //   if (formulariosAsignados) {
+  //     this.formulariosAsignados = formulariosAsignados;
+  //     console.log('Formularios Asignados:', this.formulariosAsignados);
+  //   } else {
+  //     console.log('No se encontraron formularios asignados.');
+  //   }
+  // }
 
   cargarUsuariosConFormulario() {
     if (this.formularioId === 0) {

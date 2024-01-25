@@ -5,6 +5,7 @@ import { HandleErrorService } from './handle-error.service';
 import { AppUser, AppUserAuth, FormulariosAsignados } from 'src/app/models/login';
 import { tap, catchError } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { AsignacionFormulario } from 'src/app/models/asignacion-formulario';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class SecurityService {
   private apiUrl = 'https://localhost:7154/api';
 
   dataObject!: AppUserAuth;
-  formulariosAsignados: FormulariosAsignados[] = [];
+  asignacionFormulario: AsignacionFormulario[] = [];
 
   constructor(
     private http: HttpClient,
@@ -26,20 +27,21 @@ export class SecurityService {
     localStorage.removeItem('token');
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('formulariosAsignados');
-
+    localStorage.removeItem('nombreCompleto');
+    localStorage.removeItem('email');
+  
     return this.http.post<AppUserAuth>(`${this.route}/login`, entity)
-    .pipe(
-      tap((resp: AppUserAuth) => {
-        this.dataObject = resp;
-        this.formulariosAsignados = resp.formulariosAsignados;
-        localStorage.setItem('dataObject', JSON.stringify(this.dataObject));
-        localStorage.setItem('token', this.dataObject.token);
-        localStorage.setItem('usuarioId', this.dataObject.usuarioId.toString());
-        localStorage.setItem('formulariosAsignados', JSON.stringify(this.formulariosAsignados));
-        localStorage.setItem('nombreCompleto', this.dataObject.nombre);
-      }),
-      catchError(this.handleErrorService.handleError)
-    );
+      .pipe(
+        tap((resp: AppUserAuth) => {
+          this.dataObject = resp;
+          localStorage.setItem('dataObject', JSON.stringify(this.dataObject));
+          localStorage.setItem('token', this.dataObject.token);
+          localStorage.setItem('usuarioId', this.dataObject.usuarioId.toString());
+          localStorage.setItem('nombreCompleto', this.dataObject.nombre);
+          localStorage.setItem('email', this.dataObject.email);
+        }),
+        catchError(this.handleErrorService.handleError)
+      );
   }
 
   logout() {
@@ -48,7 +50,7 @@ export class SecurityService {
     localStorage.removeItem('usuarioId');
     localStorage.removeItem('formulariosAsignados');
     localStorage.removeItem('nombreCompleto');
-
+    localStorage.removeItem('email');
   }
 
   hasClaim(cliamType: any, claimValue?: any) {
@@ -104,19 +106,20 @@ export class SecurityService {
     const usuarioId = localStorage.getItem('usuarioId');
     return usuarioId ? parseInt(usuarioId, 10) : null;
   }
+
     getNombre(): string | null {
-    return localStorage.getItem ('nombre')
+    return localStorage.getItem ('nombreCompleto')
   }
 
-  getFormulariosAsignados(): FormulariosAsignados[] | null {
-    const data = localStorage.getItem('formulariosAsignados');
-    if (data) {
-      return JSON.parse(data);
-    } else {
-      return null;
-    }
-}
+    getEmail(): string | null {
+    return localStorage.getItem ('email')
+  }
 
+  getFormulariosAsignados(email: string): Observable<AsignacionFormulario[]> {
+    const url = `${environment.apiUrl}/asignaciones-formulario/obtener-por-candidato-email/${email}`;
+    return this.http.get<AsignacionFormulario[]>(url);
+  }
+  
 getUsuariosConFormulario(formularioId: number): Observable<any[]> {
   const url = `${this.apiUrl}/formulario-usuario/get-formulario-usuario/${formularioId}`;
 
