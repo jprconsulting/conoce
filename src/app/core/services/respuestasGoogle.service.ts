@@ -34,9 +34,8 @@ export class RespuestasGoogleService {
       catchError(this.handleErrorService.handleError)
     );
   }
-
-  obtenerRespuestasPorCandidatoId(candidatoId: number): Observable<RespuestaGoogleFormulario> {
-    const url = `${this.apiUrl}respuestas-google-formulario/respuestas-preguntas-google-form-por-candidato-id/${candidatoId}`;
+  obtenerRespuestasPorCandidatoId(id: number): Observable<RespuestaGoogleFormulario> {
+    const url = `${this.apiUrl}respuestas-google-form/respuestas-preguntas-google-form-por-candidato-id/${id}`;
     return this.http.get<RespuestaGoogleFormulario>(url).pipe(
       catchError(this.handleErrorService.handleError)
     );
