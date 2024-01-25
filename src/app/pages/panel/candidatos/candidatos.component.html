@@ -97,14 +97,13 @@
                                 <td>{{ candidatos.genero.nombreGenero }}</td>
                                 <td>
                                     <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
-                                    setDataModalUpdatecandidatos(candidatos)
-                                  ">
+                                        data-bs-target="#modalRespuestas" style="margin-right: 10px"
+                                        (click)="obtenerRespuestas(candidatos.id)">
                                         <i class="ti ti-eye"></i>
                                     </button>
                                     <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
-                                    setDataModalUpdatecandidatos(candidatos)
+                                    setDataModalUpdatecandidatos(candidatos);
                                   ">
                                         <i class="ti ti-edit"></i>
                                     </button>
@@ -790,6 +789,41 @@
             </div>
             <div class="modal-body">
                 <img *ngIf="imagenAmpliada" [src]="imagenAmpliada" alt="Imagen Ampliada" class="w-100" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalRespuestas" tabindex="-1" aria-labelledby="modalRespuestasLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalRespuestasLabel">Preguntas y respuestas de formulario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-vcenter card-table table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="text-transform: none; font-size: inherit">Preguntas</th>
+                                    <th style="text-transform: none; font-size: inherit">Respuestas</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let formulario of respuestasGoogleFormulario.formularios">
+                                    <tr *ngFor="let preguntaRespuesta of formulario.preguntasRespuestas">
+                                        <td>{{ preguntaRespuesta.pregunta }}</td>
+                                        <td>{{ preguntaRespuesta.respuesta }}</td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>

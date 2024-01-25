@@ -55,29 +55,18 @@ export class FormularioComponent {
     );
   }
 
-  
+
 
   submit() {
     this.isModalAdd ? this.agregar() : this.editar();
   }
   editar() {
-    this.formulario = this.formularioForm.value as Formulario;
-    this.formulario.configGoogleForm = {
-      type: this.jsonConfig.type,
-      projectId: this.jsonConfig.project_id,
-      privateKeyId: this.jsonConfig.private_key_id,
-      privateKey: this.jsonConfig.private_key,
-      clientEmail: this.jsonConfig.client_email,
-      clientId: this.jsonConfig.client_id,
-      authUri: this.jsonConfig.auth_uri,
-      tokenUri: this.jsonConfig.token_uri,
-      authProviderX509CertUrl: this.jsonConfig.auth_provider_x509_cert_url,
-      clientX509CertUrl: this.jsonConfig.client_x509_cert_url,
-      universeDomain: this.jsonConfig.universe_domain
-    } as ConfigGoogleForm;
+
+    const formulario = { ...this.formularioForm.value };
+
 
     this.spinnerService.show();
-    this.formularioService.put(this.id,this.formulario).subscribe({
+    this.formularioService.put(this.id, formulario).subscribe({
       next: () => {
         this.spinnerService.hide();
         this.mensajeService.mensajeExito('Formulario editado correctamente');
@@ -176,22 +165,19 @@ export class FormularioComponent {
     }
   }
 
-
-
-
   setDataModalUpdate(dto: Formulario) {
     this.id = dto.id;
-     this.isModalAdd = false;
-     this.formularioForm.patchValue({
-       id: dto.id,
-       nombreFormulario: dto.nombreFormulario,
-       googleFormId: dto.googleFormId,
-       spreadsheetId: dto.spreadsheetId,
-       sheetName: dto.sheetName,
-       endPointEditLinks: dto.endPointEditLinks,
-       configGoogleForm: dto.configGoogleForm
-     });
-     console.log(this.formularioForm.value);
+    this.isModalAdd = false;
+    this.formularioForm.patchValue({
+      id: dto.id,
+      nombreFormulario: dto.nombreFormulario,
+      googleFormId: dto.googleFormId,
+      spreadsheetId: dto.spreadsheetId,
+      sheetName: dto.sheetName,
+      endPointEditLinks: dto.endPointEditLinks,
+      configGoogleForm: dto.configGoogleForm
+    });
+    console.log(this.formularioForm.value);
   }
 
   deleteItem(id: number,) {
