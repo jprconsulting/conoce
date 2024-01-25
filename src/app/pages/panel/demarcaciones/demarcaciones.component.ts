@@ -163,7 +163,7 @@ export class DemarcacionesComponent {
     nuevodistrito.estado = { id: estado } as Estado;
     this.distritoLocalService.postDistritoLocal(nuevodistrito).subscribe({
       next: () => {
-        this.mensajeService.mensajeExito("Distrito local agregada con éxito");
+        this.mensajeService.mensajeExito("Distrito local agregado con éxito");
         this.resetForm();
         this.getListadoDistritosLocales();
       },
@@ -269,17 +269,17 @@ export class DemarcacionesComponent {
   }
   eliminarDistritoLocal(distritoLocalId: number, nombreDistritoLocal: string) {
     this.mensajeService.mensajeAdvertencia(
-      `¿Estás seguro de eliminar el Distrito Local: ${nombreDistritoLocal}?`,
+      `¿Estás seguro de eliminar el distrito Local: ${nombreDistritoLocal}?`,
       () => {
         this.distritoLocalService.deleteDistritoLocal(distritoLocalId).subscribe({
           next: () => {
-            this.mensajeService.mensajeExito('Distrito Local eliminado correctamente');
+            this.mensajeService.mensajeExito('Distrito local eliminado correctamente');
           },
           error: (error) => {
-            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el Distrito Local porque tiene municipios registrados.') {
-              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene municipios registrados.');
+            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el distrito local porque tiene municipios registrados.') {
+              this.mensajeService.mensajeError('No se puede eliminar el distrito local porque tiene municipios registrados.');
             } else {
-              this.mensajeService.mensajeError('No se puede eliminar el Distrito Local porque tiene municipios registrados.');
+              this.mensajeService.mensajeError('No se puede eliminar el distrito local porque tiene municipios registrados.');
             }
           }
         });
@@ -288,17 +288,17 @@ export class DemarcacionesComponent {
   }
   eliminarMunicipio(id: number, nombremunicipio: string) {
     this.mensajeService.mensajeAdvertencia(
-      `¿Estás seguro de eliminar el Municipios: ${nombremunicipio}?`,
+      `¿Estás seguro de eliminar el municipio: ${nombremunicipio}?`,
       () => {
         this.municipioService.deleteMunicipios(id).subscribe({
           next: () => {
-            this.mensajeService.mensajeExito('municipios eliminado correctamente');
+            this.mensajeService.mensajeExito('Municipio eliminado correctamente');
           },
           error: (error) => {
-            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el municipios porque tiene Comunidades registradas.') {
-              this.mensajeService.mensajeError('No se puede eliminar el municipios porque tiene Comunidades registradas');
+            if (error.status === 400 && error.error && error.error.message === 'No se puede eliminar el municipio porque tiene comunidades registradas.') {
+              this.mensajeService.mensajeError('No se puede eliminar el municipio porque tiene comunidades registradas');
             } else {
-              this.mensajeService.mensajeError('No se puede eliminar el municipios porque tiene Comunidades registradas');
+              this.mensajeService.mensajeError('No se puede eliminar el municipio porque tiene comunidades registradas');
             }
           }
         });
@@ -307,7 +307,7 @@ export class DemarcacionesComponent {
   }
   eliminarComunidad(comunidadId: number, nombreComunidad: string) {
     this.mensajeService.mensajeAdvertencia(
-      `¿Estás seguro de eliminar la Comunidad: ${nombreComunidad}?`,
+      `¿Estás seguro de eliminar la comunidad: ${nombreComunidad}?`,
       () => {
         this.comunidadService.eliminarComunidad(comunidadId).subscribe({
           next: () => {

@@ -36,7 +36,7 @@
                       <div class="modal-body">
                         <div class="row mb-3">
                           <div class="col-md-6">
-                            <label for="nombreDistritoLocal" class="form-label">Nombre de Distrito Local:</label>
+                            <label for="nombreDistritoLocal" class="form-label">Nombre de distrito local*:</label>
                             <input type="text" id="nombreDistritoLocal" class="form-control"
                               formControlName="nombreDistritoLocal" />
                             <div *ngIf="distritoLocalForm.get('nombreDistritoLocal')?.touched" class="error-message">
@@ -50,7 +50,7 @@
                               <div *ngIf="
                           distritoLocalForm.get('nombreDistritoLocal')?.hasError('minlength')
                         ">
-                                El nombre del distrito debe contener almenos 3 caracteres
+                                El nombre del distrito debe contener al menos 3 caracteres
                               </div>
                               <div *ngIf="
                                 distritoLocalForm
@@ -62,10 +62,11 @@
 
                             </div>
                           </div>
+
                           <div class="col-lg-6">
                             <div class="mb-3">
                               <div class="mb-3">
-                                <label class="form-label">Estado</label>
+                                <label class="form-label">Estado*:</label>
                                 <ng-select formControlName="estado" #selectEstado [searchable]="false" [items]="estados"
                                   bindLabel="nombreEstado" bindValue="id" placeholder="Elegir" [clearable]="false">
                                   <ng-template ng-header-tmp>
@@ -92,6 +93,11 @@
                           </div>
                         </div>
                       </div>
+                      <p class="form-label" style="
+                          margin-left: 20px;
+                          color: red;
+                          font-weight: bold;
+                      ">Todos los campos marcados con * son requeridos</p>
                       <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" [disabled]="!distritoLocalForm.valid">
                           {{ isModalAdd ? "Agregar" : "Actualizar" }}
@@ -213,7 +219,7 @@
                       <form [formGroup]="municipioForm" (ngSubmit)="submitMunicipios()">
                         <div class="row mb-3">
                           <div class="col-md-6">
-                            <label for="nombre" class="form-label">Nombre de municipio :</label>
+                            <label for="nombre" class="form-label">Nombre de municipio* :</label>
                             <input type="text" id="nombre" class="form-control" formControlName="nombreMunicipio" />
                             <div *ngIf="municipioForm.get('nombreMunicipio')?.touched" class="error-message">
                               <div *ngIf="
@@ -240,13 +246,13 @@
 
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="distritoLocal" class="form-label">Distrito local:</label>
-                              <ng-select formControlName="distritoLocal" #selectEstado [searchable]="false"
+                              <label for="distritoLocal" class="form-label">Distrito local*:</label>
+                              <ng-select formControlName="distritoLocal" #selectMunicipio [searchable]="false"
                                 [items]="distritosLocales" bindLabel="nombreDistritoLocal" bindValue="id"
                                 placeholder="Elegir" [clearable]="false">
                                 <ng-template ng-header-tmp>
                                   <input class="form-control" type="text" (input)="
-                                    selectEstado.filter($any($event.target).value)
+                                    selectMunicipio.filter($any($event.target).value)
                                   " />
                                 </ng-template>
                                 <ng-template ng-option-tmp let-item="item" let-index="index">
@@ -267,6 +273,11 @@
                             </div>
                           </div>
                         </div>
+                        <p class="form-label" style="
+                          margin-left: 20px;
+                          color: red;
+                          font-weight: bold;
+                      ">Todos los campos marcados con * son requeridos</p>
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-primary" [disabled]="!municipioForm.valid"
                             data-bs-dismiss="modal">
@@ -387,7 +398,7 @@
                       <form [formGroup]="comunidadForm" (ngSubmit)="submitComunidades()">
                         <div class="row mb-3">
                           <div class="col-md-6">
-                            <label for="nombreComunidad" class="form-label">Nombre de Comunidad:</label>
+                            <label for="nombreComunidad" class="form-label">Nombre de comunidad*:</label>
                             <input type="text" id="nombreComunidad" class="form-control"
                               formControlName="nombreComunidad" />
                             <div *ngIf="comunidadForm.get('nombreComunidad')?.touched" class="error-message">
@@ -415,13 +426,13 @@
 
                           <div class="col-md-6">
                             <div class="mb-3">
-                              <label for="distritoLocal" class="form-label">Municipio:</label>
-                              <ng-select formControlName="municipio" #selectEstado [searchable]="false"
+                              <label for="distritoLocal" class="form-label">Municipio*:</label>
+                              <ng-select formControlName="municipio" #selectmunicipios [searchable]="false"
                                 [items]="Municipios" bindLabel="nombreMunicipio" bindValue="id" placeholder="Elegir"
                                 [clearable]="false">
                                 <ng-template ng-header-tmp>
                                   <input class="form-control" type="text" (input)="
-                                    selectEstado.filter($any($event.target).value)
+                                    selectmunicipios.filter($any($event.target).value)
                                   " />
                                 </ng-template>
                                 <ng-template ng-option-tmp let-item="item" let-index="index">
@@ -442,7 +453,11 @@
                             </div>
                           </div>
                         </div>
-
+                        <p class="form-label" style="
+                        margin-left: 20px;
+                        color: red;
+                        font-weight: bold;
+                    ">Todos los campos marcados con * son requeridos</p>
                         <div class="modal-footer">
                           <button type="submit" class="btn btn-primary" [disabled]="!comunidadForm.valid"
                             data-bs-dismiss="modal">
