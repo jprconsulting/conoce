@@ -454,7 +454,7 @@ export class CandidatosComponent {
   setDataModalUpdatecandidatos(dto: Candidato) {
     this.id = dto.id;
     this.previewImage = dto.imagenBase64,
-    this.isModalAdd = false;
+      this.isModalAdd = false;
     const fechaFormateada = this.formatoFecha(dto.fechaNacimiento);
     this.candidatoForm.patchValue({
       id: dto.id,
@@ -497,19 +497,19 @@ export class CandidatosComponent {
       candidato.genero.nombreGenero.toLowerCase().includes(filtroLowerCase)
     );
   }
-obtenerRespuestas(id: number) {
-  console.log(id)
-  console.log('fdhjfdsh')
-  this.respuestasGoogleFormularioService.obtenerRespuestasPorCandidatoId(id).subscribe(
-    (respuestas) => {
-      this.respuestasGoogleFormulario = respuestas;
-      console.log(this.respuestasGoogleFormulario);
-    },
-    (error) => {
-      console.error('Error al obtener respuestas:', error);
-    }
-  );
-}
+  obtenerRespuestas(id: number) {
+    console.log(id)
+    console.log('fdhjfdsh')
+    this.respuestasGoogleFormularioService.obtenerRespuestasPorCandidatoId(id).subscribe(
+      (respuestas) => {
+        this.respuestasGoogleFormulario = respuestas;
+        console.log(this.respuestasGoogleFormulario);
+      },
+      (error) => {
+        console.error('Error al obtener respuestas:', error);
+      }
+    );
+  }
 
 }
 
