@@ -2,11 +2,12 @@
   <p style="color: white">Guardando...</p>
 </ngx-spinner>
 
-<app-page-header headerTitle="Formularios"></app-page-header>
-
 <div class="row">
   <div class="col-12">
     <div class="card">
+      <div class="card-header">
+        <h3 class="card-title">Formularios</h3>
+      </div>
       <div class="card-body border-bottom py-3">
         <div class="d-flex align-items-center">
           <button class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#modal-formulario"
@@ -16,7 +17,7 @@
           <div class="ms-auto d-flex align-items-center">
             <div class="input-icon">
               <input #searchItem type="text" class="form-control form-control-rounded" placeholder="Buscar"
-                (input)="handleChangeSearch($event)" />
+                (input)="handleChangeSearch($event)" [(ngModel)]="searchTerm" />
               <span class="input-icon-addon">
                 <i class="ti ti-search"></i>
               </span>
@@ -40,18 +41,18 @@
           <table class="table table-vcenter card-table table-striped">
             <thead>
               <tr>
-                <th class="text-center">#</th>
-                <th>Nombre Formulario</th>
-                <th>Google Form Id</th>
-                <th>Spread Sheet Id</th>
-                <th>Sheet Name</th>
-                <th>End Point Edit Links</th>
-                <th class="text-center w-1">Acciones</th>
+                <th style="text-transform: none; font-size: inherit">#</th>
+                <th style="text-transform: none; font-size: inherit">Nombre formulario</th>
+                <th style="text-transform: none; font-size: inherit">Google form id</th>
+                <th style="text-transform: none; font-size: inherit">Spread sheet id</th>
+                <th style="text-transform: none; font-size: inherit">Sheet name</th>
+                <th style="text-transform: none; font-size: inherit">End point edit links</th>
+                <th style="text-transform: none; font-size: inherit;" class="text-center">Acciones</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="
-                  let formulario of formulariosFilter
+                  let formulario of filtrarformularios()
                     | paginate : configPaginator;
                   let pointIndex = index
                 ">
@@ -118,58 +119,107 @@
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">Nombre del formulario</label>
+                <label class="form-label">Nombre del formulario*:</label>
                 <input type="text" class="form-control" formControlName="nombreFormulario" />
+                <div *ngIf="formularioForm.get('nombreFormulario')?.touched" class="error-message">
+                  <div *ngIf="formularioForm.get('nombreFormulario')?.hasError('required')">
+                    El nombre del formulario es requerido
+                  </div>
+                  <div *ngIf="formularioForm.get('nombreFormulario')?.hasError('pattern')">
+                    El nombre del formulario no es valido
+                </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">ID de Google Form</label>
+                <label class="form-label">Id de google form*:</label>
                 <input type="text" class="form-control" formControlName="googleFormId" />
+                <div *ngIf="formularioForm.get('googleFormId')?.touched" class="error-message">
+                  <div *ngIf="formularioForm.get('googleFormId')?.hasError('required')">
+                    El id de google form es requerido
+                  </div>
+                  <div *ngIf="formularioForm.get('googleFormId')?.hasError('pattern')">
+                    El id de google form no es valido
+                </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">ID de la Hoja de Cálculo</label>
+                <label class="form-label">Id de la hoja de cálculo*:</label>
                 <input type="text" class="form-control" formControlName="spreadsheetId" />
+                <div *ngIf="formularioForm.get('spreadsheetId')?.touched" class="error-message">
+                  <div *ngIf="formularioForm.get('spreadsheetId')?.hasError('required')">
+                    El id de la hoja de calculo es requerido
+                  </div>
+                  <div *ngIf="formularioForm.get('spreadsheetId')?.hasError('pattern')">
+                    El id de la hoja de calculo no es valido
+                </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">Nombre de la Hoja de Cálculo</label>
+                <label class="form-label">Nombre de la hoja de cálculo*:</label>
                 <input type="text" class="form-control" formControlName="sheetName" />
+                <div *ngIf="formularioForm.get('sheetName')?.touched" class="error-message">
+                  <div *ngIf="formularioForm.get('sheetName')?.hasError('required')">
+                    El nombre de la hoja de calculo es requerido
+                  </div>
+                  <div *ngIf="formularioForm.get('sheetName')?.hasError('pattern')">
+                    El nombre de la hoja de calculo no es valido
+                </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">EndPointEditLinks:</label>
+                <label class="form-label">EndPointEditLinks*:</label>
                 <input type="text" class="form-control" formControlName="endPointEditLinks" />
+                <div *ngIf="formularioForm.get('endPointEditLinks')?.touched" class="error-message">
+                  <div *ngIf="formularioForm.get('endPointEditLinks')?.hasError('required')">
+                    El EndPointEditLinks es requerido
+                  </div>
+                  <div *ngIf="formularioForm.get('endPointEditLinks')?.hasError('pattern')">
+                    El EndPointEditLinks no es valido
+                </div>
+                </div>
               </div>
             </div>
           </div>
           <div class="row">
             <div class="col-lg-12">
               <div class="mb-3">
-                <label class="form-label">Credenciales JSON</label>
+                <label class="form-label">Credenciales JSON*:</label>
                 <div class="card">
                   <div class="card-body">
                     <input type="file" class="form-control" formControlName="configGoogleForm" accept=".json"
                       (change)="onFileChange($event)" />
+                    <div *ngIf="formularioForm.get('configGoogleForm')?.touched" class="error-message">
+                      <div *ngIf="formularioForm.get('configGoogleForm')?.hasError('required')">
+                        El json es requerido
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
+        <p class="form-label" style="
+        margin-left: 20px;
+        color: red;
+        font-weight: bold;
+    ">Todos los campos marcados con * son requeridos</p>
         <div class="modal-footer">
           <button type="submit" class="btn btn-success" [disabled]="!formularioForm.valid">
             {{ isModalAdd ? "Agregar" : "Actualizar" }}
