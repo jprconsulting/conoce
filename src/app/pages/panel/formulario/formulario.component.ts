@@ -7,6 +7,7 @@ import { FormularioService } from 'src/app/core/services/formulario.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { ConfigGoogleForm, Formulario } from 'src/app/models/formulario';
 import * as XLSX from 'xlsx';
+import { AsignacionFormularioService } from 'src/app/core/services/asignacion-formulario.service';
 
 
 @Component({
@@ -34,6 +35,7 @@ export class FormularioComponent {
     private formBuilder: FormBuilder,
     private mensajeService: MensajeService,
     private spinnerService: NgxSpinnerService,
+    private asignacionFormularioService: AsignacionFormularioService,
 
   ) {
     this.formularioService.refreshListFormularios.subscribe(() => this.getFormularios());
@@ -179,11 +181,7 @@ export class FormularioComponent {
     return this.formularios.filter(formulario => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        formulario.nombreFormulario.toLowerCase().includes(searchTermLower) ||
-        formulario.googleFormId.toLowerCase().includes(searchTermLower) ||
-        formulario.spreadsheetId.toLowerCase().includes(searchTermLower) ||
-        formulario.sheetName.toLowerCase().includes(searchTermLower) ||
-        formulario.endPointEditLinks.toLowerCase().includes(searchTermLower)
+        formulario.nombreFormulario.toLowerCase().includes(searchTermLower) 
       );
     });
   };
@@ -261,5 +259,32 @@ export class FormularioComponent {
   onPageChange(number: number) {
     this.configPaginator.currentPage = number;
   }
+  
+  cargarEditLinks(id: number) {
+    this.asignacionFormularioService.getEditLinks(id).subscribe({
+      next: (editLinks) => {
+        this.mensajeService.mensajeExito('Links de edición cargados correctamente');
+        console.log('Edit Links cargados correctamente');
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError('Error al cargar los links de edición');
+        console.error('Error al cargar Edit Links', error);
+      },
+    });
+  }
+  
+  cargarRespuestas(id: number) {
+    this.formularioService.getRespuestas(id).subscribe({
+      next: (respuestas) => {
+        this.mensajeService.mensajeExito('Respuestas cargadas correctamente');
+        console.log('Respuestas cargadas correctamente');
+      },
+      error: (error) => {
+        this.mensajeService.mensajeError('Error al cargar las respuestas');
+        console.error('Error al cargar las respuestas', error);
+      },
+    });
+  }
+  
 }
 

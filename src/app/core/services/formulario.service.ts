@@ -11,6 +11,8 @@ import { Formulario } from 'src/app/models/formulario';
 })
 export class FormularioService {
   route = `${environment.apiUrl}/formulario`;
+  ruta = `${environment.apiUrl}/respuestas-google-form`;
+
   private _refreshListFormularios$ = new Subject<Formulario | null>();
 
   constructor(
@@ -65,4 +67,9 @@ export class FormularioService {
         catchError(this.handleErrorService.handleError)
       );
   }
+
+  getRespuestas(id: number): Observable<Formulario[]> {
+    return this.http.get<Formulario[]>(`${this.ruta}/importar-respuestas-google-form/${id}`);
+  }
+
 }

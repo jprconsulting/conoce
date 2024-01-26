@@ -64,4 +64,9 @@ export class AsignacionFormularioService {
         catchError(this.handleErrorService.handleError)
       );
   }
+
+  getEditLinks(id: number): Observable<AsignacionFormulario[]> {
+    return this.http.get<AsignacionFormulario[]>(`${this.route}/get-edit-links-and-emails-by-form-id?formId=${id}`);
+  }
+
 }
