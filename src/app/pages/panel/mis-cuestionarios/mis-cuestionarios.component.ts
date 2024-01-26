@@ -118,7 +118,7 @@ export class MisCuestionariosComponent {
     );
     console.log('Valor de googleFormUrl:', this.googleFormUrl);
   }
-
+  
   cambiarEstatusFormulario(formularioUsuarioId: number) {
     this.formularioService.cambiarEstatusFormulario(formularioUsuarioId).subscribe(
       (response) => {
