@@ -584,6 +584,9 @@
                         ">
                                                 El link es requerido
                                             </div>
+                                            <div *ngIf="candidatoForm.get('facebook')?.hasError('pattern')">
+                                                El link no es valido
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -597,6 +600,9 @@
                           candidatoForm.get('twitter')?.hasError('required')
                         ">
                                                 El link es requerido
+                                            </div>
+                                            <div *ngIf="candidatoForm.get('twitter')?.hasError('pattern')">
+                                                El link no es valido
                                             </div>
                                         </div>
                                     </div>
@@ -614,6 +620,9 @@
                         ">
                                                 El link es requerido
                                             </div>
+                                            <div *ngIf="candidatoForm.get('instagram')?.hasError('pattern')">
+                                                El link no es valido
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -627,6 +636,9 @@
                           candidatoForm.get('tiktok')?.hasError('required')
                         ">
                                                 El link es requerido
+                                            </div>
+                                            <div *ngIf="candidatoForm.get('tiktok')?.hasError('pattern')">
+                                                El link no es valido
                                             </div>
                                         </div>
                                     </div>

@@ -6,6 +6,7 @@ import { MensajeService } from 'src/app/core/services/mensaje.service';
 import { FormularioService } from 'src/app/core/services/formulario.service';
 import { LoadingStates } from 'src/app/global/globals';
 import { ConfigGoogleForm, Formulario } from 'src/app/models/formulario';
+import * as XLSX from 'xlsx';
 
 
 @Component({
@@ -16,10 +17,11 @@ import { ConfigGoogleForm, Formulario } from 'src/app/models/formulario';
 export class FormularioComponent {
 
   @ViewChild('closebutton') closebutton!: ElementRef;
-
+  searchTerm: string = '';
   formulario!: Formulario;
   formularioForm!: FormGroup;
   id!: number;
+  configGoogleForm!: number;
   formularios: Formulario[] = [];
   formulariosFilter: Formulario[] = [];
   isLoading = LoadingStates.neutro;
@@ -61,9 +63,17 @@ export class FormularioComponent {
     this.isModalAdd ? this.agregar() : this.editar();
   }
   editar() {
+    console.log(this.configGoogleForm);
 
+    // Copia los valores del formularioForm a la variable formulario
     const formulario = { ...this.formularioForm.value };
 
+    // Crea un nuevo objeto con la estructura deseada para configGoogleForm
+    formulario.configGoogleForm = {
+      id: this.configGoogleForm
+    };
+
+    console.log('fgd', formulario);
 
     this.spinnerService.show();
     this.formularioService.put(this.id, formulario).subscribe({
@@ -79,14 +89,16 @@ export class FormularioComponent {
       },
     });
   }
+
   creteForm() {
     this.formularioForm = this.formBuilder.group({
       id: [null],
-      nombreFormulario: ['', Validators.required],
-      googleFormId: ['', Validators.required],
-      spreadsheetId: ['', Validators.required],
-      sheetName: ['', Validators.required],
-      endPointEditLinks: ['', Validators.required]
+      nombreFormulario: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
+      googleFormId: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
+      spreadsheetId: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
+      sheetName: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
+      endPointEditLinks: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
+      configGoogleForm: [''],
     });
   }
 
@@ -131,13 +143,61 @@ export class FormularioComponent {
   }
 
   exportarDatosAExcel() {
+    if (this.formularios.length === 0) {
+      console.warn('La lista de formularios está vacía. No se puede exportar.');
+      return;
+    }
+
+    const datosParaExportar = this.formularios.map(formulario => {
+      return {
+        'Id': formulario.id,
+        'Nombre de formulario': formulario.nombreFormulario,
+        'Id de google form': formulario.googleFormId,
+        'Id de la hoja de cálculo': formulario.spreadsheetId,
+        'Nombre de la hoja de cálculo': formulario.sheetName,
+        'EndPointEditLinks': formulario.endPointEditLinks
+      };
+    });
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datosParaExportar);
+    const workbook: XLSX.WorkBook = { Sheets: { 'data': worksheet }, SheetNames: ['data'] };
+    const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+
+    this.guardarArchivoExcel(excelBuffer, 'Formularios.xlsx');
 
   }
-
+  guardarArchivoExcel(buffer: any, nombreArchivo: string) {
+    const data: Blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const url: string = window.URL.createObjectURL(data);
+    const a: HTMLAnchorElement = document.createElement('a');
+    a.href = url;
+    a.download = nombreArchivo;
+    a.click();
+    window.URL.revokeObjectURL(url);
+  }
+  filtrarformularios = () => {
+    return this.formularios.filter(formulario => {
+      const searchTermLower = this.searchTerm.toLowerCase();
+      return (
+        formulario.nombreFormulario.toLowerCase().includes(searchTermLower) ||
+        formulario.googleFormId.toLowerCase().includes(searchTermLower) ||
+        formulario.spreadsheetId.toLowerCase().includes(searchTermLower) ||
+        formulario.sheetName.toLowerCase().includes(searchTermLower) ||
+        formulario.endPointEditLinks.toLowerCase().includes(searchTermLower)
+      );
+    });
+  };
   resetForm() {
     this.closebutton.nativeElement.click();
     this.formularioForm.reset();
+
+    // Realiza un chequeo de nulidad antes de asignar null
+    const configGoogleFormControl = this.formularioForm.get('configGoogleForm');
+    if (configGoogleFormControl !== null && configGoogleFormControl !== undefined) {
+      configGoogleFormControl.setValue(null);
+    }
   }
+
 
   handleChangeAdd() {
     this.formularioForm.reset();
@@ -168,6 +228,7 @@ export class FormularioComponent {
   setDataModalUpdate(dto: Formulario) {
     this.id = dto.id;
     this.isModalAdd = false;
+    this.configGoogleForm = dto.configGoogleForm.id;
     this.formularioForm.patchValue({
       id: dto.id,
       nombreFormulario: dto.nombreFormulario,
@@ -178,6 +239,7 @@ export class FormularioComponent {
       configGoogleForm: dto.configGoogleForm
     });
     console.log(this.formularioForm.value);
+    console.log(this.configGoogleForm);
   }
 
   deleteItem(id: number,) {
