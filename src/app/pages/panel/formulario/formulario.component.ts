@@ -181,7 +181,8 @@ export class FormularioComponent {
     return this.formularios.filter(formulario => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        formulario.nombreFormulario.toLowerCase().includes(searchTermLower)
+        formulario.nombreFormulario.toLowerCase().includes(searchTermLower) ||
+        formulario.googleFormId.toLowerCase().includes(searchTermLower)
       );
     });
   };
