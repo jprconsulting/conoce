@@ -138,11 +138,11 @@ export class CandidatosComponent {
       console.warn('La lista de candidatos está vacía. No se puede exportar.');
       return;
     }
-    
+
     const datosParaExportar = this.candidatos.map(candidato => {
       const estatus = candidato.estatus ? 'Activo' : 'Inactivo';
-      
-      const fechaFormateada =  new Date(candidato.fechaNacimiento).toISOString().split('T')[0];
+
+      const fechaFormateada = new Date(candidato.fechaNacimiento).toISOString().split('T')[0];
       return {
         'Id': candidato.id,
         'Nombre(s)': candidato.nombres,
