@@ -142,28 +142,28 @@ export class CandidatosComponent {
       const estatus = candidato.estatus ? 'Activo' : 'Inactivo';
       return {
         'Id': candidato.id,
-        'Nombres': candidato.nombres,
+        'Nombre(s)': candidato.nombres,
         'Apellido paterno': candidato.apellidoMaterno,
         'Apellido materno': candidato.apellidoMaterno,
         'Sobrenombre': candidato.sobrenombre,
         'Nombre suplente': candidato.nombreSuplente,
         'Fecha de nacimiento': candidato.fechaNacimiento,
-        'Direccion de campaña': candidato.direccionCasaCampania,
-        'Telefono publico': candidato.telefonoPublico,
+        'Dirección de casa de campaña': candidato.direccionCasaCampania,
+        'Teléfono público': candidato.telefonoPublico,
         'Email': candidato.email,
-        'Pagina web': candidato.paginaWeb,
-        'facebook': candidato.facebook,
-        'twitter': candidato.twitter,
-        'instagram': candidato.instagram,
-        'tiktok': candidato.tiktok,
+        'Página web': candidato.paginaWeb,
+        'Facebook': candidato.facebook,
+        'Twitter': candidato.twitter,
+        'Instagram': candidato.instagram,
+        'Tik Tok': candidato.tiktok,
         'Estatus': estatus,
-        'agrupacionPoliticaId': candidato.agrupacionPolitica,
-        'cargoId': candidato.cargo.nombreCargo,
-        'estadoId': candidato.estado.nombreEstado,
-        'generoId': candidato.genero.nombreGenero,
-        'distritoLocalId': candidato.distritoLocal.nombreDistritoLocal,
-        'municipioId': candidato.municipio.nombreMunicipio,
-        'comunidadId': candidato.comunidad.nombreComunidad
+        'Agrupación política': candidato.agrupacionPolitica.nombreAgrupacion,
+        'Cargo': candidato.cargo.nombreCargo,
+        'Estado': candidato.estado.nombreEstado,
+        'Genero': candidato.genero.nombreGenero,
+        'Distrito local': candidato.distritoLocal.nombreDistritoLocal,
+        'Municipio': candidato.municipio.nombreMunicipio,
+        'Comunidad': candidato.comunidad.nombreComunidad
       };
     });
 
@@ -510,6 +510,7 @@ export class CandidatosComponent {
       }
     );
   }
+
 
 }
 

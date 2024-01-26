@@ -58,10 +58,10 @@
                                     Cargo
                                 </th>
                                 <th style="text-transform: none; font-size: inherit">
-                                    Agrupacion politica
+                                    Agrupación política
                                 </th>
                                 <th style="text-transform: none; font-size: inherit">
-                                    Genero
+                                    Género
                                 </th>
                                 <th style="text-transform: none; font-size: inherit;" class="text-center">
                                     Acciones</th>
@@ -82,18 +82,7 @@
                                 <td>{{ candidatos.apellidoMaterno }}</td>
                                 <td>{{ candidatos.email }}</td>
                                 <td>{{ candidatos.cargo.nombreCargo }}</td>
-                                <td class="text-center">
-                                    <div class="flex justify-center items-center">
-                                        <img [src]="obtenerRutaImagen(candidatos.agrupacionPolitica.logo)"
-                                            alt="Foto de {{ candidatos.agrupacionPolitica.nombreAgrupacion }}"
-                                            width="50" height="50" (click)="
-                      mostrarImagenAmpliada(
-                        obtenerRutaImagen(candidatos.agrupacionPolitica.logo)
-                      )
-                    " />
-                                    </div>
-
-                                </td>
+                                <td>{{ candidatos.agrupacionPolitica.nombreAgrupacion }}</td>
                                 <td>{{ candidatos.genero.nombreGenero }}</td>
                                 <td>
                                     <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal"
@@ -110,6 +99,8 @@
                                     <button class="btn btn-danger btn-icon btn-sm" (click)="deleteItem(candidatos.id)">
                                         <i class="ti ti-eraser"></i>
                                     </button>
+
+
                                 </td>
                             </tr>
                         </tbody>
@@ -213,7 +204,7 @@
                                             <div *ngIf="
                               candidatoForm.get('apellidoMaterno')?.hasError('minlength')
                             ">
-                                                El apellido maternodebe tener al menos 3 caracteres
+                                                El apellido materno debe tener al menos 3 caracteres
                                             </div>
                                             <div *ngIf="candidatoForm.get('apellidoMaterno')?.hasError('pattern')">
                                                 El apellido materno no puede tener números ni signos

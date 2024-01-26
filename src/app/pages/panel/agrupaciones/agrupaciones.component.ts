@@ -204,7 +204,7 @@ setEstatus() {
 
       this.agrupacionService.putCandidatura(this.id, formData).subscribe({
         next: () => {
-          this.mensajeService.mensajeExito('Agrupacion actualizada correctamente');
+          this.mensajeService.mensajeExito('Agrupación actualizada correctamente');
           this.resetForm();
           this.configPaginator.currentPage = 1;
           this.obtenerCandidaturas();
