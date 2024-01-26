@@ -98,7 +98,7 @@ export class FormularioComponent {
       spreadsheetId: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
       sheetName: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
       endPointEditLinks: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
-      configGoogleForm: ['', [Validators.required, Validators.pattern(/^\S{2}.+$/)]],
+      configGoogleForm: [''],
     });
   }
 
