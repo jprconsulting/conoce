@@ -513,8 +513,8 @@ export class CandidatosComponent {
     );
   }
 
-filtrarPorEstatus(estatus: string) {
-  this.estatusSeleccionado = estatus;
-}
+  filtrarPorEstatus(estatus: string) {
+    this.estatusSeleccionado = estatus;
+  }
 
 }

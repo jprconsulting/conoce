@@ -181,7 +181,7 @@ export class FormularioComponent {
     return this.formularios.filter(formulario => {
       const searchTermLower = this.searchTerm.toLowerCase();
       return (
-        formulario.nombreFormulario.toLowerCase().includes(searchTermLower) 
+        formulario.nombreFormulario.toLowerCase().includes(searchTermLower)
       );
     });
   };
@@ -259,7 +259,7 @@ export class FormularioComponent {
   onPageChange(number: number) {
     this.configPaginator.currentPage = number;
   }
-  
+
   cargarEditLinks(id: number) {
     this.asignacionFormularioService.getEditLinks(id).subscribe({
       next: (editLinks) => {
@@ -272,7 +272,7 @@ export class FormularioComponent {
       },
     });
   }
-  
+
   cargarRespuestas(id: number) {
     this.formularioService.getRespuestas(id).subscribe({
       next: (respuestas) => {
@@ -285,6 +285,6 @@ export class FormularioComponent {
       },
     });
   }
-  
+
 }
 
