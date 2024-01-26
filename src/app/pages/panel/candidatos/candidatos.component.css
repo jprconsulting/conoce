@@ -11,6 +11,12 @@
     height: 100%;
     object-fit: cover;
 }
+
 .error-message {
     color: red;
+}
+
+.action-btn {
+    margin-right: 5px;
+    /* Espacio entre los botones */
 }
