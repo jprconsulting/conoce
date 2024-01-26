@@ -40,6 +40,7 @@ export class CandidatosComponent {
   respuestasGoogleFormulario: RespuestaGoogleFormulario = {} as RespuestaGoogleFormulario;
   // Candidato
   id!: number;
+  estatusSeleccionado: string = '';
   candidatoForm!: FormGroup;
   candidatos: Candidato[] = [];
   candidato!: Candidato;
@@ -504,6 +505,7 @@ export class CandidatosComponent {
       (respuestas) => {
         this.respuestasGoogleFormulario = respuestas;
         console.log(this.respuestasGoogleFormulario);
+        this.changeDetectorRef.detectChanges();
       },
       (error) => {
         console.error('Error al obtener respuestas:', error);
@@ -511,6 +513,8 @@ export class CandidatosComponent {
     );
   }
 
-
+filtrarPorEstatus(estatus: string) {
+  this.estatusSeleccionado = estatus;
 }
 
+}

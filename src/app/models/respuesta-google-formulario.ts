@@ -7,7 +7,7 @@ export interface PreguntaRespuesta {
 
 export interface Formulario {
   formularioId: number;
-  formName: string;
+  nombreFormulario: string;
   googleFormId: string;
   preguntasRespuestas: PreguntaRespuesta[];
   estado: string;

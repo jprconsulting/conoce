@@ -85,19 +85,25 @@
                                 <td>{{ candidatos.agrupacionPolitica.nombreAgrupacion }}</td>
                                 <td>{{ candidatos.genero.nombreGenero }}</td>
                                 <td>
-                                    <button class="btn btn-primary btn-icon btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#modalRespuestas" style="margin-right: 10px"
-                                        (click)="obtenerRespuestas(candidatos.id)">
+                                    <button class="btn btn-primary btn-icon btn-sm action-btn" data-bs-toggle="modal"
+                                        data-bs-target="#modal-info" (click)="obtenerRespuestas(candidatos.id)"
+                                        title="Ver respuestas">
                                         <i class="ti ti-eye"></i>
                                     </button>
-                                    <button class="btn btn-warning btn-icon btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#modal-candidato" style="margin-right: 10px" (click)="
-                                    setDataModalUpdatecandidatos(candidatos);
-                                  ">
+                                    <button class="btn btn-warning btn-icon btn-sm action-btn" data-bs-toggle="modal"
+                                        data-bs-target="#modal-candidato"
+                                        (click)="setDataModalUpdatecandidatos(candidatos)">
                                         <i class="ti ti-edit"></i>
                                     </button>
-                                    <button class="btn btn-danger btn-icon btn-sm" (click)="deleteItem(candidatos.id)">
+                                    <button class="btn btn-danger btn-icon btn-sm action-btn"
+                                        (click)="deleteItem(candidatos.id)">
                                         <i class="ti ti-eraser"></i>
+                                    </button>
+                                    <button class="btn btn-info btn-icon btn-sm"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#modalRespuestas"
+                                    title="Ver estatus de los cuestionarios">
+                                    <i class="ti ti-clipboard-data"></i>
                                     </button>
 
 
@@ -712,81 +718,6 @@
     </div>
 </div>
 
-<!-- MODAL PARA VER LAS RESPUESTAS -->
-<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title" id="exampleModalLabel">
-                    Respuestas del formulario
-                </h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" style="background-color: #f6f8fb">
-                <div *ngIf="respuestasGoogleFormulario">
-                    <div class="accordion" id="respuestasAcordeon">
-                        <div *ngFor="let formulario of respuestasGoogleFormulario.formularios" class="accordion-item">
-                            <h2 class="accordion-header" [attr.id]="'heading' + formulario.formularioId">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    [attr.data-bs-target]="'#collapse' + formulario.formularioId" aria-expanded="true"
-                                    [attr.aria-controls]="'collapse' + formulario.formularioId">
-                                    <span [ngClass]="{
-                      'text-danger':
-                        formulario.preguntasRespuestas.length === 0,
-                      'text-success': formulario.preguntasRespuestas.length > 0
-                    }">
-                                        Nombre del formulario : {{ formulario.formName }}
-                                    </span>
-                                    <ng-container *ngIf="
-                      formulario.preguntasRespuestas.length > 0;
-                      else redRibbon
-                    ">
-                                        <div class="ribbon ribbon-top bg-green" style="padding-bottom: 10px">
-                                            <i class="ti ti-clipboard-check"></i>
-                                        </div>
-                                    </ng-container>
-                                    <ng-template #redRibbon>
-                                        <div class="ribbon ribbon-top bg-red" style="padding-bottom: 10px">
-                                            <i class="ti ti-clipboard-x"></i>
-                                        </div>
-                                    </ng-template>
-                                </button>
-                            </h2>
-                            <div [attr.id]="'collapse' + formulario.formularioId"
-                                class="accordion-collapse collapse show"
-                                [attr.aria-labelledby]="'heading' + formulario.formularioId"
-                                data-bs-parent="#respuestasAcordeon">
-                                <div class="accordion-body">
-                                    <div *ngIf="
-                      formulario.preguntasRespuestas.length > 0;
-                      else sinRespuestas
-                    ">
-                                        <h5>Preguntas y Respuestas:</h5>
-                                        <ul class="list-group">
-                                            <li *ngFor="
-                          let preguntaRespuesta of formulario.preguntasRespuestas
-                        " class="list-group-item">
-                                                <strong>{{ preguntaRespuesta.pregunta }}:</strong> {{
-                                                preguntaRespuesta.respuesta }}
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <ng-template #sinRespuestas>
-                                        <p>No hay respuestas para este formulario.</p>
-                                    </ng-template>
-                                </div>
-                            </div>
-                            <br />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 
 <div class="modal modal-highlight" id="modal-imagen-ampliada" tabindex="-1" role="dialog"
     aria-labelledby="exampleModalLabel" aria-hidden="true" style="background: rgba(0, 0, 0, 0.5)">
@@ -802,36 +733,77 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalRespuestas" tabindex="-1" aria-labelledby="modalRespuestasLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
+<!-- MODAL PARA VER LAS RESPUESTAS -->
+<div class="modal fade" id="modal-info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalRespuestasLabel">Preguntas y respuestas de formulario</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h1 class="modal-title" id="exampleModalLabel">Respuestas de formularios</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-            <div class="modal-body">
-                <div class="card">
-                    <br>
-                    <div class="table-responsive">
-                        <table class="table table-vcenter card-table table-striped">
-                            <thead>
-                                <tr>
-                                    <th style="text-transform: none; font-size: inherit">Preguntas</th>
-                                    <th style="text-transform: none; font-size: inherit">Respuestas</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <ng-container *ngFor="let formulario of respuestasGoogleFormulario.formularios">
-                                    <tr *ngFor="let preguntaRespuesta of formulario.preguntasRespuestas">
-                                        <td>{{ preguntaRespuesta.pregunta }}</td>
-                                        <td>{{ preguntaRespuesta.respuesta }}</td>
-                                    </tr>
-                                </ng-container>
-                            </tbody>
-                        </table>
+            <div class="modal-body" style="background-color: #f6f8fb">
+                <div *ngIf="respuestasGoogleFormulario">
+                    <div class="accordion" id="respuestasAcordeon"
+                        *ngIf="respuestasGoogleFormulario && respuestasGoogleFormulario.formularios; else sinFormularios">
+
+                        <div class="card">
+
+                            <div class="card-header">
+                                <ul class="nav nav-tabs card-header-tabs" data-bs-toggle="tabs">
+                                    <li class="nav-item"
+                                        *ngFor="let formulario of respuestasGoogleFormulario.formularios; let isFirst = first; let i = index">
+                                        <a [attr.href]="'#tabs-' + formulario.googleFormId" class="nav-link"
+                                            [ngClass]="{ 'active' : isFirst }" data-bs-toggle="tab">{{
+                                            formulario.nombreFormulario }}</a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+
+                                <div class="tab-content">
+
+                                    <div class="tab-pane show" [ngClass]="{ 'active' : isFirst }"
+                                        [attr.id]="'tabs-' + formulario.googleFormId"
+                                        *ngFor="let formulario of respuestasGoogleFormulario.formularios; let isFirst = first">
+                                        <div class="table-responsive">
+                                            <table class="table table-vcenter table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col"><strong>Pregunta</strong></th>
+                                                        <th scope="col"><strong>Respuesta</strong></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr *ngFor="let preguntaRespuesta of formulario.preguntasRespuestas"
+                                                        class="text-secondary">
+                                                        <td>{{ preguntaRespuesta.pregunta }}</td>
+                                                        <td>{{ preguntaRespuesta.respuesta }}</td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
                     </div>
 
                 </div>
+
+                <ng-template #sinFormularios>
+                    <div class="accordion">
+                        <h5>Aun no hay formularios.</h5>
+                    </div>
+                </ng-template>
             </div>
         </div>
     </div>
