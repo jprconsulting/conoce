@@ -7,8 +7,9 @@ export interface AppUserAuth {
     usuarioId: number;
     nombre: string;
     apellidos: string;
+    nombreCompleto: string;
     email: string;
-    nombreRol: number;
+    rol: string;
     isAuthenticated: boolean;
     token: string;
     claims: Array<AppRolClaim>;

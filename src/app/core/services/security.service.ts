@@ -29,6 +29,7 @@ export class SecurityService {
     localStorage.removeItem('formulariosAsignados');
     localStorage.removeItem('nombreCompleto');
     localStorage.removeItem('email');
+    localStorage.removeItem('rol');
   
     return this.http.post<AppUserAuth>(`${this.route}/login`, entity)
       .pipe(
@@ -39,6 +40,7 @@ export class SecurityService {
           localStorage.setItem('usuarioId', this.dataObject.usuarioId.toString());
           localStorage.setItem('nombreCompleto', this.dataObject.nombre);
           localStorage.setItem('email', this.dataObject.email);
+          localStorage.setItem('rol', this.dataObject.rol);
         }),
         catchError(this.handleErrorService.handleError)
       );
@@ -51,6 +53,7 @@ export class SecurityService {
     localStorage.removeItem('formulariosAsignados');
     localStorage.removeItem('nombreCompleto');
     localStorage.removeItem('email');
+    localStorage.removeItem('rol');
   }
 
   hasClaim(cliamType: any, claimValue?: any) {
@@ -107,8 +110,12 @@ export class SecurityService {
     return usuarioId ? parseInt(usuarioId, 10) : null;
   }
 
-    getNombre(): string | null {
-    return localStorage.getItem ('nombreCompleto')
+  getNombre(): string | null {
+    return localStorage.getItem('nombreCompleto');
+  }
+  
+  getRol(): string | null {
+    return localStorage.getItem ('rol')
   }
 
     getEmail(): string | null {
